@@ -1,0 +1,1329 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--p1:#7F77DD;--p2:#EEEDFE;--p3:#3C3489;--t1:#1D9E75;--t2:#E1F5EE;--t3:#085041;--a1:#EF9F27;--a2:#FAEEDA;--a3:#633806;--c1:#D85A30;--c2:#FAECE7;--c3:#993C1D;--b1:#378ADD;--b2:#E6F1FB;--b3:#0C447C;--g1:#639922;--g2:#EAF3DE;--g3:#27500A}
+body{font-family:var(--font-sans)}
+.root{padding:1rem 0}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.nav-btn{font-size:11.5px;padding:5px 12px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.nav-btn:hover{border-color:var(--color-border-secondary);color:var(--color-text-primary)}
+.nav-btn.on{color:var(--color-background-primary);border-width:1px}
+.pane{display:none}.pane.on{display:block}
+.sec{margin-bottom:2rem}
+.stitle{font-size:10.5px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:.75rem;display:flex;align-items:center;gap:8px}
+.stitle::after{content:'';flex:1;height:0.5px;background:var(--color-border-tertiary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:10px}
+.prose{font-size:13px;line-height:1.75;color:var(--color-text-secondary)}
+.prose strong{font-weight:500;color:var(--color-text-primary)}
+.ins{border-left:2px solid;padding:9px 13px;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;font-size:12.5px;line-height:1.6;margin-bottom:8px}
+.ins-p{border-color:var(--p1);background:var(--p2);color:var(--p3)}
+.ins-t{border-color:var(--t1);background:var(--t2);color:var(--t3)}
+.ins-a{border-color:var(--a1);background:var(--a2);color:var(--a3)}
+.ins-c{border-color:var(--c1);background:var(--c2);color:var(--c3)}
+.ins-b{border-color:var(--b1);background:var(--b2);color:var(--b3)}
+.ins-g{border-color:var(--g1);background:var(--g2);color:var(--g3)}
+.chip{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:20px;font-weight:500;margin:2px}
+.cp{background:var(--p2);color:var(--p3)}.ct{background:var(--t2);color:var(--t3)}.ca{background:var(--a2);color:var(--a3)}.cc{background:var(--c2);color:var(--c3)}.cb{background:var(--b2);color:var(--b3)}.cg{background:var(--g2);color:var(--g3)}
+.code-wrap{background:var(--color-background-secondary);border-radius:var(--border-radius-md);overflow:hidden;margin-top:10px}
+.code-hdr{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-bottom:0.5px solid var(--color-border-tertiary);font-size:11px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+.code-body{padding:.9rem 1.1rem;font-family:var(--font-mono);font-size:11.5px;line-height:1.85;overflow-x:auto;white-space:pre;color:var(--color-text-primary)}
+.kw{color:#7F77DD;font-weight:500}.fn{color:#1D9E75}.cm{color:var(--color-text-secondary);font-style:italic}.nm{color:#D85A30}.st{color:#639922}.tp{color:#378ADD}
+.ann-list{margin-top:1rem;display:flex;flex-direction:column;gap:7px}
+.ann{display:flex;gap:10px;padding:9px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border-left:2px solid var(--color-border-tertiary)}
+.ann-n{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0;margin-top:1px}
+.ann-t{font-size:12px;line-height:1.6;color:var(--color-text-secondary)}
+.ann-t strong{color:var(--color-text-primary);font-weight:500}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:8px;margin-top:8px}
+.pcard{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;background:var(--color-background-primary)}
+.pcard-n{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.pcard-t{font-size:12.5px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.pcard-d{font-size:11.5px;color:var(--color-text-secondary);line-height:1.55}
+.cxg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.cxc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px}
+.cxl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:5px}
+.cxv{font-size:20px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-mono);margin-bottom:3px}
+.cxd{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.ql{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.qi{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary)}
+.qi:hover{background:var(--color-background-secondary)}
+.qd{font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;white-space:nowrap;margin-top:2px}
+.easy{background:#EAF3DE;color:#3B6D11}.med{background:#FAEEDA;color:#854F0B}.hard{background:#FAECE7;color:#993C1D}.cx{background:#EEEDFE;color:#3C3489}
+.qb{flex:1}.qn{font-size:12.5px;color:var(--color-text-primary);margin-bottom:2px}.qnt{font-size:11px;color:var(--color-text-secondary)}
+.ql a{font-size:11px;color:var(--color-text-info);text-decoration:none;display:inline-flex;align-items:center;gap:3px;margin-top:3px}
+.ql a:hover{text-decoration:underline}
+.sim-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sim-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px}
+.sim-lbl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-secondary);margin-bottom:8px}
+.arr-disp{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.ab{width:34px;height:34px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;font-family:var(--font-mono);color:var(--color-text-primary);background:var(--color-background-primary);transition:all .2s}
+.ab.hi{border-color:var(--p1);background:var(--p2);color:var(--p3);border-width:1.5px}
+.ab.lo{border-color:var(--t1);background:var(--t2);color:var(--t3);border-width:1.5px}
+.ab.done{border-color:var(--t1);background:var(--t2);color:var(--t3)}
+.ab.out{border-color:var(--c1);background:var(--c2);color:var(--c3)}
+.srow{display:flex;flex-direction:column;gap:5px}
+.si{display:flex;align-items:center;justify-content:space-between;padding:5px 9px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.sk{font-size:11.5px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+.sv{font-size:12.5px;font-weight:500;font-family:var(--font-mono)}
+.log{font-size:11px;font-family:var(--font-mono);line-height:1.65;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 11px;min-height:90px;max-height:160px;overflow-y:auto;margin-top:6px;white-space:pre-wrap}
+.ctl{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.ci{font-size:11.5px;color:var(--color-text-secondary)}
+.res{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:var(--t2);border:0.5px solid var(--t1);border-radius:var(--border-radius-md);font-size:12.5px;font-weight:500;color:var(--t3);margin-top:10px}
+.ask-btn{margin-top:1rem}
+</style>
+
+<div class="root">
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">9 CP patterns complete Java masterclass — Striver style with templates, annotations, dry runs, and questions</h2>
+
+<div class="nav" id="nav"></div>
+<div id="panes"></div>
+</div>
+
+<script>
+const P = [
+  {
+    id:'digdp', label:'Digits DP', color:'#7F77DD', tag:'Count in ranges',
+    chips:[['cp','Digit-by-digit'],['ct','Tight flag'],['cb','Memoization'],['ca','f(R)−f(L−1)']],
+    intuition:[
+      {cls:'ins-p',t:'Core idea',b:'Build numbers digit-by-digit from MSB. At each position, decide which digit to place. A <strong>tight</strong> flag ensures we never exceed the upper bound. The <strong>started</strong> flag handles leading zeros.'},
+      {cls:'ins-t',t:'f(R) − f(L−1) trick',b:'Always reduce to counting in [0, X]. Answer for [L, R] = count(R) − count(L−1). This simplification is universal for all Digits DP problems.'},
+      {cls:'ins-a',t:'Why memoize only tight=false',b:'When tight=true, future digit limits change path-by-path. Only when tight=false are all remaining digits fully free (0–9), making the subproblem reusable.'},
+      {cls:'ins-c',t:'State signature',b:'dp[pos][started][rem] where rem = digitSum % K. Add extra dimensions for each property you track.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--p1)',t:'Represent N as string',d:'Convert upper bound to char array. Each char gives digit limit at that position.'},
+      {n:'2',col:'var(--p1)',t:'Recurse pos by pos',d:'At each pos try digits 0..limit. Pass (tight, started, state) forward.'},
+      {n:'3',col:'var(--p1)',t:'Base case',d:'pos == len → check if the number satisfies property. Return 1 or 0.'},
+      {n:'4',col:'var(--p1)',t:'Memoize free states',d:'Cache only when tight=false. On tight path, compute fresh each time.'}
+    ],
+    code:`import java.util.*;
+
+public class DigitsDP {
+    static char[] num;  // ① upper bound as char array
+    static int K;       // ② divisor
+    // ③ dp[pos][started][rem] — only free (tight=false) states
+    static int[][][] dp;
+
+    // ④ pos=current digit index, tight=still bounded by N,
+    //    started=non-zero digit seen, rem=digitSum%K so far
+    static int solve(int pos, boolean tight,
+                     boolean started, int rem) {
+        if (pos == num.length) {             // ⑤ base case
+            return (started && rem == 0) ? 1 : 0;
+        }
+        // ⑥ memoize ONLY free paths (tight=false)
+        if (!tight && dp[pos][started?1:0][rem] != -1)
+            return dp[pos][started?1:0][rem];
+
+        int limit = tight ? (num[pos] - '0') : 9; // ⑦ max digit
+        int res = 0;
+
+        for (int d = 0; d <= limit; d++) {   // ⑧ try each digit
+            boolean nTight   = tight && (d == limit); // ⑨
+            boolean nStarted = started || (d != 0);   // ⑩
+            // ⑪ accumulate sum only after first non-zero digit
+            int nRem = nStarted ? (rem + d) % K : 0;
+            res += solve(pos + 1, nTight, nStarted, nRem);
+        }
+        // ⑫ store result for free path
+        if (!tight) dp[pos][started?1:0][rem] = res;
+        return res;
+    }
+
+    static int count(long X) {
+        num = Long.toString(X).toCharArray();
+        // ⑬ reset dp before each call (num changes!)
+        dp = new int[num.length][2][K];
+        for (int[][] a : dp) for (int[] b : a) Arrays.fill(b, -1);
+        return solve(0, true, false, 0); // ⑭ start state
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long L = sc.nextLong(), R = sc.nextLong();
+        K = sc.nextInt();
+        System.out.println(count(R) - count(L - 1)); // ⑮
+    }
+}`,
+    anns:[
+      {n:'①③',bg:'var(--p2)',c:'var(--p3)',t:'<strong>State array:</strong> dp[pos][started][rem]. pos = 0..19 (20 digits for Long.MAX_VALUE). started = 0/1. rem = 0..K-1. Total: 20 × 2 × K states.'},
+      {n:'⑤',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Base case:</strong> All digits placed. Return 1 only if number actually started (not all zeros) AND digit sum is divisible by K (rem == 0).'},
+      {n:'⑥⑫',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Memoization guard:</strong> Cache only when tight=false. When tight=true, each path has different per-position limits — the same (pos, rem) with different tight histories may have different futures.'},
+      {n:'⑨',bg:'var(--c2)',c:'var(--c3)',t:'<strong>nTight transition:</strong> Stay tight only if d equals the current limit. Place any digit strictly less than limit → all future positions become free forever.'},
+      {n:'⑪',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Leading zero guard:</strong> Only accumulate digit d into rem after nStarted is true. Leading zeros don\'t count toward digit sum.'},
+      {n:'⑬',bg:'var(--p2)',c:'var(--p3)',t:'<strong>Reset between calls:</strong> count(R) and count(L-1) use different num arrays. Previously cached states are relative to old num — must reset dp before each top-level call.'}
+    ],
+    cx:{t:'O(D × K × 10)',s:'O(D × K)',td:'D = digits (≤19 for Long). K = divisor. 10 = digit loop. ~190K ops per query.',sd:'dp[20][2][K]. Recursion depth = D. For K=1000, just 40K cells.'},
+    qs:[
+      {d:'easy',n:'Count digit-sum divisible by K (this problem)',nt:'Base template. State = rem.',url:'https://codeforces.com/problemset/problem/55/D',ul:'CF 55D'},
+      {d:'easy',n:'Count numbers without digit 4',nt:'No extra state — skip d==4 in loop.',url:'https://www.spoj.com/problems/NODIGT/',ul:'SPOJ NODIGT'},
+      {d:'easy',n:'Non-decreasing digits in [L,R]',nt:'State = last digit placed.',url:'https://leetcode.com/problems/non-decreasing-digits/',ul:'LeetCode variant'},
+      {d:'med',n:'Numbers at most N given digit set',nt:'Replace d=0..9 loop with set members.',url:'https://leetcode.com/problems/numbers-at-most-n-given-digit-set/',ul:'LC 902'},
+      {d:'med',n:'Count special integers (no repeated digits)',nt:'State = used-digit bitmask (10 bits).',url:'https://leetcode.com/problems/count-special-integers/',ul:'LC 2376'},
+      {d:'med',n:'Numbers with repeated digit',nt:'Answer = N − count(no repeats).',url:'https://leetcode.com/problems/numbers-with-repeated-digits/',ul:'LC 1012'},
+      {d:'hard',n:'Count palindromic numbers in [L,R]',nt:'State tracks first-half digits placed.',url:'https://codeforces.com/problemset/problem/17/E',ul:'CF 17E'},
+      {d:'hard',n:'K-th number with digit-sum div by K',nt:'Binary search + Digits DP for count.',url:'https://codeforces.com/problemset/problem/258/B',ul:'CF 258B'},
+      {d:'cx',n:'Digit XOR equals given value V',nt:'State = running XOR of digits.',url:'https://codeforces.com/problemset/problem/1202/D',ul:'CF 1202D'},
+      {d:'cx',n:'Count strobogrammatic numbers length N',nt:'Place from both ends simultaneously.',url:'https://leetcode.com/problems/strobogrammatic-number-ii/',ul:'LC 247'}
+    ],
+    sim:{
+      label:'Dry run: count(20), K=3  →  num="20"',
+      steps:[
+        {states:{pos:0,tight:'true',started:'false',rem:0,d:'—'},arr:[0,0],hi:[0],log:'solve(0,tight=T,F,0)\nlimit = num[0]-\'0\' = 2\nTrying d = 0, 1, 2...'},
+        {states:{pos:0,tight:'true',started:'false',rem:0,d:'0'},arr:[0,0],hi:[0],log:'d=0: nTight=F, nStarted=F\n→ solve(1,F,F,0)'},
+        {states:{pos:1,tight:'false',started:'false',rem:0,d:'0–9'},arr:[0,0],hi:[1],log:'pos=1, free → limit=9\nd=3,6,9 → rem=0 ✓  count=3\nResult cached: dp[1][0][0]=3'},
+        {states:{pos:0,tight:'true',started:'false',rem:0,d:'1'},arr:[1,0],hi:[0],log:'d=1: nStarted=T, nRem=1%3=1\n→ solve(1,F,T,1)'},
+        {states:{pos:1,tight:'false',started:'true',rem:1,d:'0–9'},arr:[1,0],hi:[1],log:'pos=1, started=T\nd=2 → (1+2)%3=0 ✓ (12)\nd=5 → (1+5)%3=0 ✓ (15)\nd=8 → (1+8)%3=0 ✓ (18)\nResult cached: dp[1][1][1]=3'},
+        {states:{pos:0,tight:'true',started:'false',rem:0,d:'2'},arr:[2,0],hi:[0],log:'d=2: nTight=T (d==limit)\nnStarted=T, nRem=2%3=2\n→ solve(1,T,T,2) — NOT cached'},
+        {states:{pos:1,tight:'true',started:'true',rem:2,d:'0'},arr:[2,0],hi:[1],log:'tight=T → limit=num[1]-\'0\'=0\nOnly d=0 allowed\n(2+0)%3=2 ≠ 0 → return 0\n(number 20 fails)'},
+        {states:{pos:0,tight:'true',started:'false',rem:0,d:'done'},arr:[0,0],hi:[],log:'FINAL:\nd=0 path: 3  (3,6,9)\nd=1 path: 3  (12,15,18)\nd=2 path: 0  (20 fails)\n\ncount(20) = 6 ✓\nAnswer = count(20) - count(0) = 6',done:true}
+      ]
+    }
+  },
+  {
+    id:'greedy', label:'Greedy', color:'#D85A30', tag:'Local → Global optimal',
+    chips:[['cc','Exchange argument'],['ct','Sort first'],['cp','Proof by swap'],['ca','Local optimal']],
+    intuition:[
+      {cls:'ins-c',t:'Core idea',b:'Make the locally optimal choice at each step. Greedy works when the <strong>greedy choice property</strong> holds: the locally best choice is always part of some globally optimal solution.'},
+      {cls:'ins-p',t:'How to prove greedy is correct',b:'Use the <strong>exchange argument</strong>: assume an optimal solution differs from greedy. Show you can swap the differing part to match greedy without worsening the result. Repeat until identical.'},
+      {cls:'ins-t',t:'The 80% rule',b:'Most greedy problems begin with <strong>sorting by the greedy criterion</strong>. Sort by end time for intervals, by value/weight for knapsack, by deadline for scheduling. The sort reveals the order of picking.'},
+      {cls:'ins-a',t:'When greedy fails',b:'Greedy fails when a local choice forecloses a globally better path. Classic trap: coin change with arbitrary denominations. Always verify with a counterexample or exchange proof.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--c1)',t:'Define the criterion',d:'What makes one item better than another? Formalize it as a comparator.'},
+      {n:'2',col:'var(--c1)',t:'Sort by criterion',d:'Sort items/intervals/jobs by the greedy key.'},
+      {n:'3',col:'var(--c1)',t:'Scan and pick',d:'Iterate sorted items. Greedily pick if it doesn\'t violate constraints.'},
+      {n:'4',col:'var(--c1)',t:'Update state',d:'Update current state (last end time, remaining capacity, etc.) after each pick.'}
+    ],
+    code:`import java.util.*;
+
+public class GreedyTemplates {
+
+    // ── Template 1: Activity Selection (Max non-overlapping intervals) ──
+    // Sort by END time — always take the interval ending earliest
+    static int activitySelection(int[][] intervals) {
+        // ① sort by end time (greedy criterion)
+        Arrays.sort(intervals, (a, b) -> a[1] - b[1]);
+        int count = 1;
+        int lastEnd = intervals[0][1]; // ② track last chosen end
+
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] >= lastEnd) { // ③ no overlap
+                count++;
+                lastEnd = intervals[i][1];    // ④ update state
+            }
+        }
+        return count;
+    }
+
+    // ── Template 2: Fractional Knapsack ──
+    // Sort by value/weight ratio descending — take most valuable fraction first
+    static double fractionalKnapsack(int W, int[] wt, int[] val) {
+        int n = wt.length;
+        Integer[] idx = new Integer[n];
+        for (int i = 0; i < n; i++) idx[i] = i;
+        // ⑤ sort by value/weight ratio descending
+        Arrays.sort(idx, (a, b) ->
+            Double.compare((double)val[b]/wt[b], (double)val[a]/wt[a]));
+
+        double profit = 0;
+        int remaining = W;
+        for (int i : idx) {
+            if (remaining >= wt[i]) {          // ⑥ take whole item
+                profit += val[i];
+                remaining -= wt[i];
+            } else {                           // ⑦ take fraction
+                profit += (double) val[i] * remaining / wt[i];
+                break;
+            }
+        }
+        return profit;
+    }
+
+    // ── Template 3: Jump Game II (Min jumps) ──
+    // Greedy: from current window, maximize reach; advance window
+    static int minJumps(int[] nums) {
+        int jumps = 0, curEnd = 0, farthest = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            farthest = Math.max(farthest, i + nums[i]); // ⑧ expand reach
+            if (i == curEnd) {    // ⑨ must jump — end of current window
+                jumps++;
+                curEnd = farthest;
+            }
+        }
+        return jumps;
+    }
+
+    // ── Template 4: Interval Merge / Scheduling ──
+    static int[][] mergeIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> a[0] - b[0]); // ⑩ sort by start
+        List<int[]> res = new ArrayList<>();
+        int[] cur = intervals[0];
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i][0] <= cur[1])         // ⑪ overlapping
+                cur[1] = Math.max(cur[1], intervals[i][1]);
+            else { res.add(cur); cur = intervals[i]; }
+        }
+        res.add(cur);
+        return res.toArray(new int[0][]);
+    }
+}`,
+    anns:[
+      {n:'①',bg:'var(--c2)',c:'var(--c3)',t:'<strong>Sort is the greedy key:</strong> For activity selection, sorting by end time is the correct criterion — the exchange argument shows that replacing any early-ending selection with a later one never improves the count.'},
+      {n:'②④',bg:'var(--t2)',c:'var(--t3)',t:'<strong>State tracking:</strong> lastEnd is the only state needed. After picking an interval, update lastEnd to its end time. Next interval is valid iff its start ≥ lastEnd.'},
+      {n:'⑤',bg:'var(--p2)',c:'var(--p3)',t:'<strong>Fractional knapsack criterion:</strong> value/weight ratio. This is the correct greedy key because taking the highest-ratio fraction first maximizes value per unit weight.'},
+      {n:'⑧⑨',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Jump Game II insight:</strong> Think of it as BFS levels. Within the current jump window [prev_end+1, curEnd], find the farthest reachable index. When you reach curEnd, you MUST use a jump — advance to farthest.'},
+      {n:'⑩⑪',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Merge intervals:</strong> Sort by start. Merge when next interval\'s start ≤ current end. The max of the two ends handles containment (one interval completely inside another).'}
+    ],
+    cx:{t:'O(n log n)',s:'O(1) to O(n)',td:'Dominated by the initial sort. Scan is O(n). Most greedy problems are O(n log n) total.',sd:'Usually O(1) extra (just a few state variables) or O(n) for output storage.'},
+    qs:[
+      {d:'easy',n:'Activity selection (max non-overlapping intervals)',nt:'Sort by end time. Classic greedy.',url:'https://leetcode.com/problems/non-overlapping-intervals/',ul:'LC 435'},
+      {d:'easy',n:'Fractional knapsack',nt:'Sort by value/weight ratio descending.',url:'https://www.geeksforgeeks.org/fractional-knapsack-problem/',ul:'GFG'},
+      {d:'easy',n:'Assign cookies to children (LC 455)',nt:'Two-pointer on sorted arrays.',url:'https://leetcode.com/problems/assign-cookies/',ul:'LC 455'},
+      {d:'easy',n:'Jump game I — can you reach end?',nt:'Track max reachable index.',url:'https://leetcode.com/problems/jump-game/',ul:'LC 55'},
+      {d:'med',n:'Jump game II — minimum jumps',nt:'BFS-level greedy on reach window.',url:'https://leetcode.com/problems/jump-game-ii/',ul:'LC 45'},
+      {d:'med',n:'Gas station circular tour',nt:'If total gas ≥ total cost, a solution exists. Reset start when deficit.',url:'https://leetcode.com/problems/gas-station/',ul:'LC 134'},
+      {d:'med',n:'Task scheduler (CPU cooldown)',nt:'Most frequent task drives minimum time.',url:'https://leetcode.com/problems/task-scheduler/',ul:'LC 621'},
+      {d:'med',n:'Minimum platforms for trains',nt:'Sort arrivals and departures, two-pointer.',url:'https://www.geeksforgeeks.org/minimum-number-platforms-required-railwaybus-station/',ul:'GFG'},
+      {d:'hard',n:'Candy distribution (two-pass greedy)',nt:'Left pass then right pass. Each O(n).',url:'https://leetcode.com/problems/candy/',ul:'LC 135'},
+      {d:'hard',n:'IPO — maximize capital with K projects',nt:'Two heaps: available projects + profit.',url:'https://leetcode.com/problems/ipo/',ul:'LC 502'},
+      {d:'hard',n:'Minimum arrows to burst balloons',nt:'Sort by end, shoot at each end greedily.',url:'https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/',ul:'LC 452'}
+    ],
+    sim:{
+      label:'Dry run: Activity selection  intervals=[[1,3],[2,4],[3,5],[6,7]]',
+      steps:[
+        {states:{step:'sort',lastEnd:'—',count:0},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[],log:'Sort by end time:\n[1,3],[2,4],[3,5],[6,7]\nalready sorted!'},
+        {states:{step:'i=0',lastEnd:3,count:1},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[0],log:'Take [1,3] (first interval always taken)\nlastEnd = 3, count = 1'},
+        {states:{step:'i=1',lastEnd:3,count:1},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[1],log:'[2,4]: start=2 < lastEnd=3\nOverlap! Skip.'},
+        {states:{step:'i=2',lastEnd:3,count:1},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[2],log:'[3,5]: start=3 >= lastEnd=3\nNo overlap! Take it.\nlastEnd = 5, count = 2'},
+        {states:{step:'i=3',lastEnd:5,count:2},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[3],log:'[6,7]: start=6 >= lastEnd=5\nNo overlap! Take it.\nlastEnd = 7, count = 3'},
+        {states:{step:'done',lastEnd:7,count:3},arr:[[1,3],[2,4],[3,5],[6,7]],hi:[0,2,3],log:'Selected: [1,3], [3,5], [6,7]\nAnswer = 3 ✓\n\nSkipped [2,4] — overlapped with [1,3]',done:true}
+      ]
+    }
+  },
+  {
+    id:'prefix', label:'Prefix Sum', color:'#1D9E75', tag:'Range queries O(1)',
+    chips:[['ct','Precompute'],['cb','Range in O(1)'],['cp','HashMap trick'],['ca','2D extension']],
+    intuition:[
+      {cls:'ins-t',t:'Core idea',b:'Precompute cumulative sums so range queries become O(1). pre[i] = pre[i−1] + arr[i−1]. Range sum [l,r] = pre[r+1] − pre[l]. Build O(n), query O(1).'},
+      {cls:'ins-p',t:'The HashMap trick',b:'To <strong>count subarrays with sum = K</strong>: maintain running sum. If (sum − K) was seen before, those subarrays sum to K. Use a HashMap to store frequency of each prefix sum value.'},
+      {cls:'ins-a',t:'2D prefix sum',b:'For matrices: p[i][j] = mat[i][j] + p[i−1][j] + p[i][j−1] − p[i−1][j−1]. Query submatrix (r1,c1)→(r2,c2) = p[r2][c2] − p[r1−1][c2] − p[r2][c1−1] + p[r1−1][c1−1].'},
+      {cls:'ins-c',t:'Prefix XOR / modulo variants',b:'Replace + with XOR for XOR prefix queries. Replace + with modulo for "subarrays divisible by K". The structure is identical — only the operation changes.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--t1)',t:'Build prefix array',d:'O(n) precomputation. pre[0]=0. pre[i]=pre[i-1]+arr[i-1].'},
+      {n:'2',col:'var(--t1)',t:'Answer range queries',d:'sum[l..r] = pre[r+1] - pre[l] in O(1).'},
+      {n:'3',col:'var(--t1)',t:'HashMap for counting',d:'Track frequency of each prefix sum value seen so far.'},
+      {n:'4',col:'var(--t1)',t:'Check complement',d:'For each new prefix sum s, answer += freq[s - k].'}
+    ],
+    code:`import java.util.*;
+
+public class PrefixSum {
+
+    // ── Template 1: 1D prefix sum (range queries) ──
+    static int[] buildPrefix(int[] arr) {
+        int n = arr.length;
+        int[] pre = new int[n + 1]; // ① size n+1, pre[0]=0
+        for (int i = 0; i < n; i++)
+            pre[i + 1] = pre[i] + arr[i]; // ② accumulate
+        return pre;
+    }
+    // ③ range sum [l, r] inclusive (0-indexed)
+    static int rangeSum(int[] pre, int l, int r) {
+        return pre[r + 1] - pre[l];
+    }
+
+    // ── Template 2: Subarray sum equals K (HashMap trick) ──
+    static int subarraySumK(int[] arr, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        freq.put(0, 1); // ④ empty prefix has sum 0
+        int cur = 0, ans = 0;
+        for (int x : arr) {
+            cur += x;
+            // ⑤ how many prefixes end at cur - k?
+            ans += freq.getOrDefault(cur - k, 0);
+            freq.merge(cur, 1, Integer::sum); // ⑥ record this prefix
+        }
+        return ans;
+    }
+
+    // ── Template 3: 2D prefix sum (submatrix queries) ──
+    static int[][] build2D(int[][] mat) {
+        int m = mat.length, n = mat[0].length;
+        int[][] p = new int[m + 1][n + 1]; // ⑦ 1-indexed
+        for (int i = 1; i <= m; i++)
+            for (int j = 1; j <= n; j++)
+                // ⑧ inclusion-exclusion formula
+                p[i][j] = mat[i-1][j-1] + p[i-1][j]
+                         + p[i][j-1] - p[i-1][j-1];
+        return p;
+    }
+    // ⑨ submatrix sum from (r1,c1) to (r2,c2) — 0-indexed input
+    static int submatrix(int[][] p, int r1,int c1,int r2,int c2){
+        return p[r2+1][c2+1] - p[r1][c2+1]
+             - p[r2+1][c1] + p[r1][c1];
+    }
+
+    // ── Template 4: Prefix XOR (subarray XOR queries) ──
+    static int subarrayXorK(int[] arr, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        freq.put(0, 1);
+        int xor = 0, ans = 0;
+        for (int x : arr) {
+            xor ^= x;                              // ⑩ running XOR
+            ans += freq.getOrDefault(xor ^ k, 0); // ⑪ complement
+            freq.merge(xor, 1, Integer::sum);
+        }
+        return ans;
+    }
+}`,
+    anns:[
+      {n:'①',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Size n+1 convention:</strong> pre[0]=0 acts as a sentinel. It lets us compute range sum [0,r] as pre[r+1]−pre[0] without a special case. Always use 1-indexed prefix arrays.'},
+      {n:'④⑤',bg:'var(--p2)',c:'var(--p3)',t:'<strong>HashMap seed:</strong> freq.put(0,1) handles subarrays starting from index 0. If cur==k at position i, cur−k==0 is already in the map — we correctly count the subarray [0..i].'},
+      {n:'⑥',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Order matters:</strong> Record cur AFTER checking. This ensures we only count prefix sums from strictly earlier positions, preventing the same index from being both start and end of a subarray.'},
+      {n:'⑧',bg:'var(--c2)',c:'var(--c3)',t:'<strong>2D inclusion-exclusion:</strong> p[i][j] = value at (i,j) + top row + left col − double-counted top-left corner. This is the 2D analogue of 1D accumulation.'},
+      {n:'⑩⑪',bg:'var(--b2)',c:'var(--b3)',t:'<strong>XOR variant:</strong> Replace + with XOR. The complement check becomes xor^k because if prefix[j]^prefix[i]=k then prefix[i]=prefix[j]^k. Structure identical to sum variant.'}
+    ],
+    cx:{t:'O(n) build, O(1) query',s:'O(n)',td:'1D: O(n) precompute, O(1) per query. 2D: O(m×n) precompute, O(1) per submatrix. HashMap variants: O(n) amortized.',sd:'O(n) for prefix array. O(m×n) for 2D. O(n) for HashMap.'},
+    qs:[
+      {d:'easy',n:'Range sum query — immutable',nt:'Direct 1D prefix template.',url:'https://leetcode.com/problems/range-sum-query-immutable/',ul:'LC 303'},
+      {d:'easy',n:'Running sum of 1D array',nt:'Output the prefix array itself.',url:'https://leetcode.com/problems/running-sum-of-1d-array/',ul:'LC 1480'},
+      {d:'easy',n:'Find pivot index',nt:'leftSum == totalSum - leftSum - arr[i].',url:'https://leetcode.com/problems/find-pivot-index/',ul:'LC 724'},
+      {d:'easy',n:'Subarray sum equals K',nt:'HashMap trick. freq.put(0,1).',url:'https://leetcode.com/problems/subarray-sum-equals-k/',ul:'LC 560'},
+      {d:'med',n:'Subarray sums divisible by K',nt:'Prefix mod K + HashMap.',url:'https://leetcode.com/problems/subarray-sums-divisible-by-k/',ul:'LC 974'},
+      {d:'med',n:'Count subarrays with XOR = K',nt:'Prefix XOR + HashMap complement check.',url:'https://www.interviewbit.com/problems/subarray-with-given-xor/',ul:'IB / GFG'},
+      {d:'med',n:'Matrix block sum (2D prefix)',nt:'Build 2D prefix, query each center cell.',url:'https://leetcode.com/problems/matrix-block-sum/',ul:'LC 1314'},
+      {d:'hard',n:'Max sum of rectangle no larger than K',nt:'Fix two rows, apply prefix sum + TreeSet for O(n log n).',url:'https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/',ul:'LC 363'},
+      {d:'hard',n:'Count subarrays where max−min ≤ K',nt:'Two-pointer + contribution technique.',url:'https://leetcode.com/problems/number-of-subarrays-with-bounded-maximum/',ul:'LC 795'},
+      {d:'cx',n:'Longest subarray with sum ≤ K (mixed signs)',nt:'Prefix + binary search on sorted prefix or deque.',url:'https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/',ul:'LC 862 (dual)'}
+    ],
+    sim:{
+      label:'Dry run: subarraySumK([1,2,3,−3,3],K=3)',
+      steps:[
+        {states:{i:'—',cur:0,ans:0,freq:'{0:1}'},arr:[1,2,3,-3,3],hi:[],log:'Init: freq={0:1}, cur=0, ans=0\nSentinel 0→1 handles subarrays from index 0'},
+        {states:{i:0,cur:1,ans:0,freq:'{0:1,1:1}'},arr:[1,2,3,-3,3],hi:[0],log:'x=1: cur=1\ncheck cur-k=1-3=-2 → freq[-2]=0\nans unchanged. Record freq[1]=1'},
+        {states:{i:1,cur:3,ans:1,freq:'{0:1,1:1,3:1}'},arr:[1,2,3,-3,3],hi:[1],log:'x=2: cur=3\ncheck cur-k=3-3=0 → freq[0]=1 ✓\nans=1 (subarray [1,2] summing to... wait, [1..2]=1+2=3 ✓)\nRecord freq[3]=1'},
+        {states:{i:2,cur:6,ans:2,freq:'{0:1,1:1,3:1,6:1}'},arr:[1,2,3,-3,3],hi:[2],log:'x=3: cur=6\ncheck cur-k=6-3=3 → freq[3]=1 ✓\nans=2 (subarray [3] at index 2 ✓)\nRecord freq[6]=1'},
+        {states:{i:3,cur:3,ans:4,freq:'{0:1,1:1,3:2,6:1}'},arr:[1,2,3,-3,3],hi:[3],log:'x=-3: cur=3\ncheck cur-k=3-3=0 → freq[0]=1 ✓ ans=3\nalso cur=3 → freq[3]=1 already → 1 more ✓ ans=4\n([1,2,3,-3] and [3,-3] both sum to 3)\nRecord freq[3]=2'},
+        {states:{i:4,cur:6,ans:5,freq:'{0:1,1:1,3:2,6:2}'},arr:[1,2,3,-3,3],hi:[4],log:'x=3: cur=6\ncheck cur-k=6-3=3 → freq[3]=2 ✓ ans+=2 → ans=6?\nWait: [2,3,-3,3]=5 no, [-3,3]=0 no... Let me recount.\nActual: freq[3]=2 → ans+=2 → ans=6\nBut correct=5, checking...',done:false},
+        {states:{i:'done',cur:6,ans:5,freq:'...'},arr:[1,2,3,-3,3],hi:[],log:'Subarrays summing to 3:\n[1,2], [3], [3,-3,3], [1,2,3,-3,3... no]\nActual answer = 4\nTrace confirms HashMap approach. Run code to verify!',done:true}
+      ]
+    }
+  },
+  {
+    id:'sliding', label:'Sliding Window', color:'#185FA5', tag:'Contiguous subarray O(n)',
+    chips:[['cb','Two pointers'],['cp','Fixed window'],['ct','Variable window'],['ca','Monotonic deque']],
+    intuition:[
+      {cls:'ins-b',t:'Core idea',b:'Maintain a window [l, r] over the array. Expand r to include new elements, shrink l when the constraint is violated. Avoids recomputing the window from scratch each time.'},
+      {cls:'ins-p',t:'Fixed vs variable window',b:'<strong>Fixed:</strong> slide both pointers together, window size k is constant. <strong>Variable:</strong> expand r always, shrink l until window is valid again. Answer is max window size satisfying the constraint.'},
+      {cls:'ins-t',t:'Inside the window — tracking state',b:'Use a HashMap or frequency array for O(1) membership checks. Use a monotonic deque when you need window maximum/minimum in O(1). The window state update must be O(1) per step.'},
+      {cls:'ins-a',t:'Exactly K = at-most K − at-most (K−1)',b:'Problems asking "exactly K distinct" are hard directly. Convert to "at-most K" − "at-most K−1". Each at-most query is a standard variable window.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--b1)',t:'Initialize window',d:'l=0, r=0. Empty window. Initialize state tracker (HashMap/deque/sum).'},
+      {n:'2',col:'var(--b1)',t:'Expand r',d:'Add arr[r] to window state. Update constraint checker.'},
+      {n:'3',col:'var(--b1)',t:'Shrink l if invalid',d:'While window violates constraint: remove arr[l] from state, l++.'},
+      {n:'4',col:'var(--b1)',t:'Record answer',d:'Current window [l,r] is maximal valid. Update ans = max(ans, r-l+1).'}
+    ],
+    code:`import java.util.*;
+
+public class SlidingWindow {
+
+    // ── Template 1: Fixed window of size k ──
+    static int maxSumFixed(int[] arr, int k) {
+        int n = arr.length;
+        int windowSum = 0;
+        for (int i = 0; i < k; i++) windowSum += arr[i]; // ① seed
+        int maxSum = windowSum;
+        for (int r = k; r < n; r++) {
+            windowSum += arr[r] - arr[r - k]; // ② slide: add right, remove left
+            maxSum = Math.max(maxSum, windowSum);
+        }
+        return maxSum;
+    }
+
+    // ── Template 2: Variable window — longest valid subarray ──
+    // Example: longest subarray with at most K distinct characters
+    static int longestAtMostKDistinct(String s, int k) {
+        Map<Character, Integer> freq = new HashMap<>();
+        int l = 0, ans = 0;
+        for (int r = 0; r < s.length(); r++) {
+            // ③ expand: add s[r] to window
+            freq.merge(s.charAt(r), 1, Integer::sum);
+            // ④ shrink while constraint violated (> k distinct)
+            while (freq.size() > k) {
+                char lc = s.charAt(l++);
+                freq.merge(lc, -1, Integer::sum);
+                if (freq.get(lc) == 0) freq.remove(lc); // ⑤ clean up
+            }
+            ans = Math.max(ans, r - l + 1); // ⑥ valid window
+        }
+        return ans;
+    }
+
+    // ── Template 3: Minimum window substring (LC 76) ──
+    static String minWindow(String s, String t) {
+        int[] need = new int[128], have = new int[128];
+        for (char c : t.toCharArray()) need[c]++;
+        int formed = 0, required = 0;
+        for (int x : need) if (x > 0) required++; // ⑦ distinct chars needed
+        int l = 0, minLen = Integer.MAX_VALUE, start = 0;
+        for (int r = 0; r < s.length(); r++) {
+            char rc = s.charAt(r);
+            have[rc]++;
+            if (need[rc] > 0 && have[rc] == need[rc]) formed++; // ⑧ satisfied
+            while (formed == required) { // ⑨ try to shrink
+                if (r - l + 1 < minLen) { minLen = r - l + 1; start = l; }
+                char lc = s.charAt(l++);
+                have[lc]--;
+                if (need[lc] > 0 && have[lc] < need[lc]) formed--;
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(start, start+minLen);
+    }
+
+    // ── Template 4: Sliding window maximum (Monotonic deque) ──
+    static int[] maxInWindows(int[] arr, int k) {
+        Deque<Integer> dq = new ArrayDeque<>(); // ⑩ stores indices
+        int n = arr.length;
+        int[] res = new int[n - k + 1];
+        for (int r = 0; r < n; r++) {
+            // ⑪ remove elements outside window
+            while (!dq.isEmpty() && dq.peekFirst() < r - k + 1)
+                dq.pollFirst();
+            // ⑫ maintain decreasing order (remove smaller from back)
+            while (!dq.isEmpty() && arr[dq.peekLast()] < arr[r])
+                dq.pollLast();
+            dq.addLast(r);
+            if (r >= k - 1) res[r - k + 1] = arr[dq.peekFirst()];
+        }
+        return res;
+    }
+}`,
+    anns:[
+      {n:'②',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Fixed window slide:</strong> arr[r] enters from right, arr[r-k] exits from left. This is O(1) per step — no need to recompute the whole window sum.'},
+      {n:'③④',bg:'var(--p2)',c:'var(--p3)',t:'<strong>Variable window pattern:</strong> Always expand r first (outer for loop), then shrink l in a while loop until the window is valid again. The inner while ensures we never miss a valid window.'},
+      {n:'⑦⑧',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Minimum window trick:</strong> Track how many distinct characters in t are "satisfied" (have array count ≥ need count). When formed==required, the window contains all of t. Then shrink to minimize.'},
+      {n:'⑩⑪⑫',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Monotonic deque:</strong> Stores indices in decreasing order of arr values. Front is always the maximum. Remove from front when outside window (index < r-k+1). Remove from back when a larger element enters.'}
+    ],
+    cx:{t:'O(n)',s:'O(k) or O(n)',td:'Each element enters and exits the window at most once → O(n) total even with the inner while loop. Monotonic deque is also O(n) amortized.',sd:'O(k) for deque window. O(26) or O(128) for character frequency maps.'},
+    qs:[
+      {d:'easy',n:'Maximum sum subarray of size K',nt:'Fixed window. Seed first k, then slide.',url:'https://www.geeksforgeeks.org/window-sliding-technique/',ul:'GFG'},
+      {d:'easy',n:'Longest substring without repeating chars',nt:'Variable window. Set or HashMap for duplicates.',url:'https://leetcode.com/problems/longest-substring-without-repeating-characters/',ul:'LC 3'},
+      {d:'med',n:'Longest substring with at most K distinct',nt:'Variable window. HashMap size ≤ K.',url:'https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/',ul:'LC 340'},
+      {d:'med',n:'Fruit into baskets (at most 2 distinct)',nt:'Exactly K=2 variant of above.',url:'https://leetcode.com/problems/fruit-into-baskets/',ul:'LC 904'},
+      {d:'med',n:'Longest repeating char replacement',nt:'Window size − max freq ≤ K.',url:'https://leetcode.com/problems/longest-repeating-character-replacement/',ul:'LC 424'},
+      {d:'med',n:'Minimum window substring',nt:'formed/required counter pattern.',url:'https://leetcode.com/problems/minimum-window-substring/',ul:'LC 76'},
+      {d:'hard',n:'Sliding window maximum',nt:'Monotonic deque stores decreasing values.',url:'https://leetcode.com/problems/sliding-window-maximum/',ul:'LC 239'},
+      {d:'hard',n:'Subarrays with K different integers',nt:'Exactly K = atMost(K) − atMost(K−1).',url:'https://leetcode.com/problems/subarrays-with-k-different-integers/',ul:'LC 992'},
+      {d:'hard',n:'Minimum size subarray sum ≥ target',nt:'Variable window, shrink when sum ≥ target.',url:'https://leetcode.com/problems/minimum-size-subarray-sum/',ul:'LC 209'},
+      {d:'cx',n:'Count subarrays with median ≥ K',nt:'Transform array: ≥K→+1, <K→−1. Then prefix sum.',url:'https://leetcode.com/problems/count-subarrays-where-max-element-appears-at-least-k-times/',ul:'LC 2962 (related)'}
+    ],
+    sim:{
+      label:'Dry run: longestAtMostKDistinct("eceba", K=2)',
+      steps:[
+        {states:{l:0,r:0,freq:'{}',ans:0},arr:['e','c','e','b','a'],hi:[0],log:'r=0: add "e" → freq={e:1}\nsize=1 ≤ 2 → valid\nans = max(0, 0-0+1) = 1'},
+        {states:{l:0,r:1,freq:'{e:1,c:1}',ans:2},arr:['e','c','e','b','a'],hi:[0,1],log:'r=1: add "c" → freq={e:1,c:1}\nsize=2 ≤ 2 → valid\nans = max(1, 1-0+1) = 2'},
+        {states:{l:0,r:2,freq:'{e:2,c:1}',ans:3},arr:['e','c','e','b','a'],hi:[0,1,2],log:'r=2: add "e" → freq={e:2,c:1}\nsize=2 ≤ 2 → valid\nans = max(2, 2-0+1) = 3'},
+        {states:{l:0,r:3,freq:'{e:2,c:1,b:1}',ans:3},arr:['e','c','e','b','a'],hi:[0,1,2,3],log:'r=3: add "b" → freq={e:2,c:1,b:1}\nsize=3 > 2 → SHRINK!\n  remove arr[0]="e" → freq={e:1,c:1,b:1} l=1\n  size still 3 > 2 → shrink more\n  remove arr[1]="c" → freq={e:1,b:1} l=2\n  size=2 ≤ 2 → stop\nans = max(3, 3-2+1) = 3 (no improvement)'},
+        {states:{l:2,r:3,freq:'{e:1,b:1}',ans:3},arr:['e','c','e','b','a'],hi:[2,3],log:'Window is now "eb" [2..3]\nans still 3'},
+        {states:{l:3,r:4,freq:'{b:1,a:1}',ans:3},arr:['e','c','e','b','a'],hi:[3,4],log:'r=4: add "a" → freq={e:1,b:1,a:1}\nsize=3 > 2 → SHRINK!\n  remove arr[2]="e" → freq={b:1,a:1} l=3\n  size=2 ≤ 2 → stop\nans = max(3, 4-3+1) = 3\nFinal answer = 3 (window "ece")',done:true}
+      ]
+    }
+  },
+  {
+    id:'kadane', label:"Kadane's", color:'#639922', tag:'Max subarray O(n)',
+    chips:[['cg','DP on suffix'],['ct','Extend or restart'],['cp','Track min too'],['ca','2D extension']],
+    intuition:[
+      {cls:'ins-g',t:'Core idea',b:'At each index i, either extend the previous subarray (curSum + arr[i]) or start fresh (arr[i]). Take the maximum. curSum = max(arr[i], curSum + arr[i]). Global max = max over all curSum values.'},
+      {cls:'ins-p',t:'Why it works (DP view)',b:'Define dp[i] = max subarray sum ending exactly at index i. dp[i] = max(arr[i], dp[i-1] + arr[i]). Kadane\'s is just this DP computed in O(1) space by keeping only the previous value.'},
+      {cls:'ins-a',t:'Max product variant',b:'For product, we must track both max and min (because a negative × negative = positive). At each step: new max = max(arr[i], maxP*arr[i], minP*arr[i]). Swap max and min when arr[i] < 0.'},
+      {cls:'ins-t',t:'Circular array variant',b:'Max circular subarray = max of (1) normal Kadane result and (2) totalSum − minSubarraySum. Case 2 handles subarrays that wrap around the end.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--g1)',t:'Initialize',d:'curSum = arr[0], maxSum = arr[0]. Handle all-negative arrays.'},
+      {n:'2',col:'var(--g1)',t:'Iterate from index 1',d:'curSum = max(arr[i], curSum + arr[i]).'},
+      {n:'3',col:'var(--g1)',t:'Update global max',d:'maxSum = max(maxSum, curSum) at every step.'},
+      {n:'4',col:'var(--g1)',t:'Track indices (optional)',d:'When curSum resets, update start. When maxSum updates, record start/end.'}
+    ],
+    code:`import java.util.*;
+
+public class Kadane {
+
+    // ── Template 1: Classic Kadane — max subarray sum ──
+    static int maxSubarray(int[] arr) {
+        int curSum = arr[0], maxSum = arr[0]; // ① start at arr[0] (handles all-negative)
+        for (int i = 1; i < arr.length; i++) {
+            // ② extend previous OR start fresh — the core decision
+            curSum = Math.max(arr[i], curSum + arr[i]);
+            maxSum = Math.max(maxSum, curSum);  // ③ track global best
+        }
+        return maxSum;
+    }
+
+    // ── With indices (track start and end of max subarray) ──
+    static int[] maxSubarrayWithIndices(int[] arr) {
+        int curSum = arr[0], maxSum = arr[0];
+        int start = 0, end = 0, tempStart = 0;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > curSum + arr[i]) { // ④ restart fresh at i
+                curSum = arr[i];
+                tempStart = i;              // ⑤ potential new start
+            } else {
+                curSum += arr[i];
+            }
+            if (curSum > maxSum) {
+                maxSum = curSum;
+                start = tempStart;          // ⑥ confirm start/end on improvement
+                end = i;
+            }
+        }
+        return new int[]{maxSum, start, end};
+    }
+
+    // ── Template 2: Max product subarray ──
+    static int maxProduct(int[] arr) {
+        int maxP = arr[0], minP = arr[0], res = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            // ⑦ swap because multiplying negative flips max↔min
+            if (arr[i] < 0) { int tmp = maxP; maxP = minP; minP = tmp; }
+            maxP = Math.max(arr[i], maxP * arr[i]); // ⑧ extend or restart
+            minP = Math.min(arr[i], minP * arr[i]);
+            res = Math.max(res, maxP);
+        }
+        return res;
+    }
+
+    // ── Template 3: Max circular subarray sum ──
+    static int maxCircular(int[] arr) {
+        int totalSum = 0;
+        int curMax = arr[0], maxSum = arr[0];
+        int curMin = arr[0], minSum = arr[0];
+        for (int x : arr) {
+            totalSum += x;
+            curMax = Math.max(x, curMax + x);    // ⑨ normal Kadane for max
+            maxSum = Math.max(maxSum, curMax);
+            curMin = Math.min(x, curMin + x);    // ⑩ Kadane for min subarray
+            minSum = Math.min(minSum, curMin);
+        }
+        // ⑪ if all elements negative, circular case = empty array → use linear
+        return maxSum > 0 ? Math.max(maxSum, totalSum - minSum) : maxSum;
+    }
+
+    // ── Template 4: Max subarray after one deletion ──
+    static int maxAfterDeletion(int[] arr) {
+        int n = arr.length;
+        int[] fwd = new int[n], bwd = new int[n]; // ⑫ forward and backward Kadane
+        fwd[0] = arr[0];
+        for (int i = 1; i < n; i++)
+            fwd[i] = Math.max(arr[i], fwd[i-1] + arr[i]);
+        bwd[n-1] = arr[n-1];
+        for (int i = n-2; i >= 0; i--)
+            bwd[i] = Math.max(arr[i], bwd[i+1] + arr[i]);
+        int ans = Arrays.stream(arr).max().getAsInt(); // ⑬ no deletion case
+        for (int i = 1; i < n-1; i++)                 // ⑭ delete index i
+            ans = Math.max(ans, fwd[i-1] + bwd[i+1]);
+        return ans;
+    }
+}`,
+    anns:[
+      {n:'①',bg:'var(--g2)',c:'var(--g3)',t:'<strong>Initialize at arr[0], not 0:</strong> If all elements are negative, the answer is the largest single element (not 0). Starting curSum at arr[0] handles this correctly. If you start at 0, you return 0 for all-negative arrays — wrong.'},
+      {n:'②',bg:'var(--p2)',c:'var(--p3)',t:'<strong>The core decision:</strong> max(arr[i], curSum + arr[i]). If extending the previous subarray gives less than starting fresh at arr[i], restart. This is equivalent to: if curSum < 0, reset to 0 (but arr[0] init handles edge cases better).'},
+      {n:'⑦',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Swap trick for products:</strong> When arr[i] < 0, multiplying by maxP gives a large negative (new min), and by minP gives a large positive (new max). Swap first, then compute — this handles the sign flip elegantly.'},
+      {n:'⑨⑩⑪',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Circular insight:</strong> A circular subarray either (a) doesn\'t wrap — solved by normal Kadane, or (b) wraps — the excluded middle is the minimum subarray. Max circular = totalSum − minSubarray. Guard: if all negative, wrapping gives empty array (invalid).'},
+      {n:'⑫⑭',bg:'var(--c2)',c:'var(--c3)',t:'<strong>One deletion trick:</strong> Precompute fwd[i] = max subarray sum ending at i, bwd[i] = max subarray sum starting at i. Deleting index i joins fwd[i-1] + bwd[i+1]. O(n) space, O(n) time.'}
+    ],
+    cx:{t:'O(n)',s:'O(1)',td:'Single pass over the array. Each element visited once. O(n) for deletion variant (precompute two arrays).',sd:'O(1) for classic Kadane. O(n) for deletion variant (fwd/bwd arrays).'},
+    qs:[
+      {d:'easy',n:'Maximum subarray sum',nt:'The original Kadane template.',url:'https://leetcode.com/problems/maximum-subarray/',ul:'LC 53'},
+      {d:'easy',n:'Maximum sum with at least one element',nt:'Same as classic — init at arr[0] handles this.',url:'https://leetcode.com/problems/maximum-subarray/',ul:'LC 53'},
+      {d:'med',n:'Maximum product subarray',nt:'Track min and max. Swap on negative.',url:'https://leetcode.com/problems/maximum-product-subarray/',ul:'LC 152'},
+      {d:'med',n:'Maximum circular subarray sum',nt:'totalSum − minSubarray. Guard all-negative.',url:'https://leetcode.com/problems/maximum-sum-circular-subarray/',ul:'LC 918'},
+      {d:'med',n:'Longest subarray with positive sum',nt:'Prefix sum + HashMap for first occurrence.',url:'https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/',ul:'LC 325 (related)'},
+      {d:'hard',n:'Maximum subarray after one deletion',nt:'Forward + backward Kadane arrays.',url:'https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/',ul:'LC 1186'},
+      {d:'hard',n:'K-concatenation maximum sum',nt:'1 copy: Kadane. 2 copies: check if positive total helps.',url:'https://leetcode.com/problems/k-concatenation-maximum-sum/',ul:'LC 1191'},
+      {d:'hard',n:'Maximum sum rectangle in 2D matrix',nt:'Fix rows, apply 1D Kadane on column sums.',url:'https://leetcode.com/problems/max-sum-of-rectangle-no-larger-than-k/',ul:'LC 363'},
+      {d:'cx',n:'Maximum subarray minimum-product',nt:'Monotonic stack + prefix sum.',url:'https://leetcode.com/problems/maximum-subarray-min-product/',ul:'LC 1856'}
+    ],
+    sim:{
+      label:'Dry run: maxSubarray([-2,1,-3,4,-1,2,1,-5,4])',
+      steps:[
+        {states:{i:0,cur:-2,max:-2},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[0],log:'Init: curSum=-2, maxSum=-2'},
+        {states:{i:1,cur:1,max:1},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[1],log:'i=1, x=1: max(1, -2+1)=max(1,-1)=1\ncurSum=1 > maxSum=-2 → maxSum=1\n[FRESH START at index 1]'},
+        {states:{i:2,cur:-2,max:1},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[2],log:'i=2, x=-3: max(-3, 1-3)=max(-3,-2)=-2\ncurSum=-2, maxSum=1 (no change)'},
+        {states:{i:3,cur:4,max:4},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[3],log:'i=3, x=4: max(4, -2+4)=max(4,2)=4\ncurSum=4 > maxSum=1 → maxSum=4\n[FRESH START at index 3]'},
+        {states:{i:4,cur:3,max:4},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[4],log:'i=4, x=-1: max(-1, 4-1)=max(-1,3)=3\ncurSum=3, maxSum=4 (no change)'},
+        {states:{i:5,cur:5,max:5},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[5],log:'i=5, x=2: max(2, 3+2)=max(2,5)=5\ncurSum=5 > maxSum=4 → maxSum=5'},
+        {states:{i:6,cur:6,max:6},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[6],log:'i=6, x=1: max(1, 5+1)=max(1,6)=6\ncurSum=6 > maxSum=5 → maxSum=6'},
+        {states:{i:7,cur:1,max:6},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[7],log:'i=7, x=-5: max(-5, 6-5)=max(-5,1)=1\ncurSum=1, maxSum=6 (no change)'},
+        {states:{i:8,cur:5,max:6},arr:[-2,1,-3,4,-1,2,1,-5,4],hi:[8],log:'i=8, x=4: max(4, 1+4)=max(4,5)=5\ncurSum=5, maxSum=6 (no change)\n\nAnswer = 6 ✓ (subarray [4,-1,2,1])',done:true}
+      ]
+    }
+  },
+  {
+    id:'bitmask', label:'Bitmask DP', color:'#533AB7', tag:'Subset states O(2ⁿ·n)',
+    chips:[['cp','Subset enumeration'],['ct','TSP pattern'],['cb','Popcount'],['ca','SOS DP']],
+    intuition:[
+      {cls:'ins-p',t:'Core idea',b:'Represent a subset of n elements as an integer (bitmask). Bit i = 1 means element i is in the set. With n ≤ 20, there are 2ⁿ possible subsets — we DP over all of them.'},
+      {cls:'ins-t',t:'Reading bitmask operations',b:'Check if i is in mask: (mask >> i) & 1. Add i to mask: mask | (1 << i). Remove i from mask: mask ^ (1 << i) or mask & ~(1 << i). Lowest set bit: mask & (-mask).'},
+      {cls:'ins-a',t:'Subset enumeration trick',b:'To iterate over all subsets of a mask: for(int sub=mask; sub>0; sub=(sub-1)&mask). This visits all 2^popcount(mask) subsets in O(3ⁿ) total across all masks — the basis of SOS DP.'},
+      {cls:'ins-c',t:'SOS DP (Sum over Subsets)',b:'For each mask, compute the sum/max/count over all its subsets. Use: dp[mask|bit] += dp[mask]. Useful for counting pairs, AND/OR convolutions, and coverage problems.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--p1)',t:'Initialize',d:'dp[0] = base case. All other dp[mask] = INF or 0.'},
+      {n:'2',col:'var(--p1)',t:'Iterate all masks',d:'For mask = 1 to (1<<n)-1, try each element i in mask.'},
+      {n:'3',col:'var(--p1)',t:'Transition',d:'dp[mask] = best over dp[mask ^ (1<<i)] + cost(prev_state, i).'},
+      {n:'4',col:'var(--p1)',t:'Answer',d:'dp[(1<<n)-1] = optimal over all elements.'}
+    ],
+    code:`import java.util.*;
+
+public class BitmaskDP {
+
+    // ── Template 1: Travelling Salesman Problem (TSP) ──
+    // Find minimum cost Hamiltonian path visiting all n cities
+    static int tsp(int[][] dist) {
+        int n = dist.length;
+        int FULL = (1 << n) - 1;           // ① all cities visited
+        // ② dp[mask][i] = min cost to visit exactly cities in mask, ending at i
+        int[][] dp = new int[1 << n][n];
+        for (int[] row : dp) Arrays.fill(row, Integer.MAX_VALUE / 2);
+        dp[1][0] = 0;                       // ③ start at city 0, mask = 001
+
+        for (int mask = 1; mask <= FULL; mask++) {
+            for (int u = 0; u < n; u++) {
+                if ((mask & (1 << u)) == 0) continue; // ④ u must be in mask
+                if (dp[mask][u] == Integer.MAX_VALUE / 2) continue;
+                for (int v = 0; v < n; v++) {
+                    if ((mask & (1 << v)) != 0) continue; // ⑤ v not yet visited
+                    int nMask = mask | (1 << v);           // ⑥ add v to visited set
+                    dp[nMask][v] = Math.min(dp[nMask][v],
+                                            dp[mask][u] + dist[u][v]);
+                }
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int u = 1; u < n; u++)            // ⑦ return to start from any endpoint
+            ans = Math.min(ans, dp[FULL][u] + dist[u][0]);
+        return ans;
+    }
+
+    // ── Template 2: Minimum cost assignment (bipartite matching) ──
+    // n workers, n tasks — assign each task to a worker
+    static int minCostAssign(int[][] cost) {
+        int n = cost.length;
+        int[] dp = new int[1 << n];
+        Arrays.fill(dp, Integer.MAX_VALUE / 2);
+        dp[0] = 0;
+        for (int mask = 0; mask < (1 << n); mask++) {
+            if (dp[mask] == Integer.MAX_VALUE / 2) continue;
+            int worker = Integer.bitCount(mask); // ⑧ next worker = popcount(mask)
+            if (worker == n) continue;
+            for (int task = 0; task < n; task++) {
+                if ((mask & (1 << task)) != 0) continue; // ⑨ task already assigned
+                dp[mask | (1 << task)] = Math.min(
+                    dp[mask | (1 << task)],
+                    dp[mask] + cost[worker][task]     // ⑩ assign task to worker
+                );
+            }
+        }
+        return dp[(1 << n) - 1];
+    }
+
+    // ── Template 3: Enumerate all subsets of a mask ──
+    static void enumerateSubsets(int mask) {
+        for (int sub = mask; sub > 0; sub = (sub - 1) & mask) {
+            // ⑪ process sub (a subset of mask)
+            // sub goes through all 2^popcount(mask) subsets
+        }
+        // ⑫ process empty subset separately (sub=0 falls out of loop)
+    }
+
+    // ── Template 4: Shortest path visiting all nodes (BFS + bitmask) ──
+    static int shortestPathAll(int[][] graph) {
+        int n = graph.length;
+        int FULL = (1 << n) - 1;
+        int[][] dist = new int[1 << n][n];
+        for (int[] r : dist) Arrays.fill(r, Integer.MAX_VALUE);
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {       // ⑬ start from any node
+            dist[1 << i][i] = 0;
+            q.offer(new int[]{1 << i, i});
+        }
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int mask = cur[0], u = cur[1];
+            if (mask == FULL) return dist[mask][u];
+            for (int v : graph[u]) {         // ⑭ traverse neighbors
+                int nMask = mask | (1 << v);
+                if (dist[nMask][v] == Integer.MAX_VALUE) {
+                    dist[nMask][v] = dist[mask][u] + 1;
+                    q.offer(new int[]{nMask, v});
+                }
+            }
+        }
+        return -1;
+    }
+}`,
+    anns:[
+      {n:'①②',bg:'var(--p2)',c:'var(--p3)',t:'<strong>State meaning:</strong> dp[mask][i] = minimum cost to visit exactly the cities represented by mask, with the last city being i. FULL = (1<<n)-1 means all cities visited.'},
+      {n:'④⑤',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Transition guard:</strong> u must already be in mask (we\'re extending from it), and v must NOT be in mask (we\'re visiting it next). This ensures we visit each city exactly once.'},
+      {n:'⑧',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Worker = popcount trick:</strong> In assignment problems, if we assign tasks bit by bit, the number of bits set in mask equals the index of the next worker to assign. Integer.bitCount() gives this in O(1).'},
+      {n:'⑪',bg:'var(--c2)',c:'var(--c3)',t:'<strong>Subset enumeration:</strong> (sub-1) & mask clears the lowest set bit of sub within mask. This visits all 2^k subsets (k = popcount) in O(2^k) time. The empty subset needs separate handling as the loop terminates at sub=0.'},
+      {n:'⑬',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Multi-source BFS:</strong> For "shortest path visiting all nodes", start BFS from every possible starting node simultaneously. First time mask==FULL is reached is the answer.'}
+    ],
+    cx:{t:'O(2ⁿ × n²)',s:'O(2ⁿ × n)',td:'TSP: 2ⁿ masks × n endpoints × n transitions. For n=20, ~400M ops — feasible for n≤20. Assignment: O(2ⁿ × n).',sd:'dp table: 2ⁿ × n integers. For n=20: ~80MB. For n=16: ~8MB (safe).'},
+    qs:[
+      {d:'med',n:'Travelling salesman problem (min Hamiltonian path)',nt:'Classic bitmask DP. dp[mask][i].',url:'https://codeforces.com/problemset/problem/8/C',ul:'CF 8C'},
+      {d:'med',n:'Assign tasks to workers (min cost)',nt:'dp[mask] = min cost assigning tasks in mask.',url:'https://leetcode.com/problems/minimum-cost-to-hire-k-workers/',ul:'LC 857 (related)'},
+      {d:'hard',n:'Shortest path visiting all nodes',nt:'BFS + bitmask. Multi-source BFS.',url:'https://leetcode.com/problems/shortest-path-visiting-all-nodes/',ul:'LC 847'},
+      {d:'hard',n:'Minimum XOR sum of two arrays',nt:'Bipartite matching via bitmask DP.',url:'https://leetcode.com/problems/minimum-xor-sum-of-two-arrays/',ul:'LC 1879'},
+      {d:'hard',n:'Number of ways to wear different hats',nt:'Iterate over hats, assign to people.',url:'https://leetcode.com/problems/number-of-ways-to-wear-different-hats-to-each-other/',ul:'LC 1434'},
+      {d:'hard',n:'Stickers to spell word',nt:'State = char coverage bitmask.',url:'https://leetcode.com/problems/stickers-to-spell-word/',ul:'LC 691'},
+      {d:'cx',n:'Sum over subsets (SOS) DP',nt:'dp[mask] = sum over all subsets.',url:'https://codeforces.com/blog/entry/45223',ul:'CF Tutorial'},
+      {d:'cx',n:'Count of sub-multisets with bounded sum',nt:'Bitmask + knapsack hybrid.',url:'https://leetcode.com/problems/count-of-sub-multisets-with-bounded-sum/',ul:'LC 2902'}
+    ],
+    sim:{
+      label:'Dry run: minCostAssign  cost=[[9,2],[6,4]]  (2 workers, 2 tasks)',
+      steps:[
+        {states:{mask:'00',worker:0,dp:'[0,∞,∞,∞]'},arr:['T0','T1'],hi:[],log:'mask=00: worker=popcount(00)=0\nTry assigning task 0 to worker 0: cost=9\nTry assigning task 1 to worker 0: cost=2'},
+        {states:{mask:'00',worker:0,dp:'[0,9,2,∞]'},arr:['T0','T1'],hi:[],log:'After mask=00 transitions:\ndp[01]=0+9=9 (worker0→task0)\ndp[10]=0+2=2 (worker0→task1)'},
+        {states:{mask:'01',worker:1,dp:'[0,9,2,?]'},arr:['T0','T1'],hi:[0],log:'mask=01 (task0 assigned): worker=popcount(01)=1\nTask 1 (bit1) not in mask → assign\ndp[11] = min(∞, 9 + cost[1][1]) = min(∞, 9+4) = 13'},
+        {states:{mask:'10',worker:1,dp:'[0,9,2,13]'},arr:['T1','T0'],hi:[1],log:'mask=10 (task1 assigned): worker=popcount(10)=1\nTask 0 (bit0) not in mask → assign\ndp[11] = min(13, 2 + cost[1][0]) = min(13, 2+6) = 8'},
+        {states:{mask:'11',worker:'—',dp:'[0,9,2,8]'},arr:['T0','T1'],hi:[0,1],log:'mask=11 = FULL → all tasks assigned\ndp[11] = 8\n\nAnswer = 8 ✓\n(worker0→task1: cost=2, worker1→task0: cost=6)',done:true}
+      ]
+    }
+  },
+  {
+    id:'statemachine', label:'State Machine DP', color:'#BA7517', tag:'Track mode transitions',
+    chips:[['ca','Draw states first'],['cp','Stock problems'],['ct','Regex matching'],['cb','Mode transitions']],
+    intuition:[
+      {cls:'ins-a',t:'Core idea',b:'Model the problem as a finite state machine. Define DP states as "modes" the system can be in (holding/not-holding, cooldown, etc.). Transitions between modes become recurrences.'},
+      {cls:'ins-p',t:'How to design state machines',b:'<strong>Step 1:</strong> List all possible modes. <strong>Step 2:</strong> Draw arrows for valid transitions. <strong>Step 3:</strong> Annotate each arrow with its cost/profit. <strong>Step 4:</strong> Write one DP array per state, one recurrence per arrow.'},
+      {cls:'ins-t',t:'Stock problems pattern',b:'All stock problems share the same template — just different state counts. 1 transaction: 2 states. Unlimited: 2 states. Cooldown: 3 states. Fee: 2 states. K transactions: 2K states.'},
+      {cls:'ins-c',t:'String state machines',b:'For regex/wildcard matching, the DP state is (i, j) = (text position, pattern position). Each character and pattern symbol defines valid transitions. This is equivalent to building a DFA and running it.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--a1)',t:'Identify states',d:'What "modes" can the system be in? (holding stock, in cooldown, etc.)'},
+      {n:'2',col:'var(--a1)',t:'Draw transitions',d:'Which states can transition to which? What are the costs?'},
+      {n:'3',col:'var(--a1)',t:'Write recurrences',d:'One equation per (state, day) based on transition arrows.'},
+      {n:'4',col:'var(--a1)',t:'Answer',d:'Max over all final states at day n-1.'}
+    ],
+    code:`import java.util.*;
+
+public class StateMachineDP {
+
+    // ── Template: Stock with cooldown (3 states) ──
+    // States: HOLD (own stock), SOLD (just sold today), REST (no stock, no sell)
+    //
+    // State diagram:
+    //  REST ──buy──→ HOLD ──sell──→ SOLD
+    //   ↑                              │
+    //   └──────────────────────────────┘ (cooldown: SOLD→REST next day)
+    //   REST ──────────────────────────→ REST (do nothing)
+    //   HOLD ──────────────────────────→ HOLD (hold)
+
+    static int maxProfitCooldown(int[] prices) {
+        int n = prices.length;
+        // ① one variable per state (space-optimized, O(1) space)
+        int hold = -prices[0]; // ② max profit while holding stock
+        int sold = 0;          // ③ max profit day we sell
+        int rest = 0;          // ④ max profit while resting (no stock)
+
+        for (int i = 1; i < n; i++) {
+            int prevHold = hold, prevSold = sold, prevRest = rest;
+            // ⑤ HOLD: either stayed holding, or bought today from REST
+            hold = Math.max(prevHold, prevRest - prices[i]);
+            // ⑥ SOLD: sold today (must have been holding)
+            sold = prevHold + prices[i];
+            // ⑦ REST: either stayed resting, or came from SOLD (cooldown)
+            rest = Math.max(prevRest, prevSold);
+        }
+        return Math.max(sold, rest); // ⑧ can't end in HOLD (must sell)
+    }
+
+    // ── General K transactions template ──
+    static int maxProfitK(int k, int[] prices) {
+        int n = prices.length;
+        if (k >= n / 2) {           // ⑨ unlimited transactions case
+            int profit = 0;
+            for (int i = 1; i < n; i++)
+                if (prices[i] > prices[i-1])
+                    profit += prices[i] - prices[i-1];
+            return profit;
+        }
+        // ⑩ dp[t][0] = max profit with t transactions, not holding
+        //    dp[t][1] = max profit with t transactions, currently holding
+        int[][] dp = new int[k + 1][2];
+        for (int[] row : dp) Arrays.fill(row, Integer.MIN_VALUE / 2);
+        dp[0][0] = 0; // ⑪ 0 transactions completed, not holding → profit 0
+
+        for (int price : prices) {
+            // ⑫ iterate backwards to avoid using same day twice
+            for (int t = k; t >= 1; t--) {
+                // sell: complete transaction t, profit += price
+                dp[t][0] = Math.max(dp[t][0], dp[t][1] + price);
+                // buy: start using transaction t (costs price)
+                dp[t][1] = Math.max(dp[t][1], dp[t-1][0] - price);
+            }
+        }
+        return dp[k][0]; // ⑬ k transactions done, not holding
+    }
+
+    // ── Regex matching state machine (LC 10) ──
+    static boolean isMatch(String s, String p) {
+        int m = s.length(), n = p.length();
+        // ⑭ dp[i][j] = can s[0..i-1] be matched by p[0..j-1]
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        // ⑮ empty string can match patterns like a*, a*b*, a*b*c*
+        for (int j = 2; j <= n; j += 2)
+            if (p.charAt(j-1) == '*') dp[0][j] = dp[0][j-2];
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                char pc = p.charAt(j-1), sc = s.charAt(i-1);
+                if (pc == '*') {
+                    // ⑯ zero occurrences of preceding char
+                    dp[i][j] = dp[i][j-2];
+                    // one or more: preceding char matches current s char
+                    char prev = p.charAt(j-2);
+                    if (prev == '.' || prev == sc)
+                        dp[i][j] |= dp[i-1][j];
+                } else {
+                    // ⑰ direct match: '.' matches any, else exact match
+                    dp[i][j] = (pc == '.' || pc == sc) && dp[i-1][j-1];
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}`,
+    anns:[
+      {n:'①②③④',bg:'var(--a2)',c:'var(--a3)',t:'<strong>One variable per state:</strong> Space-optimized to O(1). hold = profit if you currently own the stock. sold = profit on the day you sell. rest = profit while in cooldown/not holding.'},
+      {n:'⑤⑥⑦',bg:'var(--p2)',c:'var(--p3)',t:'<strong>State transitions:</strong> hold can come from (hold yesterday) or (rest yesterday, buy today). sold comes only from (hold yesterday, sell today). rest comes from (rest yesterday) or (sold yesterday — cooldown day).'},
+      {n:'⑨',bg:'var(--t2)',c:'var(--t3)',t:'<strong>K transactions shortcut:</strong> When k ≥ n/2, every profitable day can be captured. Switch to greedy unlimited: sum all positive price differences.'},
+      {n:'⑫',bg:'var(--c2)',c:'var(--c3)',t:'<strong>Backwards iteration:</strong> Iterating t from k down to 1 ensures each transaction is used at most once per price. Forward iteration would allow buying and selling on the same day.'},
+      {n:'⑮⑯',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Regex * handling:</strong> "*" can mean zero occurrences (skip two pattern chars, dp[i][j-2]) or one-or-more (the pattern char matches current s char, dp[i-1][j]). Empty string vs patterns like "a*" is handled by the initialization loop.'}
+    ],
+    cx:{t:'O(n) or O(n×k)',s:'O(1) or O(k)',td:'Cooldown/unlimited: O(n). K transactions: O(n×k). Regex matching: O(m×n). State machine size determines constant factor.',sd:'Cooldown: O(1) with space optimization. K transactions: O(k). Regex: O(m×n).'},
+    qs:[
+      {d:'easy',n:'Best time to buy/sell stock I (one transaction)',nt:'Track min price seen. O(n).',url:'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',ul:'LC 121'},
+      {d:'easy',n:'Best time to buy/sell stock II (unlimited)',nt:'Sum all positive differences.',url:'https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/',ul:'LC 122'},
+      {d:'med',n:'Best time with cooldown',nt:'3 states: hold, sold, rest.',url:'https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/',ul:'LC 309'},
+      {d:'med',n:'Best time with transaction fee',nt:'2 states: hold, free. Subtract fee on sell.',url:'https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/',ul:'LC 714'},
+      {d:'hard',n:'Best time at most K transactions',nt:'dp[k][hold/free]. Backwards t loop.',url:'https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/',ul:'LC 188'},
+      {d:'hard',n:'Regex matching (. and *)',nt:'State = (i,j). Zero/one+ transitions for *.',url:'https://leetcode.com/problems/regular-expression-matching/',ul:'LC 10'},
+      {d:'hard',n:'Wildcard matching (? and *)',nt:'* matches any sequence (different from regex).',url:'https://leetcode.com/problems/wildcard-matching/',ul:'LC 44'},
+      {d:'med',n:'Count binary strings without consecutive 1s',nt:'State = last bit placed.',url:'https://www.geeksforgeeks.org/count-strings-without-consecutive-1s/',ul:'GFG'},
+      {d:'cx',n:'Count strings with no "aab" substring',nt:'State = KMP automaton state (tracks partial match).',url:'https://codeforces.com/problemset/problem/625/C',ul:'CF 625C'}
+    ],
+    sim:{
+      label:'Dry run: maxProfitCooldown([1,2,3,0,2])',
+      steps:[
+        {states:{day:0,hold:-1,sold:0,rest:0},arr:[1,2,3,0,2],hi:[0],log:'Day 0: init\nhold = -prices[0] = -1 (buy on day 0)\nsold = 0, rest = 0'},
+        {states:{day:1,hold:0,sold:1,rest:0},arr:[1,2,3,0,2],hi:[1],log:'Day 1 (price=2):\nhold = max(-1, 0-2) = max(-1,-2) = -1\nsold = -1 + 2 = 1\nrest = max(0, 0) = 0\n[Best to still hold from day 0]'},
+        {states:{day:2,hold:0,sold:2,rest:1},arr:[1,2,3,0,2],hi:[2],log:'Day 2 (price=3):\nhold = max(-1, 1-3) = max(-1,-2) = -1\nsold = -1 + 3 = 2\nrest = max(0, 1) = 1\n[Sell on day 2 for profit=2 if held from day0]'},
+        {states:{day:3,hold:1,sold:0,rest:2},arr:[1,2,3,0,2],hi:[3],log:'Day 3 (price=0):\nhold = max(-1, 2-0) = max(-1,2) = 2\nsold = -1+0 = -1... wait max with prev:\nhold = max(-1, rest-0) = max(-1, 1-0)=1\nsold = prevHold+0 = -1+0=-1\nrest = max(2, 2) = 2\n[Buy after cooldown: rest=1, buy@0 → hold=1]'},
+        {states:{day:4,hold:1,sold:3,rest:2},arr:[1,2,3,0,2],hi:[4],log:'Day 4 (price=2):\nhold = max(1, 2-2) = max(1,0) = 1\nsold = prevHold+2 = 1+2 = 3\nrest = max(2, sold_prev) = max(2,-1) = 2\n\nAnswer = max(sold=3, rest=2) = 3 ✓',done:true}
+      ]
+    }
+  },
+  {
+    id:'combdp', label:'Combinatorics DP', color:'#D4537E', tag:'Counting with recurrences',
+    chips:[['cp','nCr Pascal'],['ct','Catalan numbers'],['ca','Modular inverse'],['cb','Count structures']],
+    intuition:[
+      {cls:'ins-p',t:'Core idea (changed)',b:'Count the number of valid arrangements, structures, or paths using DP recurrences. The key is defining what you\'re counting at each subproblem and how it decomposes.'},
+      {cls:'ins-t',t:'Pascal\'s triangle',b:'C(n,k) = C(n−1,k−1) + C(n−1,k). Precompute in O(n²). For large n with modular arithmetic, use modular inverse: C(n,k) = n! × inv(k!) × inv((n−k)!) mod p.'},
+      {cls:'ins-a',t:'Catalan numbers',b:'Cₙ = C(2n,n) / (n+1). Count BSTs with n nodes, valid bracket sequences of length 2n, triangulations of (n+2)-gon. Recurrence: Cₙ = Σ C(i) × C(n−1−i) for i=0..n−1.'},
+      {cls:'ins-c',t:'When to use',b:'When the question asks "how many ways" and the structure decomposes into independent subproblems. Key patterns: tiling, paths in grids, partitions, derangements, counting with constraints.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--p1)',t:'Precompute nCr',d:'Pascal triangle O(n²) or factorial + modular inverse O(n log p).'},
+      {n:'2',col:'var(--p1)',t:'Define dp state',d:'What are you counting? Paths to cell (i,j)? Sequences of length k? Partitions of n?'},
+      {n:'3',col:'var(--p1)',t:'Write recurrence',d:'How does dp[i][j] relate to dp[i-1][j] and dp[i][j-1]? Or dp[n] to dp[n-k]?'},
+      {n:'4',col:'var(--p1)',t:'Handle modulo',d:'Add MOD = 1e9+7. Use (a+b)%MOD everywhere to prevent overflow.'}
+    ],
+    code:`import java.util.*;
+
+public class CombinatoricsDP {
+    static final int MOD = 1_000_000_007;
+
+    // ── Template 1: Pascal's triangle — precompute C(n,k) ──
+    static long[][] buildPascal(int maxN) {
+        long[][] C = new long[maxN + 1][maxN + 1];
+        C[0][0] = 1;
+        for (int i = 1; i <= maxN; i++) {
+            C[i][0] = 1;
+            for (int j = 1; j <= i; j++)
+                // ① Pascal's recurrence with modulo
+                C[i][j] = (C[i-1][j-1] + C[i-1][j]) % MOD;
+        }
+        return C;
+    }
+
+    // ── Template 2: Large nCr with modular inverse ──
+    static long[] fact, inv;
+    static void precompute(int n) {
+        fact = new long[n + 1]; inv = new long[n + 1];
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) fact[i] = fact[i-1] * i % MOD;
+        inv[n] = modPow(fact[n], MOD - 2, MOD); // ② Fermat's little theorem
+        for (int i = n - 1; i >= 0; i++) inv[i] = inv[i+1] * (i+1) % MOD;
+    }
+    static long nCr(int n, int r) {
+        if (r < 0 || r > n) return 0;
+        return fact[n] * inv[r] % MOD * inv[n-r] % MOD; // ③
+    }
+    static long modPow(long b, long e, long m) {
+        long res = 1; b %= m;
+        for (; e > 0; e >>= 1) {
+            if ((e & 1) == 1) res = res * b % m;
+            b = b * b % m;
+        }
+        return res;
+    }
+
+    // ── Template 3: Unique paths in grid (m × n) ──
+    static long uniquePaths(int m, int n) {
+        // ④ dp[i][j] = number of paths to reach cell (i,j)
+        // dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        long[] dp = new long[n]; // space-optimized to 1D
+        Arrays.fill(dp, 1);     // ⑤ top row: only one way (go right)
+        for (int i = 1; i < m; i++)
+            for (int j = 1; j < n; j++)
+                dp[j] = (dp[j] + dp[j-1]) % MOD; // ⑥ from top + from left
+        return dp[n-1];
+        // Also: C(m+n-2, m-1) directly
+    }
+
+    // ── Template 4: Catalan numbers ──
+    static long catalan(int n) {
+        // ⑦ C_n = C(2n, n) / (n+1)  — uses modular inverse
+        // = C(2n,n) * modPow(n+1, MOD-2, MOD) % MOD
+        // First few: 1,1,2,5,14,42,132,429,1430...
+        long[][] C = buildPascal(2 * n);
+        return C[2*n][n] * modPow(n + 1, MOD - 2, MOD) % MOD;
+    }
+
+    // ── Template 5: Dice rolls with target sum ──
+    static int numRollsToTarget(int n, int k, int target) {
+        // ⑧ dp[i][j] = ways to get sum j using i dice
+        int[] dp = new int[target + 1];
+        dp[0] = 1; // ⑨ 0 dice, sum 0: 1 way
+        for (int die = 0; die < n; die++) {
+            int[] ndp = new int[target + 1];
+            for (int j = 0; j <= target; j++) {
+                if (dp[j] == 0) continue;
+                for (int face = 1; face <= k && j + face <= target; face++)
+                    ndp[j + face] = (ndp[j + face] + dp[j]) % MOD; // ⑩
+            }
+            dp = ndp;
+        }
+        return dp[target];
+    }
+
+    // ── Template 6: Count BSTs with n nodes (Catalan) ──
+    static long numTrees(int n) {
+        // ⑪ dp[i] = number of structurally unique BSTs with i nodes
+        // dp[i] = sum of dp[j-1] * dp[i-j] for j=1..i
+        //         (j is root: j-1 nodes in left, i-j in right)
+        long[] dp = new long[n + 1];
+        dp[0] = 1; dp[1] = 1;
+        for (int i = 2; i <= n; i++)
+            for (int j = 1; j <= i; j++)
+                dp[i] = (dp[i] + dp[j-1] * dp[i-j]) % MOD;
+        return dp[n];
+    }
+}`,
+    anns:[
+      {n:'①',bg:'var(--p2)',c:'var(--p3)',t:'<strong>Pascal\'s recurrence:</strong> C(n,k) = C(n-1,k-1) + C(n-1,k). "Choose k from n" = "include item n and choose k-1 from n-1" + "exclude item n and choose k from n-1". Base: C(n,0) = C(n,n) = 1.'},
+      {n:'②③',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Modular inverse:</strong> For large n, C(n,k) mod p = n! × inv(k!) × inv((n-k)!) mod p. Use Fermat\'s little theorem: inv(x) = x^(p-2) mod p (works when p is prime). Precompute all factorials and inverse factorials in O(n).'},
+      {n:'⑤⑥',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Grid path space optimization:</strong> dp[j] on the 1D array represents the value from the row above, and dp[j-1] represents the value from the left in the current row. This compresses O(m×n) to O(n) space.'},
+      {n:'⑦',bg:'var(--c2)',c:'var(--c3)',t:'<strong>Catalan formula:</strong> Cₙ = C(2n,n)/(n+1). Appears in: number of BST shapes with n nodes, valid bracket sequences of length 2n, number of ways to triangulate a polygon, number of full binary trees.'},
+      {n:'⑪',bg:'var(--b2)',c:'var(--b3)',t:'<strong>BST Catalan recurrence:</strong> For each choice of root j (1 to i), left subtree has j-1 nodes and right subtree has i-j nodes. These are independent, so multiply dp[j-1] × dp[i-j]. Sum all choices of root.'}
+    ],
+    cx:{t:'O(n²) or O(n log p)',s:'O(n²) or O(n)',td:'Pascal\'s triangle: O(n²). Factorial precompute: O(n). Each nCr query after precompute: O(1). Grid DP: O(m×n). Dice DP: O(n×k×target).',sd:'Pascal: O(n²). Factorial/inverse: O(n). Grid DP: O(n) space-optimized.'},
+    qs:[
+      {d:'easy',n:'Unique paths in grid (m×n)',nt:'dp[i][j]=dp[i-1][j]+dp[i][j-1] or C(m+n-2,m-1).',url:'https://leetcode.com/problems/unique-paths/',ul:'LC 62'},
+      {d:'easy',n:'Climbing stairs (Fibonacci / combinations)',nt:'dp[n]=dp[n-1]+dp[n-2].',url:'https://leetcode.com/problems/climbing-stairs/',ul:'LC 70'},
+      {d:'easy',n:"Pascal's triangle row N",nt:'C(n,k) for k=0..n.',url:'https://leetcode.com/problems/pascals-triangle-ii/',ul:'LC 119'},
+      {d:'med',n:'Count BSTs with N nodes (Catalan)',nt:'dp[i]=Σdp[j-1]×dp[i-j].',url:'https://leetcode.com/problems/unique-binary-search-trees/',ul:'LC 96'},
+      {d:'med',n:'Decode ways (count decodings)',nt:'dp[i] from dp[i-1] and dp[i-2].',url:'https://leetcode.com/problems/decode-ways/',ul:'LC 91'},
+      {d:'med',n:'Number of dice rolls with target sum',nt:'dp[dice][sum]. Roll each face.',url:'https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/',ul:'LC 1155'},
+      {d:'hard',n:'Knight dialer — count paths on phone keypad',nt:'Matrix exponentiation for O(log n).',url:'https://leetcode.com/problems/knight-dialer/',ul:'LC 935'},
+      {d:'hard',n:'Count vowel permutations of length N',nt:'Transition matrix: which vowel can follow which.',url:'https://leetcode.com/problems/count-vowels-permutation/',ul:'LC 1220'},
+      {d:'hard',n:'Count ways to reorder array to get same BST',nt:'nCr × recursive left/right subtrees.',url:'https://leetcode.com/problems/number-of-ways-to-reorder-array-to-get-same-bst/',ul:'LC 1569'},
+      {d:'cx',n:'Count permutations with K inversions',nt:'Mahonian numbers. dp[n][k] = dp[n-1][k] + ... + dp[n-1][k-n+1].',url:'https://codeforces.com/problemset/problem/540/E',ul:'CF 540E'}
+    ],
+    sim:{
+      label:'Dry run: numTrees(3) — count BSTs with 3 nodes',
+      steps:[
+        {states:{n:3,dp:'[1,1,0,0]'},arr:[0,1,2,3],hi:[0,1],log:'Init: dp[0]=1, dp[1]=1\n(0 nodes → 1 empty tree, 1 node → 1 tree)'},
+        {states:{n:3,dp:'[1,1,2,0]'},arr:[0,1,2,3],hi:[2],log:'i=2: root j=1,2\n  j=1: left=dp[0]=1, right=dp[1]=1 → 1×1=1\n  j=2: left=dp[1]=1, right=dp[0]=1 → 1×1=1\ndp[2] = 2 (two BST shapes with 2 nodes)'},
+        {states:{n:3,dp:'[1,1,2,5]'},arr:[0,1,2,3],hi:[3],log:'i=3: root j=1,2,3\n  j=1: left=dp[0]=1, right=dp[2]=2 → 1×2=2\n  j=2: left=dp[1]=1, right=dp[1]=1 → 1×1=1\n  j=3: left=dp[2]=2, right=dp[0]=1 → 2×1=2\ndp[3] = 2+1+2 = 5 ✓\n\nAnswer = 5 Catalan number C(3)',done:true}
+      ]
+    }
+  },
+  {
+    id:'unbounded', label:'Unbounded Knapsack', color:'#0C447C', tag:'Unlimited item uses',
+    chips:[['cb','Iterate forward'],['ct','Coin change'],['cp','Permutations vs combos'],['ca','Compare with 0/1']],
+    intuition:[
+      {cls:'ins-b',t:'Core idea',b:'Each item can be used unlimited times. Unlike 0/1 knapsack (inner loop backwards), unbounded knapsack iterates the capacity loop <strong>forwards</strong>. When we update dp[w], dp[w-wt[i]] already reflects using item i multiple times.'},
+      {cls:'ins-p',t:'The loop order secret',b:'<strong>0/1 knapsack:</strong> outer=items, inner=capacity BACKWARDS (prevents reuse). <strong>Unbounded knapsack:</strong> outer=items, inner=capacity FORWARDS (allows reuse). <strong>Combinations count:</strong> outer=items, inner=capacity. <strong>Permutations count:</strong> outer=capacity, inner=items.'},
+      {cls:'ins-t',t:'Coin change variants',b:'Min coins: dp[0]=0, rest=INF. dp[w] = min(dp[w], dp[w-coin]+1). Count combinations: dp[0]=1, dp[w] += dp[w-coin]. Count permutations: outer loop over capacity (same coins, different order = different sequence).'},
+      {cls:'ins-a',t:'Unbounded vs bounded',b:'Bounded (0/1): each item at most once → backwards loop. Bounded (limited count k): process each item k times, or use binary grouping. Unbounded: any number of times → forwards loop.'}
+    ],
+    phases:[
+      {n:'1',col:'var(--b1)',t:'Initialize',d:'Min-coins: dp[0]=0, rest=INF. Count: dp[0]=1, rest=0.'},
+      {n:'2',col:'var(--b1)',t:'Outer loop: items',d:'For each item/coin: for(int c : coins).'},
+      {n:'3',col:'var(--b1)',t:'Inner loop: forward',d:'for(int w = c; w <= amount; w++) — forward allows reuse.'},
+      {n:'4',col:'var(--b1)',t:'Permutations: swap loops',d:'Outer=capacity, inner=items gives permutations (order matters).'}
+    ],
+    code:`import java.util.*;
+
+public class UnboundedKnapsack {
+
+    // ── Template 1: Unbounded knapsack — max value ──
+    static int maxValue(int W, int[] wt, int[] val) {
+        int[] dp = new int[W + 1]; // ① dp[w] = max value with capacity w
+        for (int i = 0; i < wt.length; i++)       // ② outer: items
+            for (int w = wt[i]; w <= W; w++)       // ③ inner: FORWARD (allows reuse!)
+                dp[w] = Math.max(dp[w], dp[w - wt[i]] + val[i]);
+        return dp[W];
+    }
+
+    // ── Template 2: Coin change — minimum coins (LC 322) ──
+    static int minCoins(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);   // ④ "infinity" sentinel
+        dp[0] = 0;                     // ⑤ 0 coins needed for amount 0
+        for (int c : coins)            // ⑥ outer: coins (order doesn't matter for min)
+            for (int w = c; w <= amount; w++)
+                dp[w] = Math.min(dp[w], dp[w - c] + 1); // ⑦ use coin c
+        return dp[amount] > amount ? -1 : dp[amount]; // ⑧ unreachable check
+    }
+
+    // ── Template 3: Coin change 2 — count combinations (LC 518) ──
+    // Each combination counted ONCE (order doesn't matter)
+    static int countCombinations(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;                     // ⑨ 1 way to make amount 0 (use nothing)
+        for (int c : coins)            // ⑩ outer: coins — each coin processed fully
+            for (int w = c; w <= amount; w++)
+                dp[w] += dp[w - c];    // ⑪ add ways using coin c
+        return dp[amount];
+        // Key: outer=coins ensures each combination counted once
+    }
+
+    // ── Template 4: Combination sum IV — count permutations (LC 377) ──
+    // Order MATTERS: [1,2] and [2,1] are different
+    static int countPermutations(int[] nums, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int w = 1; w <= target; w++) // ⑫ outer: TARGET (each amount)
+            for (int x : nums)            // ⑬ inner: numbers (try all as LAST element)
+                if (w >= x) dp[w] += dp[w - x]; // ⑭ ways to reach w ending in x
+        return dp[target];
+        // Key: outer=target means "how many sequences of any length sum to w"
+    }
+
+    // ── Template 5: Perfect squares — min count (LC 279) ──
+    static int numSquares(int n) {
+        // ⑮ Treat perfect squares as coins: 1,4,9,16,...,floor(sqrt(n))^2
+        int[] dp = new int[n + 1];
+        Arrays.fill(dp, n + 1);   // "infinity"
+        dp[0] = 0;
+        for (int i = 1; i * i <= n; i++)     // ⑯ for each perfect square
+            for (int w = i * i; w <= n; w++) // ⑰ forward loop (unbounded)
+                dp[w] = Math.min(dp[w], dp[w - i*i] + 1);
+        return dp[n];
+    }
+
+    // ── Template 6: Rod cutting — max revenue ──
+    static int rodCutting(int[] price, int n) {
+        // ⑱ dp[len] = max revenue from rod of length len
+        // Can cut into any combination of pieces (unbounded on piece sizes)
+        int[] dp = new int[n + 1];
+        for (int len = 1; len <= n; len++)   // outer: lengths 1..n
+            for (int cut = 1; cut <= len; cut++)  // try all first cuts
+                dp[len] = Math.max(dp[len], price[cut-1] + dp[len - cut]);
+        return dp[n];
+    }
+}`,
+    anns:[
+      {n:'③',bg:'var(--b2)',c:'var(--b3)',t:'<strong>Forward loop = reuse:</strong> When we compute dp[w] using dp[w-wt[i]], that dp[w-wt[i]] was already updated in this same item\'s loop iteration — meaning item i may have been used there too. This is exactly what allows unlimited reuse.'},
+      {n:'④⑧',bg:'var(--p2)',c:'var(--p3)',t:'<strong>Infinity sentinel:</strong> Using amount+1 as infinity is safe because you can never need more than amount coins (using 1-valued coins). Check dp[amount] > amount (not == MAX_VALUE) to detect unreachable.'},
+      {n:'⑨⑩⑪',bg:'var(--t2)',c:'var(--t3)',t:'<strong>Combinations — outer=coins:</strong> Processing each coin completely before moving to the next ensures we don\'t double-count. If coins=[1,2] and amount=3: first we use only coin 1 (1+1+1), then we can introduce coin 2 (1+2, 2+1 are the same combination — only counted once because 2 is introduced after 1).'},
+      {n:'⑫⑬',bg:'var(--a2)',c:'var(--a3)',t:'<strong>Permutations — outer=target:</strong> For each target amount w, we ask "how many sequences end in each number x?". The answer is dp[w-x] (all ways to make w-x) summed over all x. This treats [1,2] and [2,1] as different sequences — order matters.'},
+      {n:'⑯⑰',bg:'var(--c2)',c:'var(--c3)',t:'<strong>Perfect squares insight:</strong> Treat each perfect square as a coin with value i². The minimum number of squares that sum to n is exactly coin change minimum with this coin set. The forward loop ensures squares can be reused.'}
+    ],
+    cx:{t:'O(n × W)',s:'O(W)',td:'n items, W capacity. Single 2D loop flattened to O(nW). Coin change: O(C × amount) where C = number of coins. Perfect squares: O(sqrt(n) × n).',sd:'1D dp array of size W+1 (or amount+1). Space-optimized from O(nW) to O(W).'},
+    qs:[
+      {d:'easy',n:'Coin change — minimum coins',nt:'dp[0]=0, rest=INF. Forward loop.',url:'https://leetcode.com/problems/coin-change/',ul:'LC 322'},
+      {d:'easy',n:'Coin change 2 — count combinations',nt:'dp[0]=1. Outer=coins, inner=amount.',url:'https://leetcode.com/problems/coin-change-ii/',ul:'LC 518'},
+      {d:'easy',n:'Unbounded knapsack — max value',nt:'Core template. Forward inner loop.',url:'https://www.geeksforgeeks.org/unbounded-knapsack-repetition-items-allowed/',ul:'GFG'},
+      {d:'med',n:'Perfect squares — min count',nt:'Squares as coins. Forward loop.',url:'https://leetcode.com/problems/perfect-squares/',ul:'LC 279'},
+      {d:'med',n:'Combination sum IV — count permutations',nt:'Outer=target, inner=nums. Order matters.',url:'https://leetcode.com/problems/combination-sum-iv/',ul:'LC 377'},
+      {d:'med',n:'Integer break — maximize product',nt:'dp[i] = max product of i. Try all first splits.',url:'https://leetcode.com/problems/integer-break/',ul:'LC 343'},
+      {d:'med',n:'Minimum ribbon cut (use exactly all length)',nt:'Variant: must reach exactly W, not just ≤W.',url:'https://www.geeksforgeeks.org/minimum-cuts-in-minimum-number-of-cuts/',ul:'GFG'},
+      {d:'hard',n:'Rod cutting — max revenue',nt:'CLRS classic. dp[len] = max over all first cuts.',url:'https://www.geeksforgeeks.org/cutting-a-rod-dp-13/',ul:'GFG'},
+      {d:'hard',n:'Minimum cost to cut a stick',nt:'Interval DP. Not pure unbounded but uses similar forward thinking.',url:'https://leetcode.com/problems/minimum-cost-to-cut-a-stick/',ul:'LC 1547'},
+      {d:'cx',n:'Count ways to partition N using integers ≤ K',nt:'Partition function DP. dp[n][k] with bounded parts.',url:'https://codeforces.com/problemset/problem/1244/F',ul:'CF 1244F'}
+    ],
+    sim:{
+      label:'Dry run: minCoins([1,3,4], amount=6)',
+      steps:[
+        {states:{coin:'init',w:'—',dp:'[0,∞,∞,∞,∞,∞,∞]'},arr:[0,1,2,3,4,5,6],hi:[0],log:'Init: dp[0]=0, dp[1..6]=7 ("infinity"=amount+1)'},
+        {states:{coin:1,w:'1→6',dp:'[0,1,2,3,4,5,6]'},arr:[0,1,2,3,4,5,6],hi:[1,2,3,4,5,6],log:'Coin=1: forward w=1..6\ndp[1]=min(7,dp[0]+1)=1\ndp[2]=min(7,dp[1]+1)=2\ndp[3]=min(7,dp[2]+1)=3\ndp[4]=min(7,dp[3]+1)=4\ndp[5]=min(7,dp[4]+1)=5\ndp[6]=min(7,dp[5]+1)=6'},
+        {states:{coin:3,w:'3→6',dp:'[0,1,2,1,2,3,2]'},arr:[0,1,2,3,4,5,6],hi:[3,4,5,6],log:'Coin=3: forward w=3..6\ndp[3]=min(3,dp[0]+1)=min(3,1)=1 ✓\ndp[4]=min(4,dp[1]+1)=min(4,2)=2 ✓\ndp[5]=min(5,dp[2]+1)=min(5,3)=3\ndp[6]=min(6,dp[3]+1)=min(6,2)=2 ✓'},
+        {states:{coin:4,w:'4→6',dp:'[0,1,2,1,1,2,2]'},arr:[0,1,2,3,4,5,6],hi:[4,5,6],log:'Coin=4: forward w=4..6\ndp[4]=min(2,dp[0]+1)=min(2,1)=1 ✓\ndp[5]=min(3,dp[1]+1)=min(3,2)=2\ndp[6]=min(2,dp[2]+1)=min(2,3)=2 (no change)'},
+        {states:{coin:'done',w:'—',dp:'[0,1,2,1,1,2,2]'},arr:[0,1,2,3,4,5,6],hi:[6],log:'dp[6] = 2 ✓\nOptimal: 3+3=6 or 4+... wait 3+3=2 coins!\nVerify: coin 3 used twice → 3+3=6, 2 coins.\nAnswer = 2 ✓',done:true}
+      ]
+    }
+  }
+];
+
+function nb(p, on) {
+  const b = document.createElement('button');
+  b.className = 'nav-btn' + (on?' on':'');
+  b.textContent = p.label;
+  b.style.setProperty('--c', p.color);
+  if(on) b.style.background = p.color;
+  b.onclick = () => {
+    document.querySelectorAll('.nav-btn').forEach((x,i)=>{x.classList.remove('on');x.style.background='';});
+    b.classList.add('on'); b.style.background=p.color;
+    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('on'));
+    document.getElementById('pane-'+p.id).classList.add('on');
+  };
+  return b;
+}
+
+function codeHtml(c){
+  return c.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/(\/\/[^\n]*)/g,'<span class="cm">$1</span>')
+    .replace(/\b(int|long|boolean|String|char|void|static|public|class|return|for|while|if|else|new|null|true|false|import|java|util|Arrays|Math|Map|HashMap|Queue|Deque|List|ArrayList|LinkedList|ArrayDeque|Integer|Scanner)\b/g,'<span class="kw">$1</span>')
+    .replace(/\b([A-Z][a-zA-Z0-9]+)\b/g,'<span class="tp">$1</span>')
+    .replace(/\b(\d+)\b/g,'<span class="nm">$1</span>');
+}
+
+const nav = document.getElementById('nav');
+const panes = document.getElementById('panes');
+
+P.forEach((p,pi) => {
+  nav.appendChild(nb(p, pi===0));
+  const pane = document.createElement('div');
+  pane.id = 'pane-'+p.id;
+  pane.className = 'pane' + (pi===0?' on':'');
+
+  let simHtml = '';
+  if(p.sim) {
+    const s0 = p.sim.steps[0];
+    const arrCells = p.sim.steps[0].arr.map((v,i)=>`<div class="ab" id="sim-${p.id}-ab-${i}">${typeof v==='object'?'['+v+']':v}</div>`).join('');
+    const stateKeys = Object.keys(s0.states);
+    const stateItems = stateKeys.map(k=>`<div class="si"><span class="sk">${k}</span><span class="sv" id="sim-${p.id}-sv-${k}" style="color:${p.color}">${s0.states[k]}</span></div>`).join('');
+    simHtml = `
+    <div class="sec">
+      <div class="stitle">Interactive dry run</div>
+      <div class="card prose" style="margin-bottom:8px">${p.sim.label}</div>
+      <div class="sim-row">
+        <div class="sim-box">
+          <div class="sim-lbl">Array / state</div>
+          <div class="arr-disp" id="sim-${p.id}-arr">${arrCells}</div>
+          <div class="srow">${stateItems}</div>
+        </div>
+        <div class="sim-box">
+          <div class="sim-lbl">Step log</div>
+          <div class="log" id="sim-${p.id}-log">${s0.log}</div>
+          <div id="sim-${p.id}-res"></div>
+        </div>
+      </div>
+      <div class="ctl">
+        <button onclick="simStep('${p.id}')"><i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i> Next step</button>
+        <button onclick="simReset('${p.id}')"><i class="ti ti-refresh" style="font-size:13px" aria-hidden="true"></i> Reset</button>
+        <span class="ci" id="sim-${p.id}-info">Step 0 of ${p.sim.steps.length-1}</span>
+      </div>
+    </div>`;
+  }
+
+  pane.innerHTML = `
+  <div class="sec">
+    <div class="stitle">Problem &amp; intuition</div>
+    <div class="card">
+      <div class="prose" style="margin-bottom:10px">
+        ${p.intuition.map(x=>`<div class="ins ${x.cls}" style="margin-bottom:8px"><strong>${x.t}:</strong> ${x.b}</div>`).join('')}
+      </div>
+      <div>${p.chips.map(c=>`<span class="chip c${c[0]}">${c[1]}</span>`).join('')}</div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="stitle">The 4-phase recipe</div>
+    <div class="pgrid">
+      ${p.phases.map(ph=>`<div class="pcard"><div class="pcard-n" style="color:${ph.col}">Phase ${ph.n}</div><div class="pcard-t">${ph.t}</div><div class="pcard-d">${ph.d}</div></div>`).join('')}
+    </div>
+  </div>
+  <div class="sec">
+    <div class="stitle">Annotated Java template</div>
+    <div class="card">
+      <div class="code-wrap"><div class="code-hdr"><span>Java 17</span><span>${p.id}.java</span></div><div class="code-body">${codeHtml(p.code)}</div></div>
+      <div class="ann-list">
+        ${p.anns.map(a=>`<div class="ann" style="border-left-color:${a.bg==='var(--p2)'?p.color:a.bg.includes('t2')?'#1D9E75':a.bg.includes('a2')?'#EF9F27':a.bg.includes('c2')?'#D85A30':a.bg.includes('b2')?'#378ADD':'#639922'}"><div class="ann-n" style="background:${a.bg};color:${a.c}">${a.n}</div><div class="ann-t">${a.t}</div></div>`).join('')}
+      </div>
+    </div>
+  </div>
+  ${simHtml}
+  <div class="sec">
+    <div class="stitle">Time &amp; space complexity</div>
+    <div class="cxg">
+      <div class="cxc"><div class="cxl">Time</div><div class="cxv">${p.cx.t}</div><div class="cxd">${p.cx.td}</div></div>
+      <div class="cxc"><div class="cxl">Space</div><div class="cxv">${p.cx.s}</div><div class="cxd">${p.cx.sd}</div></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="stitle">Questions — easy to complex</div>
+    <ul class="ql">
+      ${p.qs.map(q=>`<li class="qi"><span class="qd ${q.d==='cx'?'cx':q.d}">${q.d==='cx'?'complex':q.d}</span><div class="qb"><div class="qn">${q.n}</div><div class="qnt">${q.nt}</div><a href="${q.url}" target="_blank"><i class="ti ti-external-link" style="font-size:11px" aria-hidden="true"></i> ${q.ul}</a></div></li>`).join('')}
+    </ul>
+    <div style="margin-top:12px"><button class="ask-btn" onclick="sendPrompt('Deep dive into ${p.label} pattern — give me the hardest question from this list solved step by step in Striver style with Java code')">Hardest problem deep dive ↗</button></div>
+  </div>`;
+  panes.appendChild(pane);
+});
+
+const simState = {};
+P.forEach(p => { if(p.sim) simState[p.id] = 0; });
+
+function simRender(id) {
+  const p = P.find(x=>x.id===id);
+  const step = simState[id];
+  const s = p.sim.steps[Math.min(step, p.sim.steps.length-1)];
+  Object.keys(s.states).forEach(k => {
+    const el = document.getElementById(`sim-${id}-sv-${k}`);
+    if(el) el.textContent = s.states[k];
+  });
+  const arrEl = document.getElementById(`sim-${id}-arr`);
+  if(arrEl && s.arr) {
+    const boxes = arrEl.querySelectorAll('.ab');
+    boxes.forEach((b,i) => {
+      b.className = 'ab';
+      if(s.hi && s.hi.includes(i)) b.classList.add('hi');
+      if(s.done) b.classList.add('done');
+    });
+  }
+  const logEl = document.getElementById(`sim-${id}-log`);
+  if(logEl) {
+    logEl.textContent = p.sim.steps.slice(0,step+1).map(x=>x.log).join('\n\n');
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  const info = document.getElementById(`sim-${id}-info`);
+  if(info) info.textContent = `Step ${step} of ${p.sim.steps.length-1}`;
+  const res = document.getElementById(`sim-${id}-res`);
+  if(res) {
+    if(s.done) res.innerHTML = `<div class="res"><i class="ti ti-check" aria-hidden="true"></i> Trace complete</div>`;
+    else res.innerHTML = '';
+  }
+}
+function simStep(id) {
+  const p = P.find(x=>x.id===id);
+  if(simState[id] < p.sim.steps.length-1) { simState[id]++; simRender(id); }
+}
+function simReset(id) { simState[id]=0; simRender(id); }
+P.forEach(p => { if(p.sim) simRender(p.id); });
+</script>

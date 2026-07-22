@@ -1,0 +1,315 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .tracker { padding: 1.25rem 0; }
+  .header-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; text-align: center; }
+  .stat-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-sub { font-size: 12px; color: var(--color-text-tertiary); margin-top: 2px; }
+  .progress-bar-wrap { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
+  .progress-bar-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
+  .progress-bar-track { background: var(--color-border-tertiary); border-radius: 100px; height: 10px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 100px; background: #534AB7; transition: width 0.4s ease; }
+  .day-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 12px; overflow: hidden; }
+  .day-header { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.1rem; cursor: pointer; user-select: none; }
+  .day-header:hover { background: var(--color-background-secondary); }
+  .day-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .day-check.done { background: #534AB7; border-color: #534AB7; }
+  .day-check.done::after { content: ''; display: block; width: 6px; height: 10px; border: 2px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
+  .day-title { flex: 1; }
+  .day-title h3 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .day-title p { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .day-badge { font-size: 11px; padding: 3px 9px; border-radius: 100px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); white-space: nowrap; }
+  .day-badge.partial { background: #FAEEDA; color: #854F0B; border-color: #FAC775; }
+  .day-badge.complete { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; }
+  .chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+  .chevron.open { transform: rotate(180deg); }
+  .topics-list { padding: 0 1.1rem 0.85rem 1.1rem; display: none; }
+  .topics-list.open { display: block; }
+  .topic-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); cursor: pointer; }
+  .topic-item:last-child { border-bottom: none; }
+  .topic-cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--color-border-secondary); flex-shrink: 0; margin-top: 1px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+  .topic-cb.checked { background: #534AB7; border-color: #534AB7; }
+  .topic-cb.checked::after { content: ''; display: block; width: 4px; height: 7px; border: 1.5px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
+  .topic-label { font-size: 13px; color: var(--color-text-secondary); flex: 1; transition: color 0.15s; }
+  .topic-label.checked { color: var(--color-text-tertiary); text-decoration: line-through; }
+  .topic-dur { font-size: 11px; color: var(--color-text-tertiary); white-space: nowrap; }
+  .reset-btn { font-size: 12px; color: var(--color-text-tertiary); background: none; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 4px 10px; cursor: pointer; margin-top: 1rem; }
+  .reset-btn:hover { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .goal-banner { background: #EEEDFE; border: 0.5px solid #AFA9EC; border-radius: var(--border-radius-lg); padding: 0.85rem 1.1rem; text-align: center; margin-bottom: 1.5rem; display: none; }
+  .goal-banner p { font-size: 14px; font-weight: 500; color: #3C3489; }
+</style>
+
+<div class="tracker">
+  <h2 class="sr-only" style="display:none">Spring Boot study progress tracker — 7 days, 18.5 total hours</h2>
+
+  <div class="header-stats">
+    <div class="stat-card">
+      <div class="stat-label">Topics done</div>
+      <div class="stat-value" id="stat-topics">0</div>
+      <div class="stat-sub" id="stat-topics-total">of 55</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Hours watched</div>
+      <div class="stat-value" id="stat-hours">0</div>
+      <div class="stat-sub">of 18.5 hrs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Days complete</div>
+      <div class="stat-value" id="stat-days">0</div>
+      <div class="stat-sub">of 7 days</div>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-label">
+      <span>Overall progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="main-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="goal-banner" id="goal-banner">
+    <p>All 18.5 hours complete — well done!</p>
+  </div>
+
+  <div id="days-container"></div>
+
+  <div style="text-align:right">
+    <button class="reset-btn" onclick="resetAll()">Reset all progress</button>
+  </div>
+</div>
+
+<script>
+const DAYS = [
+  {
+    id: 1,
+    title: "Day 1: Core Spring Boot, Beans & Profiles",
+    hours: "2h 47m",
+    topics: [
+      { label: "49. Introduction to Spring boot | Advantage over Spring MVC", dur: "46m", mins: 46 },
+      { label: "50. Project setup and Layered Architecture Introduction", dur: "24m", mins: 24 },
+      { label: "51. Introduction to Maven and its Lifecycle", dur: "49m", mins: 49 },
+      { label: "52. Spring boot: Bean and its Lifecycle | IOC", dur: "34m", mins: 34 },
+      { label: "53. Spring boot Annotations (Controller Layer)", dur: "38m", mins: 38 },
+      { label: "54. Dependency Injection in Spring boot", dur: "39m", mins: 39 },
+      { label: "55. Spring boot: Bean Scopes | Singleton, Prototype, etc.", dur: "40m", mins: 40 },
+      { label: "56. Spring boot: Dynamically Initialized Beans Value Annotation", dur: "11m", mins: 11 },
+      { label: "57. Spring boot ConditionalOnProperty Annotation", dur: "20m", mins: 20 },
+      { label: "58. Spring boot @Profile annotation", dur: "33m", mins: 33 },
+    ]
+  },
+  {
+    id: 2,
+    title: "Day 2: AOP, Transactions & Async Processing",
+    hours: "2h 28m",
+    topics: [
+      { label: "59. Spring boot AOP (Aspect Oriented Programming)", dur: "69m", mins: 69 },
+      { label: "60. Spring boot @Transactional Annotation - Part1", dur: "25m", mins: 25 },
+      { label: "61. Transactional Annotation Part2 | Declarative, Programmatic", dur: "38m", mins: 38 },
+      { label: "62. Spring boot @Transactional Annotation - Part3 | Isolation", dur: "39m", mins: 39 },
+      { label: "63. Spring boot @Async Annotation - Part1 | ThreadPoolExecutor", dur: "46m", mins: 46 },
+      { label: "64. @Async Annotation - Part2 | Important Interview questions", dur: "24m", mins: 24 },
+      { label: "65. Custom Interceptors | Intercept Incoming HTTP Request", dur: "30m", mins: 30 },
+      { label: "66. Filters vs Interceptors | Advantage and Usecases", dur: "24m", mins: 24 },
+    ]
+  },
+  {
+    id: 3,
+    title: "Day 3: REST APIs, Exceptions & Intro to JPA",
+    hours: "2h 29m",
+    topics: [
+      { label: "67. Spring boot HATEOAS Restful API", dur: "25m", mins: 25 },
+      { label: "68. Spring boot Response Entity & Response Codes", dur: "43m", mins: 43 },
+      { label: "69. Spring boot Exception Handling", dur: "56m", mins: 56 },
+      { label: "70. Spring boot: JPA (PART-1)", dur: "46m", mins: 46 },
+      { label: "71. Spring boot - JPA | Setup, Architecture, Entity Relationship", dur: "63m", mins: 63 },
+      { label: "72. Spring boot: JPA | First Level Caching", dur: "24m", mins: 24 },
+      { label: "73. Spring boot: JPA | Second Level Caching", dur: "41m", mins: 41 },
+    ]
+  },
+  {
+    id: 4,
+    title: "Day 4: Advanced JPA & Mappings",
+    hours: "2h 24m",
+    topics: [
+      { label: "74. Spring boot: JPA | Map DTO to Table", dur: "46m", mins: 46 },
+      { label: "75. Spring boot: JPA | OneToOne Mapping", dur: "66m", mins: 66 },
+      { label: "76. Spring boot: JPA | OneToMany, ManyToOne and ManyToMany", dur: "59m", mins: 59 },
+      { label: "77. Spring boot: JPA | JPQL, Derived Query, N+1 Problem, Joins", dur: "59m", mins: 59 },
+      { label: "78. Spring boot: JPA | Native Query and Criteria API", dur: "44m", mins: 44 },
+      { label: "79. Spring boot: JPA | Specification API", dur: "14m", mins: 14 },
+    ]
+  },
+  {
+    id: 5,
+    title: "Day 5: Web Security Fundamentals & JWT",
+    hours: "2h 26m",
+    topics: [
+      { label: "80. Attacks with Demo | CSRF, CORS, XSS, SQL Injection", dur: "25m", mins: 25 },
+      { label: "81. Spring Boot Security - Part1 | Architecture", dur: "18m", mins: 18 },
+      { label: "82. Spring Boot Security - Part2 | User Creation & Storage", dur: "47m", mins: 47 },
+      { label: "83. Spring Boot Security - Part3 | Form Based Authentication", dur: "58m", mins: 58 },
+      { label: "84. Spring Boot Security - Part4 | Basic Authentication", dur: "20m", mins: 20 },
+      { label: "85. Spring Boot Security: What is JWT and its Structure", dur: "49m", mins: 49 },
+      { label: "86. Spring Boot Security - JWT Authentication Implementation", dur: "74m", mins: 74 },
+    ]
+  },
+  {
+    id: 6,
+    title: "Day 6: OAuth2 & Microservices Communication",
+    hours: "3h 7m",
+    topics: [
+      { label: "87. What is OAuth 2.0: Explained", dur: "35m", mins: 35 },
+      { label: "88. Spring Boot Security - OAUTH2 Authentication Implementation", dur: "52m", mins: 52 },
+      { label: "89. Spring Boot Security - Method Security | Role based", dur: "29m", mins: 29 },
+      { label: "90. RestTemplate | Communication between Microservices", dur: "56m", mins: 56 },
+      { label: "91. RestClient | Communication between Microservices", dur: "55m", mins: 55 },
+      { label: "92. FeignClient | Declarative HTTP Client", dur: "62m", mins: 62 },
+      { label: "93. Service Discovery and its Implementation", dur: "41m", mins: 41 },
+      { label: "94. Client Side Load Balancer and its Implementation", dur: "44m", mins: 44 },
+    ]
+  },
+  {
+    id: 7,
+    title: "Day 7: Microservices Resilience, Gateway & Config",
+    hours: "2h 52m",
+    topics: [
+      { label: "95. Rate Limiter", dur: "51m", mins: 51 },
+      { label: "96. Bulkhead Pattern", dur: "39m", mins: 39 },
+      { label: "97. Retry Pattern", dur: "43m", mins: 43 },
+      { label: "98. Circuit Breaker", dur: "31m", mins: 31 },
+      { label: "99. ApiGateway in Microservices - Part1 | Routing & Load Balancing", dur: "24m", mins: 24 },
+      { label: "100. ApiGateway in Microservices - Part2 | Auth JWT, Circuit Breaker", dur: "44m", mins: 44 },
+      { label: "101. Central Configuration", dur: "41m", mins: 41 },
+      { label: "102. Actuator", dur: "31m", mins: 31 },
+      { label: "103. Configuration Properties in-depth", dur: "39m", mins: 39 },
+    ]
+  }
+];
+
+const TOTAL_TOPICS = DAYS.reduce((s, d) => s + d.topics.length, 0);
+const TOTAL_MINS = DAYS.reduce((s, d) => d.topics.reduce((ss, t) => ss + t.mins, 0) + s, 0);
+
+let state = {};
+let open = {};
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem('spring_tracker') || '{}'); } catch(e) { state = {}; }
+}
+function saveState() {
+  try { localStorage.setItem('spring_tracker', JSON.stringify(state)); } catch(e) {}
+}
+
+function topicKey(dayId, i) { return `d${dayId}_t${i}`; }
+
+function getStats() {
+  let doneMins = 0, doneTopics = 0, doneDays = 0;
+  DAYS.forEach(d => {
+    let allDone = true;
+    d.topics.forEach((t, i) => {
+      if (state[topicKey(d.id, i)]) { doneTopics++; doneMins += t.mins; }
+      else allDone = false;
+    });
+    if (allDone) doneDays++;
+  });
+  return { doneMins, doneTopics, doneDays };
+}
+
+function updateGlobal() {
+  const { doneMins, doneTopics, doneDays } = getStats();
+  const pct = Math.round((doneMins / TOTAL_MINS) * 100);
+  const hrs = (doneMins / 60).toFixed(1);
+  document.getElementById('stat-topics').textContent = doneTopics;
+  document.getElementById('stat-hours').textContent = hrs;
+  document.getElementById('stat-days').textContent = doneDays;
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('main-bar').style.width = pct + '%';
+  document.getElementById('goal-banner').style.display = doneTopics === TOTAL_TOPICS ? 'block' : 'none';
+}
+
+function updateDayUI(d) {
+  const done = d.topics.filter((t, i) => state[topicKey(d.id, i)]).length;
+  const total = d.topics.length;
+  const allDone = done === total;
+  const check = document.getElementById(`day-check-${d.id}`);
+  const badge = document.getElementById(`day-badge-${d.id}`);
+  const mini = document.getElementById(`day-mini-${d.id}`);
+  if (check) check.className = 'day-check' + (allDone ? ' done' : '');
+  if (badge) {
+    if (allDone) { badge.className = 'day-badge complete'; badge.textContent = 'Complete'; }
+    else if (done > 0) { badge.className = 'day-badge partial'; badge.textContent = 'In progress'; }
+    else { badge.className = 'day-badge'; badge.textContent = d.hours; }
+  }
+  if (mini) mini.textContent = done > 0 && !allDone ? `${done}/${total}` : '';
+  d.topics.forEach((t, i) => {
+    const cb = document.getElementById(`cb-${d.id}-${i}`);
+    const lbl = document.getElementById(`lbl-${d.id}-${i}`);
+    const checked = state[topicKey(d.id, i)];
+    if (cb) cb.className = 'topic-cb' + (checked ? ' checked' : '');
+    if (lbl) lbl.className = 'topic-label' + (checked ? ' checked' : '');
+  });
+}
+
+function toggleTopic(dayId, i) {
+  const key = topicKey(dayId, i);
+  state[key] = !state[key];
+  saveState();
+  const d = DAYS.find(x => x.id === dayId);
+  updateDayUI(d);
+  updateGlobal();
+}
+
+function toggleDay(dayId) {
+  open[dayId] = !open[dayId];
+  const list = document.getElementById(`topics-${dayId}`);
+  const chev = document.getElementById(`chev-${dayId}`);
+  if (list) list.className = 'topics-list' + (open[dayId] ? ' open' : '');
+  if (chev) chev.className = 'chevron' + (open[dayId] ? ' open' : '');
+}
+
+function resetAll() {
+  state = {};
+  saveState();
+  DAYS.forEach(d => updateDayUI(d));
+  updateGlobal();
+}
+
+function render() {
+  const container = document.getElementById('days-container');
+  container.innerHTML = '';
+  DAYS.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    card.innerHTML = `
+      <div class="day-header" onclick="toggleDay(${d.id})">
+        <div class="day-check" id="day-check-${d.id}"></div>
+        <div class="day-title">
+          <h3>${d.title}</h3>
+          <p>${d.topics.length} topics &middot; <span id="day-mini-${d.id}"></span></p>
+        </div>
+        <span class="day-badge" id="day-badge-${d.id}">${d.hours}</span>
+        <span class="chevron" id="chev-${d.id}">&#9660;</span>
+      </div>
+      <div class="topics-list" id="topics-${d.id}">
+        ${d.topics.map((t, i) => `
+          <div class="topic-item" onclick="toggleTopic(${d.id}, ${i})">
+            <div class="topic-cb" id="cb-${d.id}-${i}"></div>
+            <span class="topic-label" id="lbl-${d.id}-${i}">${t.label}</span>
+            <span class="topic-dur">${t.dur}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(card);
+    updateDayUI(d);
+  });
+}
+
+loadState();
+render();
+updateGlobal();
+</script>

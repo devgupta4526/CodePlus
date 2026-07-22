@@ -1,0 +1,363 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.rm-wrap{padding:1rem 0}
+.rm-header{margin-bottom:1.5rem}
+.rm-header h1{font-size:22px;font-weight:500;color:var(--text-primary);margin-bottom:4px}
+.rm-header p{font-size:14px;color:var(--text-secondary)}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem}
+.filter-btn{font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid var(--border-strong);background:transparent;color:var(--text-secondary);cursor:pointer;transition:all .15s}
+.filter-btn.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.progress-bar{background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:1.25rem;display:flex;align-items:center;gap:12px}
+.pb-label{font-size:12px;color:var(--text-secondary);white-space:nowrap}
+.pb-track{flex:1;height:6px;background:var(--surface-0);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;background:var(--fill-accent);border-radius:3px;transition:width .4s ease}
+.pb-count{font-size:12px;font-weight:500;color:var(--text-accent);white-space:nowrap}
+.section{margin-bottom:1rem;border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
+.section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;background:var(--surface-1);user-select:none}
+.section-header:hover{background:var(--surface-0)}
+.sec-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.sec-info{flex:1;min-width:0}
+.sec-title{font-size:15px;font-weight:500;color:var(--text-primary)}
+.sec-sub{font-size:12px;color:var(--text-secondary);margin-top:1px}
+.sec-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.level-badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.level-basic{background:#E6F1FB;color:#0C447C}
+.level-inter{background:#EAF3DE;color:#27500A}
+.level-adv{background:#FAEEDA;color:#633806}
+.chevron{font-size:14px;color:var(--text-muted);transition:transform .2s}
+.chevron.open{transform:rotate(180deg)}
+.section-body{display:none;border-top:0.5px solid var(--border)}
+.section-body.open{display:block}
+.topic-list{padding:8px}
+.topic-item{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:background .1s}
+.topic-item:hover{background:var(--surface-0)}
+.topic-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border-strong);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.topic-check.done{background:var(--fill-accent);border-color:var(--fill-accent)}
+.topic-check.done::after{content:'✓';font-size:11px;color:white;font-weight:600}
+.topic-info{flex:1;min-width:0}
+.topic-name{font-size:14px;color:var(--text-primary);font-weight:500}
+.topic-subs{font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.5}
+.topic-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.link-btn{font-size:11px;padding:2px 8px;border-radius:10px;border:0.5px solid var(--border);color:var(--text-accent);background:var(--bg-accent);text-decoration:none;cursor:pointer}
+.link-btn:hover{background:var(--fill-accent);color:white}
+.topic-level{font-size:10px;padding:1px 6px;border-radius:6px;flex-shrink:0;margin-top:3px}
+.subtopic-group{margin:0 0 0 18px;padding:0 0 4px}
+.subtopic-item{display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:6px;cursor:pointer;transition:background .1s}
+.subtopic-item:hover{background:var(--surface-0)}
+.sub-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border-strong);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.sub-check.done{background:#1baf7a;border-color:#1baf7a}
+.sub-check.done::after{content:'✓';font-size:9px;color:white;font-weight:600}
+.sub-name{font-size:13px;color:var(--text-secondary)}
+.sec-progress{width:60px;height:4px;background:var(--surface-0);border-radius:2px;overflow:hidden}
+.sec-prog-fill{height:100%;border-radius:2px;transition:width .3s}
+.expand-toggle{font-size:11px;color:var(--text-accent);cursor:pointer;padding:2px 6px;border-radius:4px;border:none;background:transparent}
+.expand-toggle:hover{background:var(--bg-accent)}
+.search-box{width:100%;padding:8px 12px;border:0.5px solid var(--border-strong);border-radius:var(--radius);font-size:14px;color:var(--text-primary);background:var(--surface-2);margin-bottom:1rem;outline:none}
+.search-box:focus{border-color:var(--border-accent)}
+.hidden{display:none}
+</style>
+
+<h2 class="sr-only">Interactive full-stack developer learning roadmap with progress tracking</h2>
+
+<div class="rm-wrap">
+<div class="rm-header">
+  <h1>Full-stack developer roadmap</h1>
+  <p>Click topics to track progress · Expand sections to see subtopics · Filter by domain</p>
+</div>
+
+<input class="search-box" type="text" placeholder="Search topics..." id="searchBox" oninput="filterTopics()">
+
+<div class="progress-bar">
+  <span class="pb-label">Overall progress</span>
+  <div class="pb-track"><div class="pb-fill" id="mainPbFill" style="width:0%"></div></div>
+  <span class="pb-count" id="mainPbCount">0 / 0</span>
+</div>
+
+<div class="filters" id="filterBar"></div>
+<div id="roadmapContainer"></div>
+</div>
+
+<script>
+const DATA = [
+  {
+    id:'python', icon:'🐍', title:'Python', sub:'Core language foundation', level:'basic', tag:'Backend',
+    color:'#2a78d6', topics:[
+      {name:'Python basics', subs:['Variables & data types','Control flow (if/for/while)','Functions & scope','List/dict/set comprehensions','String formatting (f-strings)'], links:[{l:'Python.org Docs',u:'https://docs.python.org/3/tutorial/'},{l:'Prompt: Python Zero to Hero',u:''}]},
+      {name:'OOP in Python', subs:['Classes & objects','Inheritance & polymorphism','Dunder methods','Dataclasses','Abstract base classes'], links:[{l:'Real Python OOP',u:'https://realpython.com/python3-object-oriented-programming/'}]},
+      {name:'Advanced Python', subs:['Generators & iterators','Decorators','Context managers','Type hints & mypy','asyncio basics'], links:[{l:'Prompt: Advanced Python Concepts',u:''}]},
+      {name:'Python ecosystem', subs:['pip & virtual environments','Poetry / pipenv','Testing with pytest','Logging','argparse & CLI tools'], links:[{l:'Real Python Testing',u:'https://realpython.com/python-testing/'}]},
+    ]
+  },
+  {
+    id:'django', icon:'🎸', title:'Django & DRF', sub:'Full web framework mastery', level:'inter', tag:'Backend',
+    color:'#1baf7a', topics:[
+      {name:'Django fundamentals', subs:['MTV architecture','URL routing & views','Templates & context','Forms & validation','Admin panel'], links:[{l:'Django Docs',u:'https://docs.djangoproject.com/'},{l:'Django for Beginners (book)',u:'https://djangoforbeginners.com/'}]},
+      {name:'Django ORM', subs:['Models & migrations','QuerySets & lookups','Annotations & aggregations','select_related / prefetch_related','Custom managers'], links:[{l:'Django ORM Cookbook',u:'https://books.agiliq.com/projects/django-orm-cookbook/en/latest/'}]},
+      {name:'Django REST Framework', subs:['Serializers','APIView vs ViewSets','Routers','Authentication (JWT, Session)','Throttling & pagination'], links:[{l:'DRF Docs',u:'https://www.django-rest-framework.org/'}]},
+      {name:'Django advanced', subs:['Signals','Middleware','Custom management commands','Celery integration','Channels (WebSockets)'], links:[{l:'Prompt: Django Advanced Patterns DOCX',u:''}]},
+    ]
+  },
+  {
+    id:'fastapi', icon:'⚡', title:'FastAPI', sub:'Async Python APIs', level:'inter', tag:'Backend',
+    color:'#1baf7a', topics:[
+      {name:'FastAPI basics', subs:['Path operations & routing','Pydantic models','Request/response models','Dependency injection','Background tasks'], links:[{l:'FastAPI Docs',u:'https://fastapi.tiangolo.com/'}]},
+      {name:'Async FastAPI', subs:['async/await patterns','asyncio event loop','Concurrent request handling','Lifespan events','async database with SQLAlchemy'], links:[{l:'Prompt: FastAPI Async Deep-Dive',u:''}]},
+      {name:'FastAPI production', subs:['OAuth2 & JWT','WebSockets','File uploads (multipart)','Middleware & CORS','Testing with TestClient'], links:[{l:'Real Python FastAPI',u:'https://realpython.com/fastapi-python-web-apis/'}]},
+    ]
+  },
+  {
+    id:'graphql', icon:'🔷', title:'GraphQL & Graphene', sub:'Flexible query APIs', level:'inter', tag:'Backend',
+    color:'#4a3aa7', topics:[
+      {name:'GraphQL fundamentals', subs:['Schema definition language','Queries, mutations, subscriptions','Resolvers','Types (scalar, object, enum, union)','Variables & fragments'], links:[{l:'GraphQL.org',u:'https://graphql.org/learn/'},{l:'HowToGraphQL',u:'https://www.howtographql.com/'}]},
+      {name:'Graphene (Python)', subs:['Schema definition','ObjectType & InputType','Query & Mutation resolvers','Graphene-Django integration','DataLoader for N+1'], links:[{l:'Graphene Docs',u:'https://graphene-python.org/'}]},
+      {name:'GraphQL advanced', subs:['Authentication in context','Pagination (cursor/relay)','Subscriptions','Error handling','Introspection & security'], links:[{l:'Prompt: GraphQL Production Patterns',u:''}]},
+    ]
+  },
+  {
+    id:'celery', icon:'🌿', title:'Celery & Task Queues', sub:'Background job processing', level:'inter', tag:'Backend',
+    color:'#eda100', topics:[
+      {name:'Celery basics', subs:['Task definition & calling','Brokers (Redis / RabbitMQ)','Result backends','Periodic tasks (crontab)','Task states & monitoring'], links:[{l:'Celery Docs',u:'https://docs.celeryq.dev/'}]},
+      {name:'Celery advanced', subs:['Task chaining & chords','Priority queues','Error handling & retries','Canvas primitives (group, chord, chain)','Celery Beat'], links:[{l:'Prompt: Celery Deep-Dive DOCX',u:''}]},
+    ]
+  },
+  {
+    id:'kafka', icon:'📨', title:'Apache Kafka', sub:'Event-driven & streaming', level:'adv', tag:'Backend',
+    color:'#e34948', topics:[
+      {name:'Kafka fundamentals', subs:['Topics, partitions, offsets','Producers & consumers','Consumer groups','Brokers & ZooKeeper / KRaft','Retention & compaction'], links:[{l:'Confluent Kafka Intro',u:'https://developer.confluent.io/courses/apache-kafka/events/'},{l:'Prompt: Kafka Deep-Dive DOCX',u:''}]},
+      {name:'Kafka with Python', subs:['kafka-python / confluent-kafka','Producer patterns','Consumer commit strategies','Error handling & DLQ','Schema Registry & Avro'], links:[{l:'Confluent Python Client',u:'https://developer.confluent.io/get-started/python/'}]},
+      {name:'Kafka advanced', subs:['Kafka Streams vs Flink','Exactly-once semantics','SASL/SSL security','Monitoring with Grafana','Kafka Connect'], links:[{l:'Prompt: Kafka Advanced & Security',u:''}]},
+    ]
+  },
+  {
+    id:'redis', icon:'🔴', title:'Redis', sub:'Caching, locking & pub/sub', level:'inter', tag:'Backend',
+    color:'#e34948', topics:[
+      {name:'Redis basics', subs:['Data structures (string, hash, list, set, sorted set)','TTL & expiry','Redis CLI','Connection pooling','Transactions (MULTI/EXEC)'], links:[{l:'Redis University',u:'https://university.redis.com/'},{l:'Redis Docs',u:'https://redis.io/docs/'}]},
+      {name:'Redis patterns', subs:['Caching strategies (read-through, write-behind)','Distributed locking (Redlock)','Rate limiting','Pub/Sub','Redis GEO'], links:[{l:'Prompt: Redis Patterns & Distributed Locking',u:''}]},
+      {name:'Redis advanced', subs:['Redis Cluster','Sentinel & HA','Redis Streams','Lua scripting','redis-py & aioredis'], links:[{l:'Redis in Action (book)',u:'https://redis.com/ebook/redis-in-action/'}]},
+    ]
+  },
+  {
+    id:'postgres', icon:'🐘', title:'PostgreSQL', sub:'Advanced relational DB', level:'inter', tag:'Databases',
+    color:'#2a78d6', topics:[
+      {name:'SQL fundamentals', subs:['SELECT, JOIN, GROUP BY, HAVING','Subqueries & CTEs','Window functions (ROW_NUMBER, RANK, LAG)','EXPLAIN & ANALYZE','Indexes (B-tree, partial, composite)'], links:[{l:'PostgreSQL Tutorial',u:'https://www.postgresqltutorial.com/'},{l:'Mode SQL Tutorial',u:'https://mode.com/sql-tutorial/'}]},
+      {name:'PostgreSQL internals', subs:['MVCC & transactions','ACID properties','Locking (row, table, advisory)','Query planner & pg_stat','Partitioning'], links:[{l:'Prompt: PostgreSQL Deep-Dive DOCX',u:''}]},
+      {name:'PostgreSQL + pgvector', subs:['Vector data type','HNSW & IVFFlat indexes','Similarity search (cosine, L2)','pgvector + LangChain','Performance tuning vectors'], links:[{l:'pgvector Docs',u:'https://github.com/pgvector/pgvector'}]},
+    ]
+  },
+  {
+    id:'ai_llm', icon:'🤖', title:'AI/LLM Engineering', sub:'LangChain, RAG, Agents', level:'adv', tag:'AI/ML',
+    color:'#4a3aa7', topics:[
+      {name:'LLM basics', subs:['Tokens, temperature, top-p','Prompt engineering','System prompts & few-shot','Function calling','OpenAI & Anthropic APIs'], links:[{l:'Anthropic Docs',u:'https://docs.anthropic.com/'},{l:'Prompt: LLM Fundamentals Guide',u:''}]},
+      {name:'LangChain', subs:['Chains & LCEL','Memory types','Document loaders','Text splitters','Output parsers'], links:[{l:'LangChain Docs',u:'https://python.langchain.com/docs/'},{l:'LangChain Crash Course (YT)',u:'https://youtu.be/lG7Uxts9SXs'}]},
+      {name:'RAG pipelines', subs:['Chunking strategies','Embedding models','Vector stores (pgvector, Pinecone)','Hybrid search (BM25 + semantic)','Re-ranking'], links:[{l:'Prompt: RAG Pipeline Deep-Dive DOCX',u:''}]},
+      {name:'LangGraph & Agents', subs:['Graph nodes & edges','State management','Tool use & function calling','Multi-agent coordination','Human-in-the-loop'], links:[{l:'LangGraph Docs',u:'https://langchain-ai.github.io/langgraph/'}]},
+    ]
+  },
+  {
+    id:'react', icon:'⚛️', title:'React.js & Frontend', sub:'Modern UI development', level:'inter', tag:'Frontend',
+    color:'#1baf7a', topics:[
+      {name:'React fundamentals', subs:['JSX & components','Props & state','useEffect & lifecycle','Event handling','Conditional rendering'], links:[{l:'React Docs (Beta)',u:'https://react.dev/'},{l:'Scrimba React',u:'https://scrimba.com/learn/learnreact'}]},
+      {name:'React advanced', subs:['Custom hooks','Context API','useReducer','Refs & forwardRef','Portals & error boundaries'], links:[{l:'Prompt: React Advanced Patterns Guide',u:''}]},
+      {name:'State management', subs:['Redux Toolkit (RTK)','RTK Query','Zustand','React Query / TanStack Query','Jotai'], links:[{l:'Redux Toolkit Docs',u:'https://redux-toolkit.js.org/'},{l:'TanStack Query Docs',u:'https://tanstack.com/query/latest'}]},
+      {name:'TypeScript + React', subs:['Types vs interfaces','Generics','Utility types (Partial, Pick, Omit)','Typed hooks & events','Zod runtime validation'], links:[{l:'Total TypeScript',u:'https://www.totaltypescript.com/'},{l:'React TypeScript Cheatsheet',u:'https://react-typescript-cheatsheet.netlify.app/'}]},
+    ]
+  },
+  {
+    id:'nextjs', icon:'▲', title:'Next.js', sub:'Full-stack React framework', level:'adv', tag:'Frontend',
+    color:'#52514e', topics:[
+      {name:'Next.js basics', subs:['App Router vs Pages Router','File-based routing','Server vs Client components','Image & font optimization','API routes'], links:[{l:'Next.js Docs',u:'https://nextjs.org/docs'}]},
+      {name:'Next.js advanced', subs:['Server Actions','Streaming & Suspense','ISR & SSG','Middleware','Parallel & intercepting routes'], links:[{l:'Prompt: Next.js App Router Mastery',u:''}]},
+    ]
+  },
+  {
+    id:'docker_k8s', icon:'🐳', title:'Docker & Kubernetes', sub:'Container orchestration', level:'adv', tag:'DevOps',
+    color:'#2a78d6', topics:[
+      {name:'Docker fundamentals', subs:['Dockerfile & build context','Layer caching','Multi-stage builds','Docker Compose','Networking & volumes'], links:[{l:'Play with Docker',u:'https://labs.play-with-docker.com/'},{l:'Docker Docs',u:'https://docs.docker.com/'}]},
+      {name:'Kubernetes fundamentals', subs:['Pods, Deployments, ReplicaSets','Services (ClusterIP, NodePort, LoadBalancer)','ConfigMaps & Secrets','Namespaces','kubectl essentials'], links:[{l:'Kubernetes Docs',u:'https://kubernetes.io/docs/'},{l:'KillerCoda K8s',u:'https://killercoda.com/'}]},
+      {name:'Kubernetes advanced', subs:['Ingress & Ingress controllers','Persistent Volumes & PVCs','HPA & resource limits','Helm charts','RBAC'], links:[{l:'Prompt: Kubernetes Production Deep-Dive',u:''},{l:'CKA Udemy Course',u:'https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/'}]},
+    ]
+  },
+  {
+    id:'aws', icon:'☁️', title:'AWS', sub:'Cloud infrastructure', level:'adv', tag:'DevOps',
+    color:'#eda100', topics:[
+      {name:'AWS core services', subs:['EC2, VPC, Subnets, SGs','S3 (storage classes, lifecycle)','RDS & Aurora','IAM (users, roles, policies)','Route53 & CloudFront'], links:[{l:'AWS Skill Builder',u:'https://skillbuilder.aws/'},{l:'AWS Free Tier',u:'https://aws.amazon.com/free/'}]},
+      {name:'AWS serverless', subs:['Lambda (triggers, concurrency)','API Gateway','EventBridge','SQS & SNS','Step Functions'], links:[{l:'Prompt: AWS Serverless Patterns DOCX',u:''}]},
+      {name:'AWS for data & ML', subs:['MSK (Managed Kafka)','ElastiCache (Redis)','Cognito','DynamoDB patterns','Bedrock & SageMaker basics'], links:[{l:'A Cloud Guru',u:'https://acloudguru.com/'}]},
+    ]
+  },
+  {
+    id:'devops', icon:'⚙️', title:'DevOps & CI/CD', sub:'Automation & observability', level:'adv', tag:'DevOps',
+    color:'#1baf7a', topics:[
+      {name:'CI/CD', subs:['GitHub Actions workflows','Pipeline stages (lint, test, build, deploy)','Docker build in CI','Secrets management','Blue-green & canary deployments'], links:[{l:'GitHub Actions Docs',u:'https://docs.github.com/en/actions'}]},
+      {name:'Observability', subs:['Prometheus metrics','Grafana dashboards','Distributed tracing (Jaeger/Zipkin)','Structured logging (JSON)','Alerting rules'], links:[{l:'Prompt: Observability Stack Setup Guide',u:''}]},
+      {name:'Nginx & Infra', subs:['Reverse proxy config','SSL termination','Load balancing','Rate limiting in Nginx','Systemd & process management'], links:[{l:'Nginx Docs',u:'https://nginx.org/en/docs/'}]},
+    ]
+  },
+  {
+    id:'go', icon:'🦦', title:'Go (Golang)', sub:'Systems & cloud-native', level:'adv', tag:'Backend',
+    color:'#2a78d6', topics:[
+      {name:'Go basics', subs:['Types, structs, interfaces','Goroutines & channels','defer, panic, recover','Error handling patterns','Packages & modules'], links:[{l:'Go Tour',u:'https://go.dev/tour/'},{l:'Go by Example',u:'https://gobyexample.com/'}]},
+      {name:'Go for backend', subs:['net/http & routing','gin / echo frameworks','Database/sql & sqlx','gRPC & protobuf','Testing & benchmarks'], links:[{l:'Prompt: Go Backend Development Guide',u:''}]},
+    ]
+  },
+  {
+    id:'sql_snowflake', icon:'❄️', title:'Snowflake & Analytics SQL', sub:'Cloud data warehouse', level:'inter', tag:'Databases',
+    color:'#4a3aa7', topics:[
+      {name:'Snowflake basics', subs:['Architecture (virtual warehouses, storage)','Databases, schemas, stages','Data loading (COPY INTO)','Time Travel & Fail-safe','Tasks & streams'], links:[{l:'Snowflake Docs',u:'https://docs.snowflake.com/'},{l:'Snowflake Quickstart',u:'https://quickstarts.snowflake.com/'}]},
+      {name:'Analytical SQL', subs:['Window functions (PARTITION BY, OVER)','Pivot & unpivot','Recursive CTEs','QUALIFY','Semi-structured data (VARIANT, FLATTEN)'], links:[{l:'Prompt: Analytical SQL Mastery DOCX',u:''}]},
+    ]
+  },
+  {
+    id:'elasticsearch', icon:'🔍', title:'Elasticsearch', sub:'Search & text analytics', level:'adv', tag:'Databases',
+    color:'#eda100', topics:[
+      {name:'Elasticsearch basics', subs:['Index, document, shard','Mapping & analyzers','Full-text search (match, multi_match)','Filters vs queries','Aggregations'], links:[{l:'Elastic Docs',u:'https://www.elastic.co/guide/en/elasticsearch/'},{l:'Prompt: Elasticsearch Deep-Dive',u:''}]},
+    ]
+  },
+  {
+    id:'system_design', icon:'🏗️', title:'System Design', sub:'Architecture & scalability', level:'adv', tag:'Architecture',
+    color:'#4a3aa7', topics:[
+      {name:'Fundamentals', subs:['CAP theorem','Horizontal vs vertical scaling','Load balancing strategies','Caching layers','Database sharding & replication'], links:[{l:'System Design Primer (GitHub)',u:'https://github.com/donnemartin/system-design-primer'},{l:'ByteByteGo Newsletter',u:'https://blog.bytebytego.com/'}]},
+      {name:'Distributed systems', subs:['Eventual consistency','Saga pattern (distributed tx)','Circuit breaker & retry','Rate limiting algorithms','Idempotency patterns'], links:[{l:'Designing Data-Intensive Applications (book)',u:'https://dataintensive.net/'},{l:'Prompt: Distributed Systems Patterns DOCX',u:''}]},
+      {name:'Microservices', subs:['Service decomposition','API Gateway pattern','Service mesh (Istio)','Event sourcing & CQRS','gRPC vs REST vs GraphQL'], links:[{l:'Microservices.io',u:'https://microservices.io/'}]},
+    ]
+  },
+  {
+    id:'dsa', icon:'🧩', title:'DSA & Problem Solving', sub:'Interview preparation', level:'inter', tag:'CS Fundamentals',
+    color:'#e87ba4', topics:[
+      {name:'Core data structures', subs:['Arrays & strings','Linked lists','Stacks & queues','Trees (BST, AVL)','Graphs (adjacency list/matrix)','Heaps & priority queues'], links:[{l:'NeetCode 150',u:'https://neetcode.io/roadmap'},{l:'LeetCode',u:'https://leetcode.com/'}]},
+      {name:'Core algorithms', subs:['Binary search','Two pointers & sliding window','BFS & DFS','Dynamic programming (1D, 2D, DP on trees)','Greedy algorithms'], links:[{l:'Striver A-Z Sheet',u:'https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/'},{l:'Prompt: DSA Patterns Cheatsheet',u:''}]},
+      {name:'Advanced algorithms', subs:['Segment trees & BIT','Trie','Union-Find (DSU)','Dijkstra & Bellman-Ford','Bitmask DP'], links:[{l:'CP Algorithms',u:'https://cp-algorithms.com/'}]},
+    ]
+  },
+];
+
+const TAGS = ['All',...[...new Set(DATA.map(d=>d.tag))]];
+let activeTag='All', checked={}, openSections={}, expandedTopics={};
+
+function save(){try{localStorage.setItem('rm_v2',JSON.stringify({checked,openSections,expandedTopics}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('rm_v2')||'{}');checked=d.checked||{};openSections=d.openSections||{};expandedTopics=d.expandedTopics||{}}catch(e){}}
+
+function countAll(){
+  let total=0,done=0;
+  DATA.forEach(s=>s.topics.forEach(t=>{
+    t.subs.forEach(sub=>{
+      total++;
+      if(checked[s.id+'__'+t.name+'__'+sub])done++;
+    });
+  }));
+  return{total,done};
+}
+
+function updateGlobalProgress(){
+  const{total,done}=countAll();
+  document.getElementById('mainPbFill').style.width=(total?done/total*100:0)+'%';
+  document.getElementById('mainPbCount').textContent=done+' / '+total;
+}
+
+function sectionProgress(s){
+  let total=0,done=0;
+  s.topics.forEach(t=>t.subs.forEach(sub=>{total++;if(checked[s.id+'__'+t.name+'__'+sub])done++;}));
+  return{total,done};
+}
+
+function renderFilters(){
+  const bar=document.getElementById('filterBar');
+  bar.innerHTML=TAGS.map(t=>`<button class="filter-btn${t===activeTag?' active':''}" onclick="setTag('${t}')">${t}</button>`).join('');
+}
+
+function setTag(t){activeTag=t;renderFilters();renderRoadmap();}
+
+function filterTopics(){renderRoadmap();}
+
+function renderRoadmap(){
+  const q=(document.getElementById('searchBox').value||'').toLowerCase();
+  const container=document.getElementById('roadmapContainer');
+  const filtered=DATA.filter(s=>activeTag==='All'||s.tag===activeTag);
+  
+  container.innerHTML=filtered.map(s=>{
+    const {total,done}=sectionProgress(s);
+    const pct=total?Math.round(done/total*100):0;
+    const isOpen=openSections[s.id];
+    const levelMap={basic:'Basic',inter:'Intermediate',adv:'Advanced'};
+    const levelClass={basic:'level-basic',inter:'level-inter',adv:'level-adv'};
+    
+    const topicsHtml=s.topics.map(t=>{
+      const nameMatch=!q||t.name.toLowerCase().includes(q)||t.subs.some(sub=>sub.toLowerCase().includes(q))||s.title.toLowerCase().includes(q);
+      if(!nameMatch)return '';
+      const isExpanded=expandedTopics[s.id+'__'+t.name];
+      const allDone=t.subs.every(sub=>checked[s.id+'__'+t.name+'__'+sub]);
+      const linkHtml=t.links.map(({l,u})=>u?`<a class="link-btn" href="${u}" target="_blank" rel="noopener">${l}</a>`:`<span class="link-btn" onclick="event.stopPropagation();window.sendPrompt&&sendPrompt('Create a comprehensive DOCX study guide on ${t.name} for ${s.title} covering all subtopics with code examples and explanations')" title="Generate study guide">📄 ${l}</span>`).join('');
+      
+      const subsHtml=isExpanded?`<div class="subtopic-group">${t.subs.map(sub=>{
+        const key=s.id+'__'+t.name+'__'+sub;
+        const done=checked[key];
+        return`<div class="subtopic-item" onclick="event.stopPropagation();toggleSub('${key}')"><div class="sub-check${done?' done':''}"></div><span class="sub-name">${sub}</span></div>`;
+      }).join('')}</div>`:''
+      
+      return`<div class="topic-item" onclick="toggleExpand('${s.id}','${t.name}')">
+        <div class="topic-check${allDone?' done':''}" onclick="event.stopPropagation();toggleAllSubs('${s.id}','${t.name}')"></div>
+        <div class="topic-info">
+          <div class="topic-name">${t.name} <span style="font-size:11px;color:var(--text-muted)">${isExpanded?'▲':'▼'} ${t.subs.length} subtopics</span></div>
+          ${isExpanded?`<div class="topic-subs">${t.subs.slice(0,2).join(' · ')}${t.subs.length>2?` · +${t.subs.length-2} more`:''}</div>`:``}
+          ${isExpanded?`<div class="topic-links">${linkHtml}</div>`:``}
+        </div>
+      </div>${subsHtml}`;
+    }).join('');
+    
+    if(q&&!topicsHtml.trim())return'';
+    
+    return`<div class="section" id="sec_${s.id}">
+      <div class="section-header" onclick="toggleSection('${s.id}')">
+        <div class="sec-icon" style="background:${s.color}22">${s.icon}</div>
+        <div class="sec-info">
+          <div class="sec-title">${s.title}</div>
+          <div class="sec-sub">${s.sub}</div>
+        </div>
+        <div class="sec-meta">
+          <div>
+            <div class="sec-progress"><div class="sec-prog-fill" style="width:${pct}%;background:${s.color}"></div></div>
+            <div style="font-size:10px;color:var(--text-muted);text-align:right;margin-top:2px">${done}/${total}</div>
+          </div>
+          <span class="level-badge ${levelClass[s.level]}">${levelMap[s.level]}</span>
+          <span class="chevron${isOpen?' open':''}"><i class="ti ti-chevron-down"></i></span>
+        </div>
+      </div>
+      <div class="section-body${isOpen?' open':''}" id="body_${s.id}">
+        <div class="topic-list">${topicsHtml||'<p style="font-size:13px;color:var(--text-muted);padding:12px">No topics match your search.</p>'}</div>
+      </div>
+    </div>`;
+  }).join('');
+  
+  updateGlobalProgress();
+}
+
+function toggleSection(id){
+  openSections[id]=!openSections[id];
+  save();renderRoadmap();
+  setTimeout(()=>{const el=document.getElementById('sec_'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'})},50);
+}
+
+function toggleExpand(sid,tname){
+  const key=sid+'__'+tname;
+  expandedTopics[key]=!expandedTopics[key];
+  save();renderRoadmap();
+}
+
+function toggleSub(key){
+  checked[key]=!checked[key];
+  save();renderRoadmap();
+}
+
+function toggleAllSubs(sid,tname){
+  const s=DATA.find(d=>d.id===sid);
+  const t=s&&s.topics.find(tp=>tp.name===tname);
+  if(!t)return;
+  const allDone=t.subs.every(sub=>checked[sid+'__'+tname+'__'+sub]);
+  t.subs.forEach(sub=>{checked[sid+'__'+tname+'__'+sub]=!allDone;});
+  save();renderRoadmap();
+}
+
+load();renderFilters();renderRoadmap();
+</script>

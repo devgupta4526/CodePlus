@@ -1,0 +1,324 @@
+
+<style>
+.prob-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.prob-card:hover { border-color: var(--color-border-secondary); }
+.prob-card.done { border-left: 3px solid #1D9E75; }
+.prob-tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; margin-right: 6px; }
+.tag-easy { background: #E1F5EE; color: #085041; }
+.tag-med { background: #FAEEDA; color: #633806; }
+.tag-hard { background: #FAECE7; color: #4A1B0C; }
+.tag-concept { background: #EEEDFE; color: #26215C; font-size: 10px; }
+.tier-header { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+.tier-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.hint { font-size: 12px; color: var(--color-text-secondary); margin-top: 6px; display: none; line-height: 1.6; }
+.hint.open { display: block; }
+.prob-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.prob-meta { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
+.check-btn { float: right; font-size: 12px; color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: 4px; padding: 2px 8px; background: transparent; cursor: pointer; }
+.check-btn.done { color: #1D9E75; border-color: #1D9E75; }
+.progress-bar { height: 6px; background: var(--color-background-secondary); border-radius: 3px; margin-bottom: 4px; }
+.progress-fill { height: 100%; background: #1D9E75; border-radius: 3px; transition: width 0.3s; }
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); font-size: 13px; cursor: pointer; background: transparent; color: var(--color-text-secondary); }
+.tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-secondary); }
+.section { display: none; }
+.section.active { display: block; }
+</style>
+
+<h2 class="sr-only">DP on Trees and Rerooting — Problem Ladder</h2>
+
+<div style="padding: 1rem 0 0">
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px">
+    <span style="font-size:13px; color:var(--color-text-secondary)">Progress</span>
+    <span id="prog-text" style="font-size:13px; color:var(--color-text-secondary)">0 / 20 solved</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-bar" style="width:0%"></div></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('all')">All Problems</button>
+    <button class="tab" onclick="switchTab('concept')">By Concept</button>
+    <button class="tab" onclick="switchTab('done')">Solved</button>
+  </div>
+
+  <div id="tab-all" class="section active">
+
+  <div class="tier-header"><span class="tier-dot" style="background:#1D9E75"></span>Tier 1 — Tree DP Foundations</div>
+
+  <div class="prob-card" id="p1" onclick="toggleHint('p1')">
+    <button class="check-btn" id="btn-p1" onclick="event.stopPropagation(); markDone('p1')">Mark done</button>
+    <div class="prob-title">Diameter of Binary Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-easy">Easy</span><span class="prob-tag tag-concept">Tree DP basics</span> LeetCode 543</div>
+    <div class="hint" id="hint-p1">
+      <b>Concept:</b> dp[node] = longest path through node = left_depth + right_depth.<br>
+      <b>Hinglish:</b> Har node pe socho: left subtree ki max depth + right subtree ki max depth = diameter through this node. Global max track karo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p2" onclick="toggleHint('p2')">
+    <button class="check-btn" id="btn-p2" onclick="event.stopPropagation(); markDone('p2')">Mark done</button>
+    <div class="prob-title">Binary Tree Maximum Path Sum</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Tree DP basics</span> LeetCode 124</div>
+    <div class="hint" id="hint-p2">
+      <b>Concept:</b> At each node, two choices: extend path upward (return max(left,right)+val) or close path here (ans = left+right+val).<br>
+      <b>Hinglish:</b> DFS mein "upar kya return karein" aur "yahan close karein" — do alag values track karo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p3" onclick="toggleHint('p3')">
+    <button class="check-btn" id="btn-p3" onclick="event.stopPropagation(); markDone('p3')">Mark done</button>
+    <div class="prob-title">House Robber III</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Tree DP with states</span> LeetCode 337</div>
+    <div class="hint" id="hint-p3">
+      <b>Concept:</b> dp[node] = pair(rob_this, skip_this). If you rob node, you can't rob children.<br>
+      <b>Hinglish:</b> Har node pe do states rakho: "is node ko liya" ya "nahi liya". Children se dono values lao aur combine karo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p4" onclick="toggleHint('p4')">
+    <button class="check-btn" id="btn-p4" onclick="event.stopPropagation(); markDone('p4')">Mark done</button>
+    <div class="prob-title">Subtree of Another Tree (size/hash DP)</div>
+    <div class="prob-meta"><span class="prob-tag tag-easy">Easy</span><span class="prob-tag tag-concept">Subtree DP</span> LeetCode 572</div>
+    <div class="hint" id="hint-p4">
+      <b>Concept:</b> Compute a hash/value for each subtree bottom-up. Compare.<br>
+      <b>Hinglish:</b> Leaf se upar hash banate jao. Same hash = same subtree. O(N) possible.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p5" onclick="toggleHint('p5')">
+    <button class="check-btn" id="btn-p5" onclick="event.stopPropagation(); markDone('p5')">Mark done</button>
+    <div class="prob-title">Longest Path in Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Tree DP basics</span> Codeforces / custom</div>
+    <div class="hint" id="hint-p5">
+      <b>Concept:</b> dp[node] = longest downward path. Use two largest children for diameter.<br>
+      <b>Hinglish:</b> Diameter of tree ka generalized version — weighted tree pe bhi same trick chalti hai.
+    </div>
+  </div>
+
+  <div class="tier-header"><span class="tier-dot" style="background:#EF9F27"></span>Tier 2 — Classic Tree DP Patterns</div>
+
+  <div class="prob-card" id="p6" onclick="toggleHint('p6')">
+    <button class="check-btn" id="btn-p6" onclick="event.stopPropagation(); markDone('p6')">Mark done</button>
+    <div class="prob-title">Number of Nodes in Subtree</div>
+    <div class="prob-meta"><span class="prob-tag tag-easy">Easy</span><span class="prob-tag tag-concept">Subtree sizes</span> Prerequisite for rerooting</div>
+    <div class="hint" id="hint-p6">
+      <b>Concept:</b> sz[node] = 1 + sum(sz[children]). The simplest tree DP — master this first.<br>
+      <b>Hinglish:</b> Yeh rerooting ka building block hai. Pehle yeh achhe se samjho.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p7" onclick="toggleHint('p7')">
+    <button class="check-btn" id="btn-p7" onclick="event.stopPropagation(); markDone('p7')">Mark done</button>
+    <div class="prob-title">Sum of Distances in Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Rerooting DP</span> LeetCode 834 ⭐ Classic</div>
+    <div class="hint" id="hint-p7">
+      <b>Concept:</b> THE classic rerooting problem. Pass 1: sum of distances from root. Pass 2: when you move root from u to neighbor v, distances to v's subtree decrease by sz[v], rest increase by (N - sz[v]).<br>
+      <b>Hinglish:</b> Rerooting ka sabse pehla problem. Isko samjho toh sab samajh aayega. ans[v] = ans[u] - sz[v] + (N - sz[v]).
+    </div>
+  </div>
+
+  <div class="prob-card" id="p8" onclick="toggleHint('p8')">
+    <button class="check-btn" id="btn-p8" onclick="event.stopPropagation(); markDone('p8')">Mark done</button>
+    <div class="prob-title">Distribute Coins in Binary Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Tree DP — flow</span> LeetCode 979</div>
+    <div class="hint" id="hint-p8">
+      <b>Concept:</b> excess[node] = coins_in_subtree - nodes_in_subtree. Moves = sum of |excess| over all edges.<br>
+      <b>Hinglish:</b> Har edge pe kitne coins pass hone chahiye — yeh subtree DP se nikaalo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p9" onclick="toggleHint('p9')">
+    <button class="check-btn" id="btn-p9" onclick="event.stopPropagation(); markDone('p9')">Mark done</button>
+    <div class="prob-title">Maximum Product of Splitted Binary Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Subtree sums</span> LeetCode 1339</div>
+    <div class="hint" id="hint-p9">
+      <b>Concept:</b> For each edge cut, product = subtree_sum × (total - subtree_sum). Precompute all subtree sums.<br>
+      <b>Hinglish:</b> Pehle total sum nikalo. Phir har subtree sum nikalo (tree DP). Best split dhundho.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p10" onclick="toggleHint('p10')">
+    <button class="check-btn" id="btn-p10" onclick="event.stopPropagation(); markDone('p10')">Mark done</button>
+    <div class="prob-title">Count Nodes Equal to Average of Subtree</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Subtree DP</span> LeetCode 2265</div>
+    <div class="hint" id="hint-p10">
+      <b>Concept:</b> Return (sum, count) pair from each subtree. Check if sum/count == node.val.<br>
+      <b>Hinglish:</b> Har subtree se (sum, size) return karo — pair return karna tree DP ka common trick hai.
+    </div>
+  </div>
+
+  <div class="tier-header"><span class="tier-dot" style="background:#D85A30"></span>Tier 3 — Rerooting Deep Dive</div>
+
+  <div class="prob-card" id="p11" onclick="toggleHint('p11')">
+    <button class="check-btn" id="btn-p11" onclick="event.stopPropagation(); markDone('p11')">Mark done</button>
+    <div class="prob-title">Count Nodes with More Connections on One Side</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Rerooting</span> LeetCode 2858 / similar</div>
+    <div class="hint" id="hint-p11">
+      <b>Concept:</b> Use sz[] (subtree sizes) + rerooting to get "nodes on each side" for every node.<br>
+      <b>Hinglish:</b> Rerooting se har node ke liye pata chalega ki kitne nodes uske upar hain, kitne neeche.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p12" onclick="toggleHint('p12')">
+    <button class="check-btn" id="btn-p12" onclick="event.stopPropagation(); markDone('p12')">Mark done</button>
+    <div class="prob-title">Find the Center of a Tree (min eccentricity)</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Rerooting — max depth</span> CF 708C or similar</div>
+    <div class="hint" id="hint-p12">
+      <b>Concept:</b> For each node as root, find max distance to any leaf. Rerooting gives O(N).<br>
+      <b>Hinglish:</b> down[] = max depth downward. up[] = max depth if we go "upward via parent". Combine karo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p13" onclick="toggleHint('p13')">
+    <button class="check-btn" id="btn-p13" onclick="event.stopPropagation(); markDone('p13')">Mark done</button>
+    <div class="prob-title">Number of Good Paths (Rerooting variant)</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Rerooting + counting</span> LeetCode 2421</div>
+    <div class="hint" id="hint-p13">
+      <b>Concept:</b> Count paths where max value = endpoint values. DSU + tree DP.<br>
+      <b>Hinglish:</b> Edges ko value ke order mein add karo (DSU). Har component mein matching-value nodes count karo.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p14" onclick="toggleHint('p14')">
+    <button class="check-btn" id="btn-p14" onclick="event.stopPropagation(); markDone('p14')">Mark done</button>
+    <div class="prob-title">Rerooting: Maximum Score After Changing Connections</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Rerooting</span> LeetCode 2538</div>
+    <div class="hint" id="hint-p14">
+      <b>Concept:</b> ans[node] = sum_of_subtree_values if this node were root. Pure rerooting.<br>
+      <b>Hinglish:</b> Har node ko root maan ke tree ka total "score" nikalna — classic rerooting se O(N) mein.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p15" onclick="toggleHint('p15')">
+    <button class="check-btn" id="btn-p15" onclick="event.stopPropagation(); markDone('p15')">Mark done</button>
+    <div class="prob-title">CF 1822G — Replacing Ith Edge</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Rerooting on edges</span> Codeforces 1822G</div>
+    <div class="hint" id="hint-p15">
+      <b>Concept:</b> For each edge, compute contribution if it's removed. Rerooting on edges.<br>
+      <b>Hinglish:</b> Nodes ke bajaay edges pe rerooting karo — slightly tricky but same idea.
+    </div>
+  </div>
+
+  <div class="tier-header"><span class="tier-dot" style="background:#7F77DD"></span>Tier 4 — DAG DP & Advanced</div>
+
+  <div class="prob-card" id="p16" onclick="toggleHint('p16')">
+    <button class="check-btn" id="btn-p16" onclick="event.stopPropagation(); markDone('p16')">Mark done</button>
+    <div class="prob-title">Longest Path in DAG</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">DAG DP — topo sort</span> Classic problem</div>
+    <div class="hint" id="hint-p16">
+      <b>Concept:</b> Topological sort → DP in topo order. dp[u] = max(dp[v]+1) for all edges u→v.<br>
+      <b>Hinglish:</b> Pehle topo sort karo (BFS ya DFS). Phir uski order mein dp karo. Tree DP ka DAG version.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p17" onclick="toggleHint('p17')">
+    <button class="check-btn" id="btn-p17" onclick="event.stopPropagation(); markDone('p17')">Mark done</button>
+    <div class="prob-title">Count Paths in DAG / Number of Ways to Reach Destination</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">DAG DP — counting</span> LeetCode 1976 (ways variant)</div>
+    <div class="hint" id="hint-p17">
+      <b>Concept:</b> ways[node] = sum of ways[predecessor]. Process in reverse topo order.<br>
+      <b>Hinglish:</b> Kitne raaste hain — DAG mein DP se count karo. dp[destination]=1, baaki topo reverse mein.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p18" onclick="toggleHint('p18')">
+    <button class="check-btn" id="btn-p18" onclick="event.stopPropagation(); markDone('p18')">Mark done</button>
+    <div class="prob-title">CF 839C — Journey</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Tree DP + probability</span> Codeforces 839C</div>
+    <div class="hint" id="hint-p18">
+      <b>Concept:</b> Expected value DP on tree. At each node, decide to stop or go deeper.<br>
+      <b>Hinglish:</b> Probability tree DP — dp[node] = expected score. Har node pe "ruko ya aage jao" ka decision.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p19" onclick="toggleHint('p19')">
+    <button class="check-btn" id="btn-p19" onclick="event.stopPropagation(); markDone('p19')">Mark done</button>
+    <div class="prob-title">Tree DP with Knapsack — CF 161D / CF 1033E</div>
+    <div class="prob-meta"><span class="prob-tag tag-hard">Hard</span><span class="prob-tag tag-concept">Tree knapsack</span> O(N²) tree DP</div>
+    <div class="hint" id="hint-p19">
+      <b>Concept:</b> Each node has a "budget" and merging subtrees is a knapsack. Key insight: total work is O(N²) due to small-large merging.<br>
+      <b>Hinglish:</b> Har subtree ek knapsack hai. Children merge karte waqt sizes ka product total O(N²) hota hai — this is the "tree knapsack" trick.
+    </div>
+  </div>
+
+  <div class="prob-card" id="p20" onclick="toggleHint('p20')">
+    <button class="check-btn" id="btn-p20" onclick="event.stopPropagation(); markDone('p20')">Mark done</button>
+    <div class="prob-title">Minimum Vertex Cover / Maximum Independent Set on Tree</div>
+    <div class="prob-meta"><span class="prob-tag tag-med">Medium</span><span class="prob-tag tag-concept">Tree DP — classic combinatorics</span></div>
+    <div class="hint" id="hint-p20">
+      <b>Concept:</b> dp[node][0/1] = min cover / max independent set if node is included or excluded.<br>
+      <b>Hinglish:</b> Yeh graph theory ka ek classic hai trees pe. dp[node][0] = node nahi liya, dp[node][1] = liya. Children se transitions simple hain.
+    </div>
+  </div>
+
+  </div><!-- end tab-all -->
+
+  <div id="tab-concept" class="section">
+    <div style="font-size:13px; color:var(--color-text-secondary); line-height:2">
+      <div style="margin-bottom:12px"><b style="font-weight:500">🌱 Basic Tree DP</b> — P1, P2, P3, P4, P5</div>
+      <div style="margin-bottom:12px"><b style="font-weight:500">📐 Subtree Sizes & Sums</b> — P6, P8, P9, P10</div>
+      <div style="margin-bottom:12px"><b style="font-weight:500">🔁 Rerooting DP</b> — P7 (start here!), P11, P12, P13, P14, P15</div>
+      <div style="margin-bottom:12px"><b style="font-weight:500">➡️ DAG DP</b> — P16, P17</div>
+      <div style="margin-bottom:12px"><b style="font-weight:500">🧩 Advanced Patterns</b> — P18 (probability), P19 (knapsack), P20 (MVC/MIS)</div>
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:12px; font-size:13px; color:var(--color-text-secondary); line-height:1.8; margin-top:8px">
+      <b style="font-weight:500; color:var(--color-text-primary)">Suggested order for rerooting:</b><br>
+      P6 (subtree sizes) → P7 (sum of distances) → P12 (max depth rerooting) → P11 → P14 → P15
+    </div>
+  </div>
+
+  <div id="tab-done" class="section">
+    <div id="done-list" style="font-size:13px; color:var(--color-text-secondary); padding: 20px 0; text-align:center">No problems solved yet. Mark some done!</div>
+  </div>
+
+</div>
+
+<script>
+const titles = {
+  p1:'Diameter of Binary Tree', p2:'Binary Tree Maximum Path Sum', p3:'House Robber III',
+  p4:'Subtree of Another Tree', p5:'Longest Path in Tree', p6:'Number of Nodes in Subtree',
+  p7:'Sum of Distances in Tree', p8:'Distribute Coins in Binary Tree', p9:'Max Product of Splitted Tree',
+  p10:'Count Nodes Equal to Average', p11:'Good Connections Rerooting', p12:'Find Tree Center',
+  p13:'Number of Good Paths', p14:'Max Score After Changing Connections', p15:'CF 1822G Replacing Edge',
+  p16:'Longest Path in DAG', p17:'Count Paths in DAG', p18:'CF 839C Journey',
+  p19:'Tree Knapsack', p20:'Min Vertex Cover on Tree'
+};
+let done = new Set();
+
+function toggleHint(id) {
+  const h = document.getElementById('hint-'+id);
+  h.classList.toggle('open');
+}
+
+function markDone(id) {
+  const btn = document.getElementById('btn-'+id);
+  const card = document.getElementById(id);
+  if (done.has(id)) {
+    done.delete(id);
+    btn.textContent = 'Mark done';
+    btn.classList.remove('done');
+    card.classList.remove('done');
+  } else {
+    done.add(id);
+    btn.textContent = '✓ Done';
+    btn.classList.add('done');
+    card.classList.add('done');
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const n = done.size;
+  document.getElementById('prog-text').textContent = n + ' / 20 solved';
+  document.getElementById('prog-bar').style.width = (n/20*100) + '%';
+  const dl = document.getElementById('done-list');
+  if (n === 0) { dl.textContent = 'No problems solved yet. Mark some done!'; }
+  else { dl.innerHTML = [...done].map(id => '<div style="padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary)">✓ ' + titles[id] + '</div>').join(''); }
+}
+
+function switchTab(t) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+}
+</script>

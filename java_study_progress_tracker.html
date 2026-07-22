@@ -1,0 +1,312 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .tracker { padding: 1.25rem 0; }
+  .header-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+  .stat-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; text-align: center; }
+  .stat-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .stat-sub { font-size: 12px; color: var(--color-text-tertiary); margin-top: 2px; }
+  .progress-bar-wrap { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
+  .progress-bar-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
+  .progress-bar-track { background: var(--color-border-tertiary); border-radius: 100px; height: 10px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 100px; background: #1D9E75; transition: width 0.4s ease; }
+  .day-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 12px; overflow: hidden; }
+  .day-header { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.1rem; cursor: pointer; user-select: none; }
+  .day-header:hover { background: var(--color-background-secondary); }
+  .day-check { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--color-border-secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .day-check.done { background: #1D9E75; border-color: #1D9E75; }
+  .day-check.done::after { content: ''; display: block; width: 6px; height: 10px; border: 2px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
+  .day-title { flex: 1; }
+  .day-title h3 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .day-title p { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .day-badge { font-size: 11px; padding: 3px 9px; border-radius: 100px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); white-space: nowrap; }
+  .day-badge.partial { background: #FAEEDA; color: #854F0B; border-color: #FAC775; }
+  .day-badge.complete { background: #E1F5EE; color: #0F6E56; border-color: #5DCAA5; }
+  .day-progress-mini { font-size: 11px; color: var(--color-text-tertiary); margin-left: 4px; }
+  .chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+  .chevron.open { transform: rotate(180deg); }
+  .topics-list { padding: 0 1.1rem 0.85rem 1.1rem; display: none; }
+  .topics-list.open { display: block; }
+  .topic-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); cursor: pointer; }
+  .topic-item:last-child { border-bottom: none; }
+  .topic-item:hover .topic-label { color: var(--color-text-primary); }
+  .topic-cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--color-border-secondary); flex-shrink: 0; margin-top: 1px; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+  .topic-cb.checked { background: #1D9E75; border-color: #1D9E75; }
+  .topic-cb.checked::after { content: ''; display: block; width: 4px; height: 7px; border: 1.5px solid white; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
+  .topic-label { font-size: 13px; color: var(--color-text-secondary); flex: 1; transition: color 0.15s; }
+  .topic-label.checked { color: var(--color-text-tertiary); text-decoration: line-through; }
+  .topic-dur { font-size: 11px; color: var(--color-text-tertiary); white-space: nowrap; }
+  .reset-btn { font-size: 12px; color: var(--color-text-tertiary); background: none; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 4px 10px; cursor: pointer; margin-top: 1rem; }
+  .reset-btn:hover { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .goal-banner { background: #E1F5EE; border: 0.5px solid #5DCAA5; border-radius: var(--border-radius-lg); padding: 0.85rem 1.1rem; text-align: center; margin-bottom: 1.5rem; display: none; }
+  .goal-banner p { font-size: 14px; font-weight: 500; color: #0F6E56; }
+</style>
+
+<div class="tracker">
+  <h2 class="sr-only" style="display:none">Java study progress tracker — 7 days, 17.3 total hours</h2>
+
+  <div class="header-stats">
+    <div class="stat-card">
+      <div class="stat-label">Topics done</div>
+      <div class="stat-value" id="stat-topics">0</div>
+      <div class="stat-sub" id="stat-topics-total">of 49</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Hours watched</div>
+      <div class="stat-value" id="stat-hours">0</div>
+      <div class="stat-sub">of 17.3 hrs</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Days complete</div>
+      <div class="stat-value" id="stat-days">0</div>
+      <div class="stat-sub">of 7 days</div>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-label">
+      <span>Overall progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="main-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="goal-banner" id="goal-banner">
+    <p>🎉 All 17.3 hours complete — great work!</p>
+  </div>
+
+  <div id="days-container"></div>
+
+  <div style="text-align:right">
+    <button class="reset-btn" onclick="resetAll()">Reset all progress</button>
+  </div>
+</div>
+
+<script>
+const DAYS = [
+  {
+    id: 1,
+    title: "Day 1: Java Core & Memory",
+    hours: "2h 31m",
+    topics: [
+      { label: "OOPs Fundamentals | 4 pillars", dur: "97m", mins: 97 },
+      { label: "How Java program works (JVM, JRE, JDK)", dur: "86m", mins: 86 },
+      { label: "Why only 1 public class in Java", dur: "6m", mins: 6 },
+      { label: "Java Variables P1 Primitive", dur: "49m", mins: 49 },
+      { label: "How Float & Double stored in memory", dur: "21m", mins: 21 },
+      { label: "Java Variables P2 Non Primitive", dur: "43m", mins: 43 },
+    ]
+  },
+  {
+    id: 2,
+    title: "Day 2: Classes, Constructors & OOPs Deep Dive",
+    hours: "2h 39m",
+    topics: [
+      { label: "Java Methods", dur: "61m", mins: 61 },
+      { label: "Java Constructor", dur: "35m", mins: 35 },
+      { label: "Java Memory Management", dur: "49m", mins: 49 },
+      { label: "Java Classes P1", dur: "50m", mins: 50 },
+      { label: "Java Generic Classes", dur: "52m", mins: 52 },
+      { label: "Java Enum, POJO & Final Class", dur: "43m", mins: 43 },
+      { label: "Java Singleton & Immutable Class", dur: "28m", mins: 28 },
+    ]
+  },
+  {
+    id: 3,
+    title: "Day 3: Interfaces, Exceptions & Advanced Core",
+    hours: "2h 25m",
+    topics: [
+      { label: "Java Interface", dur: "45m", mins: 45 },
+      { label: "Default, Static & Private method in interface", dur: "28m", mins: 28 },
+      { label: "Functional Interface & Lambda", dur: "32m", mins: 32 },
+      { label: "Java Reflection", dur: "38m", mins: 38 },
+      { label: "Java Annotations", dur: "71m", mins: 71 },
+      { label: "Exception Handling", dur: "75m", mins: 75 },
+    ]
+  },
+  {
+    id: 4,
+    title: "Day 4: Flow Control & Collections P1",
+    hours: "2h 22m",
+    topics: [
+      { label: "Operators in Java", dur: "57m", mins: 57 },
+      { label: "Control Flow Statements", dur: "52m", mins: 52 },
+      { label: "Collections in Java P1", dur: "41m", mins: 41 },
+      { label: "Collections P2 Comparable VS Comparator PQ", dur: "61m", mins: 61 },
+      { label: "Collections P3 Dequeue & List", dur: "72m", mins: 72 },
+    ]
+  },
+  {
+    id: 5,
+    title: "Day 5: Collections P2, Streams & Intro to Threads",
+    hours: "2h 34m",
+    topics: [
+      { label: "Collections P4 Hashmap", dur: "58m", mins: 58 },
+      { label: "Collections P5 LinkedHashMap TreeMap", dur: "37m", mins: 37 },
+      { label: "Collections P6 SET", dur: "21m", mins: 21 },
+      { label: "Streams in Java 8", dur: "75m", mins: 75 },
+      { label: "MultiThreading & Concurrency", dur: "48m", mins: 48 },
+      { label: "Thread Creation, Lifecycle", dur: "68m", mins: 68 },
+    ]
+  },
+  {
+    id: 6,
+    title: "Day 6: Advanced Multithreading & Concurrency",
+    hours: "2h 38m",
+    topics: [
+      { label: "Thread Joining, Daemon, Priority", dur: "45m", mins: 45 },
+      { label: "Locks & Condition", dur: "47m", mins: 47 },
+      { label: "Lock Free Concurrency", dur: "42m", mins: 42 },
+      { label: "Thread Pools", dur: "77m", mins: 77 },
+      { label: "Java 8 CompletableFuture", dur: "66m", mins: 66 },
+      { label: "ForkJoin Pool, Work Stealing Pool", dur: "39m", mins: 39 },
+    ]
+  },
+  {
+    id: 7,
+    title: "Day 7: Modern Java Features & I/O",
+    hours: "3h 4m",
+    topics: [
+      { label: "Java ScheduledThreadPoolExecutor", dur: "23m", mins: 23 },
+      { label: "Java Virtual Threads", dur: "23m", mins: 23 },
+      { label: "Project Lombok", dur: "28m", mins: 28 },
+      { label: "Java 21 Sequenced Collection", dur: "38m", mins: 38 },
+      { label: "Java 17: Sealed Classes & Interface", dur: "10m", mins: 10 },
+      { label: "Switch Expressions Deep Dive", dur: "23m", mins: 23 },
+      { label: "Java 21 pattern matching for instanceof", dur: "9m", mins: 9 },
+      { label: "Java 21 pattern matching for switch", dur: "19m", mins: 19 },
+      { label: "Java 16 Record Class", dur: "36m", mins: 36 },
+      { label: "Java 15 Text Block", dur: "19m", mins: 19 },
+      { label: "Java optional from Java 8 to 11", dur: "74m", mins: 74 },
+      { label: "Java traditional File Handling", dur: "65m", mins: 65 },
+    ]
+  }
+];
+
+const TOTAL_TOPICS = DAYS.reduce((s, d) => s + d.topics.length, 0);
+const TOTAL_MINS = DAYS.reduce((s, d) => d.topics.reduce((ss, t) => ss + t.mins, 0) + s, 0);
+
+let state = {};
+let open = {};
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem('java_tracker') || '{}'); } catch(e) { state = {}; }
+}
+function saveState() {
+  try { localStorage.setItem('java_tracker', JSON.stringify(state)); } catch(e) {}
+}
+
+function topicKey(dayId, i) { return `d${dayId}_t${i}`; }
+
+function getStats() {
+  let doneMins = 0, doneTopics = 0, doneDays = 0;
+  DAYS.forEach(d => {
+    let allDone = true;
+    d.topics.forEach((t, i) => {
+      if (state[topicKey(d.id, i)]) { doneTopics++; doneMins += t.mins; }
+      else allDone = false;
+    });
+    if (allDone) doneDays++;
+  });
+  return { doneMins, doneTopics, doneDays };
+}
+
+function updateGlobal() {
+  const { doneMins, doneTopics, doneDays } = getStats();
+  const pct = Math.round((doneMins / TOTAL_MINS) * 100);
+  const hrs = (doneMins / 60).toFixed(1);
+  document.getElementById('stat-topics').textContent = doneTopics;
+  document.getElementById('stat-topics-total').textContent = `of ${TOTAL_TOPICS}`;
+  document.getElementById('stat-hours').textContent = hrs;
+  document.getElementById('stat-days').textContent = doneDays;
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('main-bar').style.width = pct + '%';
+  document.getElementById('goal-banner').style.display = doneTopics === TOTAL_TOPICS ? 'block' : 'none';
+}
+
+function updateDayUI(d) {
+  const done = d.topics.filter((t, i) => state[topicKey(d.id, i)]).length;
+  const total = d.topics.length;
+  const allDone = done === total;
+  const check = document.getElementById(`day-check-${d.id}`);
+  const badge = document.getElementById(`day-badge-${d.id}`);
+  const mini = document.getElementById(`day-mini-${d.id}`);
+  if (check) { check.className = 'day-check' + (allDone ? ' done' : ''); }
+  if (badge) {
+    if (allDone) { badge.className = 'day-badge complete'; badge.textContent = 'Complete'; }
+    else if (done > 0) { badge.className = 'day-badge partial'; badge.textContent = 'In progress'; }
+    else { badge.className = 'day-badge'; badge.textContent = d.hours; }
+  }
+  if (mini) mini.textContent = done > 0 && !allDone ? `${done}/${total}` : '';
+  d.topics.forEach((t, i) => {
+    const cb = document.getElementById(`cb-${d.id}-${i}`);
+    const lbl = document.getElementById(`lbl-${d.id}-${i}`);
+    const checked = state[topicKey(d.id, i)];
+    if (cb) cb.className = 'topic-cb' + (checked ? ' checked' : '');
+    if (lbl) lbl.className = 'topic-label' + (checked ? ' checked' : '');
+  });
+}
+
+function toggleTopic(dayId, i) {
+  const key = topicKey(dayId, i);
+  state[key] = !state[key];
+  saveState();
+  const d = DAYS.find(x => x.id === dayId);
+  updateDayUI(d);
+  updateGlobal();
+}
+
+function toggleDay(dayId) {
+  open[dayId] = !open[dayId];
+  const list = document.getElementById(`topics-${dayId}`);
+  const chev = document.getElementById(`chev-${dayId}`);
+  if (list) list.className = 'topics-list' + (open[dayId] ? ' open' : '');
+  if (chev) chev.className = 'chevron' + (open[dayId] ? ' open' : '');
+}
+
+function resetAll() {
+  state = {};
+  saveState();
+  DAYS.forEach(d => updateDayUI(d));
+  updateGlobal();
+}
+
+function render() {
+  const container = document.getElementById('days-container');
+  container.innerHTML = '';
+  DAYS.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    card.innerHTML = `
+      <div class="day-header" onclick="toggleDay(${d.id})">
+        <div class="day-check" id="day-check-${d.id}"></div>
+        <div class="day-title">
+          <h3>${d.title}</h3>
+          <p>${d.topics.length} topics &middot; <span id="day-mini-${d.id}"></span></p>
+        </div>
+        <span class="day-badge" id="day-badge-${d.id}">${d.hours}</span>
+        <span class="chevron" id="chev-${d.id}">&#9660;</span>
+      </div>
+      <div class="topics-list" id="topics-${d.id}">
+        ${d.topics.map((t, i) => `
+          <div class="topic-item" onclick="toggleTopic(${d.id}, ${i})">
+            <div class="topic-cb" id="cb-${d.id}-${i}"></div>
+            <span class="topic-label" id="lbl-${d.id}-${i}">${t.label}</span>
+            <span class="topic-dur">${t.dur}</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(card);
+    updateDayUI(d);
+  });
+}
+
+loadState();
+render();
+updateGlobal();
+</script>

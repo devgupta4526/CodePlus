@@ -1,0 +1,497 @@
+
+<style>
+
+:root {
+  --color-background-primary: #0B0B0C;
+  --color-background-secondary: #18191B;
+  --color-border-secondary: #2F3136;
+  --color-border-tertiary: #404040;
+  
+  --color-text-primary: #F5F5F4;
+  --color-text-secondary: #CFCFC8;
+  --color-text-tertiary: #8C8C85;
+  
+  --color-background-info: rgba(59, 130, 246, 0.15);
+  --color-border-info: rgba(59, 130, 246, 0.4);
+  --color-text-info: #60A5FA;
+  
+  --color-background-success: rgba(16, 185, 129, 0.15);
+  --color-border-success: rgba(16, 185, 129, 0.4);
+  --color-text-success: #34D399;
+  
+  --color-background-warning: rgba(245, 158, 11, 0.15);
+  --color-border-warning: rgba(245, 158, 11, 0.4);
+  --color-text-warning: #FBBF24;
+  
+  --color-background-danger: rgba(239, 68, 68, 0.15);
+  --color-border-danger: rgba(239, 68, 68, 0.4);
+  --color-text-danger: #F87171;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+body {
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  margin: 2rem auto;
+  max-width: 900px;
+  line-height: 1.6;
+}
+
+*{box-sizing:border-box}
+h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.pat-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.pat-btn{padding:7px 13px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;font-size:12px;cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans)}
+.pat-btn.active{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.pat-panel{display:none}.pat-panel.active{display:block}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px}
+.concept-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.concept-box b{font-weight:500;color:var(--color-text-primary)}
+code,pre{font-family:var(--font-mono);font-size:12px}
+.code-block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:12px 14px;margin:10px 0;overflow-x:auto;white-space:pre;font-size:12px;font-family:var(--font-mono);color:var(--color-text-primary);line-height:1.7}
+.hl{color:var(--color-text-info);font-weight:500}
+.hl2{color:var(--color-text-success)}
+.hl3{color:var(--color-text-warning)}
+.step-controls{display:flex;align-items:center;gap:10px;margin:12px 0}
+.step-controls button{padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;font-size:13px;cursor:pointer;color:var(--color-text-primary);font-family:var(--font-sans)}
+.step-controls button:disabled{opacity:.35;cursor:default}
+.step-controls .step-info{font-size:13px;color:var(--color-text-secondary);flex:1}
+.vis-area{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px;margin:12px 0;min-height:120px}
+.state-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.cell{min-width:54px;padding:6px 10px;border-radius:6px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);font-size:12px;font-family:var(--font-mono);text-align:center;color:var(--color-text-primary)}
+.cell.hi{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.cell.done{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.cell.cur{background:var(--color-background-warning);border-color:var(--color-border-warning);color:var(--color-text-warning)}
+.cell.sub{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.narration{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin:8px 0 0}
+.narration b{font-weight:500;color:var(--color-text-primary)}
+.kv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin:8px 0}
+.kv{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:6px;padding:6px 10px;font-size:12px;font-family:var(--font-mono)}
+.kv.hi{background:var(--color-background-info);border-color:var(--color-border-info)}
+.kv.done{background:var(--color-background-success);border-color:var(--color-border-success)}
+.kv-k{color:var(--color-text-secondary);font-size:11px}
+.kv-v{font-weight:500;color:var(--color-text-primary);font-size:13px}
+.kv.hi .kv-k,.kv.hi .kv-v{color:var(--color-text-info)}
+.kv.done .kv-k,.kv.done .kv-v{color:var(--color-text-success)}
+.ask-btn{margin-top:12px;padding:7px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;font-size:12px;cursor:pointer;color:var(--color-text-secondary);font-family:var(--font-sans)}
+
+:root {
+  --color-background-primary: #111214;
+  --color-background-secondary: #18191B;
+  --color-border-secondary: #2F3136;
+  --color-border-tertiary: #404040;
+  
+  --color-text-primary: #F5F5F4;
+  --color-text-secondary: #CFCFC8;
+  --color-text-tertiary: #8C8C85;
+  
+  --color-background-info: rgba(59, 130, 246, 0.15);
+  --color-border-info: rgba(59, 130, 246, 0.4);
+  --color-text-info: #60A5FA;
+  
+  --color-background-success: rgba(16, 185, 129, 0.15);
+  --color-border-success: rgba(16, 185, 129, 0.4);
+  --color-text-success: #34D399;
+  
+  --color-background-warning: rgba(245, 158, 11, 0.15);
+  --color-border-warning: rgba(245, 158, 11, 0.4);
+  --color-text-warning: #FBBF24;
+  
+  --color-background-danger: rgba(239, 68, 68, 0.15);
+  --color-border-danger: rgba(239, 68, 68, 0.4);
+  --color-text-danger: #F87171;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+body {
+  background-color: #0B0B0C !important;
+  color: var(--color-text-primary) !important;
+  font-family: var(--font-sans) !important;
+  margin: 1.5rem auto !important;
+  padding: 0 1rem !important;
+  max-width: 960px !important;
+}
+
+</style>
+
+<h2 class="sr-only">Deep dive into all 5 bitmask DP patterns with interactive dry runs and code</h2>
+
+<div class="pat-nav">
+  <button class="pat-btn active" onclick="showPat(0,this)">P1 — TSP / last-node DP</button>
+  <button class="pat-btn" onclick="showPat(1,this)">P2 — Subset of subset</button>
+  <button class="pat-btn" onclick="showPat(2,this)">P3 — Profile DP (grid)</button>
+  <button class="pat-btn" onclick="showPat(3,this)">P4 — SOS DP</button>
+  <button class="pat-btn" onclick="showPat(4,this)">P5 — Assignment DP</button>
+</div>
+
+<!-- PATTERN 1: TSP -->
+<div class="pat-panel active" id="pat0">
+  <div class="concept-box">
+    <b>Ek line mein:</b> "Maine exactly <code>mask</code> cities visit ki hain, aur last mein city <code>i</code> pe hoon — minimum cost kya hai?"<br><br>
+    <b>State:</b> <code>dp[mask][i]</code> = min cost to visit cities in <code>mask</code>, ending at city <code>i</code><br>
+    <b>Transition:</b> city <code>i</code> ko <code>mask</code> se hataao → <code>prev = mask ^ (1&lt;&lt;i)</code>, phir kisi <code>j</code> se aaye the
+  </div>
+  <div class="section-label">Recurrence</div>
+  <div class="code-block"><span class="hl">dp[mask][i]</span> = min over all j in prev_mask:
+    <span class="hl2">dp[prev][j]</span> + <span class="hl3">dist[j][i]</span>
+
+where <span class="hl2">prev</span> = mask ^ (1 &lt;&lt; i)   (remove city i from mask)
+Base: <span class="hl">dp[1&lt;&lt;i][i]</span> = 0  (start at city i, only city i visited)
+Answer: min over i: dp[full_mask][i] + dist[i][0]</div>
+  <div class="section-label">Dry run — 3 cities, dist matrix</div>
+  <div class="concept-box" style="font-size:12px;font-family:var(--font-mono)">
+    Cities: 0, 1, 2 &nbsp;|&nbsp; dist[i][j]:<br>
+    &nbsp;&nbsp;&nbsp;0→1=2, 0→2=9, 1→0=6, 1→2=3, 2→0=5, 2→1=1<br>
+    Start at city 0. Full mask = 0b111 = 7
+  </div>
+  <div class="step-controls">
+    <button onclick="tspPrev()" id="tsp-prev" disabled>← prev</button>
+    <span class="step-info" id="tsp-info">Step 1 of 7</span>
+    <button onclick="tspNext()" id="tsp-next">next →</button>
+  </div>
+  <div class="vis-area" id="tsp-vis"></div>
+  <div class="section-label" style="margin-top:14px">Full Python code</div>
+  <div class="code-block">def tsp(dist, n):
+    INF = float('inf')
+    <span class="hl">dp = [[INF]*n for _ in range(1&lt;&lt;n)]</span>
+    dp[1][0] = 0           <span class="hl3"># start at city 0</span>
+
+    for mask in range(1, 1&lt;&lt;n):
+        for i in range(n):
+            if not (mask &gt;&gt; i &amp; 1): continue
+            if dp[mask][i] == INF: continue
+            <span class="hl2">prev = mask ^ (1 &lt;&lt; i)</span>
+            for j in range(n):
+                if not (prev &gt;&gt; j &amp; 1): continue
+                <span class="hl">dp[mask][i] = min(dp[mask][i],
+                    dp[prev][j] + dist[j][i])</span>
+
+    full = (1&lt;&lt;n) - 1
+    return min(dp[full][i] + dist[i][0] for i in range(n))</div>
+  <button class="ask-btn" onclick="sendPrompt('Can you show a full TSP bitmask DP solution with the shortest superstring problem LC 943?')">Deep dive: LC 943 Shortest Superstring ↗</button>
+</div>
+
+<!-- PATTERN 2: SUBSET OF SUBSET -->
+<div class="pat-panel" id="pat1">
+  <div class="concept-box">
+    <b>Ek line mein:</b> Kisi mask ke har possible sub-mask ko enumerate karo — O(3^N) total (har bit 3 states: in mask only, in sub, in neither).<br><br>
+    <b>Use case:</b> Partition problems — kya mask ko do disjoint subsets A aur B mein split kar sakte hain jahan dono kuch property satisfy karein?<br>
+    <b>Trick:</b> <code>sub = (sub-1) &amp; mask</code> — yeh line hi sab kuch hai.
+  </div>
+  <div class="section-label">The magic iteration</div>
+  <div class="code-block">mask = 0b1011  <span class="hl3"># some mask</span>
+sub = mask
+while sub &gt; 0:
+    <span class="hl">process(sub)</span>          <span class="hl3"># sub is a subset of mask</span>
+    <span class="hl2">sub = (sub - 1) &amp; mask</span>  <span class="hl3"># next smaller subset!</span>
+<span class="hl3"># Note: sub=0 (empty set) can be handled separately</span></div>
+  <div class="section-label">Dry run — enumerate all subsets of mask = 0b1011 (=11)</div>
+  <div class="step-controls">
+    <button onclick="subPrev()" id="sub-prev" disabled>← prev</button>
+    <span class="step-info" id="sub-info">Step 1 of 8</span>
+    <button onclick="subNext()" id="sub-next">next →</button>
+  </div>
+  <div class="vis-area" id="sub-vis"></div>
+  <div class="section-label" style="margin-top:14px">Application: partition into two groups</div>
+  <div class="code-block"><span class="hl3"># Can we partition 'mask' into A and B where f(A) and g(B)?</span>
+for mask in range(1 &lt;&lt; n):
+    sub = mask
+    while sub &gt; 0:
+        complement = mask ^ sub   <span class="hl3"># B = mask - A</span>
+        if <span class="hl">f(sub)</span> and <span class="hl2">g(complement)</span>:
+            dp[mask] = True
+        sub = (sub - 1) &amp; mask</div>
+  <button class="ask-btn" onclick="sendPrompt('Explain LC 1655 Distribute Repeating Integers using subset of subset bitmask DP pattern')">Deep dive: LC 1655 Distribute Integers ↗</button>
+</div>
+
+<!-- PATTERN 3: PROFILE DP -->
+<div class="pat-panel" id="pat2">
+  <div class="concept-box">
+    <b>Ek line mein:</b> Grid ko column-by-column (ya row-by-row) process karo. <b>Profile</b> = bitmask jo bataye ki current column mein kaun si cells already ek tile se filled hain (pichhle column se bahar aayi hain).<br><br>
+    <b>Classic problem:</b> 2×N grid ko 1×2 tiles se tile karo — kitne tarike hain?<br>
+    <b>State:</b> <code>dp[col][profile]</code> = ways to fill first <code>col</code> columns such that column <code>col</code> has <code>profile</code> cells already filled from horizontal tiles going right
+  </div>
+  <div class="section-label">Intuition — 2×4 grid, horizontal + vertical tiles</div>
+  <div class="step-controls">
+    <button onclick="profPrev()" id="prof-prev" disabled>← prev</button>
+    <span class="step-info" id="prof-info">Step 1 of 6</span>
+    <button onclick="profNext()" id="prof-next">next →</button>
+  </div>
+  <div class="vis-area" id="prof-vis"></div>
+  <div class="section-label" style="margin-top:14px">Code for 2×N domino tiling</div>
+  <div class="code-block">def domino_tiling(n):
+    <span class="hl3"># rows=2, so profile is a 2-bit mask</span>
+    <span class="hl">dp = [0] * (1 &lt;&lt; 2)   # dp[profile of next col]</span>
+    dp[0] = 1              <span class="hl3"># empty grid, nothing pre-filled</span>
+
+    def fill(col_profile, next_profile, row, ways):
+        <span class="hl3"># try to fill current column given what's pre-filled</span>
+        if row == 2:       <span class="hl3"># all rows of column done</span>
+            <span class="hl2">new_dp[next_profile] += ways</span>
+            return
+        if col_profile &gt;&gt; row &amp; 1:  <span class="hl3"># cell already filled</span>
+            fill(col_profile, next_profile, row+1, ways)
+        else:
+            <span class="hl3"># place vertical tile (fills this row only)</span>
+            if row+1 &lt; 2 and not (col_profile &gt;&gt; (row+1) &amp; 1):
+                fill(col_profile, next_profile, row+2, ways)
+            <span class="hl3"># place horizontal tile (spills into next col)</span>
+            fill(col_profile, <span class="hl">next_profile | (1&lt;&lt;row)</span>, row+1, ways)
+
+    for _ in range(n):
+        new_dp = [0] * (1 &lt;&lt; 2)
+        for prof in range(1 &lt;&lt; 2):
+            if dp[prof]: fill(prof, 0, 0, dp[prof])
+        dp = new_dp
+    return dp[0]</div>
+  <button class="ask-btn" onclick="sendPrompt('Explain LC 1349 Maximum Students Taking Exam using profile DP bitmask approach')">Deep dive: LC 1349 Maximum Students ↗</button>
+</div>
+
+<!-- PATTERN 4: SOS DP -->
+<div class="pat-panel" id="pat3">
+  <div class="concept-box">
+    <b>Ek line mein:</b> Har mask ke liye, uske <b>saare subsets ka sum/max/min</b> efficiently compute karo — O(N·2^N) mein, brute force O(3^N) ke bajaye.<br><br>
+    <b>Idea:</b> DP by bit position — pehle bit 0 consider karo (har mask update karo jo bit 0 mein 1 hai), phir bit 1, etc. Yeh inclusion ke "dimensions" hain.
+  </div>
+  <div class="section-label">The SOS DP transition (dimension by dimension)</div>
+  <div class="code-block"><span class="hl3"># f[mask] = sum of a[sub] for all sub ⊆ mask</span>
+f = a[:]   <span class="hl3"># base: f[mask] = a[mask] itself</span>
+
+for i in range(n):         <span class="hl3"># for each bit dimension</span>
+    for mask in range(1 &lt;&lt; n):
+        if <span class="hl">mask &gt;&gt; i &amp; 1</span>:   <span class="hl3"># only if bit i is SET in mask</span>
+            <span class="hl2">f[mask] += f[mask ^ (1 &lt;&lt; i)]</span>
+            <span class="hl3"># mask without bit i is a subset of mask
+            # add its already-computed contribution</span></div>
+  <div class="section-label">Dry run — N=3, a=[1,0,0,2,0,3,0,4], compute f for all masks</div>
+  <div class="step-controls">
+    <button onclick="sosPrev()" id="sos-prev" disabled>← prev</button>
+    <span class="step-info" id="sos-info">Step 1 of 4</span>
+    <button onclick="sosNext()" id="sos-next">next →</button>
+  </div>
+  <div class="vis-area" id="sos-vis"></div>
+  <div class="section-label" style="margin-top:14px">Why this works — the intuition</div>
+  <div class="concept-box" style="font-size:12px">
+    After processing bit <code>i</code>: <code>f[mask]</code> = sum of <code>a[sub]</code> for all subsets <code>sub</code> of <code>mask</code> that differ from <code>mask</code> only in bits 0..i.<br><br>
+    After processing all N bits: <code>f[mask]</code> = sum over ALL subsets. Classic "dp on subsets" logic — each dimension doubles the coverage.
+  </div>
+  <button class="ask-btn" onclick="sendPrompt('Explain LC 1125 Smallest Sufficient Team using SOS DP or bitmask DP approach in depth')">Deep dive: LC 1125 Smallest Sufficient Team ↗</button>
+</div>
+
+<!-- PATTERN 5: ASSIGNMENT DP -->
+<div class="pat-panel" id="pat4">
+  <div class="concept-box">
+    <b>Ek line mein:</b> N items ko N people mein assign karo (one-to-one) with minimum cost — <code>dp[mask]</code> = min cost jab <code>popcount(mask)</code>-th person ko assign karna ho, aur mask = already assigned items ka set.<br><br>
+    <b>Key insight:</b> <code>popcount(mask)</code> directly batata hai ki hum kaunse person ke liye assign kar rahe hain (0-indexed).
+  </div>
+  <div class="section-label">State + transition</div>
+  <div class="code-block"><span class="hl3"># Assign N tasks to N workers, min total cost</span>
+<span class="hl">dp[mask]</span> = min cost when tasks in 'mask' are assigned
+         (to workers 0..popcount(mask)-1)
+
+<span class="hl3"># Transition: which task to give to next worker?</span>
+person = bin(mask).count('1')   <span class="hl3"># current worker index</span>
+for task in range(n):
+    if mask &gt;&gt; task &amp; 1: continue   <span class="hl3"># already taken</span>
+    new_mask = mask | (1 &lt;&lt; task)
+    <span class="hl2">dp[new_mask] = min(dp[new_mask],
+        dp[mask] + cost[person][task])</span>
+
+<span class="hl3"># Answer:</span>
+return dp[(1&lt;&lt;n) - 1]</div>
+  <div class="section-label">Dry run — 3 workers, 3 tasks</div>
+  <div class="step-controls">
+    <button onclick="asnPrev()" id="asn-prev" disabled>← prev</button>
+    <span class="step-info" id="asn-info">Step 1 of 8</span>
+    <button onclick="asnNext()" id="asn-next">next →</button>
+  </div>
+  <div class="vis-area" id="asn-vis"></div>
+  <div class="section-label" style="margin-top:14px">Full code</div>
+  <div class="code-block">def min_cost_assignment(cost, n):
+    INF = float('inf')
+    <span class="hl">dp = [INF] * (1 &lt;&lt; n)</span>
+    dp[0] = 0
+
+    for mask in range(1 &lt;&lt; n):
+        if dp[mask] == INF: continue
+        <span class="hl2">person = bin(mask).count('1')</span>
+        if person == n: continue
+        for task in range(n):
+            if mask &gt;&gt; task &amp; 1: continue
+            new_mask = mask | (1 &lt;&lt; task)
+            <span class="hl">dp[new_mask] = min(dp[new_mask],
+                dp[mask] + cost[person][task])</span>
+
+    return dp[(1&lt;&lt;n)-1]</div>
+  <button class="ask-btn" onclick="sendPrompt('Explain LC 1434 Number of Ways to Wear Different Hats using assignment bitmask DP')">Deep dive: LC 1434 Wear Different Hats ↗</button>
+</div>
+
+<script>
+function showPat(idx, btn) {
+  document.querySelectorAll('.pat-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pat-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pat'+idx).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ---- PATTERN 1: TSP DRY RUN ---- */
+const tspSteps = [
+  {title:'Base case init', narr:'<b>Start:</b> dp[mask][city] = INF for all. Set <b>dp[0b001][0] = 0</b> — hum city 0 se start karte hain, sirf city 0 visited hai.',
+   cells:[{l:'dp[001][0]',v:'0',c:'done'},{l:'dp[001][1]',v:'∞',c:''},{l:'dp[001][2]',v:'∞',c:''},{l:'dp[011][...]',v:'∞',c:''},{l:'dp[111][...]',v:'∞',c:''}]},
+  {title:'mask=011, i=1 (visited {0,1})', narr:'Remove city 1 from mask: <b>prev=001</b>. Look at j=0 (only city in prev). dp[001][0]=0, dist[0][1]=2 → <b>dp[011][1] = 0+2 = 2</b>',
+   cells:[{l:'dp[001][0]',v:'0',c:'done'},{l:'dp[011][1]',v:'2',c:'hi'},{l:'dp[011][2]',v:'∞',c:''},{l:'dp[101][2]',v:'9',c:''},{l:'dp[111][...]',v:'∞',c:''}]},
+  {title:'mask=101, i=2 (visited {0,2})', narr:'Remove city 2 from mask: <b>prev=001</b>. j=0, dist[0][2]=9 → <b>dp[101][2] = 0+9 = 9</b>',
+   cells:[{l:'dp[001][0]',v:'0',c:'done'},{l:'dp[011][1]',v:'2',c:'done'},{l:'dp[101][2]',v:'9',c:'hi'},{l:'dp[111][1]',v:'∞',c:''},{l:'dp[111][2]',v:'∞',c:''}]},
+  {title:'mask=111, i=1 (visited all, end at 1)', narr:'prev=101 (remove city 1). j=2 only. dp[101][2]=9, dist[2][1]=1 → <b>dp[111][1] = 9+1 = 10</b>',
+   cells:[{l:'dp[101][2]',v:'9',c:'done'},{l:'dp[111][1]',v:'10',c:'hi'},{l:'dp[111][2]',v:'∞',c:''},{l:'dist[2][1]',v:'1',c:'cur'},{l:'dp[111][0]',v:'∞',c:''}]},
+  {title:'mask=111, i=2 (visited all, end at 2)', narr:'prev=011 (remove city 2). j=1 only. dp[011][1]=2, dist[1][2]=3 → <b>dp[111][2] = 2+3 = 5</b>',
+   cells:[{l:'dp[011][1]',v:'2',c:'done'},{l:'dp[111][2]',v:'5',c:'hi'},{l:'dp[111][1]',v:'10',c:'done'},{l:'dist[1][2]',v:'3',c:'cur'},{l:'dp[111][0]',v:'∞',c:''}]},
+  {title:'Final answer computation', narr:'Return to city 0: for each i, add dist[i][0]. dp[111][1]+dist[1][0]=10+6=16. <b>dp[111][2]+dist[2][0]=5+5=10</b> → Answer = 10',
+   cells:[{l:'dp[111][1]',v:'10',c:'done'},{l:'+dist[1][0]',v:'6',c:'cur'},{l:'=',v:'16',c:''},{l:'dp[111][2]',v:'5',c:'done'},{l:'+dist[2][0]',v:'5',c:'cur'},{l:'Answer',v:'10',c:'hi'}]},
+  {title:'Optimal path', narr:'Best tour: <b>0 → 1 → 2 → 0</b> with cost 2+3+5=10. Mask went: 001→011→111, ending at city 2, then back to 0.',
+   cells:[{l:'0→1',v:'cost 2',c:'done'},{l:'1→2',v:'cost 3',c:'done'},{l:'2→0',v:'cost 5',c:'done'},{l:'Total',v:'10',c:'hi'}]}
+];
+let tspIdx=0;
+function renderTsp(){
+  const s=tspSteps[tspIdx];
+  document.getElementById('tsp-info').textContent=`Step ${tspIdx+1} of ${tspSteps.length} — ${s.title}`;
+  document.getElementById('tsp-prev').disabled=tspIdx===0;
+  document.getElementById('tsp-next').disabled=tspIdx===tspSteps.length-1;
+  const cells=s.cells.map(c=>`<div class="cell ${c.c}"><div style="font-size:10px;color:inherit;opacity:.7">${c.l}</div><div style="font-weight:500">${c.v}</div></div>`).join('');
+  document.getElementById('tsp-vis').innerHTML=`<div class="state-row">${cells}</div><div class="narration">${s.narr}</div>`;
+}
+function tspNext(){tspIdx++;renderTsp()}function tspPrev(){tspIdx--;renderTsp()}
+renderTsp();
+
+/* ---- PATTERN 2: SUBSET OF SUBSET DRY RUN ---- */
+const MASK=0b1011;
+function getSubsets(m){const r=[];let s=m;while(s>0){r.push(s);s=(s-1)&m;}r.push(0);return r;}
+const subs=getSubsets(MASK);
+let subIdx=0;
+function bstr(v){return '0b'+v.toString(2).padStart(4,'0')+' ('+v+')';}
+function renderSub(){
+  document.getElementById('sub-info').textContent=`Step ${subIdx+1} of ${subs.length}`;
+  document.getElementById('sub-prev').disabled=subIdx===0;
+  document.getElementById('sub-next').disabled=subIdx===subs.length-1;
+  const cur=subs[subIdx];
+  const next=subIdx<subs.length-1?subs[subIdx+1]:null;
+  const cells=subs.slice(0,subIdx+1).map((s,i)=>`<div class="cell ${i===subIdx?'hi':'done'}"><div style="font-size:10px;opacity:.7">subset ${i+1}</div><div style="font-weight:500">${bstr(s)}</div></div>`).join('');
+  const formula=next!==null?`Next: (${cur}-1) &amp; mask = (${cur-1}) &amp; ${MASK} = <b>${next}</b>`:`All ${subs.length} subsets enumerated (including empty set 0)!`;
+  document.getElementById('sub-vis').innerHTML=`<div class="state-row" style="flex-wrap:wrap">${cells}</div><div class="narration" style="margin-top:10px">${formula}</div>`;
+}
+function subNext(){subIdx++;renderSub()}function subPrev(){subIdx--;renderSub()}
+renderSub();
+
+/* ---- PATTERN 3: PROFILE DP ---- */
+const profSteps=[
+  {narr:'<b>Grid: 2 rows × 4 cols.</b> Profile = bitmask (2 bits) of which cells in the NEXT column are already filled by horizontal tiles. Start: dp[profile=00]=1 (empty, nothing pre-filled).',
+   grid:[[0,0,0,0],[0,0,0,0]],colIdx:0},
+  {narr:'<b>Column 0, profile=00</b> (nothing pre-filled). Option A: place 2 vertical tiles → both rows done, next profile=00. Option B: place 2 horizontal tiles → spills into col 1, next profile=11.',
+   grid:[[1,0,0,0],[1,0,0,0]],colIdx:0},
+  {narr:'<b>Vertical tile path:</b> col 0 fully filled with vertical dominoes. Profile for col 1 = 00. dp[col1][00] += 1',
+   grid:[[2,0,0,0],[2,0,0,0]],colIdx:1},
+  {narr:'<b>Horizontal tile path:</b> 2 horizontal tiles placed in col 0, each extending into col 1. Profile for col 1 = 11 (both rows of col 1 pre-filled).',
+   grid:[[3,3,0,0],[3,3,0,0]],colIdx:1},
+  {narr:'<b>Profile=11 for col 1:</b> both rows already filled → place nothing, profile for col 2 = 00. dp[col2][00] += 1. Continue similarly...',
+   grid:[[3,3,0,0],[3,3,0,0]],colIdx:2},
+  {narr:'<b>Final answer = dp after all 4 columns with profile=00</b>. For 2×4 grid = <b>5 ways</b> (Fibonacci pattern: f(n) = f(n-1) + f(n-2)). Profile DP generalises this to any rows count.',
+   grid:[[2,2,2,2],[2,2,2,2]],colIdx:3}
+];
+let profIdx=0;
+function renderProf(){
+  const s=profSteps[profIdx];
+  document.getElementById('prof-info').textContent=`Step ${profIdx+1} of ${profSteps.length}`;
+  document.getElementById('prof-prev').disabled=profIdx===0;
+  document.getElementById('prof-next').disabled=profIdx===profSteps.length-1;
+  const colors=['','var(--color-background-secondary)','var(--color-background-success)','var(--color-background-info)'];
+  const borders=['0.5px solid var(--color-border-tertiary)','0.5px solid var(--color-border-secondary)','0.5px solid var(--color-border-success)','0.5px solid var(--color-border-info)'];
+  let gridHtml='<div style="display:inline-block">';
+  for(let r=0;r<2;r++){
+    gridHtml+='<div style="display:flex;gap:3px;margin-bottom:3px">';
+    for(let c=0;c<4;c++){
+      const v=s.grid[r][c];
+      const isActive=c===s.colIdx;
+      gridHtml+=`<div style="width:44px;height:44px;border-radius:6px;background:${colors[v]};border:${isActive?'1.5px solid var(--color-border-info)':borders[v]};display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--color-text-secondary)">c${c}</div>`;
+    }
+    gridHtml+='</div>';
+  }
+  gridHtml+='</div>';
+  document.getElementById('prof-vis').innerHTML=`<div style="margin-bottom:10px">${gridHtml}</div><div class="narration">${s.narr}</div>`;
+}
+function profNext(){profIdx++;renderProf()}function profPrev(){profIdx--;renderProf()}
+renderProf();
+
+/* ---- PATTERN 4: SOS DP DRY RUN ---- */
+const sosA=[1,0,0,2,0,3,0,4];
+const sosSteps=[
+  {bit:-1,label:'Initial state (f = a)',f:[...sosA]},
+  {bit:0,label:'After processing bit 0',f:null},
+  {bit:1,label:'After processing bit 1',f:null},
+  {bit:2,label:'After processing bit 2 (final)',f:null},
+];
+(function(){
+  let f=[...sosA];
+  for(let i=0;i<3;i++){
+    const nf=[...f];
+    for(let mask=0;mask<8;mask++){if(mask>>i&1)nf[mask]+=f[mask^(1<<i)];}
+    sosSteps[i+1].f=[...nf];f=[...nf];
+  }
+})();
+let sosIdx=0;
+function renderSos(){
+  const s=sosSteps[sosIdx];
+  document.getElementById('sos-info').textContent=`Step ${sosIdx+1} of 4 — ${s.label}`;
+  document.getElementById('sos-prev').disabled=sosIdx===0;
+  document.getElementById('sos-next').disabled=sosIdx===3;
+  const prev=sosIdx>0?sosSteps[sosIdx-1].f:null;
+  const cells=s.f.map((v,i)=>{
+    const changed=prev&&v!==prev[i];
+    return `<div class="kv ${changed?'hi':''}"><div class="kv-k">mask=${i} (${i.toString(2).padStart(3,'0')})</div><div class="kv-v">${v}</div></div>`;
+  }).join('');
+  const narr=sosIdx===0?'f[mask] = original array values. f[5]=3 means a[5]=3.'
+    :sosIdx===1?'After bit 0: masks with bit 0 set absorb their bit-0-off neighbor. e.g. f[1]=f[0b001]+=f[0b000]=1→0, f[3]+=f[2]=2→2, f[5]+=f[4]=3→3, f[7]+=f[6]=4→4'
+    :sosIdx===2?'After bit 1: masks with bit 1 set absorb. e.g. f[3]+=f[1], f[7]+=f[5]. Coverage now includes subsets differing in bits 0 and 1.'
+    :'<b>Final!</b> f[7]=f[111]=sum of ALL a[sub] = 1+2+3+4=10. f[5]=f[101]: subsets of {bit0,bit2} = {000,001,100,101} → 1+0+0+3=4 ✓';
+  document.getElementById('sos-vis').innerHTML=`<div class="kv-grid">${cells}</div><div class="narration">${narr}</div>`;
+}
+function sosNext(){sosIdx++;renderSos()}function sosPrev(){sosIdx--;renderSos()}
+renderSos();
+
+/* ---- PATTERN 5: ASSIGNMENT DP DRY RUN ---- */
+const asnCost=[[9,2,7],[3,6,4],[1,8,5]];
+const asnSteps=[
+  {narr:'<b>cost matrix:</b> cost[worker][task]. 3 workers, 3 tasks. dp[0b000]=0 (no tasks assigned yet).',
+   hi:[],dp:{0:0}},
+  {narr:'<b>mask=000, person=0.</b> Assign each task to worker 0. Task 0: dp[001]=0+9=9. Task 1: dp[010]=0+2=2. Task 2: dp[100]=0+7=7.',
+   hi:[1,2,4],dp:{0:0,1:9,2:2,4:7}},
+  {narr:'<b>mask=001, person=1</b> (1 task done). Remaining tasks: 1,2. Task 1: dp[011]=min(∞,9+6)=15. Task 2: dp[101]=min(∞,9+4)=13.',
+   hi:[3,5],dp:{0:0,1:9,2:2,4:7,3:15,5:13}},
+  {narr:'<b>mask=010, person=1.</b> Remaining tasks: 0,2. Task 0: dp[011]=min(15,2+3)=5. Task 2: dp[110]=min(∞,2+4)=6.',
+   hi:[3,6],dp:{0:0,1:9,2:2,4:7,3:5,5:13,6:6}},
+  {narr:'<b>mask=100, person=1.</b> Remaining tasks: 0,1. Task 0: dp[101]=min(13,7+3)=10. Task 1: dp[110]=min(6,7+6)=6.',
+   hi:[5,6],dp:{0:0,1:9,2:2,4:7,3:5,5:10,6:6}},
+  {narr:'<b>mask=011, person=2.</b> Remaining task: 2. Task 2: dp[111]=min(∞,5+5)=10.',
+   hi:[7],dp:{0:0,1:9,2:2,4:7,3:5,5:10,6:6,7:10}},
+  {narr:'<b>mask=101, person=2.</b> Remaining task: 1. Task 1: dp[111]=min(10,10+8)=10.',
+   hi:[7],dp:{0:0,1:9,2:2,4:7,3:5,5:10,6:6,7:10}},
+  {narr:'<b>mask=110, person=2.</b> Remaining task: 0. Task 0: dp[111]=min(10,6+1)=<b>7</b>. Final answer = dp[111] = <b>7</b>. Optimal: worker0→task1(2), worker1→task2(4? no), worker2→task0(1) → 2+4+1=7.',
+   hi:[7],dp:{0:0,1:9,2:2,4:7,3:5,5:10,6:6,7:7}},
+];
+let asnIdx=0;
+function renderAsn(){
+  const s=asnSteps[asnIdx];
+  document.getElementById('asn-info').textContent=`Step ${asnIdx+1} of ${asnSteps.length}`;
+  document.getElementById('asn-prev').disabled=asnIdx===0;
+  document.getElementById('asn-next').disabled=asnIdx===asnSteps.length-1;
+  const cells=Array.from({length:8},(_,i)=>{
+    const v=s.dp[i]!==undefined?s.dp[i]:'∞';
+    const cls=s.hi.includes(i)?'hi':(s.dp[i]!==undefined&&i<(s.hi[0]||0)?'done':'');
+    return `<div class="kv ${cls}"><div class="kv-k">dp[${i.toString(2).padStart(3,'0')}]</div><div class="kv-v">${v}</div></div>`;
+  }).join('');
+  document.getElementById('asn-vis').innerHTML=`<div class="kv-grid">${cells}</div><div class="narration">${s.narr}</div>`;
+}
+function asnNext(){asnIdx++;renderAsn()}function asnPrev(){asnIdx--;renderAsn()}
+renderAsn();
+</script>
