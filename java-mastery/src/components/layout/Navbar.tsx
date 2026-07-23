@@ -19,6 +19,9 @@ export function Navbar() {
     { href: '/dashboard', label: 'Dashboard' },
     { href: '/roadmap', label: 'Roadmap' },
     { href: '/practice', label: 'Practice' },
+    { href: '/contests', label: 'Contests' },
+    { href: '/analytics', label: 'Analytics' },
+    { href: '/jobs', label: 'Jobs' },
   ];
 
   return (

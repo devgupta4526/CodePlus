@@ -19,6 +19,8 @@ export interface LessonMeta {
   prerequisites: string[];
   objectives: string[];
   tags: string[];
+  /** Optional YouTube / direct-video URL for the video lesson variant */
+  videoUrl?: string;
 }
 
 /** Full lesson data including content */

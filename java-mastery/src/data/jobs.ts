@@ -1,0 +1,1024 @@
+// ============================================================================
+// CodePulse — Job Postings Data
+// ============================================================================
+
+export type WorkMode   = 'Remote' | 'Hybrid' | 'On-site';
+export type JobType    = 'Full-time' | 'Part-time' | 'Contract' | 'Internship';
+export type ExpLevel   = 'Entry (0–1 yr)' | 'Junior (1–3 yrs)' | 'Mid (3–5 yrs)' | 'Senior (5+ yrs)';
+export type JobRole    =
+  | 'Java Backend'
+  | 'Java Full Stack'
+  | 'Java Microservices'
+  | 'Spring Boot'
+  | 'Java DevOps'
+  | 'Android (Java)'
+  | 'Data Engineering'
+  | 'Cloud / Platform'
+  | 'Security Engineering'
+  | 'Python Backend'
+  | 'Python Data Science'
+  | 'Machine Learning'
+  | 'React / Frontend'
+  | 'Node.js Backend'
+  | 'Full Stack (React + Node)'
+  | 'DevOps / SRE'
+  | 'Mobile (iOS / Android)'
+  | 'Embedded / Systems';
+
+export interface JobPosting {
+  id: string;
+  title: string;
+  company: string;
+  companySize: string;
+  location: string;
+  workMode: WorkMode;
+  role: JobRole;
+  type: JobType;
+  experienceLevel: ExpLevel;
+  salary: string;
+  postedAt: string;             // ISO date
+  applicationDeadline: string; // ISO date
+  url: string;
+  featured?: boolean;
+  description: string;
+  responsibilities: string[];
+  requirements: string[];
+  niceToHave: string[];
+  techStack: string[];
+}
+
+// ── Category metadata (used by the Browse section) ───────────────────────────
+
+export interface RoleCategory {
+  label: string;
+  roles: JobRole[];
+  icon: string;          // emoji used in browse cards
+  color: string;         // Tailwind accent class fragment, e.g. 'orange'
+  description: string;
+}
+
+export const ROLE_CATEGORIES: RoleCategory[] = [
+  {
+    label: 'Java',
+    roles: ['Java Backend', 'Java Full Stack', 'Java Microservices', 'Spring Boot', 'Java DevOps', 'Android (Java)'],
+    icon: '☕',
+    color: 'orange',
+    description: 'Backend, full-stack, microservices & Spring Boot roles',
+  },
+  {
+    label: 'Python',
+    roles: ['Python Backend', 'Python Data Science', 'Machine Learning'],
+    icon: '🐍',
+    color: 'blue',
+    description: 'Python services, data science & ML engineering',
+  },
+  {
+    label: 'Frontend',
+    roles: ['React / Frontend'],
+    icon: '⚛️',
+    color: 'cyan',
+    description: 'React, TypeScript & modern UI engineering',
+  },
+  {
+    label: 'Full Stack',
+    roles: ['Full Stack (React + Node)', 'Java Full Stack'],
+    icon: '🔗',
+    color: 'violet',
+    description: 'End-to-end product engineering roles',
+  },
+  {
+    label: 'DevOps / Cloud',
+    roles: ['DevOps / SRE', 'Cloud / Platform', 'Java DevOps'],
+    icon: '☁️',
+    color: 'sky',
+    description: 'CI/CD, infrastructure, SRE & platform roles',
+  },
+  {
+    label: 'Data & ML',
+    roles: ['Data Engineering', 'Python Data Science', 'Machine Learning'],
+    icon: '📊',
+    color: 'green',
+    description: 'Data pipelines, analytics & machine-learning engineering',
+  },
+  {
+    label: 'Security',
+    roles: ['Security Engineering'],
+    icon: '🔒',
+    color: 'red',
+    description: 'AppSec, cloud security & penetration testing',
+  },
+  {
+    label: 'Mobile',
+    roles: ['Mobile (iOS / Android)', 'Android (Java)'],
+    icon: '📱',
+    color: 'pink',
+    description: 'iOS, Android & cross-platform mobile development',
+  },
+];
+
+// ── Lookup arrays used by filter UI ─────────────────────────────────────────
+
+export const JOB_ROLES: JobRole[] = [
+  'Java Backend',
+  'Java Full Stack',
+  'Java Microservices',
+  'Spring Boot',
+  'Java DevOps',
+  'Android (Java)',
+  'Data Engineering',
+  'Cloud / Platform',
+  'Security Engineering',
+  'Python Backend',
+  'Python Data Science',
+  'Machine Learning',
+  'React / Frontend',
+  'Node.js Backend',
+  'Full Stack (React + Node)',
+  'DevOps / SRE',
+  'Mobile (iOS / Android)',
+  'Embedded / Systems',
+];
+
+export const JOB_TYPES: JobType[] = [
+  'Full-time',
+  'Part-time',
+  'Contract',
+  'Internship',
+];
+
+export const EXP_LEVELS: ExpLevel[] = [
+  'Entry (0–1 yr)',
+  'Junior (1–3 yrs)',
+  'Mid (3–5 yrs)',
+  'Senior (5+ yrs)',
+];
+
+export const WORK_MODES: WorkMode[] = ['Remote', 'Hybrid', 'On-site'];
+
+// ── Job type metadata (used by browse section) ───────────────────────────────
+
+export interface TypeMeta {
+  type: JobType;
+  icon: string;
+  description: string;
+}
+
+export const JOB_TYPE_META: TypeMeta[] = [
+  { type: 'Full-time', icon: '🏢', description: 'Permanent, benefits-included positions' },
+  { type: 'Part-time', icon: '⏰', description: 'Flexible hours, ongoing engagements' },
+  { type: 'Contract', icon: '📄', description: 'Fixed-term & freelance projects' },
+  { type: 'Internship', icon: '🎓', description: 'Entry-level & new-grad programmes' },
+];
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+
+export const jobPostings: JobPosting[] = [
+  // ─── 1 ────────────────────────────────────────────────────────────────────
+  {
+    id: '1',
+    title: 'Senior Java Backend Engineer',
+    company: 'Stripe',
+    companySize: '5000+ employees',
+    location: 'San Francisco, CA',
+    workMode: 'Hybrid',
+    role: 'Java Backend',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$180k–$230k',
+    postedAt: '2025-07-10',
+    applicationDeadline: '2025-07-18',
+    url: 'https://stripe.com/jobs',
+    featured: true,
+    description:
+      'Join Stripe\'s Payments Infrastructure team to build highly reliable, low-latency Java services that process billions of dollars in transactions daily. You\'ll work across the full lifecycle of our core payment APIs, from design and architecture reviews to production deployment and incident response.',
+    responsibilities: [
+      'Design and build distributed Java microservices handling high-volume payment flows',
+      'Lead architecture discussions and code reviews for backend systems',
+      'Partner with product and infrastructure teams to define API contracts',
+      'Drive reliability improvements: error-budget tracking, runbooks, and SLOs',
+      'Mentor junior and mid-level engineers on Java best practices',
+    ],
+    requirements: [
+      '5+ years of Java development in production environments',
+      'Deep knowledge of Spring Boot, Spring Data, and Spring Security',
+      'Experience designing REST and gRPC APIs at scale',
+      'Strong grasp of concurrency, JVM internals, and garbage collection tuning',
+      'Proven experience with Kafka or similar event-streaming systems',
+    ],
+    niceToHave: [
+      'Experience with Stripe APIs or payments domain',
+      'Contributions to open-source Java projects',
+      'Knowledge of chaos engineering and fault-injection testing',
+    ],
+    techStack: ['Java 21', 'Spring Boot 3', 'Kafka', 'PostgreSQL', 'AWS', 'gRPC', 'Kubernetes'],
+  },
+
+  // ─── 2 ────────────────────────────────────────────────────────────────────
+  {
+    id: '2',
+    title: 'Java Spring Boot Developer',
+    company: 'Goldman Sachs',
+    companySize: '10 000+ employees',
+    location: 'New York, NY',
+    workMode: 'Hybrid',
+    role: 'Spring Boot',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$150k–$190k',
+    postedAt: '2025-07-08',
+    applicationDeadline: '2025-07-25',
+    url: 'https://www.goldmansachs.com/careers',
+    description:
+      'Goldman Sachs Engineering is seeking a Java Spring Boot developer to join the Consumer & Wealth Management division. You will build secure, high-performance RESTful services consumed by our wealth-management portal serving over two million clients.',
+    responsibilities: [
+      'Build and maintain Spring Boot microservices for wealth-management data APIs',
+      'Collaborate with front-end teams to design and version REST contracts',
+      'Write comprehensive unit and integration tests using JUnit 5 and Testcontainers',
+      'Participate in on-call rotation and resolve production incidents',
+      'Ensure compliance with internal security and code-quality standards',
+    ],
+    requirements: [
+      '3–5 years of professional Java development',
+      'Solid Spring Boot and Spring MVC experience',
+      'Familiarity with OAuth 2.0 / JWT-based authentication',
+      'Experience with Oracle or PostgreSQL and JPA/Hibernate',
+      'Understanding of CI/CD pipelines (Jenkins, GitHub Actions)',
+    ],
+    niceToHave: [
+      'Series 63 / financial-services domain knowledge',
+      'Experience with Redis caching',
+      'Knowledge of GraphQL',
+    ],
+    techStack: ['Java 17', 'Spring Boot 3', 'Oracle DB', 'Hibernate', 'Redis', 'Jenkins', 'OpenAPI'],
+  },
+
+  // ─── 3 ────────────────────────────────────────────────────────────────────
+  {
+    id: '3',
+    title: 'Java Full Stack Developer',
+    company: 'IBM',
+    companySize: '10 000+ employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'Java Full Stack',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$130k–$165k',
+    postedAt: '2025-07-09',
+    applicationDeadline: '2025-07-22',
+    url: 'https://www.ibm.com/employment',
+    featured: true,
+    description:
+      'IBM\'s Cloud & Cognitive Software division is hiring a Full Stack Developer fluent in Java and React to build the next generation of enterprise automation products. You will own features end-to-end, from Spring Boot service to React dashboard, deployed on IBM Cloud.',
+    responsibilities: [
+      'Implement full-stack features: Java REST APIs and React front-end components',
+      'Design data models using Spring Data JPA and MongoDB',
+      'Build reusable React components following the Carbon Design System',
+      'Write end-to-end tests using Playwright and unit tests with JUnit + Jest',
+      'Collaborate in agile ceremonies with distributed global teams',
+    ],
+    requirements: [
+      '3+ years Java with Spring Boot',
+      '2+ years React / TypeScript',
+      'Experience with REST API design and OpenAPI specification',
+      'Familiarity with containerisation (Docker, Kubernetes)',
+      'Comfortable with Git-flow branching and code review',
+    ],
+    niceToHave: [
+      'IBM Cloud or OpenShift experience',
+      'Knowledge of Quarkus or Micronaut',
+      'GraphQL experience',
+    ],
+    techStack: ['Java 17', 'Spring Boot', 'React', 'TypeScript', 'MongoDB', 'Docker', 'IBM Cloud'],
+  },
+
+  // ─── 4 ────────────────────────────────────────────────────────────────────
+  {
+    id: '4',
+    title: 'Backend Engineer — Payments (Java)',
+    company: 'Shopify',
+    companySize: '5000–10 000 employees',
+    location: 'Ottawa, Canada',
+    workMode: 'Hybrid',
+    role: 'Java Microservices',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$140k–$175k CAD',
+    postedAt: '2025-07-07',
+    applicationDeadline: '2025-07-30',
+    url: 'https://www.shopify.com/careers',
+    description:
+      'Shopify\'s Payments Platform team processes tens of billions in GMV. We are looking for a senior Java engineer to build and scale the microservices that power merchant payouts, dispute management, and fraud detection.',
+    responsibilities: [
+      'Architect and implement high-availability Java microservices for payment flows',
+      'Optimise database queries and caching strategies for sub-10ms p99 latency targets',
+      'Work closely with the fraud-detection data-science team to integrate ML models',
+      'Manage Kafka topic schemas and consumer-group strategies',
+      'Drive incident post-mortems and resiliency improvements',
+    ],
+    requirements: [
+      '5+ years Java in production distributed systems',
+      'Strong Kafka or RabbitMQ experience',
+      'Proficiency with gRPC and Protocol Buffers',
+      'Experience with PostgreSQL at scale (sharding, read replicas)',
+      'Understanding of PCI-DSS compliance requirements',
+    ],
+    niceToHave: [
+      'Previous work in fintech or payments',
+      'Experience with Istio service mesh',
+      'Familiarity with Temporal workflow engine',
+    ],
+    techStack: ['Java 21', 'Kafka', 'gRPC', 'PostgreSQL', 'Kubernetes', 'Istio', 'GCP'],
+  },
+
+  // ─── 5 ────────────────────────────────────────────────────────────────────
+  {
+    id: '5',
+    title: 'Java Software Engineer — New Grad / Intern',
+    company: 'Amazon',
+    companySize: '10 000+ employees',
+    location: 'Seattle, WA',
+    workMode: 'Hybrid',
+    role: 'Java Backend',
+    type: 'Internship',
+    experienceLevel: 'Entry (0–1 yr)',
+    salary: '$45–$55 / hr',
+    postedAt: '2025-07-05',
+    applicationDeadline: '2025-07-17',
+    url: 'https://www.amazon.jobs',
+    description:
+      'Amazon\'s SDE internship programme is one of the most sought-after in tech. Interns work on real production systems, mentored by senior engineers. This role is focused on AWS SDK internals and customer-facing backend services written in Java.',
+    responsibilities: [
+      'Own a scoped feature in an AWS backend service from design to production deployment',
+      'Write production-quality Java code with unit tests and operational metrics',
+      'Present your project and learnings to senior leadership at the end of the internship',
+      'Participate in code reviews and agile sprint ceremonies',
+    ],
+    requirements: [
+      'Pursuing a BS/MS in Computer Science or equivalent',
+      'Solid Java fundamentals: OOP, collections, concurrency',
+      'Understanding of data structures and algorithms (LeetCode Medium level)',
+      'Ability to discuss trade-offs in system design',
+    ],
+    niceToHave: [
+      'Prior internship experience',
+      'Familiarity with AWS services (S3, DynamoDB, SQS)',
+      'Open-source contributions',
+    ],
+    techStack: ['Java 17', 'AWS SDK', 'DynamoDB', 'SQS', 'CDK', 'JUnit 5'],
+  },
+
+  // ─── 6 ────────────────────────────────────────────────────────────────────
+  {
+    id: '6',
+    title: 'Cloud Platform Engineer (Java)',
+    company: 'Google',
+    companySize: '10 000+ employees',
+    location: 'Remote (US)',
+    workMode: 'Remote',
+    role: 'Cloud / Platform',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$200k–$260k',
+    postedAt: '2025-07-11',
+    applicationDeadline: '2025-07-24',
+    url: 'https://careers.google.com',
+    featured: true,
+    description:
+      'Google Cloud\'s Developer Platforms team is building the next generation of serverless Java runtimes. You will work on Cloud Run for Java, improving cold-start performance, native-image support, and developer tooling.',
+    responsibilities: [
+      'Improve the Java runtime experience on Cloud Run (startup latency, memory footprint)',
+      'Build and maintain GraalVM native-image pipelines for common Spring Boot apps',
+      'Collaborate with the OpenJDK community and GraalVM teams on upstream improvements',
+      'Write deep diagnostic tooling: heap profilers, async-profiler integrations',
+      'Document and evangelise Java-on-GCP best practices',
+    ],
+    requirements: [
+      '5+ years Java development including JVM internals',
+      'Experience with GraalVM native-image or CRaC checkpointing',
+      'Strong understanding of Linux container fundamentals',
+      'Familiarity with OpenJDK source and JEP process',
+    ],
+    niceToHave: [
+      'Contributions to OpenJDK, Quarkus, or Micronaut',
+      'Experience writing C extensions for the JVM',
+      'Knowledge of eBPF profiling',
+    ],
+    techStack: ['Java 21', 'GraalVM', 'Spring Boot', 'Cloud Run', 'GCP', 'Terraform', 'Kubernetes'],
+  },
+
+  // ─── 7 ────────────────────────────────────────────────────────────────────
+  {
+    id: '7',
+    title: 'DevOps / SRE — Java Platform',
+    company: 'Netflix',
+    companySize: '10 000+ employees',
+    location: 'Los Gatos, CA',
+    workMode: 'On-site',
+    role: 'Java DevOps',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$170k–$210k',
+    postedAt: '2025-07-06',
+    applicationDeadline: '2025-07-28',
+    url: 'https://jobs.netflix.com',
+    description:
+      'Netflix\'s Platform Engineering team runs the Java microservices that serve 260 million streaming subscribers. We\'re hiring a DevOps engineer who understands Java deeply — someone who can build the CI/CD tooling, deployment pipelines, and observability platform that hundreds of Java service teams rely on.',
+    responsibilities: [
+      'Design and operate the Jenkins / GitHub Actions pipeline platform for Java services',
+      'Build internal tooling in Java / Kotlin to automate deployment and rollback',
+      'Own the JVM observability stack: Micrometer, Grafana, distributed tracing with Zipkin',
+      'Manage Spinnaker canary deployments for 500+ Java services',
+      'Lead blameless post-mortems and drive MTTR reduction',
+    ],
+    requirements: [
+      '3–5 years in a DevOps or SRE role with Java services',
+      'Strong Kubernetes and Helm experience',
+      'Proficiency with Jenkins DSL and GitHub Actions workflows',
+      'Experience with Prometheus, Grafana, and distributed tracing',
+      'Scripting ability in Bash and Python',
+    ],
+    niceToHave: [
+      'Experience with Spinnaker or Argo CD',
+      'Java performance profiling (async-profiler, JFR)',
+      'Contributions to Netflix OSS projects',
+    ],
+    techStack: ['Java 17', 'Kubernetes', 'Jenkins', 'Spinnaker', 'Prometheus', 'Grafana', 'AWS'],
+  },
+
+  // ─── 8 ────────────────────────────────────────────────────────────────────
+  {
+    id: '8',
+    title: 'Android Developer — Java / Kotlin',
+    company: 'Spotify',
+    companySize: '5000–10 000 employees',
+    location: 'Stockholm, Sweden',
+    workMode: 'Hybrid',
+    role: 'Android (Java)',
+    type: 'Full-time',
+    experienceLevel: 'Junior (1–3 yrs)',
+    salary: '€65k–€85k',
+    postedAt: '2025-07-04',
+    applicationDeadline: '2025-08-01',
+    url: 'https://www.lifeatspotify.com',
+    description:
+      'Join the Android squad that builds the core Spotify playback experience for 350 million monthly active users. This role focuses on the audio-player layer, written primarily in Java with newer Kotlin features layered on top.',
+    responsibilities: [
+      'Build and maintain the audio-player SDK and ExoPlayer integration',
+      'Write Java and Kotlin code for the Spotify Android app (Java → Kotlin migration)',
+      'Optimise battery and CPU consumption for background playback',
+      'Write unit and instrumentation tests with Espresso and Robolectric',
+      'Participate in A/B experiments driving player UX improvements',
+    ],
+    requirements: [
+      '1–3 years Android development in Java',
+      'Solid understanding of Android lifecycle and background services',
+      'Experience with ExoPlayer or MediaPlayer APIs',
+      'Familiarity with Kotlin Coroutines for async operations',
+    ],
+    niceToHave: [
+      'Jetpack Compose experience',
+      'Audio engineering knowledge (codecs, buffering)',
+      'Experience with the Spotify Android SDK',
+    ],
+    techStack: ['Java', 'Kotlin', 'Android SDK', 'ExoPlayer', 'Coroutines', 'Espresso', 'Gradle'],
+  },
+
+  // ─── 9 ────────────────────────────────────────────────────────────────────
+  {
+    id: '9',
+    title: 'Data Engineer — Java Streaming Pipelines',
+    company: 'Snowflake',
+    companySize: '5000–10 000 employees',
+    location: 'Remote (APAC)',
+    workMode: 'Remote',
+    role: 'Data Engineering',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$135k–$165k',
+    postedAt: '2025-07-03',
+    applicationDeadline: '2025-07-27',
+    url: 'https://careers.snowflake.com',
+    description:
+      'Snowflake\'s Data Connectivity team builds the Java-based ingestion pipelines that feed petabytes of customer data into the Snowflake platform every day. You will work on the Snowpipe Streaming SDK and high-throughput Kafka connectors.',
+    responsibilities: [
+      'Develop and maintain the Snowpipe Streaming Java SDK',
+      'Build high-throughput Kafka-to-Snowflake connector plugins',
+      'Optimise Spark Java jobs for shuffle-minimisation and predicate push-down',
+      'Design and document SDK APIs for external developers',
+      'Conduct load testing and tune JVM parameters for throughput',
+    ],
+    requirements: [
+      '3+ years Java in data-engineering or ETL context',
+      'Experience with Apache Kafka and Kafka Connect',
+      'Working knowledge of Apache Spark (Java or Scala API)',
+      'Solid SQL and columnar storage understanding',
+    ],
+    niceToHave: [
+      'Snowflake Connector development experience',
+      'Knowledge of Parquet and Iceberg file formats',
+      'Familiarity with Flink streaming',
+    ],
+    techStack: ['Java 17', 'Kafka', 'Spark', 'Snowflake', 'Parquet', 'Kubernetes', 'AWS'],
+  },
+
+  // ─── 10 ───────────────────────────────────────────────────────────────────
+  {
+    id: '10',
+    title: 'Application Security Engineer (Java)',
+    company: 'Cloudflare',
+    companySize: '1000–5000 employees',
+    location: 'Austin, TX',
+    workMode: 'On-site',
+    role: 'Security Engineering',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$175k–$215k',
+    postedAt: '2025-07-02',
+    applicationDeadline: '2025-07-20',
+    url: 'https://www.cloudflare.com/careers',
+    description:
+      'Cloudflare\'s Product Security team secures the Java microservices that power our global edge network. You will perform threat modelling, code security reviews, and build security-automation tools consumed by our 200+ engineering squads.',
+    responsibilities: [
+      'Perform threat modelling and code security reviews on Java microservices',
+      'Build SAST / DAST automation integrated into CI/CD pipelines',
+      'Develop internal Java security libraries (input validation, crypto, secret rotation)',
+      'Track and drive remediation of CVEs in Java dependencies (Spring, Jackson, etc.)',
+      'Run OWASP Top-10 training sessions for Java engineers',
+    ],
+    requirements: [
+      '5+ years in application security with Java stack',
+      'Hands-on experience with OWASP Top 10 and CWE taxonomy',
+      'Familiarity with SAST tools (Semgrep, Checkmarx, SonarQube)',
+      'Deep understanding of Java crypto APIs and secure coding patterns',
+      'Experience with dependency-vulnerability scanners (Mend, Snyk)',
+    ],
+    niceToHave: [
+      'CSSLP, OSCP, or CEH certification',
+      'Experience with runtime application self-protection (RASP)',
+      'Bug-bounty disclosure history',
+    ],
+    techStack: ['Java 17', 'Spring Security', 'Semgrep', 'Snyk', 'SonarQube', 'OWASP ZAP', 'Vault'],
+  },
+
+  // ─── 11 ───────────────────────────────────────────────────────────────────
+  {
+    id: '11',
+    title: 'Java Microservices Architect',
+    company: 'Accenture',
+    companySize: '10 000+ employees',
+    location: 'Chicago, IL',
+    workMode: 'Hybrid',
+    role: 'Java Microservices',
+    type: 'Contract',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$120–$145 / hr',
+    postedAt: '2025-07-01',
+    applicationDeadline: '2025-07-19',
+    url: 'https://www.accenture.com/careers',
+    description:
+      'Accenture Federal Services requires a Java Microservices Architect for a 12-month engagement modernising a large healthcare insurance platform from a monolithic J2EE stack to cloud-native Spring Boot microservices on AWS.',
+    responsibilities: [
+      'Define the target microservices decomposition and domain boundaries (DDD)',
+      'Produce architecture decision records (ADRs) for the migration',
+      'Lead hands-on implementation of the strangler-fig migration pattern',
+      'Review and approve designs for 6 Java delivery squads',
+      'Present architecture to client CTO and executive sponsors',
+    ],
+    requirements: [
+      '7+ years Java with at least 3 years in architect role',
+      'Deep Spring Boot and Spring Cloud expertise',
+      'Experience migrating legacy J2EE / EJB applications to microservices',
+      'Knowledge of event-driven architecture (Kafka, SQS)',
+      'AWS Certified Solutions Architect (Associate or Professional)',
+    ],
+    niceToHave: [
+      'Healthcare domain knowledge (HL7, FHIR)',
+      'Experience with Saga pattern and distributed transactions',
+      'Consulting communication and presentation skills',
+    ],
+    techStack: ['Java 17', 'Spring Boot 3', 'Spring Cloud', 'AWS', 'Kafka', 'DynamoDB', 'Terraform'],
+  },
+
+  // ─── 12 ───────────────────────────────────────────────────────────────────
+  {
+    id: '12',
+    title: 'Junior Java Full Stack Developer',
+    company: 'Atlassian',
+    companySize: '5000–10 000 employees',
+    location: 'Sydney, Australia',
+    workMode: 'Hybrid',
+    role: 'Java Full Stack',
+    type: 'Full-time',
+    experienceLevel: 'Junior (1–3 yrs)',
+    salary: 'AUD $90k–$115k',
+    postedAt: '2025-06-30',
+    applicationDeadline: '2025-07-31',
+    url: 'https://www.atlassian.com/company/careers',
+    description:
+      'Atlassian\'s Jira Software team is looking for a junior full-stack developer to build new workflow-automation features. You\'ll work in Java on the backend and React on the frontend, shipping code used by millions of software teams worldwide.',
+    responsibilities: [
+      'Implement new Jira workflow-automation triggers in Spring Boot',
+      'Build React UI components for the automation rule builder',
+      'Write integration tests with Testcontainers and component tests with React Testing Library',
+      'Participate in on-call rotations with support from senior engineers',
+    ],
+    requirements: [
+      '1–2 years Java professional experience',
+      'Familiarity with Spring Boot basics',
+      'Basic React and JavaScript knowledge',
+      'Comfort with Git and PR-based workflows',
+    ],
+    niceToHave: [
+      'Jira or Confluence plugin development',
+      'TypeScript experience',
+      'Previous experience in an agile/scrum team',
+    ],
+    techStack: ['Java 17', 'Spring Boot', 'React', 'TypeScript', 'PostgreSQL', 'Docker', 'Bitbucket'],
+  },
+
+  // ─── 13 — Python Backend ──────────────────────────────────────────────────
+  {
+    id: '13',
+    title: 'Senior Python Backend Engineer',
+    company: 'Airbnb',
+    companySize: '5000–10 000 employees',
+    location: 'Remote (US)',
+    workMode: 'Remote',
+    role: 'Python Backend',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$185k–$235k',
+    postedAt: '2025-07-11',
+    applicationDeadline: '2025-07-26',
+    url: 'https://careers.airbnb.com',
+    featured: true,
+    description:
+      'Airbnb\'s Core Services team owns the Python services that power search, pricing, and reservation flows for 150 million guests. We\'re looking for a senior engineer to lead the migration of critical Django monolith services to FastAPI microservices.',
+    responsibilities: [
+      'Architect and migrate legacy Django services to FastAPI-based microservices',
+      'Design async task queues with Celery and Redis for high-throughput workloads',
+      'Build internal Python libraries for distributed tracing and observability',
+      'Own service SLOs and lead production incident response',
+      'Mentor engineers on Python best practices and async patterns',
+    ],
+    requirements: [
+      '5+ years professional Python development',
+      'Deep FastAPI or Django REST Framework experience',
+      'Proficiency with async Python (asyncio, aiohttp)',
+      'Experience with PostgreSQL and Redis at scale',
+      'Strong understanding of microservices and event-driven architecture',
+    ],
+    niceToHave: [
+      'Experience with Airflow or Prefect for pipeline orchestration',
+      'Knowledge of Pydantic v2 and Python type system',
+      'Familiarity with GCP or AWS (Pub/Sub, SQS)',
+    ],
+    techStack: ['Python 3.12', 'FastAPI', 'Django', 'Celery', 'Redis', 'PostgreSQL', 'Kubernetes', 'GCP'],
+  },
+
+  // ─── 14 — Python Data Science ─────────────────────────────────────────────
+  {
+    id: '14',
+    title: 'Data Scientist — Recommendations',
+    company: 'Pinterest',
+    companySize: '1000–5000 employees',
+    location: 'San Francisco, CA',
+    workMode: 'Hybrid',
+    role: 'Python Data Science',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$155k–$195k',
+    postedAt: '2025-07-09',
+    applicationDeadline: '2025-07-29',
+    url: 'https://www.pinterestcareers.com',
+    description:
+      'Pinterest\'s Homefeed Recommendations team develops the ML models that surface personalised content to 450 million monthly active users. You will own the full model lifecycle: ideation, offline evaluation, A/B testing, and production deployment.',
+    responsibilities: [
+      'Develop and iterate on ranking, retrieval, and re-ranking models in Python',
+      'Run large-scale offline and online A/B experiments across recommendation features',
+      'Build feature pipelines in Spark Python API and Airflow DAGs',
+      'Collaborate with embedding-infrastructure teams to deploy vector-search at scale',
+      'Present model performance and business impact to leadership',
+    ],
+    requirements: [
+      '3+ years applied ML / data science in production',
+      'Strong Python: scikit-learn, PyTorch or TensorFlow',
+      'Hands-on experience with recommendation systems or ranking models',
+      'Solid statistics and experiment design background',
+      'Experience with Spark and large-scale feature computation',
+    ],
+    niceToHave: [
+      'Graph neural network experience',
+      'Familiarity with Faiss / vector databases',
+      'Publications or open-source ML contributions',
+    ],
+    techStack: ['Python', 'PyTorch', 'Spark', 'Airflow', 'Faiss', 'Kubernetes', 'AWS'],
+  },
+
+  // ─── 15 — React / Frontend ───────────────────────────────────────────────
+  {
+    id: '15',
+    title: 'Senior React Engineer',
+    company: 'Figma',
+    companySize: '1000–5000 employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'React / Frontend',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$190k–$240k',
+    postedAt: '2025-07-10',
+    applicationDeadline: '2025-07-27',
+    url: 'https://www.figma.com/careers',
+    featured: true,
+    description:
+      'Figma\'s Editor team is building the collaborative design canvas used by 4 million designers worldwide. You will work on the React layer above our custom WebGL renderer, owning features from property panels to plugin APIs.',
+    responsibilities: [
+      'Build and maintain high-performance React components for the Figma editor',
+      'Optimise rendering performance for complex component trees (60 fps target)',
+      'Design and evolve the React-to-renderer data binding layer',
+      'Review React code for 40+ engineers across the product organisation',
+      'Drive migration from class components to hooks and concurrent-mode patterns',
+    ],
+    requirements: [
+      '5+ years React development',
+      'Expert-level understanding of React internals, hooks, and concurrent rendering',
+      'Strong TypeScript skills',
+      'Experience with performance profiling (React DevTools, Lighthouse)',
+      'Familiarity with Canvas/WebGL rendering pipelines',
+    ],
+    niceToHave: [
+      'Experience with design-tool or rich-text-editor development',
+      'Knowledge of WebAssembly',
+      'Open-source React contributions',
+    ],
+    techStack: ['React 19', 'TypeScript', 'WebGL', 'Vite', 'Vitest', 'GraphQL', 'Electron'],
+  },
+
+  // ─── 16 — Full Stack React + Node ─────────────────────────────────────────
+  {
+    id: '16',
+    title: 'Full Stack Engineer (React + Node)',
+    company: 'Notion',
+    companySize: '500–1000 employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'Full Stack (React + Node)',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$160k–$200k',
+    postedAt: '2025-07-08',
+    applicationDeadline: '2025-08-02',
+    url: 'https://www.notion.so/careers',
+    description:
+      'Notion\'s product engineering team is building the connected workspace for over 30 million users. We need a full-stack engineer comfortable owning features from the Node.js API layer to the React rich-text editor.',
+    responsibilities: [
+      'Ship product features end-to-end: REST/GraphQL APIs in Node.js + React UI',
+      'Optimise the collaborative editing engine (CRDTs, operational transforms)',
+      'Build integrations with third-party tools (Slack, GitHub, Jira)',
+      'Write scalable PostgreSQL queries and manage migration scripts',
+      'Participate in design reviews and user research sessions',
+    ],
+    requirements: [
+      '3+ years full-stack experience with React and Node.js',
+      'Strong TypeScript across frontend and backend',
+      'Experience with PostgreSQL and query optimisation',
+      'Comfortable with REST and GraphQL API design',
+    ],
+    niceToHave: [
+      'Experience with CRDTs or real-time collaboration',
+      'Familiarity with Electron or desktop app development',
+      'Prior experience at a product-led growth company',
+    ],
+    techStack: ['React', 'Node.js', 'TypeScript', 'PostgreSQL', 'GraphQL', 'Redis', 'AWS'],
+  },
+
+  // ─── 17 — DevOps / SRE ───────────────────────────────────────────────────
+  {
+    id: '17',
+    title: 'Platform Engineer / SRE',
+    company: 'Datadog',
+    companySize: '5000+ employees',
+    location: 'New York, NY',
+    workMode: 'Hybrid',
+    role: 'DevOps / SRE',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$165k–$205k',
+    postedAt: '2025-07-09',
+    applicationDeadline: '2025-07-31',
+    url: 'https://www.datadoghq.com/careers',
+    description:
+      'Datadog\'s Platform Engineering team builds the internal infrastructure that runs the product used by 28 000 customers. You will design and operate Kubernetes clusters, CI/CD platforms, and the observability tooling that keeps our own systems healthy.',
+    responsibilities: [
+      'Manage multi-region Kubernetes clusters running 3 000+ microservices',
+      'Build and maintain GitHub Actions and Tekton CI/CD pipelines',
+      'Design auto-scaling, spot-instance strategies, and cost-optimisation policies',
+      'Own incident management tooling and on-call runbooks',
+      'Develop internal Go/Python tooling for platform automation',
+    ],
+    requirements: [
+      '3–5 years in SRE or Platform Engineering',
+      'Expert Kubernetes (CKA/CKAD preferred)',
+      'Terraform or Pulumi infrastructure-as-code experience',
+      'Strong scripting in Python or Go',
+      'Experience with cloud providers (AWS, GCP, or Azure)',
+    ],
+    niceToHave: [
+      'Datadog product knowledge or agent contributions',
+      'Experience with eBPF-based networking',
+      'Chaos engineering practice (Chaos Monkey, LitmusChaos)',
+    ],
+    techStack: ['Kubernetes', 'Terraform', 'GitHub Actions', 'Python', 'Go', 'AWS', 'GCP', 'Prometheus'],
+  },
+
+  // ─── 18 — Machine Learning ────────────────────────────────────────────────
+  {
+    id: '18',
+    title: 'Machine Learning Engineer — LLM Infra',
+    company: 'Anthropic',
+    companySize: '500–1000 employees',
+    location: 'San Francisco, CA',
+    workMode: 'Hybrid',
+    role: 'Machine Learning',
+    type: 'Full-time',
+    experienceLevel: 'Senior (5+ yrs)',
+    salary: '$240k–$320k',
+    postedAt: '2025-07-11',
+    applicationDeadline: '2025-07-30',
+    url: 'https://www.anthropic.com/careers',
+    featured: true,
+    description:
+      'Anthropic is building safe and steerable AI systems. The LLM Infrastructure team owns the training and serving infrastructure for Claude. This role focuses on distributed training optimisation, memory-efficient attention, and inference serving at scale.',
+    responsibilities: [
+      'Build and optimise distributed training pipelines for large transformer models',
+      'Implement memory-efficient attention variants (Flash Attention, ring attention)',
+      'Design low-latency model-serving infrastructure with dynamic batching',
+      'Profile and optimise GPU utilisation across thousands of H100 nodes',
+      'Collaborate with safety researchers to integrate interpretability tooling',
+    ],
+    requirements: [
+      '5+ years ML engineering with deep learning frameworks',
+      'Expert PyTorch knowledge including custom CUDA kernels',
+      'Experience with distributed training (DeepSpeed, FSDP, Megatron)',
+      'Strong Python and systems-programming background',
+    ],
+    niceToHave: [
+      'Experience with CUDA C++ and Triton kernel writing',
+      'Familiarity with model quantisation (GPTQ, AWQ, SmoothQuant)',
+      'Publications in ML systems or efficient inference',
+    ],
+    techStack: ['Python', 'PyTorch', 'CUDA', 'Triton', 'Ray', 'Kubernetes', 'AWS', 'JAX'],
+  },
+
+  // ─── 19 — Mobile (iOS / Android) ─────────────────────────────────────────
+  {
+    id: '19',
+    title: 'iOS / Android Engineer (React Native)',
+    company: 'Duolingo',
+    companySize: '1000–5000 employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'Mobile (iOS / Android)',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$140k–$175k',
+    postedAt: '2025-07-07',
+    applicationDeadline: '2025-08-04',
+    url: 'https://careers.duolingo.com',
+    description:
+      'Duolingo\'s Mobile Platform team owns the React Native foundation that delivers lessons to 500 million learners. You will build new learning-interaction patterns, own app-performance metrics, and ship to iOS and Android simultaneously.',
+    responsibilities: [
+      'Implement new lesson-interaction components in React Native (iOS + Android)',
+      'Optimise animations to achieve 60 fps on mid-range Android devices',
+      'Manage the native bridging layer between React Native and platform APIs',
+      'Set up and maintain crash-reporting and performance monitoring (Sentry, Firebase)',
+      'Collaborate with design on the motion design system',
+    ],
+    requirements: [
+      '3+ years React Native in a production app',
+      'Solid understanding of iOS (Swift/Obj-C) or Android (Kotlin/Java) native layer',
+      'Experience with complex animations (Reanimated, Animated API)',
+      'Comfortable with over-the-air update strategies (CodePush / EAS)',
+    ],
+    niceToHave: [
+      'Expo managed workflow experience',
+      'Prior experience in an EdTech product',
+      'TypeScript / Zod expertise',
+    ],
+    techStack: ['React Native', 'TypeScript', 'Reanimated', 'Swift', 'Kotlin', 'Firebase', 'Sentry'],
+  },
+
+  // ─── 20 — Node.js Backend ─────────────────────────────────────────────────
+  {
+    id: '20',
+    title: 'Backend Engineer — Node.js / TypeScript',
+    company: 'Vercel',
+    companySize: '500–1000 employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'Node.js Backend',
+    type: 'Full-time',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$155k–$190k',
+    postedAt: '2025-07-10',
+    applicationDeadline: '2025-08-05',
+    url: 'https://vercel.com/careers',
+    description:
+      'Vercel\'s Edge Network team builds the Node.js infrastructure that runs every Next.js deployment at the edge. You will own the runtime that executes billions of serverless function invocations per day, focusing on cold-start latency and V8 isolate management.',
+    responsibilities: [
+      'Build and optimise the Node.js serverless function runtime at the edge',
+      'Implement V8 isolate pooling and warm-start strategies',
+      'Design the API for edge middleware and edge config features',
+      'Write benchmarks and regression tests for cold-start and p99 latency',
+      'Collaborate with the Next.js open-source team on runtime API design',
+    ],
+    requirements: [
+      '3+ years Node.js development with TypeScript',
+      'Deep understanding of the V8 engine and event loop',
+      'Experience building serverless or edge-computing platforms',
+      'Familiarity with HTTP semantics and web platform APIs',
+    ],
+    niceToHave: [
+      'Contributions to Node.js or Deno open-source',
+      'Experience with WASM modules in edge runtimes',
+      'Familiarity with Cloudflare Workers or Fastly Compute',
+    ],
+    techStack: ['Node.js', 'TypeScript', 'V8', 'Deno', 'Rust', 'Kubernetes', 'Cloudflare'],
+  },
+
+  // ─── 21 — DevOps Internship ───────────────────────────────────────────────
+  {
+    id: '21',
+    title: 'DevOps / Cloud Intern',
+    company: 'Microsoft',
+    companySize: '10 000+ employees',
+    location: 'Redmond, WA',
+    workMode: 'Hybrid',
+    role: 'DevOps / SRE',
+    type: 'Internship',
+    experienceLevel: 'Entry (0–1 yr)',
+    salary: '$48–$58 / hr',
+    postedAt: '2025-07-06',
+    applicationDeadline: '2025-07-22',
+    url: 'https://careers.microsoft.com',
+    description:
+      'Microsoft Azure\'s Developer Experience team is hiring DevOps interns to improve internal developer tooling and CI/CD pipelines powering Azure services. You will ship real improvements to systems used by thousands of Microsoft engineers.',
+    responsibilities: [
+      'Automate build and deployment workflows using GitHub Actions and Azure Pipelines',
+      'Contribute to Terraform modules for Azure infrastructure provisioning',
+      'Build dashboards and alerts in Azure Monitor and Grafana',
+      'Document runbooks and on-boarding guides for platform services',
+    ],
+    requirements: [
+      'Pursuing a CS, Engineering, or related degree',
+      'Familiarity with Linux command-line and shell scripting',
+      'Basic understanding of cloud computing concepts',
+      'Exposure to Git and source-control workflows',
+    ],
+    niceToHave: [
+      'Azure fundamentals certification (AZ-900)',
+      'Experience with Docker or Kubernetes',
+      'Python or PowerShell scripting',
+    ],
+    techStack: ['Azure', 'GitHub Actions', 'Terraform', 'Python', 'Kubernetes', 'Grafana'],
+  },
+
+  // ─── 22 — Python Part-time / Contract ────────────────────────────────────
+  {
+    id: '22',
+    title: 'Python Data Engineer (Contract)',
+    company: 'Palantir',
+    companySize: '1000–5000 employees',
+    location: 'Remote',
+    workMode: 'Remote',
+    role: 'Python Backend',
+    type: 'Contract',
+    experienceLevel: 'Mid (3–5 yrs)',
+    salary: '$95–$115 / hr',
+    postedAt: '2025-07-05',
+    applicationDeadline: '2025-07-21',
+    url: 'https://www.palantir.com/careers',
+    description:
+      'Palantir is seeking a Python data-engineering contractor for a 6-month engagement building ETL pipelines that ingest and transform data from government agency APIs into Palantir Foundry datasets.',
+    responsibilities: [
+      'Build and maintain Python ETL pipelines using the Foundry SDK',
+      'Integrate REST and SOAP government data sources with schema validation',
+      'Write comprehensive data-quality checks with Great Expectations',
+      'Collaborate with Palantir Forward-Deployed Engineers on data modelling',
+    ],
+    requirements: [
+      '3+ years Python data engineering',
+      'Experience with Pandas, Polars, or PySpark',
+      'Strong REST API integration skills',
+      'Familiarity with data-quality frameworks',
+    ],
+    niceToHave: [
+      'Palantir Foundry experience',
+      'Government / public sector domain knowledge',
+      'Security clearance or ability to obtain one',
+    ],
+    techStack: ['Python 3.12', 'PySpark', 'Pandas', 'Polars', 'Airflow', 'Foundry', 'REST APIs'],
+  },
+];

@@ -7,9 +7,7 @@ import {
   BookOpen,
   Brain,
   Terminal,
-  Layers,
   ArrowRight,
-  CheckCircle2,
   Clock,
   BarChart3,
   Sparkles,
@@ -18,35 +16,182 @@ import {
   Search,
   Moon,
   FlaskConical,
+  Play,
+  Briefcase,
+  Trophy,
+  GraduationCap,
+  Layers,
+  Globe,
+  CheckCircle2,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
-import { getChaptersWithLessons, getCourseStats, ALL_LESSONS } from '@/data/course';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.5, ease: 'easeOut' as const },
+    transition: { delay: i * 0.08, duration: 0.5, ease: 'easeOut' as const },
   }),
 };
 
-export default function HomePage() {
-  const chapters = getChaptersWithLessons('java');
-  const courseStats = getCourseStats('java');
+// ── Courses catalog (shown on home) ──────────────────────────────────────────
 
+const COURSES = [
+  {
+    emoji: '☕',
+    color: '#F97316',
+    bg: 'rgba(249,115,22,0.08)',
+    border: 'rgba(249,115,22,0.2)',
+    title: 'Java Foundations',
+    subtitle: 'Core language · OOP · JVM · Collections',
+    lessons: 23,
+    hours: '~18',
+    level: 'Beginner → Advanced',
+    href: '/dashboard',
+    available: true,
+  },
+  {
+    emoji: '🍃',
+    color: '#22C55E',
+    bg: 'rgba(34,197,94,0.08)',
+    border: 'rgba(34,197,94,0.2)',
+    title: 'Spring Boot',
+    subtitle: 'REST APIs · Security · JPA · Microservices',
+    lessons: 18,
+    hours: '~14',
+    level: 'Intermediate',
+    href: '/dashboard',
+    available: true,
+  },
+  {
+    emoji: '🐍',
+    color: '#38BDF8',
+    bg: 'rgba(56,189,248,0.08)',
+    border: 'rgba(56,189,248,0.2)',
+    title: 'Python & Django',
+    subtitle: '60-day full-stack path · Django · DRF',
+    lessons: 24,
+    hours: '~20',
+    level: 'Beginner → Full Stack',
+    href: '/dashboard',
+    available: true,
+  },
+  {
+    emoji: '🧠',
+    color: '#A78BFA',
+    bg: 'rgba(167,139,250,0.08)',
+    border: 'rgba(167,139,250,0.2)',
+    title: 'DSA Masterclass',
+    subtitle: 'Arrays · Trees · Graphs · DP · Patterns',
+    lessons: 40,
+    hours: '~30',
+    level: 'All levels',
+    href: '/roadmap',
+    available: true,
+  },
+  {
+    emoji: '⚡',
+    color: '#FACC15',
+    bg: 'rgba(250,204,21,0.08)',
+    border: 'rgba(250,204,21,0.2)',
+    title: 'System Design',
+    subtitle: 'HLD · LLD · CAP · Databases · Caching',
+    lessons: 0,
+    hours: '—',
+    level: 'Advanced',
+    href: '#',
+    available: false,
+  },
+  {
+    emoji: '🔒',
+    color: '#F43F5E',
+    bg: 'rgba(244,63,94,0.08)',
+    border: 'rgba(244,63,94,0.2)',
+    title: 'Aptitude & OA Prep',
+    subtitle: 'Quant · Reasoning · Online Assessments',
+    lessons: 0,
+    hours: '—',
+    level: 'All levels',
+    href: '#',
+    available: false,
+  },
+];
+
+const PLATFORM_FEATURES = [
+  {
+    icon: Terminal,
+    title: 'Interactive Code Blocks',
+    desc: 'Syntax-highlighted examples with copy, collapse, line numbers and output panels.',
+  },
+  {
+    icon: Brain,
+    title: 'Visual Diagrams',
+    desc: 'Mermaid-powered flowcharts, class diagrams, mind maps and sequence diagrams.',
+  },
+  {
+    icon: FlaskConical,
+    title: 'Knowledge Checks',
+    desc: 'MCQ drills and flashcards with instant feedback at the end of every section.',
+  },
+  {
+    icon: Play,
+    title: 'Multi-language Playground',
+    desc: 'Write Java, Python, JS and more in the browser with a Monaco-powered editor.',
+  },
+  {
+    icon: Trophy,
+    title: 'LeetCode-style Practice',
+    desc: 'Coding problems with difficulty tags, starter code, solutions and test cases.',
+  },
+  {
+    icon: Search,
+    title: 'Instant Search',
+    desc: 'Find any topic across all courses with ⌘K universal search.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Progress Tracking',
+    desc: 'Per-course completion tracking, bookmarks and resume where you left off.',
+  },
+  {
+    icon: Zap,
+    title: 'Interview Prep',
+    desc: 'Curated interview questions and explanations embedded in every lesson.',
+  },
+  {
+    icon: BookMarked,
+    title: 'Bookmarks',
+    desc: 'Save lessons for revision and build a personalised study queue.',
+  },
+  {
+    icon: Moon,
+    title: 'Dark & Light Mode',
+    desc: 'Polished dark mode by default with full light mode support.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Java Job Board',
+    desc: 'Filtered job listings by role, experience level and work mode.',
+  },
+  {
+    icon: Globe,
+    title: 'Always Free',
+    desc: 'No login, no paywall, no ads. The full platform is free for everyone.',
+  },
+];
+
+export default function HomePage() {
   return (
     <div className="min-h-screen">
       <Navbar />
 
-      {/* ── Hero Section ────────────────────────────────────────────────── */}
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--accent)]/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--accent)]/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[var(--accent)]/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="relative max-w-5xl mx-auto px-4 pt-20 pb-24 text-center">
-          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -54,35 +199,33 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/5 text-sm text-[var(--accent)] mb-8"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Free · No Login · {courseStats.totalLessons} Lessons</span>
+            <span>Free · No Login · 6 Learning Paths</span>
           </motion.div>
 
-          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-[1.1] mb-6"
           >
-            Master Java.
+            Learn to code.
             <br />
             <span className="bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--highlight)] bg-clip-text text-transparent">
-              Build with confidence.
+              Land the job.
             </span>
           </motion.h1>
 
-          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mx-auto text-lg text-[var(--text-muted)] leading-relaxed mb-10"
           >
-            A complete interactive learning platform to take you from zero to Java proficiency.
-            Rich code examples, visual diagrams, quizzes, and interview prep — all in one place.
+            CodePulse is an interactive learning platform covering Java, Python, Spring Boot, DSA,
+            and more — with structured courses, a coding playground, MCQ drills, and a job board
+            built for developers who want results.
           </motion.p>
 
-          {/* CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -93,28 +236,28 @@ export default function HomePage() {
               href="/dashboard"
               className="group flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white font-semibold text-base shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 transition-all duration-300 hover:scale-[1.02]"
             >
-              Start Learning
+              Browse Courses
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="/lesson/oop-fundamentals"
+              href="/practice"
               className="flex items-center gap-2 px-8 py-3.5 rounded-2xl border border-[var(--border-color)] text-[var(--text-secondary)] font-medium text-base hover:bg-[var(--surface)] hover:border-[var(--accent)]/30 transition-all duration-300"
             >
-              <BookOpen className="w-4 h-4" />
-              Preview First Lesson
+              <Play className="w-4 h-4" />
+              Open Practice Arena
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Stats ────────────────────────────────────────────────────────── */}
+      {/* ── Platform stats ───────────────────────────────────────────────── */}
       <section className="border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
         <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { icon: BookOpen, label: 'Lessons', value: courseStats.totalLessons },
-            { icon: Layers, label: 'Chapters', value: courseStats.totalChapters },
-            { icon: Clock, label: 'Hours', value: `~${courseStats.totalDurationHours}` },
-            { icon: Code2, label: 'Code Examples', value: '100+' },
+            { icon: BookOpen,      label: 'Lessons',      value: '100+' },
+            { icon: Layers,        label: 'Courses',       value: '6' },
+            { icon: Clock,         label: 'Content Hours', value: '80+' },
+            { icon: GraduationCap, label: 'Topics Covered',value: '200+' },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -135,179 +278,195 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Features ──────────────────────────────────────────────────── */}
+      {/* ── Course catalog ───────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-4 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="mb-12"
         >
-          <h2 className="text-3xl font-heading font-bold mb-3">
-            Everything you need to learn Java
-          </h2>
-          <p className="text-[var(--text-muted)]">
-            Not just notes — a complete interactive learning experience.
-          </p>
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h2 className="text-3xl font-heading font-bold mb-2">Learning Paths</h2>
+              <p className="text-[var(--text-muted)]">
+                Structured courses from beginner to production-ready.
+              </p>
+            </div>
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-sm text-[var(--accent)] hover:underline"
+            >
+              View all <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[
-            {
-              icon: Terminal,
-              title: 'Interactive Code Blocks',
-              desc: 'Syntax-highlighted Java code with copy, collapse, line numbers, and output sections.',
-            },
-            {
-              icon: Brain,
-              title: 'Visual Diagrams',
-              desc: 'Mermaid-powered flowcharts, mind maps, class diagrams, and sequence diagrams.',
-            },
-            {
-              icon: FlaskConical,
-              title: 'Knowledge Checks',
-              desc: 'Interactive quizzes and flashcards at the end of each section.',
-            },
-            {
-              icon: Search,
-              title: 'Instant Search',
-              desc: 'Find any topic across all lessons with Cmd+K search.',
-            },
-            {
-              icon: BarChart3,
-              title: 'Progress Tracking',
-              desc: 'Track completed lessons, overall progress, and pick up where you left off.',
-            },
-            {
-              icon: BookMarked,
-              title: 'Bookmarks',
-              desc: 'Bookmark lessons for quick access and revision.',
-            },
-            {
-              icon: Moon,
-              title: 'Dark & Light Mode',
-              desc: 'Beautiful dark mode by default with full light mode support.',
-            },
-            {
-              icon: Zap,
-              title: 'Interview Prep',
-              desc: 'Dedicated interview question sections in every lesson.',
-            },
-            {
-              icon: Sparkles,
-              title: 'Premium Design',
-              desc: 'Clean, modern UI inspired by Linear, Vercel, and Raycast.',
-            },
-          ].map((feature, i) => (
+          {COURSES.map((course, i) => (
             <motion.div
-              key={feature.title}
+              key={course.title}
               custom={i}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={fadeUp}
-              className="group p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] hover:bg-[var(--surface-elevated)] hover:border-[var(--accent)]/20 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-3 group-hover:bg-[var(--accent)]/15 transition-colors">
-                <feature.icon className="w-5 h-5 text-[var(--accent)]" />
-              </div>
-              <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1 font-heading">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                {feature.desc}
-              </p>
+              <Link
+                href={course.href}
+                className={`group block p-5 rounded-2xl border transition-all duration-200 h-full ${
+                  course.available
+                    ? 'hover:scale-[1.01] hover:shadow-lg cursor-pointer'
+                    : 'opacity-55 cursor-default pointer-events-none'
+                }`}
+                style={{
+                  borderColor: course.available ? course.border : 'var(--border-color)',
+                  background: course.available ? course.bg : 'var(--surface)',
+                }}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{course.emoji}</span>
+                  {!course.available && (
+                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full border border-[var(--border-color)] text-[var(--text-disabled)]">
+                      Coming soon
+                    </span>
+                  )}
+                  {course.available && (
+                    <CheckCircle2 className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: course.color }} />
+                  )}
+                </div>
+                <h3 className="text-base font-heading font-bold text-[var(--text-primary)] mb-1">
+                  {course.title}
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] mb-4 leading-relaxed">{course.subtitle}</p>
+                <div className="flex items-center gap-3 text-xs text-[var(--text-disabled)]">
+                  {course.available ? (
+                    <>
+                      <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{course.lessons} lessons</span>
+                      <span>·</span>
+                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{course.hours}h</span>
+                      <span>·</span>
+                      <span>{course.level}</span>
+                    </>
+                  ) : (
+                    <span>In development</span>
+                  )}
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ── Course Roadmap ────────────────────────────────────────────── */}
+      {/* ── Platform features ────────────────────────────────────────────── */}
       <section className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
-        <div className="max-w-3xl mx-auto px-4 py-20">
+        <div className="max-w-5xl mx-auto px-4 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-14"
           >
-            <h2 className="text-3xl font-heading font-bold mb-3">Course Roadmap</h2>
+            <h2 className="text-3xl font-heading font-bold mb-3">
+              Everything in one place
+            </h2>
             <p className="text-[var(--text-muted)]">
-              {courseStats.totalChapters} chapters taking you from fundamentals to advanced Java.
+              Not just notes — a complete developer education platform.
             </p>
           </motion.div>
 
-          <div className="space-y-6">
-            {chapters.map((chapter, i) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PLATFORM_FEATURES.map((feature, i) => (
               <motion.div
-                key={chapter.number}
+                key={feature.title}
                 custom={i}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeUp}
-                className="relative pl-8"
+                className="group p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] hover:bg-[var(--surface-elevated)] hover:border-[var(--accent)]/20 transition-all duration-300"
               >
-                {/* Timeline dot */}
-                <div className="absolute left-0 top-2 w-4 h-4 rounded-full border-2 border-[var(--accent)] bg-[var(--bg-secondary)]" />
-                {/* Timeline line */}
-                {i < chapters.length - 1 && (
-                  <div className="absolute left-[7px] top-6 w-0.5 h-[calc(100%+0.5rem)] bg-[var(--border-color)]" />
-                )}
-
-                <div className="p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] hover:border-[var(--accent)]/20 transition-colors">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-xs font-bold text-[var(--accent)] uppercase tracking-wider">
-                      Chapter {chapter.number}
-                    </span>
-                    <span className="text-xs text-[var(--text-disabled)]">·</span>
-                    <span className="text-xs text-[var(--text-muted)]">
-                      {chapter.lessons.length} lessons
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-heading font-semibold text-[var(--text-primary)] mb-1.5">
-                    {chapter.title}
-                  </h3>
-                  <p className="text-sm text-[var(--text-muted)] mb-3">
-                    {chapter.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {chapter.lessons.map((lesson) => (
-                      <span
-                        key={lesson.slug}
-                        className="px-2.5 py-1 rounded-full text-xs bg-[var(--surface-elevated)] text-[var(--text-muted)] border border-[var(--border-color)]"
-                      >
-                        {lesson.title}
-                      </span>
-                    ))}
-                  </div>
+                <div className="w-9 h-9 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-3 group-hover:bg-[var(--accent)]/15 transition-colors">
+                  <feature.icon className="w-4.5 h-4.5 text-[var(--accent)]" />
                 </div>
+                <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1 font-heading">
+                  {feature.title}
+                </h3>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+                  {feature.desc}
+                </p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA Footer ────────────────────────────────────────────────── */}
+      {/* ── Jobs teaser ──────────────────────────────────────────────────── */}
       <section className="border-t border-[var(--border-color)]">
-        <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <h2 className="text-3xl font-heading font-bold mb-4">
-            Ready to start?
-          </h2>
-          <p className="text-[var(--text-muted)] mb-8">
-            Begin your Java journey now. It&apos;s completely free.
-          </p>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white font-semibold shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 transition-all duration-300 hover:scale-[1.02]"
+        <div className="max-w-5xl mx-auto px-4 py-14">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/5"
           >
-            Go to Dashboard
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
+                <Briefcase className="w-5 h-5 text-[var(--accent)]" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-[var(--text-primary)]">Java Job Board</p>
+                <p className="text-sm text-[var(--text-muted)]">
+                  12 positions · filter by role, experience & work mode
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/jobs"
+              className="shrink-0 flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent)] text-white text-sm font-semibold hover:bg-[var(--accent-hover)] transition-colors"
+            >
+              Browse Jobs
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* ── Footer ──────────────────────────────────────────────────────── */}
+      {/* ── CTA ──────────────────────────────────────────────────────────── */}
+      <section className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
+        <div className="max-w-3xl mx-auto px-4 py-20 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl font-heading font-bold mb-4">
+              Start learning today.
+            </h2>
+            <p className="text-[var(--text-muted)] mb-8">
+              Pick a course, open a lesson, and start building. Completely free, always.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white font-semibold shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 transition-all duration-300 hover:scale-[1.02]"
+              >
+                Go to Dashboard
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/roadmap"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl border border-[var(--border-color)] text-[var(--text-secondary)] font-medium hover:bg-[var(--surface)] transition-all duration-300"
+              >
+                <BookOpen className="w-4 h-4" />
+                Explore Roadmaps
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Footer ───────────────────────────────────────────────────────── */}
       <footer className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
         <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
@@ -319,7 +478,7 @@ export default function HomePage() {
             </span>
           </div>
           <p className="text-xs text-[var(--text-disabled)]">
-            Built for developers who want to learn Java properly.
+            Built for developers who want to learn and land jobs.
           </p>
         </div>
       </footer>
