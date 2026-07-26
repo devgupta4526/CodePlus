@@ -1,0 +1,387 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Teaching Studio</title>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<div id="app">
+
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <button class="tb-btn" onclick="window.parent.location.href='/admin'" style="color:var(--accent);font-weight:bold;margin-right:8px">⬅ Back</button>
+  <div class="tb-sep"></div>
+  <div style="display:flex;gap:3px">
+    <button class="tb-btn active" id="tool-pen">✏️ Pen</button>
+    <button class="tb-btn" id="tool-marker">🖊 Mark</button>
+    <button class="tb-btn" id="tool-arrow">➜ Arrow</button>
+    <button class="tb-btn" id="tool-rect">▭ Rect</button>
+    <button class="tb-btn" id="tool-circle">○ Circle</button>
+    <button class="tb-btn" id="tool-text">T Text</button>
+    <button class="tb-btn" id="tool-eraser">◻ Erase</button>
+    <button class="tb-btn" id="tool-laser">🔴 Laser</button>
+  </div>
+  <div class="tb-sep"></div>
+  <div style="display:flex;gap:4px;align-items:center">
+    <div class="swatch active" style="background:#7c8cf8" data-color="#7c8cf8"></div>
+    <div class="swatch" style="background:#f87c7c" data-color="#f87c7c"></div>
+    <div class="swatch" style="background:#7cf8a0" data-color="#7cf8a0"></div>
+    <div class="swatch" style="background:#f8d07c" data-color="#f8d07c"></div>
+    <div class="swatch" style="background:#7cd4f8" data-color="#7cd4f8"></div>
+    <div class="swatch" style="background:#f87cd4" data-color="#f87cd4"></div>
+    <div class="swatch" style="background:#ffffff" data-color="#ffffff"></div>
+  </div>
+  <div class="tb-sep"></div>
+  <div class="sz-wrap">
+    <span style="font-size:10.5px;color:var(--text3)">Size</span>
+    <input type="range" id="stroke-range" min="1" max="20" value="3">
+    <span class="sz-lbl" id="stroke-val">3</span>
+  </div>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="undo-btn">↩ Undo</button>
+  <button class="tb-btn" id="redo-btn">↪ Redo</button>
+  <button class="tb-btn danger" id="clear-btn">✕ Clear</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="projects-btn" style="color:var(--accent)">📁 Projects</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn primary" id="json-import-btn">{ } Import JSON</button>
+  <button class="tb-btn" id="json-export-btn">↓ Export JSON</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn primary" id="md-import-btn" style="background:#f59e0b;color:#000">📝 Convert MD Notes</button>
+  <input type="file" id="md-file-input" accept=".md,.mdx" style="display:none">
+  <button class="tb-btn primary" id="server-save-btn" style="background:#10b981;color:#000">💾 Save Slides</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn primary" id="fs-btn">▶ Present</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="sidebar">
+    <div id="sb-hdr">
+      <span>Slides</span>
+      <span id="sb-ctr" style="color:var(--text2);font-size:11px;font-family:'JetBrains Mono',monospace">1/1</span>
+    </div>
+    <div id="slide-list"></div>
+    <button class="add-slide-btn" id="add-slide-btn">+ Add slide</button>
+  </div>
+
+  <div id="canvas-area">
+    <div id="canvas-wrap">
+      <canvas id="slide-canvas"></canvas>
+      <div id="slide-dom"></div>
+      <canvas id="draw-canvas"></canvas>
+    </div>
+
+    <div class="float-panel" id="mode-badge">
+      <div class="mode-pulse drawing" id="mode-pulse"></div>
+      <span id="mode-label">Pen</span>
+    </div>
+
+    <div class="float-panel" id="presenter-bar">
+      <button class="nav-btn" id="prev-btn">‹</button>
+      <div id="slide-ctr">1 / 1</div>
+      <div id="step-ctr"></div>
+      <button class="nav-btn" id="next-btn">›</button>
+    </div>
+
+    <button id="sc-toggle" title="Shortcuts">?</button>
+    <div class="float-panel" id="shortcuts-panel">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+        <span style="color:var(--text2);font-weight:600;font-size:11px">Shortcuts</span>
+        <button id="sc-close" style="background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0 0 0 8px">✕</button>
+      </div>
+      <div><span class="key">→ Space</span> next step/slide</div>
+      <div><span class="key">←</span> prev step/slide</div>
+      <div><span class="key">P</span> pen <span class="key">M</span> marker <span class="key">A</span> arrow</div>
+      <div><span class="key">R</span> rect <span class="key">C</span> circle <span class="key">T</span> text</div>
+      <div><span class="key">E</span> erase <span class="key">L</span> laser <span class="key">Del</span> clear</div>
+      <div><span class="key">Ctrl+Z</span> undo <span class="key">F</span> present</div>
+    </div>
+
+    <div class="float-panel" id="zoom-wrap">
+      <button class="zm-btn" id="zm-in">+</button>
+      <button class="zm-btn" id="zm-out">−</button>
+      <button class="zm-btn" id="zm-reset" style="font-size:9.5px">1:1</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div id="editor">
+  <div class="etab-bar">
+    <button class="etab active" data-tab="content">Content</button>
+    <button class="etab" data-tab="code">Code</button>
+    <button class="etab" data-tab="anim">Animation</button>
+    <button class="etab" data-tab="manage">Manage</button>
+  </div>
+  <div id="editor-body"></div>
+</div>
+</div><!-- #app -->
+
+<!-- PRESENTATION OVERLAY -->
+<div id="present-overlay">
+  <div id="present-canvas-wrap">
+    <canvas id="present-slide-canvas"></canvas>
+    <div id="present-dom"></div>
+    <canvas id="present-draw-canvas"></canvas>
+  </div>
+  <button id="present-exit">✕ Exit <span style="color:var(--text3);font-size:9.5px;margin-left:3px">Esc</span></button>
+  <div id="present-hud">
+    <div id="present-tools">
+      <button class="pt-btn active" data-ptool="pen" title="Pen (P)">✏️</button>
+      <button class="pt-btn" data-ptool="marker" title="Marker (M)">🖊</button>
+      <button class="pt-btn" data-ptool="arrow" title="Arrow (A)">➜</button>
+      <button class="pt-btn" data-ptool="rect" title="Rect (R)">▭</button>
+      <button class="pt-btn" data-ptool="circle" title="Circle (C)">○</button>
+      <button class="pt-btn" data-ptool="laser" title="Laser (L)">🔴</button>
+      <button class="pt-btn" data-ptool="eraser" title="Eraser (E)">◻</button>
+      <div class="pt-sep"></div>
+      <div class="pt-swatch active" style="background:#7c8cf8" data-pcolor="#7c8cf8"></div>
+      <div class="pt-swatch" style="background:#f87c7c" data-pcolor="#f87c7c"></div>
+      <div class="pt-swatch" style="background:#7cf8a0" data-pcolor="#7cf8a0"></div>
+      <div class="pt-swatch" style="background:#f8d07c" data-pcolor="#f8d07c"></div>
+      <div class="pt-swatch" style="background:#7cd4f8" data-pcolor="#7cd4f8"></div>
+      <div class="pt-swatch" style="background:#ffffff" data-pcolor="#ffffff"></div>
+      <div class="pt-sep"></div>
+      <div class="p-sz-wrap" style="display:flex;align-items:center;gap:4px">
+        <input type="range" id="p-stroke-range" min="1" max="20" value="3" style="width:46px;accent-color:var(--accent)">
+      </div>
+      <div class="pt-sep"></div>
+      <button class="pt-btn" id="pt-undo" title="Undo (Ctrl+Z)">↩</button>
+      <button class="pt-btn" id="pt-clear" title="Clear (Del)" style="color:var(--red)">✕</button>
+    </div>
+    <div id="present-nav">
+      <button class="nav-btn" id="present-prev">‹</button>
+      <div id="present-slide-ctr">1 / 1</div>
+      <div id="present-step-ctr"></div>
+      <button class="nav-btn" id="present-next">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- JSON MODAL -->
+<div id="json-modal">
+  <div id="json-box">
+    <div id="json-hdr">
+      <h2>{ } Import / Export JSON</h2>
+      <button id="json-close">✕</button>
+    </div>
+    <div id="json-tabs">
+      <button class="jtab active" data-jtab="import">Import</button>
+      <button class="jtab" data-jtab="schema">Schema</button>
+      <button class="jtab" data-jtab="prompt">AI Prompt</button>
+      <button class="jtab" data-jtab="export">Export</button>
+    </div>
+    <div id="json-body">
+      <div class="json-pane active" id="jpane-import">
+        <div style="font-size:11.5px;color:var(--text3)">Paste a JSON array of slide objects. Choose <b style="color:var(--yellow)">Replace</b> to swap the deck or <b style="color:var(--green)">Append</b> to add slides.</div>
+        <textarea id="json-textarea" placeholder='[ { "layout":"title","title":"My Deck","subtitle":"...","accent":"#7c8cf8" }, ... ]'></textarea>
+        <div id="json-error"></div>
+        <div class="json-actions">
+          <button class="tb-btn primary" id="json-replace-btn">⟳ Replace Deck</button>
+          <button class="tb-btn" id="json-append-btn">+ Append</button>
+          <button class="tb-btn" id="json-file-btn">📂 Load File</button>
+          <input type="file" id="json-file-input" accept=".json" style="display:none">
+          <button class="tb-btn" style="margin-left:auto" id="json-clear-ta">Clear</button>
+        </div>
+      </div>
+      <div class="json-pane" id="jpane-schema">
+        <div class="schema-section"><span class="schema-cmt">// Top-level: array of slide objects  [ {...}, {...} ]
+// Required: layout. All others optional.</span>
+{
+  <span class="schema-key">"layout"</span>:      <span class="schema-val">"title"|"bullets"|"code"|"split"|"compare"|"quote"|"timeline"|"stats"|"callout"|"two-col"|"diagram"|"blank"|<br>"hook"|"problem"|"prediction"|"wrong-assumption"|"story"|"analogy"|"journey"|"mystery"|<br>"myth-vs-reality"|"common-mistake"|"challenge"|"quiz"|"memory-trick"|"did-you-know"|"character"|"transition"|"summary"</span>,
+  <span class="schema-key">"role"</span>:        <span class="schema-val">"hook"|"problem"|"curiosity"|"question"|"prediction"|"story"|"analogy"|"visualization"|"journey"|"explanation"|"deep-dive"|"example"|"comparison"|"myth-vs-reality"|"wrong-assumption"|"common-mistake"|"challenge"|"quiz"|"checkpoint"|"memory-trick"|"did-you-know"|"fact"|"summary"|"revision"|"transition"|"next-topic"</span>,  <span class="schema-cmt">// narrative role — independent of layout</span>,
+  <span class="schema-key">"title"</span>:       <span class="schema-val">"string"</span>,
+  <span class="schema-key">"subtitle"</span>:    <span class="schema-val">"string"</span>,
+  <span class="schema-key">"accent"</span>:      <span class="schema-val">"#rrggbb"</span>,
+  <span class="schema-key">"bg"</span>:          <span class="schema-val">"#rrggbb"</span>,  <span class="schema-cmt">// default "#0b0d14"</span>
+  <span class="schema-key">"anim"</span>:        <span class="schema-val">"fade-up"|"slide-right"|"type-in"|"scale-in"|"none"</span>,
+  <span class="schema-key">"titleStyle"</span>:  <span class="schema-val">""|"brackets"|"orbit"|"beams"|"mesh"</span>,  <span class="schema-cmt">// title layout background motif, "" = auto-varied</span>
+
+  <span class="schema-cmt">// bullets / split / timeline</span>
+  <span class="schema-key">"bullets"</span>:     <span class="schema-val">["string", ...]</span>,
+
+  <span class="schema-cmt">// code / split</span>
+  <span class="schema-key">"code"</span>:        <span class="schema-val">"string with \\n newlines"</span>,
+
+  <span class="schema-cmt">// compare — two-column before/after</span>
+  <span class="schema-key">"leftLabel"</span>:   <span class="schema-val">"string"</span>,  <span class="schema-key">"leftCode"</span>: <span class="schema-val">"string"</span>,
+  <span class="schema-key">"rightLabel"</span>:  <span class="schema-val">"string"</span>,  <span class="schema-key">"rightCode"</span>: <span class="schema-val">"string"</span>,
+
+  <span class="schema-cmt">// quote</span>
+  <span class="schema-key">"quote"</span>:       <span class="schema-val">"string"</span>,
+  <span class="schema-key">"author"</span>:      <span class="schema-val">"string"</span>,
+
+  <span class="schema-cmt">// diagram</span>
+  <span class="schema-cmt">// stats layout</span>
+  <span class="schema-key">"stats"</span>:       <span class="schema-val">[{"value":"string","label":"string","color":"#hex"},...]</span>,
+
+  <span class="schema-cmt">// callout layout</span>
+  <span class="schema-key">"callout"</span>:     <span class="schema-val">"string"</span>,
+  <span class="schema-key">"calloutIcon"</span>: <span class="schema-val">"emoji"</span>,
+  <span class="schema-key">"note"</span>:        <span class="schema-val">"string"</span>,
+
+  <span class="schema-cmt">// two-col layout</span>
+  <span class="schema-key">"leftBullets"</span>:  <span class="schema-val">["string",...]</span>,
+  <span class="schema-key">"rightBullets"</span>: <span class="schema-val">["string",...]</span>,
+
+  <span class="schema-cmt">// diagram layout</span>
+  <span class="schema-cmt">// image-text layout</span>
+  <span class="schema-key">"imageUrl"</span>:      <span class="schema-val">"https://..."</span>,
+  <span class="schema-key">"imagePosition"</span>: <span class="schema-val">"left"|"right"</span>,
+  <span class="schema-key">"imageCaption"</span>:  <span class="schema-val">"string"</span>,
+
+  <span class="schema-cmt">// concept-map layout: bullets = spoke nodes around title center</span>
+
+  <span class="schema-cmt">// diagram layout</span>
+  <span class="schema-key">"diagramType"</span>: <span class="schema-val">"jvm"|"security"|"springboot"|"gc"|"rest-api"|"microservices"|"oop"|"solid"|"design-patterns"|"concurrency"|"transactions"|"custom"</span>,
+  <span class="schema-cmt">// diagram layout, diagramType:"custom" only — fully editable boxes</span>
+  <span class="schema-cmt">// diagram layout — ALL diagram presets are editable now, not just "custom"</span>
+  <span class="schema-key">"diagramStyle"</span>: <span class="schema-val">"grid"|"chain"|"columns"|"layered"</span>,  <span class="schema-cmt">// arrangement of the boxes below</span>
+  <span class="schema-key">"diagramNodes"</span>: <span class="schema-val">[{"label":"string","color":"#hex","column":0,"items":["string",...]},...]</span>,  <span class="schema-cmt">// column only used by "columns" style (0/1/2)</span>,
+
+  <span class="schema-cmt">// narrative templates — question/answer used by prediction, challenge, quiz, mystery</span>
+  <span class="schema-key">"question"</span>:    <span class="schema-val">"string"</span>,  <span class="schema-key">"answer"</span>: <span class="schema-val">"string"</span>,
+  <span class="schema-cmt">// quiz layout</span>
+  <span class="schema-key">"options"</span>:     <span class="schema-val">["string",...]</span>,  <span class="schema-key">"correctIndex"</span>: <span class="schema-val">0</span>,
+  <span class="schema-cmt">// wrong-assumption layout</span>
+  <span class="schema-key">"wrongSteps"</span>:  <span class="schema-val">["string",...]</span>,  <span class="schema-key">"correctSteps"</span>: <span class="schema-val">["string",...]</span>,
+  <span class="schema-cmt">// analogy layout (also uses leftLabel/rightLabel)</span>
+  <span class="schema-key">"leftIcon"</span>:    <span class="schema-val">"emoji"</span>,  <span class="schema-key">"rightIcon"</span>: <span class="schema-val">"emoji"</span>,
+  <span class="schema-key">"leftDesc"</span>:    <span class="schema-val">"string"</span>,  <span class="schema-key">"rightDesc"</span>: <span class="schema-val">"string"</span>,
+  <span class="schema-cmt">// myth-vs-reality layout (bullets = reality points)</span>
+  <span class="schema-key">"myth"</span>:        <span class="schema-val">"string"</span>,
+  <span class="schema-cmt">// character layout</span>
+  <span class="schema-key">"characters"</span>:  <span class="schema-val">[{"icon":"emoji","label":"string"},...]</span>,
+  <span class="schema-cmt">// did-you-know layout (also uses calloutIcon)</span>
+  <span class="schema-key">"fact"</span>:        <span class="schema-val">"string"</span>,
+  <span class="schema-cmt">// transition layout (bullets = recap chips)</span>
+  <span class="schema-key">"nextTopic"</span>:   <span class="schema-val">"string"</span>,
+  <span class="schema-cmt">// problem layout — bullets = comparison rows, callout = "imagine..." line</span>
+  <span class="schema-cmt">// story layout — bullets = narration lines, note = closing mapping line</span>
+  <span class="schema-cmt">// challenge/quiz layout — note = hint / explanation</span>
+}</div>
+      </div>
+      <div class="json-pane" id="jpane-prompt">
+        <div style="font-size:11.5px;color:var(--text2)">Copy this prompt into Claude or ChatGPT, paste the output back in Import.</div>
+        <div class="prompt-box" id="ai-prompt-text">You are a slide deck generator for technical teaching videos. Your goal is NOT to show information — it is to make students curious, emotionally engaged, and help them remember concepts through storytelling. Every lesson should feel like a movie where each slide answers the previous one and creates curiosity for the next.
+
+Output ONLY a valid JSON array — no markdown, no code fences, no explanation.
+
+Each element is a slide object. Schema (all optional except layout):
+{
+  "layout": "title"|"bullets"|"code"|"split"|"compare"|"quote"|"timeline"|"stats"|"callout"|"two-col"|"diagram"|"blank"|
+            "hook"|"problem"|"prediction"|"wrong-assumption"|"story"|"analogy"|"journey"|"mystery"|
+            "myth-vs-reality"|"common-mistake"|"challenge"|"quiz"|"memory-trick"|"did-you-know"|"character"|"transition"|"summary",
+  "role": "hook"|"problem"|"curiosity"|"question"|"prediction"|"story"|"analogy"|"visualization"|"journey"|"explanation"|"deep-dive"|"example"|"comparison"|"myth-vs-reality"|"wrong-assumption"|"common-mistake"|"challenge"|"quiz"|"checkpoint"|"memory-trick"|"did-you-know"|"fact"|"summary"|"revision"|"transition"|"next-topic",
+  "title": "string", "subtitle": "string",
+  "accent": "#rrggbb", "bg": "#rrggbb",
+  "anim": "fade-up"|"slide-right"|"type-in"|"scale-in"|"none",
+  "bullets": ["string",...],          // bullets/split/timeline/problem/story/journey/mystery/myth-vs-reality/common-mistake/memory-trick/summary/transition
+  "code": "string",                   // code / split  (\n for newlines)
+  "leftLabel":"string","leftCode":"string","rightLabel":"string","rightCode":"string", // compare
+  "quote":"string","author":"string", // quote
+  "diagramType":"jvm"|"security"|"springboot"|"gc"|"rest-api"|"microservices"|"oop"|"solid"|"design-patterns"|"concurrency"|"transactions"|"custom", // diagram
+  "question":"string","answer":"string",            // prediction / challenge / mystery / quiz
+  "options":["string",...],"correctIndex":0,        // quiz
+  "wrongSteps":["string",...],"correctSteps":["string",...], // wrong-assumption
+  "leftIcon":"emoji","rightIcon":"emoji","leftDesc":"string","rightDesc":"string", // analogy (+leftLabel/rightLabel)
+  "myth":"string",                                  // myth-vs-reality (bullets = reality points)
+  "characters":[{"icon":"emoji","label":"string"}], // character
+  "fact":"string","calloutIcon":"emoji",            // did-you-know
+  "callout":"string",                               // problem ("imagine..." line) / callout layout
+  "note":"string",                                  // story (mapping line) / challenge & quiz (hint/explanation)
+  "nextTopic":"string"                              // transition
+}
+
+TOPIC: [REPLACE WITH YOUR TOPIC]
+
+Follow this narrative flow when building the lesson — each slide should answer the previous one and create curiosity for the next:
+hook → problem → prediction → wrong-assumption → story or analogy → journey/visualization (diagram) → explanation (bullets) → deep-dive (code) → example → challenge → quiz (checkpoint) → common-mistake → memory-trick → did-you-know → summary → transition (tease next topic)
+
+Rules:
+- 12-18 slides covering the full narrative flow above, not just plain bullet/info dumps
+- NEVER start with a definition — start with a "hook" slide that asks a curiosity-driving question
+- Use "problem" to show the pain before introducing the solution
+- Use "prediction" to make students guess before revealing the answer
+- Use "wrong-assumption" to show the misconception first, then the real flow
+- Use "story" or "analogy" instead of dry explanations wherever possible
+- Use "journey" or a "diagram" slide to visualize processes step by step
+- Insert a "quiz" or "challenge" checkpoint every 3-5 slides
+- Use "common-mistake" for beginner pitfalls and "memory-trick" for mnemonics
+- Use "did-you-know" for a fun fact card mid-lesson
+- End with "summary" then a "transition" slide that teases the next topic
+- One idea per slide. Less text, more visuals. Keep narration conversational.
+- Accent colors from: #7c8cf8 #7cd4f8 #7cf8a0 #f8d07c #f87cd4 #f87c7c #c792ea
+- Background always "#0b0d14"
+
+Output the JSON array now:</div>
+        <div class="json-actions">
+          <button class="tb-btn primary" id="copy-prompt-btn">Copy Prompt</button>
+          <button class="tb-btn" id="copy-prompt-topic-btn">Edit Topic &amp; Copy</button>
+        </div>
+      </div>
+      <div class="json-pane" id="jpane-export">
+        <div style="font-size:11.5px;color:var(--text3)">Current deck as JSON — copy or download.</div>
+        <textarea id="json-export-area" readonly></textarea>
+        <div class="json-actions">
+          <button class="tb-btn primary" id="copy-export-btn">Copy JSON</button>
+          <button class="tb-btn" id="download-json-btn">↓ Download .json</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS MODAL -->
+<div id="projects-modal">
+  <div id="projects-box">
+    <div id="json-hdr">
+      <h2>📁 Project Manager</h2>
+      <button id="projects-close">✕</button>
+    </div>
+    <div style="padding:15px; display:flex; flex-direction:column; gap:15px">
+      <div>
+        <div style="font-size:11.5px;color:var(--text3);margin-bottom:6px">Save current deck</div>
+        <div style="display:flex;gap:6px">
+          <input type="text" id="project-name-input" class="einput" style="flex:1" placeholder="Project name...">
+          <button class="tb-btn primary" id="save-project-btn">Save Project</button>
+        </div>
+      </div>
+      <div style="height:1px; background:var(--border)"></div>
+      <div>
+        <div style="font-size:11.5px;color:var(--text3);margin-bottom:6px">Saved projects</div>
+        <div id="projects-list" style="display:flex;flex-direction:column;gap:5px;max-height:200px;overflow-y:auto"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Foundation: must load first -->
+<script src="js/config.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/svg-astronaut.js"></script>
+<script src="js/svg-art.js"></script>
+<script src="js/motion.js"></script>
+
+<!-- Renderers: depend on config + utils -->
+<script src="js/renderers-core.js"></script>
+<script src="js/renderers-diagrams.js"></script>
+<script src="js/renderers-narrative.js"></script>
+<script src="js/renderers-premium.js"></script>
+<script src="js/render.js"></script>
+
+<!-- App core: depends on renderers -->
+<script src="js/state.js"></script>
+<script src="js/canvas.js"></script>
+<script src="js/draw-tools.js"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/present.js"></script>
+
+<!-- Init: must run last (calls renderSlide, buildDefaultSlides, etc.) -->
+<script src="js/app.js"></script>
+</body>
+</html>

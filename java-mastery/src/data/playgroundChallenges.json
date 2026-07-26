@@ -1,0 +1,23 @@
+[
+  {
+    "id": "sum-array",
+    "title": "Array Sum",
+    "difficulty": "Easy",
+    "description": "Complete the function so it returns the sum of all numbers in the array.",
+    "starterCode": "function solve(numbers) {\n  return 0;\n}\n\nconsole.log(solve([1, 2, 3, 4])); // 10"
+  },
+  {
+    "id": "count-vowels",
+    "title": "Count Vowels",
+    "difficulty": "Easy",
+    "description": "Return the number of vowels (a, e, i, o, u) in the given string.",
+    "starterCode": "function solve(text) {\n  return 0;\n}\n\nconsole.log(solve(\"CodePulse\")); // 4"
+  },
+  {
+    "id": "max-number",
+    "title": "Find Maximum",
+    "difficulty": "Medium",
+    "description": "Return the largest number from the provided array without using Math.max.",
+    "starterCode": "function solve(numbers) {\n  return 0;\n}\n\nconsole.log(solve([12, 4, 27, 9])); // 27"
+  }
+]

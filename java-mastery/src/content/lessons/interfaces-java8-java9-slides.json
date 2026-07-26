@@ -1,0 +1,620 @@
+[
+  {
+    "layout": "title",
+    "title": "Interfaces Java8 Java9",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Interfaces — Java 8 & Java 9 Features",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Interfaces — Java 8 & Java 9 Features"
+  },
+  {
+    "layout": "diagram",
+    "title": "Evolution of Interface Methods — Timeline",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Interface Method Types — Quick Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method Type | Java Version | Has Implementation?",
+      "| Access Modifier | Can Override?",
+      "|\n|-------------|-------------|---------------------|-----------------|---------------|\n| `abstract` | All versions | ❌ No | `public` (implicit) | ✅ Must be overridden |\n| `default` | Java 8+ | ✅ Yes | `public` (implicit) | ✅ Optional |\n| `static` | Java 8+ | ✅ Yes | `public` (implicit) | ❌ Cannot override |\n| `private` | Java 9+ | ✅ Yes | `private` | ❌ Cannot override (only internal use) |\n| `private static` | Java 9+ | ✅ Yes | `private` | ❌ Cannot override (only internal use) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "1. The Problem Before Java 8",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. The Problem Before Java 8"
+  },
+  {
+    "layout": "split",
+    "title": "How Interfaces Worked Before Java 8",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Before Java 8, an interface could **only contain abstract methods**. Every class that implemented the interface was **required** to provide an implementation for every abstract method.",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies high\");\n    }\n}",
+      "class Sparrow implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Sparrow flies low\");\n    }\n}\n```",
+      "This worked fine — until the interface needed to grow."
+    ],
+    "code": "public interface Bird {\n    void canFly(); // abstract by default — must be implemented by all\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies high\");\n    }\n}\n\nclass Sparrow implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Sparrow flies low\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "The Scaling Problem",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Default Methods — Java 8",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Default Methods — Java 8"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Default method — has implementation, optional to override\n    default void defaultMethod() {\n        System.out.println(\"Default implementation in interface\");\n    }\n}\n```"
+    ],
+    "code": "public interface InterfaceName {\n    // Abstract method — must be implemented by classes\n    void abstractMethod();\n\n    // Default method — has implementation, optional to override\n    default void defaultMethod() {\n        System.out.println(\"Default implementation in interface\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Solving the Scaling Problem",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Default method — implementing classes DON'T need to implement this\n    default int getMinimumFlyHeight() {\n        return 10; // common default for all birds\n    }\n}",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle soars at great heights\");\n    }\n    // getMinimumFlyHeight() is inherited — no need to write it here\n}",
+      "class Sparrow implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Sparrow flutters quickly\");\n    }\n    // getMinimumFlyHeight() is inherited — no need to write it here\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        Eagle eagle = new Eagle();\n        eagle.canFly();                          // Eagle soars at great heights\n        System.out.println(eagle.getMinimumFlyHeight()); // 10 — inherited from Bird"
+    ],
+    "code": "public interface Bird {\n    void canFly(); // abstract — must implement\n\n    // Default method — implementing classes DON'T need to implement this\n    default int getMinimumFlyHeight() {\n        return 10; // common default for all birds\n    }\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle soars at great heights\");\n    }\n    // getMinimumFlyHeight() is inherited — no need to write it here\n}\n\nclass Sparrow implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Sparrow flutters quickly\");\n    }\n    // getMinimumFlyHeight() is inherited — no need to write it here\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Eagle eagle = new Eagle();\n        eagle.canFly();                          // Eagle soars at great heights\n        System.out.println(eagle.getMinimumFlyHeight()); // 10 — inherited from Bird\n\n        Sparrow sparrow = new Sparrow();\n        sparrow.canFly();                          // Sparrow flutters quickly\n        System.out.println(sparrow.getMinimumFlyHeight()); // 10 — inherited from Bird\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Can a Class Override a Default Method?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Yes — overriding is **optional** but fully supported. If a class wants its own behavior, it can override the default method:",
+      "@Override\n    public int getMinimumFlyHeight() {\n        return 0; // Penguins don't fly — override the default\n    }\n}\n```"
+    ],
+    "code": "class Penguin implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Penguin cannot fly\");\n    }\n\n    @Override\n    public int getMinimumFlyHeight() {\n        return 0; // Penguins don't fly — override the default\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Before vs After Java 8 — Impact of Adding a New Interface Method",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Why Default Methods Were Really Introduced",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Why Default Methods Were Really Introduced"
+  },
+  {
+    "layout": "split",
+    "title": "The Stream API — The Real Motivation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Add the method to the `Collection` interface",
+      "Provide a shared default implementation",
+      "Allow existing classes to work unchanged",
+      "Allow classes that need a custom `stream()` to override it"
+    ],
+    "code": "// Inside java.util.Collection interface (simplified)\npublic interface Collection<E> {\n    // ... existing abstract methods ...\n\n    default Stream<E> stream() {\n        return StreamSupport.stream(spliterator(), false);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Default Method Conflict — Multiple Interfaces",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Default Method Conflict — Multiple Interfaces"
+  },
+  {
+    "layout": "split",
+    "title": "The Problem",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A class can implement multiple interfaces. What if two interfaces both define a `default` method with the **same name and signature**?",
+      "interface LivingThing {\n    default void canBreathe() {\n        System.out.println(\"Living thing breathes\");\n    }\n}",
+      "// Eagle implements BOTH — which canBreathe() does it inherit?\nclass Eagle implements Bird, LivingThing {\n    // ❌ Compile error if you don't resolve the conflict\n}\n```",
+      "**Compile Error:**\n```\nEagle inherits unrelated defaults for canBreathe() from types Bird and LivingThing\n```"
+    ],
+    "code": "interface Bird {\n    default void canBreathe() {\n        System.out.println(\"Bird breathes\");\n    }\n}\n\ninterface LivingThing {\n    default void canBreathe() {\n        System.out.println(\"Living thing breathes\");\n    }\n}\n\n// Eagle implements BOTH — which canBreathe() does it inherit?\nclass Eagle implements Bird, LivingThing {\n    // ❌ Compile error if you don't resolve the conflict\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The Solution — Mandatory Override",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When a class implements multiple interfaces with the same default method, it **must** override that method to resolve the ambiguity:",
+      "// Optionally, you can call one of the interface's defaults:\n        Bird.super.canBreathe();         // Calls Bird's default\n        // LivingThing.super.canBreathe(); // Calls LivingThing's default\n    }\n}\n```"
+    ],
+    "code": "class Eagle implements Bird, LivingThing {\n    @Override\n    public void canBreathe() {\n        // Must provide your own implementation\n        System.out.println(\"Eagle breathes with wings extended\");\n\n        // Optionally, you can call one of the interface's defaults:\n        Bird.super.canBreathe();         // Calls Bird's default\n        // LivingThing.super.canBreathe(); // Calls LivingThing's default\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Calling a Specific Interface's Default",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You can explicitly invoke a specific interface's default method from inside the override using:"
+    ],
+    "code": "InterfaceName.super.methodName();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Conflict Resolution Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Default Methods During Interface Extension",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Default Methods During Interface Extension"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "One interface can extend another using `extends`. When a **child interface** inherits a `default` method from a **parent interface**, there are three things the child interface can do with it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Setup",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "interface LivingThing {\n    default void canBreathe() {\n        System.out.println(\"LivingThing: Can breathe\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Way 1 — Do Nothing (Inherit as-is)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The child interface simply does not touch the inherited default method. The default cascades through to any class that implements the child interface.",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies\");\n    }\n    // Inherits canBreathe() from LivingThing via Bird\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        Eagle eagle = new Eagle();\n        eagle.canBreathe(); // LivingThing: Can breathe\n    }\n}\n```",
+      "**Output:**\n```\nLivingThing: Can breathe\n```"
+    ],
+    "code": "interface Bird extends LivingThing {\n    // Does nothing with canBreathe() — inherits it as-is\n    void canFly(); // its own abstract method\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies\");\n    }\n    // Inherits canBreathe() from LivingThing via Bird\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Eagle eagle = new Eagle();\n        eagle.canBreathe(); // LivingThing: Can breathe\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Way 2 — Re-declare as Abstract (Force Override)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The child interface redeclares the same method as an **abstract method**. This removes the default implementation and forces any implementing class to provide its own.",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() { System.out.println(\"Eagle flies\"); }",
+      "@Override\n    public void canBreathe() {\n        // Now MANDATORY to implement — Bird made it abstract\n        System.out.println(\"Eagle breathes efficiently\");\n    }\n}\n```"
+    ],
+    "code": "interface Bird extends LivingThing {\n    // Re-declares canBreathe as abstract — overrides the default\n    void canBreathe(); // No body — abstract again\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() { System.out.println(\"Eagle flies\"); }\n\n    @Override\n    public void canBreathe() {\n        // Now MANDATORY to implement — Bird made it abstract\n        System.out.println(\"Eagle breathes efficiently\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Way 3 — Override with New Default (Extend the Behavior)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The child interface provides its **own default implementation**, optionally calling the parent's default using `ParentInterface.super.methodName()`.",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() { System.out.println(\"Eagle flies\"); }\n    // Inherits Bird's overridden canBreathe()\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        new Eagle().canBreathe();\n    }\n}\n```",
+      "**Output:**\n```\nLivingThing: Can breathe\nBird also breathes through air sacs\n```"
+    ],
+    "code": "interface Bird extends LivingThing {\n    @Override\n    default void canBreathe() {\n        LivingThing.super.canBreathe(); // Call parent's default first\n        System.out.println(\"Bird also breathes through air sacs\"); // Add more\n    }\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() { System.out.println(\"Eagle flies\"); }\n    // Inherits Bird's overridden canBreathe()\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        new Eagle().canBreathe();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Three Ways — Summary Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Way | What Child Interface Does | Implementing Class Must Override?",
+      "|\n|-----|--------------------------|----------------------------------|\n| **1 — Inherit** | Does nothing with the method | ❌ No (uses parent's default) |\n| **2 — Re-abstract** | Redeclares without body | ✅ Yes (forced to implement) |\n| **3 — Override** | Provides new `default` implementation | ❌ No (uses child interface's default) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Diagram — Three Ways",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Static Methods in Interfaces — Java 8",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Static Methods in Interfaces — Java 8"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public interface Bird {\n    static void canBreath() {\n        System.out.println(\"Static method in Bird interface\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Rules",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Detail |\n|------|--------|\n| Has implementation | ✅ Yes |\n| Access modifier | `public` by default (Java 8) |\n| Can be overridden by implementing class | ❌ No |\n| How to call | `InterfaceName.methodName()` — via interface name only |\n| Can implementing class call it?",
+      "| ✅ Yes, using the interface name |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static void canBreath() {\n        System.out.println(\"Bird static method: breathes\");\n    }\n}",
+      "class Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies\");\n        Bird.canBreath(); // ✅ Can call static method using interface name\n    }",
+      "// CANNOT override canBreath() here — static methods can't be overridden\n    // static void canBreath() { } // ❌ This would be a NEW method on Eagle, not an override\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        Bird.canBreath(); // ✅ Called directly on interface name\n        new Eagle().canFly();\n    }\n}\n```"
+    ],
+    "code": "public interface Bird {\n    void canFly(); // abstract\n\n    static void canBreath() {\n        System.out.println(\"Bird static method: breathes\");\n    }\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() {\n        System.out.println(\"Eagle flies\");\n        Bird.canBreath(); // ✅ Can call static method using interface name\n    }\n\n    // CANNOT override canBreath() here — static methods can't be overridden\n    // static void canBreath() { } // ❌ This would be a NEW method on Eagle, not an override\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Bird.canBreath(); // ✅ Called directly on interface name\n        new Eagle().canFly();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Static, Not Default, for Utility Methods?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Scenario | Use `default` | Use `static` |\n|----------|-------------|-------------|\n| Behavior classes might want to override | ✅ | ❌ |\n| Utility/helper method tied to the interface (not per-object) | ❌ | ✅ |\n| Needs to be called on an instance | ✅ | ❌ |\n| Needs to be called on the interface name | ❌ | ✅ |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Private Methods — Java 9",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Private Methods — Java 9"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Were Private Methods Needed?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Once Java 8 allowed multiple `default` methods, a new problem emerged: **code duplication between default methods**.",
+      "Imagine five default methods each sharing 80% of the same logic:",
+      "default void dive() {\n        // Same 80% code — DUPLICATED AGAIN\n        System.out.println(\"Checking water...\");\n        System.out.println(\"Adjusting buoyancy...\");\n        System.out.println(\"Diving deep\");\n    }\n}\n```",
+      "**Private methods solve this** by extracting shared code into a reusable private helper:"
+    ],
+    "code": "// BEFORE private methods (Java 8 only)\ninterface Bird {\n    default void swim() {\n        // 80% common code — DUPLICATED\n        System.out.println(\"Checking water...\");\n        System.out.println(\"Adjusting buoyancy...\");\n        System.out.println(\"Swimming\");\n    }\n\n    default void dive() {\n        // Same 80% code — DUPLICATED AGAIN\n        System.out.println(\"Checking water...\");\n        System.out.println(\"Adjusting buoyancy...\");\n        System.out.println(\"Diving deep\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Full Private Method Demo",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "default void defaultMethod() {\n        privateMethod();       // ✅ default can call private\n        privateStaticMethod(); // ✅ default can call private static\n        staticMethod();        // ✅ default can call static\n        System.out.println(\"Default method\");\n    }",
+      "static void staticMethod() {\n        privateStaticMethod(); // ✅ static can call private static\n        // privateMethod();    // ❌ static CANNOT call non-static private\n        System.out.println(\"Static method\");\n    }",
+      "private void privateMethod() {\n        System.out.println(\"Private method — only inside interface\");\n    }",
+      "private static void privateStaticMethod() {\n        System.out.println(\"Private static method — only inside interface\");\n    }\n}\n```"
+    ],
+    "code": "public interface Bird {\n    void canFly(); // abstract\n\n    default void defaultMethod() {\n        privateMethod();       // ✅ default can call private\n        privateStaticMethod(); // ✅ default can call private static\n        staticMethod();        // ✅ default can call static\n        System.out.println(\"Default method\");\n    }\n\n    static void staticMethod() {\n        privateStaticMethod(); // ✅ static can call private static\n        // privateMethod();    // ❌ static CANNOT call non-static private\n        System.out.println(\"Static method\");\n    }\n\n    private void privateMethod() {\n        System.out.println(\"Private method — only inside interface\");\n    }\n\n    private static void privateStaticMethod() {\n        System.out.println(\"Private static method — only inside interface\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Rules for Private Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Detail |\n|------|--------|\n| Has implementation | ✅ Yes — mandatory |\n| Can be `abstract` | ❌ No — private + abstract contradicts (abstract needs external implementation; private can't be accessed externally) |\n| Accessible by implementing classes | ❌ No |\n| Accessible by `default` methods in same interface | ✅ Yes |\n| Accessible by `static` methods in same interface | ❌ No — static cannot call non-static members |\n| Accessible by `private static` methods in same interface | ❌ No |\n| Purpose | Code reuse between default methods |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Private Static Methods — Java 9",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Private Static Methods — Java 9"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Purpose",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Same as private methods — code reuse — but for use specifically inside `static` methods.",
+      "A `static` method in an interface cannot call a non-static private method, so private static methods fill that gap."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "private void privateMethod() {\n        System.out.println(\"Private non-static — only for default methods\");\n    }",
+      "private static void privateStaticMethod() {\n        System.out.println(\"Private static — shared helper for static methods\");\n    }\n}\n```"
+    ],
+    "code": "public interface Bird {\n    static void staticMethod() {\n        privateStaticMethod(); // ✅ static CAN call private static\n        // privateMethod();    // ❌ static CANNOT call non-static private\n        System.out.println(\"Doing static work\");\n    }\n\n    private void privateMethod() {\n        System.out.println(\"Private non-static — only for default methods\");\n    }\n\n    private static void privateStaticMethod() {\n        System.out.println(\"Private static — shared helper for static methods\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Access Rules — Who Can Call What",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Access Rules — Who Can Call What"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Complete Access Matrix",
+    "subtitle": "This is one of the most important things to memorize for interviews.",
+    "bullets": [
+      "This is one of the most important things to memorize for interviews.",
+      "| Caller ↓ \\ Callee → | `abstract` | `default` | `static` | `private` | `private static` |\n|---------------------|-----------|-----------|----------|-----------|-----------------|\n| **`default`** | N/A | ✅ | ✅ | ✅ | ✅ |\n| **`static`** | N/A | ❌ | ✅ | ❌ | ✅ |\n| **`private`** | N/A | ✅ | ✅ | ✅ | ✅ |\n| **`private static`** | N/A | ❌ | ✅ | ❌ | ✅ |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Core Rule (Easy to Remember)",
+    "subtitle": "Applied to interfaces:",
+    "bullets": [
+      "`default` = non-static → can call `private`, `private static`, `static` ✅",
+      "`static` = static → can only call `private static` and other `static` ✅; cannot call `private` (non-static) ❌"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Diagram — Access Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "From Outside the Interface (Implementing Classes)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method Type | Implementing Class Can Override?",
+      "| Implementing Class Can Call?",
+      "| How to Call |\n|-------------|----------------------------------|------------------------------|-------------|\n| `abstract` | ✅ Must override | Via `super` after override | `this.method()` |\n| `default` | ✅ Optional override | ✅ Directly | `obj.method()` |\n| `static` | ❌ Cannot override | ✅ Yes | `InterfaceName.method()` |\n| `private` | ❌ Cannot | ❌ Cannot | Not accessible |\n| `private static` | ❌ Cannot | ❌ Cannot | Not accessible |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. All Four Method Types — Master Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. All Four Method Types — Master Comparison"
+  },
+  {
+    "layout": "bullets",
+    "title": "Full Feature Comparison Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `abstract` | `default` | `static` | `private` | `private static` |\n|---------|-----------|-----------|----------|-----------|-----------------|\n| **Java version** | All | Java 8+ | Java 8+ | Java 9+ | Java 9+ |\n| **Has implementation** | ❌ | ✅ | ✅ | ✅ | ✅ |\n| **Access modifier** | `public` (implicit) | `public` (implicit) | `public` (implicit) | `private` | `private` |\n| **Implementing class must override** | ✅ Yes | ❌ Optional | ❌ No | ❌ N/A | ❌ N/A |\n| **Implementing class can override** | ✅ Yes | ✅ Yes | ❌ No | ❌ No | ❌ No |\n| **Accessible outside interface** | Via implementing class | Via implementing class | Via interface name | ❌ No | ❌ No |\n| **Can be called by `default`** | N/A | ✅ | ✅ | ✅ | ✅ |\n| **Can be called by `static`** | N/A | ❌ | ✅ | ❌ | ✅ |\n| **Purpose** | Define contract | Add optional shared behavior | Utility methods | Code reuse between defaults | Code reuse between statics |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Default Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a default method in an interface?",
+      "| A method with implementation in an interface, marked `default`; implementing classes can but don't have to override it |\n| Why were default methods introduced in Java 8?",
+      "| To add new methods to existing interfaces (like `Collection`) without breaking backward compatibility for all implementing classes |\n| What real example triggered default methods?",
+      "| `stream()` added to `Collection` interface in Java 8 — couldn't make it abstract without breaking all existing Collection implementations |\n| Can a class override a default method?",
+      "| Yes — optional but allowed |\n| What happens if two interfaces have the same default method and a class implements both?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Static Methods in Interfaces",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a static method in an interface?",
+      "| A method with implementation, belonging to the interface itself; not overridable, called via `InterfaceName.method()` |\n| Can an implementing class override a static interface method?",
+      "| No — static methods cannot be overridden |\n| How do you call a static interface method?",
+      "| `InterfaceName.methodName()` — only via interface name |\n| Why is `stream()` `default` and not `static`?",
+      "| Because collection classes may override `stream()` with optimized versions — static methods can't be overridden |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Private & Private Static Methods (Java 9)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a private method in an interface?",
+      "| Java 9+ feature; has implementation; only accessible within the interface; used to share code between default methods |\n| Why were private methods introduced in Java 9?",
+      "| To allow code reuse between multiple default methods — avoids duplicating shared logic |\n| Can a private interface method be abstract?",
+      "| No — contradictory: abstract needs external implementation, private prevents external access |\n| Can an implementing class call a private interface method?",
+      "| No — private means only within the interface |\n| What is a private static interface method?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Interface Extension with Default Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What are the three ways a child interface can handle a parent's default method?",
+      "| (1) Inherit as-is, (2) Re-declare as abstract, (3) Override with a new default |\n| When child interface re-declares a default as abstract, what happens?",
+      "| All implementing classes of the child interface must now provide the implementation |\n| How does a child interface call its parent interface's default?",
+      "| `ParentInterface.super.methodName()` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Master Summary"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "✅ Before Java 8 → interfaces could ONLY have `abstract` methods",
+      "✅ Adding any new method to an interface required ALL implementing classes to update — a breaking change at scale",
+      "✅ `default` keyword + method body inside interface",
+      "✅ Implementing classes **inherit** it automatically — no override required",
+      "✅ Implementing classes **may** override if they need custom behavior"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

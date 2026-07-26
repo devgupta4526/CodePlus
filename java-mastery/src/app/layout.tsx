@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { ContentProtection } from "@/components/shared/ContentProtection";
 import "./globals.css";
 
 const inter = Inter({
@@ -74,8 +75,11 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`min-h-screen antialiased bg-[var(--bg)] text-[var(--text-primary)]`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ContentProtection>{children}</ContentProtection>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+

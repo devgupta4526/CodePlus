@@ -1,0 +1,353 @@
+# 💻 9.7 Programming the Basic Computer
+
+> 🎯 **Weightage: 3.4%** — Smallest weightage chapter, but a reliable source of easy, direct-recall marks.
+
+---
+
+## 1️⃣ 8085 & 8086 Basics
+
+### 🏗️ 1.1 8085 Functional Block Diagram & Units
+```
+        ┌──────────────────────────────────────────────┐
+        │                    8085 CPU                    │
+        │                                                  │
+        │  ┌────────┐   ┌─────────────┐   ┌────────────┐ │
+        │  │  ALU    │◄─►│ Accumulator │   │  Registers  │ │
+        │  │(Arith/  │   │    (A)       │   │ B,C,D,E,H,L │ │
+        │  │ Logic)  │   └─────────────┘   └────────────┘ │
+        │  └────────┘                                      │
+        │  ┌────────────┐   ┌────────────┐  ┌────────────┐│
+        │  │ Flag Reg.   │   │    SP       │  │     PC      ││
+        │  │(S,Z,AC,P,CY)│   │(Stack Ptr) │  │(Prog.Counter)││
+        │  └────────────┘   └────────────┘  └────────────┘│
+        │  ┌───────────────────────────────────────────┐  │
+        │  │           Control Unit (Timing & Control)    │  │
+        │  └───────────────────────────────────────────┘  │
+        └───────────────┬─────────────────┬────────────────┘
+                          ▼                 ▼
+               Address Bus (16-bit)   Data Bus (8-bit)
+```
+
+| Unit | Function |
+|---|---|
+| 🔵 **ALU** | Performs arithmetic (add, subtract) & logical (AND, OR, XOR) operations |
+| 🟢 **Accumulator (A)** | 8-bit register; primary register for ALU operations (implicit operand + result destination) |
+| 🟡 **General Purpose Registers** | B, C, D, E, H, L (8-bit each); can be paired as BC, DE, HL for 16-bit operations |
+| 🟠 **Flag Register** | Holds condition flags: **S**ign, **Z**ero, **A**uxiliary Carry, **P**arity, **C**arr**Y** |
+| 🔴 **Program Counter (PC)** | 16-bit; holds the address of the NEXT instruction to fetch |
+| 🟣 **Stack Pointer (SP)** | 16-bit; points to the top of the stack in memory |
+| ⚫ **Control Unit** | Generates timing & control signals to coordinate instruction fetch/decode/execute |
+| ⚪ **Address Bus** | 16-bit, unidirectional — allows addressing **2¹⁶ = 64 KB** of memory |
+| 🟤 **Data Bus** | 8-bit, bidirectional — transfers data to/from memory/I/O |
+
+### 📜 1.2 8085 ISA & Addressing Modes Overview
+- 8085 is an **8-bit microprocessor** with a 16-bit address bus.
+- **Addressing modes supported**: Immediate, Register, Direct, Register Indirect, Implied — mirroring the general addressing-mode concepts covered in Chapter 9.5.
+- **Instruction categories**: Data transfer (MOV, MVI, LXI), Arithmetic (ADD, SUB, INR, DCR), Logical (ANA, ORA, XRA, CMA), Branching (JMP, CALL, RET), Machine control (HLT, NOP).
+
+### 🏛️ 1.3 8086 Architecture Introduction
+The 8086 is a **16-bit microprocessor**, architecturally divided into two independent, concurrently operating units:
+```
+┌───────────────────────────┐       ┌───────────────────────────┐
+│  Bus Interface Unit (BIU)   │       │  Execution Unit (EU)         │
+│  - Fetches instructions      │◄─────►│  - Decodes & executes         │
+│    from memory (prefetch)    │ Queue │    instructions                │
+│  - Handles address            │       │  - Contains ALU, general       │
+│    calculation (segment:offset)│       │    registers, flag register   │
+│  - Manages segment registers  │       │  - Requests operands from BIU  │
+└───────────────────────────┘       └───────────────────────────┘
+```
+- **BIU (Bus Interface Unit)**: Responsible for fetching instructions/data from memory (using a 6-byte prefetch **instruction queue**) and computing physical addresses via **segment:offset** addressing.
+- **EU (Execution Unit)**: Decodes and executes instructions, performs ALU operations, and requests the BIU to fetch/write data as needed.
+- This **BIU + EU split** enables a simple form of **pipelining**: while EU executes one instruction, BIU can simultaneously fetch the NEXT instruction(s) into the queue.
+
+### ⚖️ 1.4 Key Differences: 8085 vs 8086
+| Feature | 🟦 8085 | 🟧 8086 |
+|---|---|---|
+| Data bus width | 8-bit | 16-bit |
+| Address bus width | 16-bit | 20-bit |
+| Addressable memory | 2¹⁶ = **64 KB** | 2²⁰ = **1 MB** |
+| Internal architecture | Single unit (no BIU/EU split) | Two units: BIU + EU |
+| Pipelining | None (strictly sequential fetch-execute) | Basic pipelining via instruction prefetch queue |
+| Registers | 8-bit registers (pairable for 16-bit ops) | 16-bit registers natively |
+| Addressing | Direct 16-bit addressing | Segment:Offset based addressing (segmented memory model) |
+| Instruction set | Simpler, smaller | Larger, more complex (superset-like extensions) |
+
+### 📝 Solved/Conceptual Questions
+
+**Q1.** How much memory can the 8085 microprocessor address directly?
+> **Solution**: 16-bit address bus → 2¹⁶ = **64 KB**
+
+**Q2.** How much memory can the 8086 microprocessor address directly?
+> **Solution**: 20-bit address bus → 2²⁰ = **1 MB**
+
+**Q3.** Which unit in the 8086 is responsible for computing the physical address using segment and offset registers?
+> **Solution**: **BIU (Bus Interface Unit)**
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 8085 has a **16-bit address bus** but only an **8-bit data bus** — don't confuse the two widths; this asymmetry is frequently tested.
+> - 🔑 The 8086's **BIU+EU split** is what enables its basic pipelining/prefetching — a key differentiator from the purely sequential 8085; remember this connects conceptually to Chapter 9.4 (Pipelining).
+> - 🔑 8086 addresses memory using **Segment:Offset** (physical address = Segment×16 + Offset), giving it a 20-bit effective address space from 16-bit segment/offset registers — a commonly tested address-computation nuance.
+
+---
+
+## 2️⃣ Computer Instruction
+
+### 🧾 2.1 Instruction Code Format (Opcode + Address)
+```
+┌──────────────┬────────────────────────┐
+│   Opcode       │     Address (Operand)    │
+└──────────────┴────────────────────────┘
+```
+- **Opcode**: Specifies WHAT operation to perform.
+- **Address**: Specifies WHERE the operand is located (memory address, register, or device).
+
+### 🎨 2.2 Operation Code (Opcode) Design
+- Opcode bit-width determines the maximum number of distinct operations supported: `m` bits → up to **2^m** distinct instructions.
+- In the classic **Basic Computer** model (Mano's design): 3-bit opcode + 1 indirect (I) bit + 12-bit address field = 16-bit instruction word.
+
+### 📍 2.3 Addressing of Operand (Direct/Indirect — Basic Computer Context)
+```
+┌───┬──────────┬────────────────────┐
+│ I │  Opcode   │   Address (12-bit)  │
+└───┴──────────┴────────────────────┘
+```
+- **I = 0 (Direct)**: The 12-bit address field directly gives the operand's memory address.
+- **I = 1 (Indirect)**: The 12-bit address field points to a memory location that HOLDS the actual operand's address (one extra dereference) — directly reusing the Indirect Addressing Mode concept from Chapter 9.5.
+
+### 🗃️ 2.4 Computer Registers Overview (Basic Computer Model)
+| Register | Full Form | Size | Purpose |
+|---|---|---|---|
+| 🔵 **AR** | Address Register | 12-bit | Holds the memory address for the current operation |
+| 🟢 **PC** | Program Counter | 12-bit | Holds address of the NEXT instruction to be fetched |
+| 🟡 **DR** | Data Register | 16-bit | Holds the operand read from/to be written to memory |
+| 🟠 **AC** | Accumulator | 16-bit | General-purpose register for arithmetic/logic results |
+| 🔴 **IR** | Instruction Register | 16-bit | Holds the currently fetched instruction (opcode + address) |
+| 🟣 **TR** | Temporary Register | 16-bit | Holds temporary/intermediate data during micro-operations |
+| ⚫ **OUTR** | Output Register | 8-bit | Holds data to be sent to an output device |
+| ⚪ **INPR** | Input Register | 8-bit | Holds data received from an input device |
+
+### 🏷️ 2.5 Computer Instruction Formats
+| Format | Structure | Description |
+|---|---|---|
+| 🔵 Memory-Reference | `I \| Opcode(3) \| Address(12)` | Operates on data in memory; uses AR/DR; requires EA computation |
+| 🟢 Register-Reference | `0111 \| Register-Operation bits(12)` | Operates entirely within CPU registers, opcode = 111 with I=0 |
+| 🟡 I/O | `1111 \| I/O-Operation bits(12)` | Handles device communication, opcode = 111 with I=1 |
+
+*(Directly mirrors the instruction categorization introduced in Chapter 9.6, Section 1.)*
+
+### 📝 Solved/Conceptual Questions
+
+**Q4.** In the Basic Computer model, an instruction word is 16 bits, with a 3-bit opcode, 1 indirect bit, and the rest as address. How many bits are in the address field, and what is the maximum directly addressable memory?
+> **Solution**: Address field = 16 − 3 − 1 = **12 bits** → Max directly addressable memory = 2¹² = **4096 (4K) memory locations**
+
+**Q5.** Which register holds the operand fetched from memory before it is used in a computation?
+> **Solution**: **DR (Data Register)**
+
+**Q6.** If AC = 0011 and DR = 0101, what is AC after executing `AC ← AC + DR`?
+> **Solution**: AC = 0011 + 0101 = **1000**
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **AR holds an ADDRESS; DR holds DATA** — the same PC/MAR/MBR-style confusion from Chapter 9.1 resurfaces here with different register names; always map back to "address register vs data register."
+> - 🔑 **PC holds the NEXT instruction's address**, IR holds the CURRENT instruction — this recurring trap appears again in the Basic Computer model too.
+> - 🔑 INPR/OUTR are typically **8-bit**, while AC/DR/IR/TR are **16-bit** in the classic Basic Computer model — a specific width detail often directly tested.
+
+---
+
+## 3️⃣ Assembly & Assembler Design
+
+### 🗼 3.1 Computer Languages Hierarchy
+```
+        ┌─────────────────────────┐
+        │   High-Level Language     │  (e.g., C, Python) — most abstract, human-friendly
+        ├─────────────────────────┤
+        │   Assembly Language        │  (e.g., MOV, ADD) — symbolic, mnemonic-based
+        ├─────────────────────────┤
+        │   Machine Language          │  (e.g., 10110000) — raw binary, directly executable
+        └─────────────────────────┘
+```
+
+### 🔢 3.2 Machine Language Characteristics
+- Consists purely of **binary digits (0s and 1s)** — the ONLY language the CPU can execute directly, with no translation needed.
+- Extremely difficult for humans to write/read; highly hardware-specific (not portable across different architectures).
+
+### 🔤 3.3 Assembly Language Syntax & Structure
+- Uses **mnemonics** (symbolic names like `ADD`, `MOV`, `JMP`) instead of raw binary opcodes, and symbolic **labels** for memory addresses instead of raw numeric addresses.
+- General syntax: `[Label:] Mnemonic Operand(s) [; Comment]`
+
+**Example Assembly Program** — Sum of two numbers:
+```assembly
+        ORG   100          ; Start program at address 100
+        LDA   A             ; Load value at address A into AC
+        ADD   B             ; AC = AC + value at address B
+        STA   RESULT        ; Store AC into RESULT
+        HLT                 ; Halt the program
+A,      DEC   5             ; Data: A = 5
+B,      DEC   3             ; Data: B = 3
+RESULT, DEC   0             ; Reserved location for the sum
+        END                 ; End of program
+```
+
+### 🛠️ 3.4 Assembler — Definition & Function
+- An **Assembler** is a translator program that converts **Assembly Language** source code into **Machine Language** (binary) object code.
+- Core functions: translating mnemonics → opcodes, resolving symbolic labels → actual numeric addresses, and handling **pseudo-instructions/directives** (e.g., `ORG`, `END`, `DEC`) that guide the assembly process but don't generate machine code directly.
+
+### 🔁 3.5 Types of Assemblers: One-Pass vs Two-Pass
+
+#### 🟦 One-Pass Assembler
+- Scans the source code **only ONCE**.
+- Attempts to translate instructions immediately; if a label is used BEFORE it's defined (a **forward reference**), the assembler must use a "backpatching" technique — leaving the address blank initially and fixing it later once the label's definition is found.
+
+#### 🟧 Two-Pass Assembler
+- **Pass 1**: Scans the ENTIRE source code to build a complete **Symbol Table** (mapping every label to its address) — no code generation happens yet.
+- **Pass 2**: Scans the source code AGAIN, this time generating the actual machine code, using the completed Symbol Table from Pass 1 to resolve ALL label references correctly (including forward references) without needing backpatching.
+
+```
+              ONE-PASS                          TWO-PASS
+   ┌─────────────────────┐         ┌─────────────────────┐
+   │ Single scan:          │         │ Pass 1: Build Symbol  │
+   │ Translate + patch      │         │  Table only            │
+   │ forward refs later     │         ├─────────────────────┤
+   └─────────────────────┘         │ Pass 2: Generate code   │
+                                      │  using completed table  │
+                                      └─────────────────────┘
+```
+
+### 📊 Comparison: One-Pass vs Two-Pass Assembler
+| Feature | 🟦 One-Pass Assembler | 🟧 Two-Pass Assembler |
+|---|---|---|
+| Number of source scans | 1 | 2 |
+| Forward reference handling | Backpatching (fix-up after first pass) | Naturally resolved (symbol table built first) |
+| Speed | Faster (single scan) | Slower (two full scans) |
+| Memory usage | Lower | Higher (needs to store data across passes, or re-read source) |
+| Complexity | Simpler in concept, but backpatching logic adds complexity | Conceptually cleaner; symbol resolution is straightforward |
+| Symbol Table completeness | Built incrementally during the single pass | FULLY built after Pass 1, before any code generation |
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **Forward reference** = using a label BEFORE its definition appears in the source — the defining challenge that distinguishes one-pass (needs backpatching) from two-pass (naturally handled) assemblers.
+> - 🔑 In a **Two-Pass assembler**, NO machine code is generated during Pass 1 — it is PURELY for symbol table construction; a common exam trap is assuming partial code generation happens in Pass 1.
+> - 🔑 Assembly language is NOT portable across different CPU architectures (unlike high-level languages) — since mnemonics map directly to a SPECIFIC processor's instruction set.
+
+---
+
+## 4️⃣ Program Control & I/O Handling
+
+### 🔁 4.1 Program Loops — Structure & Control
+- A **loop** repeatedly executes a block of instructions until a termination condition is met, typically controlled via a counter or a conditional branch instruction.
+
+**Example: Loop to add 5 numbers stored in consecutive memory locations**
+```assembly
+        ORG   100
+        LDA   COUNT       ; Load loop counter (5) into AC
+        STA   CTR          ; Store counter value
+        LDA   SUM          ; Initialize SUM = 0
+        STA   RESULT
+        LDA   PTR          ; Load starting address pointer
+LOOP,   ...                 ; (Indirect load using pointer — conceptual)
+        ADD   RESULT        ; Add current value to running result (conceptual)
+        STA   RESULT
+        ISZ   CTR           ; Increment CTR; Skip next instruction if CTR becomes 0
+        BUN   LOOP           ; Branch Unconditionally back to LOOP (if not skipped)
+        HLT                  ; Halt when loop completes
+COUNT,  DEC   5
+CTR,    DEC   0
+SUM,    DEC   0
+RESULT, DEC   0
+        END
+```
+> 🟢 **ISZ (Increment and Skip if Zero)** is the classic Basic-Computer loop-control instruction — it increments a memory location, and SKIPS the next instruction if the result becomes zero, commonly used to implement a "branch back unless counter is done" pattern.
+
+### 📞 4.2 Subroutines — Call/Return Mechanism & Stack Usage
+- A **subroutine** is a reusable block of code that can be "called" from multiple points in a program, and RETURNS control back to the calling point once finished.
+- **Mechanism**:
+  1. `CALL` instruction: saves the RETURN ADDRESS (typically the current PC value) onto the **stack**, then jumps (branches) to the subroutine's starting address.
+  2. Subroutine executes its instructions.
+  3. `RET` (Return) instruction: pops the saved return address off the stack, and loads it back into PC — resuming execution right after the original CALL.
+
+```assembly
+        ORG   100
+        CALL  ADDSUB       ; Call subroutine ADDSUB — return address pushed onto stack
+        HLT                 ; Execution resumes here after RET
+
+ADDSUB, LDA   A             ; --- Subroutine start ---
+        ADD   B
+        STA   RESULT
+        RET                 ; Return — pop return address from stack back into PC
+```
+
+### 🔌 4.3 Input/Output Programming Basics
+- **I/O Instructions** (Basic Computer model examples):
+  - `INP` (Input): Transfers character from **INPR** (Input Register) into AC.
+  - `OUT` (Output): Transfers character from AC into **OUTR** (Output Register).
+  - `SKI` (Skip on Input flag): Skips the next instruction if the input device has data ready (input flag = 1).
+  - `SKO` (Skip on Output flag): Skips the next instruction if the output device is ready to accept data (output flag = 1).
+
+### 🚩 4.4 Handling INPR/OUTR Flags
+- **Input Flag (FGI)**: Set to 1 when an input device has NEW data ready in INPR (waiting to be read by CPU); cleared to 0 once the CPU reads it via `INP`.
+- **Output Flag (FGO)**: Set to 1 when the output device is READY to accept new data; cleared to 0 once the CPU writes new data via `OUT` (until the device finishes processing and sets it back to 1).
+- This flag-based mechanism is essentially the **Basic Computer's implementation of Programmed I/O** (recall Chapter 9.3) — the CPU polls FGI/FGO using SKI/SKO in a loop before performing INP/OUT.
+
+**Example: Polling loop to input a character**
+```assembly
+LOOP,   SKI                ; Skip next instruction if FGI = 1 (input ready)
+        BUN   LOOP          ; If not ready, branch back and keep polling
+        INP                  ; Input ready — transfer INPR into AC
+```
+
+### 📝 Solved/Conceptual Questions
+
+**Q7.** Which instruction is used in the Basic Computer model to implement a loop counter that automatically terminates when it reaches zero?
+> **Solution**: **ISZ (Increment and Skip if Zero)**
+
+**Q8.** During a `CALL` instruction, what value is pushed onto the stack?
+> **Solution**: The **return address** (the address of the instruction immediately following the CALL, i.e., the current PC value at the time of the call)
+
+**Q9.** In the Basic Computer I/O model, which flag must be checked before executing an `OUT` instruction to safely send data to the output device?
+> **Solution**: **FGO (Output Flag)** — must be 1 (device ready) before writing new data via OUT.
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **ISZ increments FIRST, then checks if the result is ZERO to decide whether to skip** — not the other way around; a common sequencing error in loop-tracing questions.
+> - 🔑 The **return address is pushed BEFORE jumping** to the subroutine (during CALL) and popped AFTER the subroutine finishes (during RET) — stack discipline (LIFO) must be respected, especially with NESTED subroutine calls.
+> - 🔑 **FGI/FGO polling** (via SKI/SKO) is functionally IDENTICAL to the busy-waiting/polling loop discussed in Programmed I/O (Chapter 9.3) — recognize this as the SAME underlying technique applied specifically to the Basic Computer's I/O model.
+
+---
+
+## 🔑 Quick Revision Summary
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 8085 vs 8086
+   8085 → 8-bit data bus, 16-bit address bus, 64 KB memory, no pipelining
+   8086 → 16-bit data bus, 20-bit address bus, 1 MB memory, BIU+EU (basic pipelining)
+
+ BASIC COMPUTER REGISTERS
+   AR (address) | PC (next instr.) | DR (data) | AC (accumulator)
+   IR (current instr.) | TR (temp) | OUTR (8-bit, output) | INPR (8-bit, input)
+
+ INSTRUCTION FORMAT (Basic Computer)
+   I(1) + Opcode(3) + Address(12) = 16-bit word
+   I=0 → Direct addressing | I=1 → Indirect addressing
+
+ ASSEMBLERS
+   One-Pass  → 1 scan, backpatching for forward references, faster, less memory
+   Two-Pass  → Pass1: build Symbol Table | Pass2: generate code, no backpatching needed
+
+ LOOPS & SUBROUTINES
+   ISZ → increments a memory location, skips NEXT instruction if result = 0
+   CALL → pushes return address onto stack, jumps to subroutine
+   RET  → pops return address from stack back into PC
+
+ I/O FLAGS
+   FGI (Input Flag)  → 1 = new input data ready in INPR
+   FGO (Output Flag) → 1 = output device ready to accept new data
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### 🎯 Key Conceptual Recap
+- **8085**: 8-bit data/16-bit address, single sequential unit, 64 KB max memory. **8086**: 16-bit data/20-bit address (segment:offset), BIU+EU split enabling basic pipelining, 1 MB max memory.
+- **Basic Computer Instruction**: I-bit + 3-bit opcode + 12-bit address; Memory-Reference (opcode≠111) vs Register-Reference (111, I=0) vs I/O (111, I=1).
+- **Registers**: AR=address, DR=data, AC=accumulator/results, PC=next instruction, IR=current instruction, TR=temp, INPR/OUTR=8-bit I/O buffers.
+- **Language Hierarchy**: Machine (binary, direct-execute) → Assembly (mnemonics/labels) → High-Level (abstract, portable).
+- **Assemblers**: One-Pass (single scan + backpatching) vs Two-Pass (Symbol Table first, then code generation — no backpatching needed).
+- **Program Control**: ISZ drives classic loop termination; CALL/RET use the stack (LIFO) for subroutine return addresses.
+- **I/O Handling**: FGI/FGO flags + SKI/SKO/INP/OUT instructions implement Programmed I/O (busy-waiting) at the Basic Computer level — directly tying back to Chapter 9.3's I/O organization concepts.

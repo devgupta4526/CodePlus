@@ -149,9 +149,11 @@ const WEEK_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
 const COURSES_META = [
   { id: 'java',       label: 'Java Foundations', color: 'var(--accent)',           emoji: '☕' },
+  { id: 'coa',        label: 'Computer Org & Arch', color: '#8b5cf6',              emoji: '💻' },
   { id: 'springboot', label: 'Spring Boot',       color: '#1baf7a',                emoji: '🍃' },
   { id: 'python',     label: 'Python & Django',   color: '#2a78d6',                emoji: '🐍' },
 ] as const;
+
 
 // ── Component ─────────────────────────────────────────────────────────────────
 

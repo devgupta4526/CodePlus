@@ -1,0 +1,638 @@
+[
+  {
+    "layout": "title",
+    "title": "Methods",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Methods in Java — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Methods in Java — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is a Method?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is a Method?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **method** is one of the core building blocks of Java programs.",
+      "Almost every action your program takes is performed inside a method.",
+      "Understanding methods deeply is essential before moving on to constructors, memory management, and object-oriented design."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Accepts input** (via parameters)",
+      "**Does something** (computation, logic, I/O)",
+      "**Returns output** (a result, or nothing — `void`)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Methods Exist — Two Key Benefits",
+    "subtitle": "### 1. Code Reusability",
+    "bullets": [
+      "### 1. Code Reusability",
+      "Without methods, you would copy-paste the same logic everywhere it is needed. With methods, you write it once and call it as many times as needed.",
+      "// Written ONCE\n    public int sum(int variable1, int variable2) {\n        int total = variable1 + variable2;\n        System.out.println(\"Sum computed: \" + total);\n        return total;\n    }",
+      "// Reused here\n    public int getPriceOfPen() {\n        int capPrice = 2;\n        int penBodyPrice = 5;\n        int totalPenPrice = sum(capPrice, penBodyPrice);  // ← reusing sum()\n        return totalPenPrice;\n    }"
+    ],
+    "code": "public class Calculation {\n\n    // Written ONCE\n    public int sum(int variable1, int variable2) {\n        int total = variable1 + variable2;\n        System.out.println(\"Sum computed: \" + total);\n        return total;\n    }\n\n    // Reused here\n    public int getPriceOfPen() {\n        int capPrice = 2;\n        int penBodyPrice = 5;\n        int totalPenPrice = sum(capPrice, penBodyPrice);  // ← reusing sum()\n        return totalPenPrice;\n    }\n\n    // Reused again here\n    public int getCombinedAge() {\n        int youngerSisterAge = 2;\n        int olderSisterAge = 5;\n        return sum(youngerSisterAge, olderSisterAge);     // ← reusing sum() again\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What is a \"Collection of Instructions\"?",
+    "subtitle": "Inside a method, each statement is an instruction:",
+    "bullets": [
+      "Inside a method, each statement is an **instruction**:",
+      "Three instructions together form the method. There is no limit to how many instructions a method can contain."
+    ],
+    "code": "public int sum(int variable1, int variable2) {\n    int total = variable1 + variable2;   // Instruction 1: add the two values\n    System.out.println(total);           // Instruction 2: log/print\n    return total;                        // Instruction 3: return result\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Method Declaration — Full Anatomy",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Method Declaration — Full Anatomy"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A method declaration defines everything about the method: who can access it, what it returns, what its name is, and what inputs it accepts."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Complete Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "accessSpecifier returnType methodName(parameterList) throws ExceptionType {\n    // method body — instructions go here\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Visual Breakdown",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public      int       sum       (int a, int b)    throws ArithmeticException\n   │          │         │              │                       │\n   │          │         │              │                       └── Throws clause\n   │          │         │              └── Parameter List\n   │          │         └── Method Name\n   │          └── Return Type\n   └── Access Specifier",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "2.1 Access Specifiers",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "2.2 Return Type",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "Every method in Java must declare a return type. If the method returns nothing, the return type is `void`.",
+      "### Common Return Types",
+      "| Return Type | Meaning | Example |\n|---|---|---|\n| `void` | Returns nothing | `public void print()` |\n| `int` | Returns an integer | `public int getAge()` |\n| `boolean` | Returns true or false | `public boolean isValid()` |\n| `String` | Returns a String | `public String getName()` |\n| `double` | Returns a decimal | `public double getPrice()` |\n| `Object` / custom class | Returns an object | `public Employee getEmployee()` |"
+    ],
+    "code": "public void printInvoice() {\n    System.out.println(\"Printing invoice...\");\n    // No return statement required\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.3 Method Name — Naming Conventions",
+    "subtitle": "### Rules (enforced by Java)",
+    "bullets": [
+      "Must start with a letter, underscore `_`, or dollar sign `$` (not a digit)",
+      "Cannot be a Java keyword (e.g., `int`, `class`, `return`)",
+      "Case-sensitive (`sum` and `Sum` are different method names)"
+    ],
+    "code": "// ✅ Correct naming\npublic int getAge() { ... }\npublic void printInvoice() { ... }\npublic boolean isEligibleForLoan() { ... }\npublic double calculateMonthlyInterest() { ... }\n\n// ❌ Incorrect naming\npublic int GetAge() { ... }          // starts with capital\npublic void PrintInvoice() { ... }   // starts with capital\npublic int 2sum() { ... }            // starts with digit",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.4 Parameter List",
+    "subtitle": "### Definition",
+    "bullets": [
+      "A method can have **zero or more** parameters",
+      "Each parameter must have an explicit type",
+      "Parameter names must be unique within the method"
+    ],
+    "code": "public int sum(int variable1, int variable2) {\n    //              ↑ param 1        ↑ param 2\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.5 Throws Exception (Preview)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Checked vs. unchecked exceptions",
+      "`try-catch-finally`",
+      "Custom exceptions",
+      "Exception propagation"
+    ],
+    "code": "public void getInvoice() throws ArithmeticException {\n    // This method might throw an ArithmeticException (e.g., divide by zero)\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Packages in Java (Supporting Concept)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Packages in Java (Supporting Concept)"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Packages serve two purposes:\n1. **Organization** — group similar classes together\n2. **Access control** — access specifiers like `protected` and `default` use package boundaries"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example",
+    "subtitle": "public class Invoice {\n    // ...\n}",
+    "bullets": [
+      "public class Invoice {\n    // ...\n}\n```",
+      "import salesDepartment.Invoice;   // ← import the class",
+      "public class JobPortal {\n    public void test() {\n        Invoice inv = new Invoice();\n        // ...\n    }\n}\n```"
+    ],
+    "code": "project/\n├── salesDepartment/       ← package\n│   ├── Invoice.java\n│   └── Order.java\n│\n└── humanResource/         ← another package\n    ├── JobPortal.java\n    └── Application.java",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Types of Methods",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Types of Methods"
+  },
+  {
+    "layout": "diagram",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "4.1 System-Defined Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "These are provided by the **JRE class libraries** (recall from the Java Overview lecture: JRE = JVM + Class Libraries).",
+      "### Examples",
+      "// Math library — java.lang.Math\n        int variable = 25;\n        double squareRoot = Math.sqrt(variable);   // system-defined\n        System.out.println(\"Square root: \" + squareRoot);   // Output: 5.0"
+    ],
+    "code": "public class SystemMethodDemo {\n    public static void main(String[] args) {\n\n        // Math library — java.lang.Math\n        int variable = 25;\n        double squareRoot = Math.sqrt(variable);   // system-defined\n        System.out.println(\"Square root: \" + squareRoot);   // Output: 5.0\n\n        int absValue = Math.abs(-42);              // system-defined\n        System.out.println(\"Absolute: \" + absValue);   // Output: 42\n\n        // Arrays library — java.util.Arrays\n        int[] arr = {5, 3, 1, 4, 2};\n        java.util.Arrays.sort(arr);                // system-defined\n        System.out.println(java.util.Arrays.toString(arr));   // Output: [1, 2, 3, 4, 5]\n\n        // String library — java.lang.String\n        String name = \"hello\";\n        System.out.println(name.toUpperCase());    // system-defined → Output: HELLO\n        System.out.println(name.length());         // system-defined → Output: 5\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.2 User-Defined Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "// User-defined — the programmer wrote this\n    public int sum(int a, int b) {\n        int total = a + b;\n        System.out.println(\"Sum: \" + total);\n        return total;\n    }",
+      "public int getPriceOfPen() {\n        int capPrice = 2;\n        int penBodyPrice = 5;\n        return sum(capPrice, penBodyPrice);   // calls another user-defined method\n    }\n}\n```",
+      "The distinction is simple: if Java gave it to you → system-defined. If you wrote it → user-defined."
+    ],
+    "code": "public class Calculation {\n\n    // User-defined — the programmer wrote this\n    public int sum(int a, int b) {\n        int total = a + b;\n        System.out.println(\"Sum: \" + total);\n        return total;\n    }\n\n    public int getPriceOfPen() {\n        int capPrice = 2;\n        int penBodyPrice = 5;\n        return sum(capPrice, penBodyPrice);   // calls another user-defined method\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.3 Overloaded Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "This is part of **polymorphism** — specifically **compile-time (static) polymorphism** or **static binding**.",
+      "### Rules of Overloading",
+      "| Rule | Detail |\n|---|---|\n| **Same name** | All overloaded methods share the same name |\n| **Different parameters** | Must differ in number, type, or order of parameters |\n| **Return type is NOT considered** | Two methods with same name and same parameters but different return types is a **compile error** |\n| **Same class** | All overloads are in the same class |"
+    ],
+    "code": "public class Invoice {\n\n    // Version 1 — no parameters\n    public void getInvoice() {\n        System.out.println(\"Invoice with no parameters\");\n    }\n\n    // Version 2 — one String parameter\n    public void getInvoice(String invoiceId) {\n        System.out.println(\"Invoice ID: \" + invoiceId);\n    }\n\n    // Version 3 — one int parameter\n    public void getInvoice(int amount) {\n        System.out.println(\"Invoice Amount: \" + amount);\n    }\n\n    // Version 4 — two int parameters\n    public void getInvoice(int amount, int tax) {\n        System.out.println(\"Amount: \" + amount + \", Tax: \" + tax);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "4.4 Overridden Methods",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "4.5 Static Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Instance variables (`stockPrice`) exist **per object**. Object1 has its own `stockPrice`, Object2 has its own `stockPrice`.",
+      "Static methods belong to the **class**, not to any object.",
+      "If a static method tries to access `stockPrice`, the question becomes: **which object's `stockPrice`?** There is no answer — the static method has no object context.",
+      "Static variables (`carPrice`) exist **once** for the entire class, so there is no ambiguity."
+    ],
+    "code": "public class A {\n\n    public void method1() {        // instance method — belongs to each object\n        System.out.println(\"method1\");\n    }\n\n    public static void method2() { // static method — belongs to the class\n        System.out.println(\"method2\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.6 Final Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Security-sensitive code where changing behavior could create vulnerabilities",
+      "Core algorithms that must not be altered in subclasses",
+      "Template method pattern (core steps are `final`, hook methods are overridable)"
+    ],
+    "code": "public class Person {\n    public final void profession() {   // ← final keyword\n        System.out.println(\"I am a person\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.7 Abstract Methods",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "### Rules",
+      "| Rule | Detail |\n|---|---|\n| **Must be inside an abstract class** | You cannot have an abstract method in a concrete (regular) class |\n| **No method body** | Only the signature is declared; ends with `;` not `{}` |\n| **Subclass must implement it** | The first non-abstract child class must provide the implementation |\n| **Cannot be `final`** | `abstract` and `final` are contradictory (`abstract` demands overriding; `final` forbids it) |\n| **Cannot be `static`** | Static methods don't participate in polymorphism |",
+      "### Syntax"
+    ],
+    "code": "// Abstract class — cannot be instantiated directly\npublic abstract class Person {\n\n    // Abstract method — declaration only, no body\n    public abstract void print();\n\n    // Can also have regular (concrete) methods\n    public void greet() {\n        System.out.println(\"Hello from Person\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Variable Arguments (Varargs)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Variable Arguments (Varargs)"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Varargs** (Variable Arguments) is a Java feature that allows a method to accept **a variable number of arguments** of the same type — from zero arguments to any number."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Problem Varargs Solves",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Suppose you want a `sum()` method that adds however many numbers the caller provides. Without varargs, you'd have to create many overloads:",
+      "This approach doesn't scale. What if someone wants to sum 10, 20, or 100 numbers?"
+    ],
+    "code": "public int sum(int a) { return a; }\npublic int sum(int a, int b) { return a + b; }\npublic int sum(int a, int b, int c) { return a + b + c; }\npublic int sum(int a, int b, int c, int d) { return a + b + c + d; }\n// ... this never ends!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Solution: Varargs Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The `...` (three dots) after the type declares a varargs parameter. Inside the method, it behaves as an **array**."
+    ],
+    "code": "public int sum(int... variable) {\n    //          ↑ three dots = varargs\n    // 'variable' is treated as an int array inside the method\n    int output = 0;\n    for (int val : variable) {\n        output = output + val;\n    }\n    return output;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Complete Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public int sum(int... variable) {\n        int output = 0;\n        for (int val : variable) {\n            output += val;\n        }\n        return output;\n    }",
+      "public static void main(String[] args) {\n        Calculation calc = new Calculation();",
+      "System.out.println(calc.sum());             // Output: 0   (zero args)\n        System.out.println(calc.sum(3));            // Output: 3   (one arg)\n        System.out.println(calc.sum(3, 8));         // Output: 11  (two args)\n        System.out.println(calc.sum(3, 8, 9, 10)); // Output: 30  (four args)\n        System.out.println(calc.sum(1, 2, 3, 4, 5, 6, 7)); // Output: 28\n    }\n}\n```",
+      "All five calls use the **same single method**. No overloading needed."
+    ],
+    "code": "public class Calculation {\n\n    public int sum(int... variable) {\n        int output = 0;\n        for (int val : variable) {\n            output += val;\n        }\n        return output;\n    }\n\n    public static void main(String[] args) {\n        Calculation calc = new Calculation();\n\n        System.out.println(calc.sum());             // Output: 0   (zero args)\n        System.out.println(calc.sum(3));            // Output: 3   (one arg)\n        System.out.println(calc.sum(3, 8));         // Output: 11  (two args)\n        System.out.println(calc.sum(3, 8, 9, 10)); // Output: 30  (four args)\n        System.out.println(calc.sum(1, 2, 3, 4, 5, 6, 7)); // Output: 28\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Varargs With Other Parameters",
+    "subtitle": "Varargs can be combined with other parameters:",
+    "bullets": [
+      "Varargs can be combined with other parameters:"
+    ],
+    "code": "public void printInfo(String label, int... numbers) {\n    System.out.print(label + \": \");\n    for (int n : numbers) {\n        System.out.print(n + \" \");\n    }\n    System.out.println();\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Two Strict Rules of Varargs",
+    "subtitle": "### Rule 1: Only ONE varargs parameter per method",
+    "bullets": [
+      "### Rule 1: Only ONE varargs parameter per method",
+      "// ✅ OK — only one varargs\npublic void method(int... a) { }\n```",
+      "### Rule 2: Varargs MUST be the LAST parameter",
+      "// ✅ OK — varargs is last\npublic void method(String label, int... numbers) { }\n```"
+    ],
+    "code": "// ❌ COMPILE ERROR — two varargs parameters\npublic void method(int... a, String... b) { }\n\n// ✅ OK — only one varargs\npublic void method(int... a) { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How Varargs Works Internally",
+    "subtitle": "At the bytecode level, Java converts a varargs call into an array creation:",
+    "bullets": [
+      "At the bytecode level, Java converts a varargs call into an **array creation**:",
+      "You can also pass an array directly to a varargs method:"
+    ],
+    "code": "calc.sum(3, 8, 9)\n// is equivalent to:\ncalc.sum(new int[]{3, 8, 9})",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Varargs Rules Summary Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Correct | Incorrect |\n|---|---|---|\n| One varargs per method | `void m(int...",
+      "a)` | `void m(int...",
+      "b)` |\n| Must be last parameter | `void m(String s, int...",
+      "n)` | `void m(int...",
+      "n, String s)` |\n| Treated as array inside | `for (int x : n)` | ✅ |\n| Can accept zero arguments | `m()` → array length 0 | ✅ |\n| Can pass explicit array | `m(new int[]{1,2,3})` | ✅ |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Summary Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Summary Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Method Declaration Anatomy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Types-of-Methods Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overloading vs. Overriding Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Overloading | Overriding |\n|---|---|---|\n| **Also known as** | Static / Compile-time Polymorphism | Dynamic / Runtime Polymorphism |\n| **Location** | Same class | Parent and Child class |\n| **Method name** | Same | Same |\n| **Parameters** | Must be different | Must be same |\n| **Return type** | Not considered | Must be same (or covariant) |\n| **Access specifier** | Can differ | Cannot be more restrictive |\n| **Resolved at** | Compile time | Runtime |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Thinking Return Type Alone Differentiates Overloads",
+    "subtitle": "Fix: Change the parameters to create a valid overload.",
+    "bullets": [
+      "**Fix:** Change the parameters to create a valid overload."
+    ],
+    "code": "// ❌ WRONG — this is NOT valid overloading\npublic void getInvoice() { }\npublic int getInvoice() { return 0; }   // COMPILE ERROR",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Accessing Non-Static Members from Static Method",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public static void myStatic() {\n        System.out.println(instanceVar);   // ❌ COMPILE ERROR\n    }\n}\n```",
+      "**Fix:** Either make `instanceVar` static, or pass an object reference:\n```java\npublic static void myStatic(MyClass obj) {\n    System.out.println(obj.instanceVar);   // ✅ OK\n}\n```"
+    ],
+    "code": "public class MyClass {\n    int instanceVar = 10;\n\n    public static void myStatic() {\n        System.out.println(instanceVar);   // ❌ COMPILE ERROR\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Thinking Static Methods Are Overridden",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Person obj = new Doctor();\nobj.profession();   // If profession() is static → calls Person's version\n                    // NOT Doctor's version — this is method HIDING not overriding",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Placing Varargs Before Other Parameters",
+    "subtitle": "// ✅ CORRECT\npublic void method(String label, int... numbers) { }",
+    "bullets": [
+      "// ✅ CORRECT\npublic void method(String label, int... numbers) { }\n```"
+    ],
+    "code": "// ❌ COMPILE ERROR\npublic void method(int... numbers, String label) { }\n\n// ✅ CORRECT\npublic void method(String label, int... numbers) { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Trying to Override an Abstract Method with Wrong Signature",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Doctor extends Person {\n    public void print(String msg) { }   // ❌ — different signature, NOT implementing abstract method\n    // COMPILE ERROR: Doctor must implement abstract method print() from Person\n}\n```"
+    ],
+    "code": "public abstract class Person {\n    public abstract void print();\n}\n\npublic class Doctor extends Person {\n    public void print(String msg) { }   // ❌ — different signature, NOT implementing abstract method\n    // COMPILE ERROR: Doctor must implement abstract method print() from Person\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Making a Static Method Abstract or Final Making a Final Method Abstract",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public abstract class A {\n    public abstract static void method();   // ❌ ILLEGAL COMBINATION\n    public abstract final void method2();   // ❌ ILLEGAL COMBINATION\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Overloading** — Same class, same name, different parameters. Resolved at compile time (static binding).",
+      "**Overriding** — Parent and child class, same name + same signature. Resolved at runtime (dynamic binding).",
+      "`final` — Cannot be overridden by subclasses.",
+      "`static` — Belongs to the class, not an object; called via class name.",
+      "`abstract` — Has no body; subclass must provide implementation."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is a method?",
+      "What two benefits does it provide?",
+      "List the four access specifiers in Java and the access level each provides.",
+      "What does `void` as a return type mean?",
+      "What is the naming convention for methods in Java?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Explain why overloading is called \"compile-time polymorphism\" and overriding is called \"runtime polymorphism.\"\n8.",
+      "Can you overload a method by changing only the return type?",
+      "Why or why not?",
+      "Why can't a `static` method access an instance variable directly?",
+      "Write an example of method overloading with three versions of a `display()` method."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A static variable `count` is shared among all objects.",
+      "A static method increments it.",
+      "Explain the thread-safety risk and propose a solution.",
+      "Why is it illegal to combine `abstract` and `final` on the same method?",
+      "Write a conceptual explanation."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Quick Revision Summary"
+  }
+]

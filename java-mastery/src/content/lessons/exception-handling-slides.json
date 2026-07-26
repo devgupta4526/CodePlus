@@ -1,0 +1,864 @@
+[
+  {
+    "layout": "title",
+    "title": "Exception Handling",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Exception Handling in Java — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Exception Handling in Java — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is an Exception?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is an Exception?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When Java encounters an exceptional condition — dividing by zero, accessing an array index that doesn't exist, trying to use a null reference — it creates a special object that describes the problem.",
+      "This object is called an **exception object**, and the act of creating and signaling this event is called **throwing an exception**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Normal Flow vs. Exceptional Flow",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Exceptional Flow:\nmain() → method1() → method2() → method3() → EXCEPTION OCCURS\n                                               ↓\n                                    Exception object created\n                                               ↓\n                                    JVM searches for handler\n                                    (method3 → method2 → method1 → main)\n                                               ↓\n                              If no handler found → program terminates abruptly\n                              If handler found → exception handled → continues\n```"
+    ],
+    "code": "Normal Flow:\nmain() → method1() → method2() → method3() → completes normally → returns to main() → program ends\n\nExceptional Flow:\nmain() → method1() → method2() → method3() → EXCEPTION OCCURS\n                                               ↓\n                                    Exception object created\n                                               ↓\n                                    JVM searches for handler\n                                    (method3 → method2 → method1 → main)\n                                               ↓\n                              If no handler found → program terminates abruptly\n                              If handler found → exception handled → continues",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Exception Object and Stack Trace",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Exception Object and Stack Trace"
+  },
+  {
+    "layout": "bullets",
+    "title": "What Is an Exception Object?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When an exception occurs, the Java runtime system automatically creates an **exception object** containing three key pieces of information:",
+      "| Field | What It Contains | Example |\n|---|---|---|\n| **Type** | The class of the exception | `ArithmeticException` |\n| **Message** | Human-readable description of the problem | `\"/ by zero\"` |\n| **Stack Trace** | The chain of method calls from where the error occurred back to `main()` | See below |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Stack Trace Explained",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Read from **top to bottom**: the top entry is where the exception originated",
+      "Read from **bottom to top**: to see how execution arrived at the error point",
+      "**Line numbers** tell you exactly where to look in your source code"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        method1();                    // line 6\n    }\n\n    static void method1() {\n        method2();                    // line 10\n    }\n\n    static void method2() {\n        method3();                    // line 14\n    }\n\n    static void method3() {\n        int result = 5 / 0;           // line 18 ← exception here\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How JVM Searches for a Handler",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Exception Hierarchy",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Exception Hierarchy"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Error vs. Exception",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Error vs. Exception"
+  },
+  {
+    "layout": "split",
+    "title": "Error",
+    "subtitle": "### Examples",
+    "bullets": [
+      "They indicate that the **JVM itself** is in an unhealthy state",
+      "Even if you caught one, you likely couldn't do anything meaningful to fix it",
+      "The recommended approach is to let the JVM terminate and fix the root cause (increase heap size, fix infinite recursion, etc.)"
+    ],
+    "code": "// OutOfMemoryError — heap is exhausted\nString[] hugArray = new String[Integer.MAX_VALUE];   // JVM can't allocate this\n// → java.lang.OutOfMemoryError: Java heap space\n\n// StackOverflowError — stack is exhausted (infinite recursion)\npublic static void recurse() {\n    recurse();   // calls itself forever\n}\nrecurse();\n// → java.lang.StackOverflowError",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Exception",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ClassNotFoundException — class not found at runtime\nClass.forName(\"com.example.NonExistent\");   // → ClassNotFoundException\n```"
+    ],
+    "code": "// NullPointerException — using a null reference\nString s = null;\ns.length();   // → NullPointerException (we caused this; we can fix it)\n\n// ClassNotFoundException — class not found at runtime\nClass.forName(\"com.example.NonExistent\");   // → ClassNotFoundException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Error vs. Exception Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Error | Exception |\n|---|---|---|\n| **Cause** | JVM environment / system problem | Application code problem |\n| **Examples** | `OutOfMemoryError`, `StackOverflowError` | `NullPointerException`, `IOException` |\n| **Can we handle?** | ❌ Should not try | ✅ Yes, and we should |\n| **Type** | Unchecked (runtime) | Checked or Unchecked |\n| **Hierarchy** | Extends `Error` | Extends `Exception` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Checked vs. Unchecked Exceptions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Checked vs. Unchecked Exceptions"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Core Distinction",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| | Checked Exception | Unchecked Exception |\n|---|---|---|\n| **Also called** | Compile-time exception | Runtime exception |\n| **When detected** | At **compile time** | At **runtime** |\n| **Compiler forces handling?** | ✅ Yes — code won't compile if unhandled | ❌ No — compiles fine |\n| **Hierarchy** | Extends `Exception` (but not `RuntimeException`) | Extends `RuntimeException` |\n| **Examples** | `ClassNotFoundException`, `IOException`, `InterruptedException` | `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "5.1 Unchecked (Runtime) Exceptions",
+    "subtitle": "### Type 1: ClassCastException",
+    "bullets": [
+      "### Type 1: `ClassCastException`",
+      "Thrown when you try to cast an object to an incompatible type.",
+      "**Output:**\n```\nException in thread \"main\" java.lang.ClassCastException:\nclass java.lang.Integer cannot be cast to class java.lang.String\n```",
+      "**Compiles fine → fails at runtime.**"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        Object val = Integer.valueOf(0);     // val holds an Integer\n        System.out.println((String) val);   // trying to cast Integer → String\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "5.2 Checked (Compile-Time) Exceptions",
+    "subtitle": "### Example: ClassNotFoundException (checked)",
+    "bullets": [
+      "### Example: `ClassNotFoundException` (checked)",
+      "static void method1() {\n        throw new ClassNotFoundException(\"Class not found\");\n        // ❌ COMPILE ERROR:\n        // unreported exception ClassNotFoundException; must be caught or declared to be thrown\n    }\n}\n```",
+      "The compiler refuses to compile this code. It demands that you either:\n1. Handle the exception with a `try-catch` block, OR\n2. Declare that the method can throw it using `throws`",
+      "### Comparison: Runtime vs. Checked"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        method1();\n    }\n\n    static void method1() {\n        throw new ClassNotFoundException(\"Class not found\");\n        // ❌ COMPILE ERROR:\n        // unreported exception ClassNotFoundException; must be caught or declared to be thrown\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Five Keywords of Exception Handling",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Five Keywords of Exception Handling"
+  },
+  {
+    "layout": "transition",
+    "title": "7. The `try-catch` Block",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. The `try-catch` Block"
+  },
+  {
+    "layout": "diagram",
+    "title": "7.1 Basic try-catch",
+    "subtitle": "### Syntax",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "7.2 Multiple catch Blocks",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A single `try` block can be followed by **multiple catch blocks**, each handling a different exception type.",
+      "### Syntax",
+      "### Example",
+      "// method1 declares it can throw two checked exceptions\n    static void method1() throws ClassNotFoundException, InterruptedException {\n        throw new ClassNotFoundException(\"Demo\");\n    }\n}\n```"
+    ],
+    "code": "try {\n    // code\n} catch (ExceptionType1 e) {\n    // handle ExceptionType1\n} catch (ExceptionType2 e) {\n    // handle ExceptionType2\n} catch (ExceptionType3 e) {\n    // handle ExceptionType3\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "7.3 Catching Parent Exceptions — Order Matters",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "7.4 Multiple Exceptions in One catch Block",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Since Java 7, you can catch multiple exception types in a **single catch block** using the pipe `|` operator:",
+      "This is cleaner when both exceptions are handled the same way, instead of:",
+      "You can also combine a multi-exception catch with a general catch:"
+    ],
+    "code": "try {\n    method1();   // can throw ClassNotFoundException or InterruptedException\n} catch (ClassNotFoundException | InterruptedException e) {\n    // handles either one\n    System.out.println(\"Caught: \" + e.getMessage());\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. The `finally` Block",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. The `finally` Block"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax Options",
+    "subtitle": "// Option 2: try-finally (no catch)\ntry { } finally { }",
+    "bullets": [
+      "// Option 2: try-finally (no catch)\ntry { } finally { }\n```"
+    ],
+    "code": "// Option 1: try-catch-finally\ntry { } catch (Exception e) { } finally { }\n\n// Option 2: try-finally (no catch)\ntry { } finally { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How finally Works",
+    "subtitle": "A --> B\n    B -->|\"Yes\"| C --> E\n    B -->|\"No\"| D --> E\n    E --> F",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example: finally Always Runs",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static void method1() {\n        try {\n            System.out.println(\"Inside try\");\n            return;   // ← returning from try block\n        } finally {\n            System.out.println(\"Inside finally\");   // ← still executes!",
+      "public static void main(String[] args) {\n        method1();\n        System.out.println(\"After method1\");\n    }\n}\n```",
+      "**Output:**\n```\nInside try\nInside finally        ← executed BEFORE the method actually returns\nAfter method1\n```",
+      "Even though `try` has a `return` statement, `finally` executes before the method actually exits."
+    ],
+    "code": "public class Main {\n\n    static void method1() {\n        try {\n            System.out.println(\"Inside try\");\n            return;   // ← returning from try block\n        } finally {\n            System.out.println(\"Inside finally\");   // ← still executes!\n        }\n    }\n\n    public static void main(String[] args) {\n        method1();\n        System.out.println(\"After method1\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example: finally with Exception",
+    "subtitle": "Output:\n\nBefore exception\nIn catch: test\nIn finally — always runs",
+    "bullets": [
+      "**Output:**\n```\nBefore exception\nIn catch: test\nIn finally — always runs\n```"
+    ],
+    "code": "static void method1() throws ClassNotFoundException {\n    try {\n        System.out.println(\"Before exception\");\n        throw new ClassNotFoundException(\"test\");\n    } catch (ClassNotFoundException e) {\n        System.out.println(\"In catch: \" + e.getMessage());\n    } finally {\n        System.out.println(\"In finally — always runs\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "try-finally Without catch (Delegating to Caller)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "// method1 has try-finally but NO catch — it still delegates the exception!\nstatic void method1() throws ClassNotFoundException {\n    try {\n        throw new ClassNotFoundException(\"test\");\n    } finally {\n        System.out.println(\"Finally executes, but exception still propagates\");\n    }\n    // Exception propagates to caller — method1 doesn't handle it\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Primary Use Cases for finally",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Use Case | Why finally?",
+      "|\n|---|---|\n| **Closing file streams** | File may remain open if exception occurs before `close()` |\n| **Releasing database connections** | DB connections are limited; must always be released |\n| **Releasing locks** | Deadlock occurs if a lock is never released |\n| **Logging** | Ensure logging happens whether success or failure |\n| **Cleanup code** | Any resource that must be freed regardless of outcome |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "When finally Does NOT Execute",
+    "subtitle": "In the rare cases when finally is skipped:",
+    "bullets": [
+      "In the rare cases when `finally` is skipped:",
+      "**JVM-level errors** — `OutOfMemoryError`, `StackOverflowError`\n2.",
+      "**System shutdown** — `System.exit()` called, process killed, power failure\n3.",
+      "**Infinite loop in try/catch** — `finally` never gets a turn"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. The `throw` Keyword",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. The `throw` Keyword"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Usage 1: Throwing a New Exception",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public static void main(String[] args) {\n        validateName(\"Alice\");   // works fine\n        validateName(\"dummy\");   // throws exception\n    }\n}\n```",
+      "**Output:**\n```\nValid name: Alice\nException in thread \"main\" java.lang.IllegalArgumentException: Name cannot be 'dummy'\n```"
+    ],
+    "code": "// Syntax\nthrow new ExceptionType(\"message\");",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Usage 2: Re-throwing a Caught Exception",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Add logging or additional context at this level",
+      "Transform the exception to a different type",
+      "Perform partial cleanup, then let the caller do the rest"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        try {\n            method1();\n        } catch (ClassNotFoundException e) {\n            System.out.println(\"Main caught and handled: \" + e.getMessage());\n        }\n    }\n\n    static void method1() throws ClassNotFoundException {\n        // method1 delegates to main\n        throw new ClassNotFoundException(\"Class missing\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What Can You `throw`?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You can only `throw` objects that are instances of `Throwable` or any of its subclasses:"
+    ],
+    "code": "throw new Exception(\"valid\");           // ✅\nthrow new RuntimeException(\"valid\");    // ✅\nthrow new ArithmeticException(\"valid\"); // ✅\nthrow new Error(\"valid\");               // ✅ (though you shouldn't)\nthrow new String(\"invalid\");            // ❌ COMPILE ERROR — String is not Throwable\nthrow new Main();                       // ❌ COMPILE ERROR — Main is not Throwable",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. The `throws` Keyword",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. The `throws` Keyword"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "accessModifier returnType methodName(parameters) throws ExceptionType1, ExceptionType2 {\n    // method body\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example: Using `throws` to Delegate",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static void method1() throws ClassNotFoundException {\n        // method1 doesn't handle it — delegates to main\n        throw new ClassNotFoundException(\"Class missing\");\n    }\n}\n```",
+      "Chain of delegation:\n```\nmethod1() throws → main() throws → JVM → program terminates\n```"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) throws ClassNotFoundException {\n        // main delegates to its caller (JVM) — program will terminate if thrown\n        method1();\n    }\n\n    static void method1() throws ClassNotFoundException {\n        // method1 doesn't handle it — delegates to main\n        throw new ClassNotFoundException(\"Class missing\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example: `throws` Forcing the Caller to Handle",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Caller MUST handle both, or re-declare throws:\npublic static void main(String[] args) {\n    try {\n        method1();\n    } catch (ClassNotFoundException e) {\n        System.out.println(\"Class not found\");\n    } catch (InterruptedException e) {\n        System.out.println(\"Interrupted\");\n    }\n}\n```"
+    ],
+    "code": "static void method1() throws ClassNotFoundException, InterruptedException {\n    // This method might throw either exception\n}\n\n// Caller MUST handle both, or re-declare throws:\npublic static void main(String[] args) {\n    try {\n        method1();\n    } catch (ClassNotFoundException e) {\n        System.out.println(\"Class not found\");\n    } catch (InterruptedException e) {\n        System.out.println(\"Interrupted\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`throws` with Multiple Exceptions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "// Declare multiple exceptions using comma separation\nstatic void method1() throws ClassNotFoundException, InterruptedException, IOException {\n    // ...\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Point: `throws` is a Declaration, Not a Guarantee",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. `throw` vs. `throws` — Complete Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. `throw` vs. `throws` — Complete Comparison"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Custom (User-Defined) Exceptions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Custom (User-Defined) Exceptions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Create Custom Exceptions?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Give domain-specific names (`InsufficientFundsException`, `InvalidAgeException`)",
+      "Attach custom messages and data",
+      "Make your code's intent clearer"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "How to Create a Custom Exception",
+    "subtitle": "Extend Exception (for checked) or RuntimeException (for unchecked):",
+    "bullets": [
+      "Extend `Exception` (for checked) or `RuntimeException` (for unchecked):",
+      "// Constructor that accepts a message\n    public MyCustomException(String message) {\n        super(message);   // pass message to parent Exception class\n    }\n}\n```",
+      "public MyCustomRuntimeException(String message) {\n        super(message);\n    }\n}\n```"
+    ],
+    "code": "// Custom CHECKED exception (extends Exception)\npublic class MyCustomException extends Exception {\n\n    // Constructor that accepts a message\n    public MyCustomException(String message) {\n        super(message);   // pass message to parent Exception class\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Using a Custom Exception",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static void method1() throws MyCustomException {\n        // Some condition triggers the exception\n        boolean someIssueArose = true;\n        if (someIssueArose) {\n            throw new MyCustomException(\"Some issue arose — custom message here\");\n        }\n    }\n}\n```",
+      "**Output:**\n```\nCustom exception caught: Some issue arose — custom message here\n```"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        try {\n            method1();\n        } catch (MyCustomException e) {\n            System.out.println(\"Custom exception caught: \" + e.getMessage());\n        }\n    }\n\n    static void method1() throws MyCustomException {\n        // Some condition triggers the exception\n        boolean someIssueArose = true;\n        if (someIssueArose) {\n            throw new MyCustomException(\"Some issue arose — custom message here\");\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Custom Exception Hierarchy — Where to Place It",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Extend `Exception` → your custom exception is **checked**",
+      "Extend `RuntimeException` → your custom exception is **unchecked**",
+      "Extend a specific exception → your custom exception inherits its behavior"
+    ],
+    "code": "Throwable\n└── Exception\n    ├── RuntimeException\n    │   └── MyCustomRuntimeException   ← extends RuntimeException (unchecked)\n    │\n    └── MyCustomException              ← extends Exception (checked)\n        └── MyMoreSpecificException    ← extends MyCustomException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Custom Exception with Extra Fields",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public InsufficientFundsException(String message, double amount) {\n        super(message);\n        this.amount = amount;\n    }",
+      "public double getAmount() {\n        return amount;\n    }\n}",
+      "// Usage\ntry {\n    throw new InsufficientFundsException(\"Not enough funds\", 150.00);\n} catch (InsufficientFundsException e) {\n    System.out.println(e.getMessage() + \" | Short by: \" + e.getAmount());\n}\n// Output: Not enough funds | Short by: 150.0\n```"
+    ],
+    "code": "public class InsufficientFundsException extends Exception {\n    private double amount;   // how much was short\n\n    public InsufficientFundsException(String message, double amount) {\n        super(message);\n        this.amount = amount;\n    }\n\n    public double getAmount() {\n        return amount;\n    }\n}\n\n// Usage\ntry {\n    throw new InsufficientFundsException(\"Not enough funds\", 150.00);\n} catch (InsufficientFundsException e) {\n    System.out.println(e.getMessage() + \" | Short by: \" + e.getAmount());\n}\n// Output: Not enough funds | Short by: 150.0",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Handling Runtime Exceptions (Optional but Recommended)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Handling Runtime Exceptions (Optional but Recommended)"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Advantages of Exception Handling",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Advantages of Exception Handling"
+  },
+  {
+    "layout": "split",
+    "title": "1. Separates Error Handling from Regular Code",
+    "subtitle": "### Without Exception Handling (Messy):",
+    "bullets": [
+      "### Without Exception Handling (Messy):",
+      "### With Exception Handling (Clean):",
+      "The actual logic is clear. All error handling is in the `catch` blocks."
+    ],
+    "code": "// Everything mixed together — hard to read\nstatic int processStudentClass(int classNumber) {\n    if (classNumber > 0 && classNumber <= 12) {\n        int numberOfStudents = getStudentCapacity(classNumber);\n        if (numberOfStudents != 0) {\n            String[] names = new String[numberOfStudents];\n            if (names != null && names.length > 0) {\n                names[0] = \"New Value\";\n                return 0;   // success\n            } else {\n                return -3;  // error code 3\n            }\n        } else {\n            return -2;      // error code 2\n        }\n    } else {\n        return -1;          // error code 1\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2. Eliminates Error Code Cascading",
+    "subtitle": "Without exception handling, errors must be propagated as return codes:",
+    "bullets": [
+      "Without exception handling, errors must be propagated as return codes:",
+      "With exception handling, exceptions propagate automatically:"
+    ],
+    "code": "// Without exception handling — error codes cascade\nint code = method3();   // returns -1 on error\nif (code == -1) {\n    return -1;          // method2 must pass it up\n}\n// method1 must also check and pass up...\n// main must also check...",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "3. Allows Program Recovery",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "try {\n    // Attempt something risky\n    connectToDatabase();\n} catch (ConnectionException e) {\n    // Recover: try a backup connection\n    System.out.println(\"Primary DB failed, trying backup...\");\n    connectToBackupDatabase();\n}\n// Program continues running instead of crashing",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "4. Aids Debugging with Stack Trace",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Type** — what kind of problem",
+      "**Message** — description of the problem",
+      "**Stack trace** — exactly where it happened and how execution arrived there"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "5. Improves Security",
+    "subtitle": "You can catch exceptions and log only safe information, hiding sensitive data:",
+    "bullets": [
+      "You can catch exceptions and log only safe information, hiding sensitive data:"
+    ],
+    "code": "catch (DatabaseException e) {\n    // Don't log the full exception (might contain SQL, passwords, etc.)\n    logger.error(\"Database error occurred for user: \" + userId);\n    // Don't expose: e.getMessage() (might contain sensitive query details)\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "The One Disadvantage",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "15. When to Avoid Exception Handling",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. When to Avoid Exception Handling"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Common Runtime Exceptions — Reference",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Common Runtime Exceptions — Reference"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Summary Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Summary Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Exception Hierarchy",
+    "subtitle": "OBJ --> THROW\n    THROW --> ERR\n    THROW --> EX\n    EX --> RE\n    EX --> CE",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Five Keywords Decision Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Catching a More General Exception Before a Specific One",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ✅ CORRECT — specific first, general last\ntry { method1(); }\ncatch (ClassNotFoundException e) { }\ncatch (Exception e) { }\n```"
+    ],
+    "code": "// ❌ WRONG — Exception catches everything; ClassNotFoundException unreachable\ntry { method1(); }\ncatch (Exception e) { }\ncatch (ClassNotFoundException e) { }   // COMPILE ERROR\n\n// ✅ CORRECT — specific first, general last\ntry { method1(); }\ncatch (ClassNotFoundException e) { }\ncatch (Exception e) { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Catching an Exception That Can't Be Thrown",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "try {\n    method1();\n} catch (FileNotFoundException e) { }   // ❌ COMPILE ERROR\n// method1 can only throw ClassNotFoundException, not FileNotFoundException\n```"
+    ],
+    "code": "static void method1() throws ClassNotFoundException { }\n\ntry {\n    method1();\n} catch (FileNotFoundException e) { }   // ❌ COMPILE ERROR\n// method1 can only throw ClassNotFoundException, not FileNotFoundException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Empty catch Blocks (Swallowing Exceptions)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ✅ GOOD — at minimum, log the exception\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    e.printStackTrace();   // or use a proper logger\n}\n```"
+    ],
+    "code": "// ❌ BAD — silently swallows the exception, hides the problem\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    // nothing here\n}\n\n// ✅ GOOD — at minimum, log the exception\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    e.printStackTrace();   // or use a proper logger\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Using `throws` Instead of `throw` (and Vice Versa)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ❌ WRONG — throws is for signatures, not inside body\nvoid method() {\n    throws new ClassNotFoundException();\n}",
+      "// ✅ CORRECT\nvoid method() throws ClassNotFoundException {\n    throw new ClassNotFoundException(\"message\");\n}\n```"
+    ],
+    "code": "// ❌ WRONG — throw is for objects, not type names\nthrow ClassNotFoundException;\n\n// ❌ WRONG — throws is for signatures, not inside body\nvoid method() {\n    throws new ClassNotFoundException();\n}\n\n// ✅ CORRECT\nvoid method() throws ClassNotFoundException {\n    throw new ClassNotFoundException(\"message\");\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Forgetting `finally` Still Runs After `return`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "try {\n    return 1;      // ← you might think the method returns 1 here\n} finally {\n    return 2;      // ← WRONG: finally runs and overrides the return value!\n}\n// Method returns 2, not 1!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Using Exception Handling for Normal Control Flow",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ✅ GOOD — use normal conditional logic\nint[] arr = new int[5];\nfor (int i = 0; i < arr.length; i++) {\n    process(arr[i]);\n}\n```"
+    ],
+    "code": "// ❌ BAD — using exception for expected condition\ntry {\n    int[] arr = new int[5];\n    int i = 0;\n    while (true) {\n        process(arr[i++]);   // expects ArrayIndexOutOfBoundsException to stop the loop\n    }\n} catch (ArrayIndexOutOfBoundsException e) {\n    // done\n}\n\n// ✅ GOOD — use normal conditional logic\nint[] arr = new int[5];\nfor (int i = 0; i < arr.length; i++) {\n    process(arr[i]);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "19. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "19. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "20. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "20. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Checked (compile-time)** — compiler forces you to handle or declare them. Code won't compile if unhandled. Examples: `ClassNotFoundException`, `IOException`.",
+      "**Unchecked (runtime)** — compiler does not force handling. Code compiles fine; exception occurs at runtime. Examples: `NullPointerException`, `ArithmeticException`.",
+      "`throw` — used **inside** a method body to manually throw an exception instance: `throw new IOException()`",
+      "`throws` — used in **method signature** to declare that the method might throw an exception: `void m() throws IOException`"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "21. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "21. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is an exception?",
+      "What disrupts the \"normal flow\"?",
+      "What three pieces of information does an exception object contain?",
+      "What is the difference between `Error` and `Exception`?",
+      "Name three checked exceptions and three unchecked exceptions."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Write a method that throws a `ClassNotFoundException`.",
+      "Write two versions of a caller — one using `throws`, one using `try-catch`.",
+      "Explain why catch blocks must be ordered from most specific to most general.",
+      "What compile error do you get if they are reversed?"
+    ],
+    "code": "try {\n        System.out.println(\"try\");\n        return;\n    } finally {\n        System.out.println(\"finally\");\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Write a program that demonstrates ALL five exception keywords (`try`, `catch`, `finally`, `throw`, `throws`) in a realistic scenario (e.g., a file reader).",
+      "Explain the call-stack propagation of an exception through five nested method calls.",
+      "At what point should you handle the exception, and why?",
+      "Why is exception handling considered \"expensive\"?"
+    ],
+    "code": "static int divide(int a, int b) {\n        try { return a / b; }\n        catch (ArithmeticException e) { return -1; }\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "22. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "22. Quick Revision Summary"
+  }
+]

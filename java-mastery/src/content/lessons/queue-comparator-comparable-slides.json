@@ -1,0 +1,1023 @@
+[
+  {
+    "layout": "title",
+    "title": "Queue Comparator Comparable",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Collections — Part 2: Queue, PriorityQueue, Comparator & Comparable",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Collections — Part 2: Queue, PriorityQueue, Comparator & Comparable"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Queue Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Queue Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **Queue** is a linear data structure that models the concept of a real-world queue (line of people).",
+      "In Java, `Queue` is an **interface** in the `java.util` package and is a child (sub-interface) of the `Collection` interface."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why This Concept Exists",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "In many programming problems you need to process elements in the **order they arrive** — first come, first served. The Queue interface formalizes this ordering and provides a standard API for it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-world Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "People join the line at the **rear (back)**.",
+      "People get their ticket and leave from the **front**.",
+      "Whoever arrived first gets served first — **First In, First Out**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "FIFO Principle — Illustrated",
+    "subtitle": "Queue state after adding 10, 20, 30:\nFront → [ 10 | 20 | 30 ] ← Rear",
+    "bullets": [
+      "Queue state after adding 10, 20, 30:\nFront → [ 10 | 20 | 30 ] ← Rear",
+      "After one remove (poll):\nFront → [ 20 | 30 ] ← Rear   (10 was returned and removed)\n```"
+    ],
+    "code": "Rear → [New items added here]\nFront ← [Items removed here]\n\nQueue state after adding 10, 20, 30:\nFront → [ 10 | 20 | 30 ] ← Rear\n\nAfter one remove (poll):\nFront → [ 20 | 30 ] ← Rear   (10 was returned and removed)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Queue in the Java Collection Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Observations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Queue generally follows **FIFO**, but **not always** — `PriorityQueue` is a notable exception.",
+      "Queue is an **interface**, not a class — you cannot instantiate it directly.",
+      "Concrete implementations: `PriorityQueue`, `LinkedList`, `ArrayDeque`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Queue Methods — Detailed Reference",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Queue Methods — Detailed Reference"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Six Methods at a Glance",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operation | Throws Exception on Failure | Returns Special Value on Failure |\n|-----------|----------------------------|----------------------------------|\n| **Insert** | `add(e)` | `offer(e)` |\n| **Remove & Return Head** | `remove()` | `poll()` |\n| **Inspect Head (no remove)** | `element()` | `peek()` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Method 1: `add(e)`",
+    "subtitle": "Purpose: Insert an element into the queue.",
+    "bullets": [
+      "Returns `true` if insertion is successful.",
+      "Throws an **exception** if insertion fails (e.g., capacity-restricted queue is full).",
+      "Throws `NullPointerException` if you try to insert `null`."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nqueue.add(5);     // Inserts 5 — returns true\nqueue.add(null);  // Throws NullPointerException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 2: `offer(e)`",
+    "subtitle": "Purpose: Insert an element into the queue.",
+    "bullets": [
+      "Exactly the same as `add(e)` in most cases.",
+      "The only difference: if insertion **fails**, `offer` returns `false` instead of throwing an exception.",
+      "This is preferred for **capacity-constrained** queues."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nboolean result = queue.offer(10);  // returns true",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 3: `poll()`",
+    "subtitle": "Purpose: Retrieve and remove the head (front) of the queue.",
+    "bullets": [
+      "Returns the element at the head.",
+      "Also **removes** that element from the queue.",
+      "Returns `null` if the queue is empty (does NOT throw an exception)."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nqueue.add(1);\nqueue.add(2);\nInteger head = queue.poll();  // Returns 1, queue now contains [2]\nqueue.poll();                 // Returns 2, queue is now empty\nqueue.poll();                 // Returns null (queue empty, no exception)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 4: `remove()`",
+    "subtitle": "Purpose: Retrieve and remove the head of the queue.",
+    "bullets": [
+      "Same as `poll()`, but if the queue is **empty**, it throws `NoSuchElementException` instead of returning `null`."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nqueue.add(42);\nqueue.remove();  // Returns 42\nqueue.remove();  // Throws NoSuchElementException — queue is empty",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 5: `peek()`",
+    "subtitle": "Purpose: Retrieve (look at) the head of the queue without removing it.",
+    "bullets": [
+      "Returns the element at the front.",
+      "Does **not** modify the queue.",
+      "Returns `null` if the queue is empty."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nqueue.add(7);\nqueue.add(8);\nInteger head = queue.peek();  // Returns 7, queue still contains [7, 8]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 6: `element()`",
+    "subtitle": "Purpose: Retrieve (look at) the head of the queue without removing it.",
+    "bullets": [
+      "Same as `peek()`, but if the queue is **empty**, throws `NoSuchElementException`."
+    ],
+    "code": "Queue<Integer> queue = new LinkedList<>();\nqueue.element();  // Throws NoSuchElementException — empty queue",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Complete Method Summary Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Action | Failure Behavior |\n|--------|--------|-----------------|\n| `add(e)` | Insert at rear | Exception |\n| `offer(e)` | Insert at rear | Return `false` |\n| `remove()` | Remove & return head | Exception |\n| `poll()` | Remove & return head | Return `null` |\n| `element()` | Inspect head | Exception |\n| `peek()` | Inspect head | Return `null` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. PriorityQueue",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. PriorityQueue"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why PriorityQueue Exists",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Task scheduling (highest-priority task runs first).",
+      "Dijkstra's shortest-path algorithm (always process the nearest node).",
+      "Heap Sort.",
+      "Finding the k-th largest/smallest element efficiently."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "PriorityQueue is Heap in Disguise",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| PriorityQueue Type | Equivalent Heap |\n|-------------------|-----------------|\n| Default (no comparator) | **Min-Heap** |\n| With reverse comparator | **Max-Heap** |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Internal Structure — Heap",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Min-Heap:** Every parent node ≤ its children. The smallest element is at the root.",
+      "**Max-Heap:** Every parent node ≥ its children. The largest element is at the root."
+    ],
+    "code": "Min-Heap example with elements 1, 2, 5, 8:\n\n        1         ← root (minimum)\n       / \\\n      2   5\n     /\n    8",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How Elements Are Ordered",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Elements are ordered according to:\n1. Natural ordering (default) — ascending for numbers, lexicographic for strings\n2. A Comparator provided at construction time",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Min PriorityQueue (Default)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Min PriorityQueue (Default)"
+  },
+  {
+    "layout": "split",
+    "title": "Creating a Default (Min) PriorityQueue",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you create a `PriorityQueue` with an **empty constructor**, it uses **natural ordering**, which for integers means **ascending order** — the smallest element is always at the head.",
+      "This is equivalent to a **min-heap**."
+    ],
+    "code": "PriorityQueue<Integer> minPQ = new PriorityQueue<>();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step-by-Step Insertion Example",
+    "subtitle": "Let's insert: 5, 2, 8, 1",
+    "bullets": [
+      "Let's insert: **5, 2, 8, 1**",
+      "**Step 1 — Insert 5:**\n```\n        5\n```",
+      "**Step 2 — Insert 2:** (2 < 5, so heapify upward — swap 2 and 5)\n```\n        2\n       /\n      5\n```",
+      "**Step 3 — Insert 8:** (8 > 2, no heapify needed)\n```\n        2\n       / \\\n      5   8\n```"
+    ],
+    "code": "5",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Full Code Example — Min PriorityQueue",
+    "subtitle": "public class MinPriorityQueueExample {",
+    "bullets": [
+      "Each `poll()` removes the **root** (minimum) and then heapifies.",
+      "After removing 1: heap becomes `[2, 5, 8]`; root is 2.",
+      "After removing 2: heap becomes `[5, 8]`; root is 5.",
+      "After removing 5: heap becomes `[8]`; root is 8."
+    ],
+    "code": "import java.util.PriorityQueue;\n\npublic class MinPriorityQueueExample {\n\n    public static void main(String[] args) {\n\n        // Step 1: Create a default (min) PriorityQueue\n        PriorityQueue<Integer> minPQ = new PriorityQueue<>();\n\n        // Step 2: Insert elements\n        minPQ.add(5);\n        minPQ.add(2);\n        minPQ.add(8);\n        minPQ.add(1);\n\n        // Step 3: Print internal level-order representation\n        System.out.println(\"Internal state: \" + minPQ);\n\n        // Step 4: Remove elements one by one using poll()\n        System.out.println(\"Removing elements:\");\n        while (!minPQ.isEmpty()) {\n            System.out.println(minPQ.poll());\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Max PriorityQueue (with Comparator)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Max PriorityQueue (with Comparator)"
+  },
+  {
+    "layout": "split",
+    "title": "Creating a Max PriorityQueue",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "To create a **max-heap** (largest element at the head), you must provide a **Comparator** that reverses the natural ordering.",
+      "This comparator tells the PriorityQueue: \"Store elements in **reverse (descending) order**.\""
+    ],
+    "code": "PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a, b) -> b - a);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Full Code Example — Max PriorityQueue",
+    "subtitle": "public class MaxPriorityQueueExample {",
+    "bullets": [
+      "public class MaxPriorityQueueExample {",
+      "public static void main(String[] args) {",
+      "// Create a max-heap using a reverse-order comparator\n        PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a, b) -> b - a);",
+      "// Insert elements\n        maxPQ.add(5);\n        maxPQ.add(2);\n        maxPQ.add(8);\n        maxPQ.add(1);"
+    ],
+    "code": "import java.util.PriorityQueue;\n\npublic class MaxPriorityQueueExample {\n\n    public static void main(String[] args) {\n\n        // Create a max-heap using a reverse-order comparator\n        PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a, b) -> b - a);\n\n        // Insert elements\n        maxPQ.add(5);\n        maxPQ.add(2);\n        maxPQ.add(8);\n        maxPQ.add(1);\n\n        // Internal state\n        System.out.println(\"Internal state: \" + maxPQ);\n\n        // Remove elements one by one\n        System.out.println(\"Removing elements:\");\n        while (!maxPQ.isEmpty()) {\n            System.out.println(maxPQ.poll());\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step-by-Step Insertion into Max PQ",
+    "subtitle": "Inserting: 5, 2, 8, 1",
+    "bullets": [
+      "Inserting: **5, 2, 8, 1**",
+      "**After 5:** `[5]`",
+      "**After 2:** 2 < 5, no swap (max-heap: parent must be ≥ child, 5 ≥ 2 ✓)\n```\n        5\n       /\n      2\n```",
+      "**After 8:** 8 > 5, swap (heapify up)\n```\n        8\n       / \\\n      2   5\n```"
+    ],
+    "code": "5\n       /\n      2",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why `(a, b) -> b - a` Creates a Max-Heap",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The comparator returns `b - a`.",
+      "When `b > a`, this is positive → the sorting algorithm interprets this as \"a should come after b\" → larger elements bubble to the front.",
+      "See the full explanation in Section 8."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. PriorityQueue Time Complexities",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. PriorityQueue Time Complexities"
+  },
+  {
+    "layout": "transition",
+    "title": "7. The Sorting Problem — Why Comparator & Comparable Exist",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. The Sorting Problem — Why Comparator & Comparable Exist"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Core Problem",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Sorting algorithms need to **compare two elements** to decide their order. The key question is: **\"Should these two elements be swapped?\"**",
+      "For **primitive types** (int, double, char), comparison is trivial — use `<`, `>`, `==`.",
+      "But for **custom objects** (like a `Car` class), Java has no idea how to compare them. Should two `Car` objects be compared by name? By price? By year? Java cannot guess — **you must tell it**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Problem 1 — Sorting in a Different Order",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Even for primitive wrappers like `Integer`, `Arrays.sort()` always sorts in **ascending order** by default. If you want **descending order**, you need a way to override the comparison logic."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Problem 2 — Sorting Custom Objects Throws an Exception",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }\n}",
+      "Car[] carArray = new Car[3];\ncarArray[0] = new Car(\"SUV\", \"Petrol\");\ncarArray[1] = new Car(\"Sedan\", \"Diesel\");\ncarArray[2] = new Car(\"Hatchback\", \"CNG\");",
+      "Arrays.sort(carArray); // ❌ ClassCastException: Car cannot be cast to Comparable\n```",
+      "### Why This Exception Occurs"
+    ],
+    "code": "class Car {\n    String carName;\n    String carType;\n\n    Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }\n}\n\nCar[] carArray = new Car[3];\ncarArray[0] = new Car(\"SUV\", \"Petrol\");\ncarArray[1] = new Car(\"Sedan\", \"Diesel\");\ncarArray[2] = new Car(\"Hatchback\", \"CNG\");\n\nArrays.sort(carArray); // ❌ ClassCastException: Car cannot be cast to Comparable",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Solution",
+    "subtitle": "Java provides two mechanisms to define comparison logic for objects:",
+    "bullets": [
+      "Java provides two mechanisms to define comparison logic for objects:",
+      "| Mechanism | How it works |\n|-----------|-------------|\n| **Comparable** | The object defines its own comparison logic (`compareTo`) |\n| **Comparator** | An external class/lambda defines the comparison logic (`compare`) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "How the Sorting Algorithm Uses Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "All of Java's sorting algorithms (merge sort, tim sort, quicksort) follow this contract internally:",
+      "So the comparison method only needs to return a **positive**, **zero**, or **negative** number. The sorting algorithm does the rest."
+    ],
+    "code": "if compare(objectOne, objectTwo) > 0  →  swap them\nif compare(objectOne, objectTwo) == 0 →  do nothing (equal)\nif compare(objectOne, objectTwo) < 0  →  do nothing (already in correct order)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Comparator Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Comparator Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "@FunctionalInterface\npublic interface Comparator<T> {\n    int compare(T o1, T o2);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The `compare` Contract",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "compare(o1, o2) > 0   →  o1 is \"greater than\" o2 (swap: put o2 before o1)\ncompare(o1, o2) == 0  →  o1 equals o2 (no swap)\ncompare(o1, o2) < 0   →  o1 is \"less than\" o2 (no swap: o1 stays before o2)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How the Sorting Algorithm Uses `compare`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example 1 — Sorting Integer Array in Ascending Order",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`val1 = 6`, `val2 = 11`",
+      "`val1 - val2 = 6 - 11 = -5` → negative → **do not swap**",
+      "So 6 stays before 11 → small numbers stay at front → **ascending order** ✓",
+      "`val1 = 9`, `val2 = 1`"
+    ],
+    "code": "import java.util.Arrays;\n\npublic class ComparatorAscending {\n    public static void main(String[] args) {\n        Integer[] arr = {17, 3, 5, 1, 10};\n\n        Arrays.sort(arr, (val1, val2) -> val1 - val2);\n\n        System.out.println(Arrays.toString(arr));\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example 2 — Sorting Integer Array in Descending Order",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`val1 = 6`, `val2 = 11`",
+      "`val2 - val1 = 11 - 6 = 5` → positive → **swap** (put 11 before 6)",
+      "Larger numbers move to front → **descending order** ✓",
+      "`val1 = 9`, `val2 = 1`"
+    ],
+    "code": "import java.util.Arrays;\n\npublic class ComparatorDescending {\n    public static void main(String[] args) {\n        Integer[] arr = {6, 4, 1, 9, 2, 11};\n\n        Arrays.sort(arr, (val1, val2) -> val2 - val1);  // <-- reversed\n\n        System.out.println(Arrays.toString(arr));\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Ascending vs Descending Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Desired Order | Formula | Logic |\n|---------------|---------|-------|\n| Ascending | `val1 - val2` | Positive when val1 > val2 → swap → smaller stays first |\n| Descending | `val2 - val1` | Positive when val2 > val1 → swap → larger stays first |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example 3 — Sorting Custom Object (Car) by Type, Descending",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`o2.carType.compareTo(o1.carType)` is the **string equivalent** of `val2 - val1`.",
+      "`String.compareTo()` returns positive if the calling string is lexicographically greater, negative if less, zero if equal.",
+      "By putting `o2` first, we get **descending** lexicographic order on `carType`."
+    ],
+    "code": "import java.util.Arrays;\n\npublic class CarSortByTypeDesc {\n    public static void main(String[] args) {\n        Car[] carArray = {\n            new Car(\"SUV\", \"Petrol\"),\n            new Car(\"Sedan\", \"Diesel\"),\n            new Car(\"Hatchback\", \"CNG\")\n        };\n\n        Arrays.sort(carArray, (o1, o2) -> o2.carType.compareTo(o1.carType));\n\n        for (Car c : carArray) {\n            System.out.println(c.carName + \" - \" + c.carType);\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example 4 — Sorting Custom Object (Car) by Name, Ascending",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`o1.carName.compareTo(o2.carName)` → ascending lexicographic order on `carName`.",
+      "Hatchback < Sedan < SUV (alphabetically) → output: Hatchback, Sedan, SUV."
+    ],
+    "code": "Arrays.sort(carArray, (o1, o2) -> o1.carName.compareTo(o2.carName));",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example 5 — Sorting Custom Object (Car) by Name, Descending",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Reversed: SUV > Sedan > Hatchback → output: SUV, Sedan, Hatchback."
+    ],
+    "code": "Arrays.sort(carArray, (o1, o2) -> o2.carName.compareTo(o1.carName));",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Three Ways to Provide a Comparator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Since `Comparator<T>` is a functional interface, there are three equivalent ways to implement it:",
+      "### Way 1 — Lambda Expression (Recommended)",
+      "### Way 2 — Anonymous Inner Class",
+      "### Way 3 — Separate Named Class"
+    ],
+    "code": "Arrays.sort(carArray, (o1, o2) -> o1.carName.compareTo(o2.carName));",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "How `Collections.sort` and `Arrays.sort` Relate",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Internally, `Collections.sort(list)` converts the list to an array and then calls `Arrays.sort()` on it. So understanding `Arrays.sort` with comparators gives you a complete understanding of both."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Using Comparator in PriorityQueue Constructor",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// The constructor accepts: PriorityQueue(Comparator<?",
+      "super E> comparator)\n// The comparator tells the PQ how to order elements.",
+      "// b - a → when b > a, result is positive → b comes before a → largest first\n```"
+    ],
+    "code": "// Max-Heap: elements stored in descending order\nPriorityQueue<Integer> maxPQ = new PriorityQueue<>((a, b) -> b - a);\n\n// The constructor accepts: PriorityQueue(Comparator<? super E> comparator)\n// The comparator tells the PQ how to order elements.\n// b - a → when b > a, result is positive → b comes before a → largest first",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Observations on Comparator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`Comparator` is **external** to the class being compared.",
+      "You can have **multiple** `Comparator` implementations for the same class (by name, by type, ascending, descending, etc.).",
+      "You do **not** need to modify the class you are sorting.",
+      "Since it's a functional interface, lambda expressions work perfectly.",
+      "The sorting algorithm itself never changes — only the `compare` implementation changes."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Sorting Primitives vs Objects",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Sorting Primitives vs Objects"
+  },
+  {
+    "layout": "split",
+    "title": "Why `Arrays.sort(int[])` Works Without Comparator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "For **primitive** arrays, Java uses a direct quicksort implementation that uses `<` and `>` operators directly. No `compare` method is needed — comparing primitives is trivial."
+    ],
+    "code": "int[] arr = {1, 2, 3, 4};\nArrays.sort(arr); // Works fine",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why `Arrays.sort(Object[])` Needs Comparable or Comparator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`Integer` → implements `Comparable<Integer>` → has `compareTo()` → **works without a Comparator**",
+      "`String` → implements `Comparable<String>` → has `compareTo()` → **works without a Comparator**",
+      "`Car` (custom) → does NOT implement `Comparable` → has no `compareTo()` → **must provide Comparator or implement Comparable**"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Comparable Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Comparable Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Note: `Comparable` has only **one parameter** (`T o`) — the object being compared TO. The first object is **`this`** (the object calling the method)."
+    ],
+    "code": "public interface Comparable<T> {\n    int compareTo(T o);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The `compareTo` Contract",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "this.compareTo(o) > 0   →  this is \"greater than\" o (swap: put o before this)\nthis.compareTo(o) == 0  →  this equals o\nthis.compareTo(o) < 0   →  this is \"less than\" o (no swap: this stays before o)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Integer's Built-in `compareTo`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`x < y` → return -1 (negative) → no swap → ascending order.",
+      "`x == y` → return 0 → equal.",
+      "`x > y` → return 1 (positive) → swap → ascending order."
+    ],
+    "code": "// Inside the Integer class (simplified):\npublic int compareTo(Integer anotherInteger) {\n    int x = this.value;\n    int y = anotherInteger.value;\n    return (x < y) ? -1 : ((x == y) ? 0 : 1);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How the Sorting Algorithm Uses `compareTo`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example — Making Car Implement Comparable",
+    "subtitle": "class Car implements Comparable<Car> {\n    String carName;\n    String carType;",
+    "bullets": [
+      "class Car implements Comparable<Car> {\n    String carName;\n    String carType;",
+      "Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }",
+      "@Override\n    public int compareTo(Car other) {\n        // Sort by carType in ascending (lexicographic) order\n        return this.carType.compareTo(other.carType);\n    }",
+      "@Override\n    public String toString() {\n        return carName + \" (\" + carType + \")\";\n    }\n}"
+    ],
+    "code": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\nclass Car implements Comparable<Car> {\n    String carName;\n    String carType;\n\n    Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }\n\n    @Override\n    public int compareTo(Car other) {\n        // Sort by carType in ascending (lexicographic) order\n        return this.carType.compareTo(other.carType);\n    }\n\n    @Override\n    public String toString() {\n        return carName + \" (\" + carType + \")\";\n    }\n}\n\npublic class ComparableExample {\n    public static void main(String[] args) {\n        List<Car> carList = new ArrayList<>();\n        carList.add(new Car(\"SUV\", \"Petrol\"));\n        carList.add(new Car(\"Sedan\", \"Diesel\"));\n        carList.add(new Car(\"Hatchback\", \"CNG\"));\n\n        Collections.sort(carList); // No comparator needed — uses compareTo()\n\n        for (Car car : carList) {\n            System.out.println(car);\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Difference: `compareTo` has ONE parameter",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You **must** implement `Comparable` inside the class itself.",
+      "You can only define **one** natural ordering per class."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Comparable Limits Flexibility",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If you now want to sort `Car` objects by `carName`, or in descending order — **you cannot change `compareTo`** without modifying the `Car` class. This is where `Comparator` shines."
+    ],
+    "code": "class Car implements Comparable<Car> {\n    // This compareTo is FIXED — always sorts by carType ascending.\n    // You CANNOT change this at call time.\n    public int compareTo(Car other) {\n        return this.carType.compareTo(other.carType);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "String's Built-in `compareTo`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This gives `String` a natural ordering that is lexicographic (dictionary order), which is why `Collections.sort(list)` on a `List<String>` always sorts alphabetically by default."
+    ],
+    "code": "\"apple\".compareTo(\"banana\") // negative — apple < banana\n\"banana\".compareTo(\"apple\") // positive — banana > apple\n\"apple\".compareTo(\"apple\")  // 0 — equal",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Comparator vs Comparable — Full Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Comparator vs Comparable — Full Comparison"
+  },
+  {
+    "layout": "bullets",
+    "title": "Side-by-Side Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | `Comparator<T>` | `Comparable<T>` |\n|--------|----------------|----------------|\n| **Package** | `java.util` | `java.lang` |\n| **Interface type** | Functional interface | Regular interface |\n| **Abstract method** | `compare(T o1, T o2)` | `compareTo(T o)` |\n| **Number of parameters** | 2 (two objects to compare) | 1 (compared to `this`) |\n| **Where implemented** | External class / lambda | Inside the class itself |\n| **Modifies original class?** | No | Yes |\n| **Multiple sorting strategies?** | Yes (create many Comparators) | No (only one `compareTo`) |\n| **Can sort without modifying class?** | Yes | No |\n| **Used with** | `Arrays.sort(arr, comparator)`, `Collections.sort(list, comparator)`, `PriorityQueue(comparator)` | `Arrays.sort(arr)`, `Collections.sort(list)` |\n| **Flexibility** | High | Low |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "When to Use Which",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Mental Model",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Complete Code — Both Together",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Car implements Comparable for its \"natural\" ordering (by carName, ascending)\nclass Car implements Comparable<Car> {\n    String carName;\n    String carType;",
+      "Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }",
+      "// Natural ordering: by carName, ascending\n    @Override\n    public int compareTo(Car other) {\n        return this.carName.compareTo(other.carName);\n    }",
+      "@Override\n    public String toString() {\n        return carName + \" (\" + carType + \")\";\n    }\n}"
+    ],
+    "code": "import java.util.*;\n\n// Car implements Comparable for its \"natural\" ordering (by carName, ascending)\nclass Car implements Comparable<Car> {\n    String carName;\n    String carType;\n\n    Car(String carName, String carType) {\n        this.carName = carName;\n        this.carType = carType;\n    }\n\n    // Natural ordering: by carName, ascending\n    @Override\n    public int compareTo(Car other) {\n        return this.carName.compareTo(other.carName);\n    }\n\n    @Override\n    public String toString() {\n        return carName + \" (\" + carType + \")\";\n    }\n}\n\npublic class BothDemo {\n    public static void main(String[] args) {\n        List<Car> cars = new ArrayList<>();\n        cars.add(new Car(\"SUV\", \"Petrol\"));\n        cars.add(new Car(\"Sedan\", \"Diesel\"));\n        cars.add(new Car(\"Hatchback\", \"CNG\"));\n\n        // 1. Using Comparable (natural order — by carName ascending)\n        Collections.sort(cars);\n        System.out.println(\"Natural order (Comparable):\");\n        cars.forEach(System.out::println);\n\n        // 2. Using Comparator (by carType, descending)\n        cars.sort((o1, o2) -> o2.carType.compareTo(o1.carType));\n        System.out.println(\"\\nBy carType descending (Comparator):\");\n        cars.forEach(System.out::println);\n\n        // 3. Using Comparator (by carName, descending)\n        cars.sort((o1, o2) -> o2.carName.compareTo(o1.carName));\n        System.out.println(\"\\nBy carName descending (Comparator):\");\n        cars.forEach(System.out::println);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Architecture Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Common Mistakes",
+    "subtitle": "### Mistake 1 — Printing PriorityQueue Directly and Expecting Sorted Output",
+    "bullets": [
+      "### Mistake 1 — Printing PriorityQueue Directly and Expecting Sorted Output",
+      "**Fix:** Use `poll()` in a loop to get sorted output.",
+      "### Mistake 2 — Sorting Custom Objects Without Comparator or Comparable",
+      "**Fix:** Either implement `Comparable` in `Car`, or provide a `Comparator`."
+    ],
+    "code": "PriorityQueue<Integer> pq = new PriorityQueue<>();\npq.add(5); pq.add(2); pq.add(8);\nSystem.out.println(pq); // Prints [2, 5, 8] — this is the HEAP ARRAY, not sorted output!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Best Practices",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Prefer Comparator over Comparable** when you need multiple sort strategies or when you can't modify the class.",
+      "**Implement Comparable** only for the \"natural\" ordering of a class (e.g., `Student` naturally ordered by student ID).",
+      "**Always use `Integer.compare(a, b)`** instead of `a - b` in Comparators to avoid integer overflow.",
+      "**Use lambda expressions** for Comparators — they are concise and readable."
+    ],
+    "code": "cars.sort(Comparator.comparing(car -> car.carName));\n   cars.sort(Comparator.comparing((Car car) -> car.carName).reversed());",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Create a `PriorityQueue<Integer>` (min-heap), insert 10 random integers, and print them in ascending order using `poll()`.",
+      "What is the difference between `poll()` and `remove()` in a Queue?",
+      "What does `peek()` return when called on an empty `PriorityQueue`?",
+      "Write a Comparator to sort `String[]` in **reverse alphabetical** order.",
+      "What exception is thrown when you call `Arrays.sort()` on an array of custom objects that don't implement `Comparable`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Create a max-heap using `PriorityQueue` and find the **k-th largest element** in an array.",
+      "Sort a list of `Employee` objects (with fields `name` and `salary`) first by `salary` ascending, then by `name` alphabetically for ties.",
+      "Use a Comparator.",
+      "Why does `System.out.println(priorityQueue)` not print elements in sorted order?",
+      "Implement `Comparable<Book>` in a `Book` class so that books are sorted by `pageCount` ascending."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implement a **custom PriorityQueue** that supports both min and max behavior by switching a flag — without using Java's built-in PriorityQueue comparator.",
+      "You have a stream of integers.",
+      "Using a `PriorityQueue`, implement a running **median** finder.",
+      "What is the time complexity of building a `PriorityQueue` of N elements one by one?",
+      "Is there a more efficient approach?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Interview Notes"
+  },
+  {
+    "layout": "split",
+    "title": "Frequently Asked Interview Questions",
+    "subtitle": "### Q1: What is the difference between Comparator and Comparable?",
+    "bullets": [
+      "`Comparable` is in `java.lang`; `Comparator` is in `java.util`.",
+      "`Comparable` defines the natural ordering of a class via `compareTo(T o)` (one parameter — compared to `this`).",
+      "`Comparator` is an external comparison strategy via `compare(T o1, T o2)` (two parameters).",
+      "`Comparable` modifies the original class; `Comparator` does not."
+    ],
+    "code": "PriorityQueue<Integer> maxPQ = new PriorityQueue<>((a, b) -> b - a);\n// or safely:\nPriorityQueue<Integer> maxPQ = new PriorityQueue<>(Comparator.reverseOrder());",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Summary Revision Bullets",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Summary Revision Bullets"
+  },
+  {
+    "layout": "bullets",
+    "title": "Queue",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`Queue` is an interface, child of `Collection`, grandchild of `Iterable`.",
+      "Generally follows **FIFO**, but `PriorityQueue` is an exception.",
+      "Six methods in three pairs: insert (`add`/`offer`), remove-head (`remove`/`poll`), inspect-head (`element`/`peek`).",
+      "The first method in each pair throws an exception on failure; the second returns `null` or `false`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "PriorityQueue",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implements `Queue` using an internal **binary heap**.",
+      "Default: **min-heap** (natural ordering, ascending for numbers).",
+      "To get **max-heap**: pass `(a, b) -> b - a` or `Comparator.reverseOrder()` to constructor.",
+      "`peek()` = O(1), `add()` / `poll()` = O(log N), arbitrary `remove(o)` = O(N).",
+      "Never use PriorityQueue when you need FIFO — use `LinkedList` or `ArrayDeque`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Comparator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "External comparison strategy — does not modify the class being compared.",
+      "Functional interface with `int compare(T o1, T o2)`.",
+      "Returns: positive → swap, zero → equal, negative → no swap.",
+      "`val1 - val2` = ascending; `val2 - val1` = descending.",
+      "Allows **multiple** sort strategies for the same class."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Comparable",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Natural ordering defined **inside** the class.",
+      "Interface with `int compareTo(T o)` — one parameter (compared to `this`).",
+      "`Integer`, `String`, `Double`, etc. all implement `Comparable`.",
+      "Implementing `Comparable` enables `Arrays.sort(arr)` and `Collections.sort(list)` **without** a Comparator.",
+      "Only **one** sort order possible per class."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Comparator vs Comparable",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| | Comparator | Comparable |\n|--|--|--|\n| Where? | External | Inside class |\n| Parameters | 2 | 1 (`this` + 1) |\n| Sort strategies | Many | One |\n| Modify class? | No | Yes |",
+      "*End of Chapter — Queue, PriorityQueue, Comparator & Comparable*"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

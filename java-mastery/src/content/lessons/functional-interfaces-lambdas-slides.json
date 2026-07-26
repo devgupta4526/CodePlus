@@ -1,0 +1,531 @@
+[
+  {
+    "layout": "title",
+    "title": "Functional Interfaces Lambdas",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Functional Interfaces & Lambda Expressions — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Functional Interfaces & Lambda Expressions — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is a Functional Interface?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is a Functional Interface?"
+  },
+  {
+    "layout": "split",
+    "title": "1.1 Definition and SAM",
+    "subtitle": "### Definition",
+    "bullets": [
+      "*Functional interface* — the Java 8 name",
+      "*SAM interface* — the conceptual name emphasizing its defining characteristic"
+    ],
+    "code": "// This IS a functional interface — one abstract method\npublic interface Bird {\n    void canFly(String weather);   // only one abstract method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "1.2 The `@FunctionalInterface` Annotation",
+    "subtitle": "### What It Does",
+    "bullets": [
+      "### What It Does",
+      "The `@FunctionalInterface` annotation is an **optional marker annotation** that tells the compiler:",
+      "### Is It Mandatory?",
+      "No. `@FunctionalInterface` is **completely optional**."
+    ],
+    "code": "@FunctionalInterface\npublic interface Bird {\n    void canFly(String weather);   // ✅ one abstract method — OK\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "1.3 What is Allowed Inside a Functional Interface?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A functional interface must have **exactly one abstract method**, but it **can** contain:",
+      "| Member Type | Allowed?",
+      "| Notes |\n|---|---|---|\n| Abstract methods | ✅ Exactly ONE | The defining constraint |\n| `default` methods | ✅ Any number | Must have implementation body |\n| `static` methods | ✅ Any number | Must have implementation body |\n| Object class methods | ✅ (do not count) | `toString`, `equals`, `hashCode`, etc.",
+      "|\n| Constants (`static final`) | ✅ Any number | Standard interface constants |"
+    ],
+    "code": "@FunctionalInterface\npublic interface Bird {\n\n    // ✅ THE one required abstract method\n    void canFly(String weather);\n\n    // ✅ Default method — allowed (has body)\n    default void breathe() {\n        System.out.println(\"Bird is breathing\");\n    }\n\n    // ✅ Static method — allowed (has body)\n    static String getKingdom() {\n        return \"Animalia\";\n    }\n\n    // ✅ Object class method — NOT counted as abstract\n    @Override\n    String toString();\n\n    // ❌ Would break functional interface\n    // int getHeight();   // second abstract → compile error with @FunctionalInterface\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "1.4 Object Class Methods in Interfaces",
+    "subtitle": "### Background",
+    "bullets": [
+      "`toString()` — returns a String representation",
+      "`equals(Object o)` — checks equality",
+      "`hashCode()` — returns hash code"
+    ],
+    "code": "@FunctionalInterface\npublic interface TestInterface {\n    void process();           // ← the ONE abstract method (counts)\n    String toString();        // ← Object class method (does NOT count)\n    boolean equals(Object o); // ← Object class method (does NOT count)\n}\n// Still a valid functional interface — only 'process()' counts",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Three Ways to Implement an Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Three Ways to Implement an Interface"
+  },
+  {
+    "layout": "split",
+    "title": "2.1 Way 1: Using `implements` Keyword",
+    "subtitle": "### The Traditional Approach",
+    "bullets": [
+      "Requires creating a separate named class (`Eagle`)",
+      "More verbose but most explicit",
+      "Class can be reused across the codebase",
+      "Best when the implementation is complex or reused in many places"
+    ],
+    "code": "// The functional interface\n@FunctionalInterface\npublic interface Bird {\n    void canFly(String weather);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.2 Way 2: Using Anonymous Class",
+    "subtitle": "### When You Don't Need a Reusable Named Class",
+    "bullets": [
+      "No separate named class required",
+      "Verbose — lots of boilerplate (`new Bird() { @Override public void... }`)",
+      "Good for one-time-use implementations",
+      "The only option before Java 8 for quick interface implementations"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n\n        // Anonymous class — no separate .java file needed\n        Bird eagle = new Bird() {\n            @Override\n            public void canFly(String weather) {\n                System.out.println(\"Eagle is flying in \" + weather + \" weather\");\n            }\n        };   // ← semicolon ends the variable declaration\n\n        eagle.canFly(\"cloudy\");   // Output: Eagle is flying in cloudy weather\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.3 Way 3: Using Lambda Expression",
+    "subtitle": "### The Java 8 Way",
+    "bullets": [
+      "### The Java 8 Way",
+      "// Lambda expression — most concise\n        Bird eagle = (weather) -> System.out.println(\"Eagle flying in \" + weather);",
+      "eagle.canFly(\"windy\");   // Output: Eagle flying in windy weather\n    }\n}\n```",
+      "### Why Lambdas Were Introduced"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n\n        // Lambda expression — most concise\n        Bird eagle = (weather) -> System.out.println(\"Eagle flying in \" + weather);\n\n        eagle.canFly(\"windy\");   // Output: Eagle flying in windy weather\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.4 Comparison of All Three Ways",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Approach | Code | Verbosity | When to Use |\n|---|---|---|---|\n| **implements** | Separate class file | High | Complex, reusable implementations |\n| **Anonymous class** | Inline, but verbose | Medium | One-time use, before Java 8 |\n| **Lambda** | Single line | Low | One-time use, Java 8+, preferred |",
+      "// WAY 2: anonymous class\nBird b2 = new Bird() {\n    @Override\n    public void canFly(String weather) {\n        System.out.println(\"Flying in \" + weather);\n    }\n};",
+      "// WAY 3: lambda\nBird b3 = (weather) -> System.out.println(\"Flying in \" + weather);",
+      "// All three produce identical behavior:\nb1.canFly(\"sunny\");   // Flying in sunny\nb2.canFly(\"sunny\");   // Flying in sunny\nb3.canFly(\"sunny\");   // Flying in sunny\n```"
+    ],
+    "code": "@FunctionalInterface\ninterface Bird {\n    void canFly(String weather);\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Lambda Expression — Deep Dive",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Lambda Expression — Deep Dive"
+  },
+  {
+    "layout": "split",
+    "title": "3.1 Syntax Breakdown",
+    "subtitle": "The -> is called the lambda operator or arrow operator.",
+    "bullets": [
+      "The `->` is called the **lambda operator** or **arrow operator**.",
+      "### Full Anatomy"
+    ],
+    "code": "(parameters) -> { body }\n     ↑             ↑\n     │             └── Implementation / method body\n     └── Input parameters of the abstract method\n         (empty if method takes no parameters)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "3.2 Lambda Syntax Rules",
+    "subtitle": "### Rule 1: Parameter Types Are Optional",
+    "bullets": [
+      "### Rule 1: Parameter Types Are Optional",
+      "The compiler can infer parameter types from the functional interface definition:",
+      "// Without type (compiler infers from interface) ← preferred\nBird b = (weather) -> System.out.println(weather);\n```",
+      "### Rule 2: Single Parameter — Parentheses Are Optional"
+    ],
+    "code": "// With explicit type (verbose but valid)\nBird b = (String weather) -> System.out.println(weather);\n\n// Without type (compiler infers from interface) ← preferred\nBird b = (weather) -> System.out.println(weather);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "3.3 Lambda Examples by Method Signature",
+    "subtitle": "### No Parameters, No Return (void)",
+    "bullets": [
+      "### No Parameters, No Return (`void`)",
+      "Action a = () -> System.out.println(\"Executed!\");\na.execute();   // Output: Executed!\n```",
+      "### One Parameter, No Return",
+      "Printer p = message -> System.out.println(\">> \" + message);\np.print(\"Hello\");   // Output: >> Hello\n```"
+    ],
+    "code": "@FunctionalInterface\ninterface Action {\n    void execute();\n}\n\nAction a = () -> System.out.println(\"Executed!\");\na.execute();   // Output: Executed!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Built-in Functional Interfaces (`java.util.function`)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Built-in Functional Interfaces (`java.util.function`)"
+  },
+  {
+    "layout": "split",
+    "title": "4.1 `Consumer<T>`",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Printing or logging a value",
+      "Saving data to a database",
+      "Sending a notification",
+      "Performing a side effect with an input"
+    ],
+    "code": "@FunctionalInterface\npublic interface Consumer<T> {\n    void accept(T t);   // the one abstract method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.2 `Supplier<T>`",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Factory methods that create objects",
+      "Lazy initialization (compute a value only when needed)",
+      "Providing default values",
+      "Generating random values or timestamps"
+    ],
+    "code": "@FunctionalInterface\npublic interface Supplier<T> {\n    T get();   // the one abstract method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.3 `Function<T, R>`",
+    "subtitle": "### Definition",
+    "bullets": [
+      "`T` — the **input** type",
+      "`R` — the **return/result** type",
+      "Type conversion (e.g., `Integer` → `String`)",
+      "Data transformation / mapping"
+    ],
+    "code": "@FunctionalInterface\npublic interface Function<T, R> {\n    R apply(T t);   // the one abstract method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.4 `Predicate<T>`",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Validation logic (is this input valid?)",
+      "Filtering collections",
+      "Conditional checks",
+      "Testing properties (is even, is empty, is above threshold)"
+    ],
+    "code": "@FunctionalInterface\npublic interface Predicate<T> {\n    boolean test(T t);   // the one abstract method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "4.5 Built-in Types Comparison Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Interface | Abstract Method | Input | Output | Use When |\n|---|---|---|---|---|\n| `Consumer<T>` | `void accept(T t)` | T | Nothing | Process/consume input with side effects |\n| `Supplier<T>` | `T get()` | Nothing | T | Generate/supply a value |\n| `Function<T,R>` | `R apply(T t)` | T | R | Transform input to output |\n| `Predicate<T>` | `boolean test(T t)` | T | `boolean` | Test/validate a condition |",
+      "### Memory Device",
+      "### Additional Built-in Variants (Bonus)",
+      "Java provides many variations of these four core interfaces:"
+    ],
+    "code": "Consumer  — takes IN, gives nothing out  (\"consumes\")\nSupplier  — takes nothing in, gives OUT  (\"supplies\")\nFunction  — takes IN, gives OUT          (\"transforms\")\nPredicate — takes IN, gives TRUE/FALSE   (\"tests\")",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Functional Interface Inheritance — Use Cases",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Functional Interface Inheritance — Use Cases"
+  },
+  {
+    "layout": "split",
+    "title": "5.1 Use Case 1: Functional Extending Non-Functional",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Scenario: A `@FunctionalInterface` tries to extend an interface that has an abstract method",
+      "// Functional interface tries to extend LivingThing\n@FunctionalInterface\npublic interface Bird extends LivingThing {\n    void canFly(String weather);   // abstract method #2 (inherited + own = 2 total)\n}\n// ❌ COMPILE ERROR: Multiple non-overriding abstract methods found in interface Bird\n```",
+      "**Why?** When `Bird` extends `LivingThing`, it **inherits** `canBreathe()`.",
+      "Now `Bird` has two abstract methods: `canBreathe()` (inherited) + `canFly()` (own)."
+    ],
+    "code": "// Non-functional interface — has one abstract method\npublic interface LivingThing {\n    void canBreathe();   // abstract method #1\n}\n\n// Functional interface tries to extend LivingThing\n@FunctionalInterface\npublic interface Bird extends LivingThing {\n    void canFly(String weather);   // abstract method #2 (inherited + own = 2 total)\n}\n// ❌ COMPILE ERROR: Multiple non-overriding abstract methods found in interface Bird",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "5.2 Use Case 2: Non-Functional Extending Functional",
+    "subtitle": "### Scenario: A regular interface extends a functional interface",
+    "bullets": [
+      "### Scenario: A regular interface extends a functional interface",
+      "// Regular interface (NOT @FunctionalInterface) extends LivingThing\npublic interface Bird extends LivingThing {\n    void canFly(String weather);   // abstract method #2\n}\n// ✅ COMPILES FINE\n```",
+      "**Why does this work?** `Bird` is a **regular interface** (no `@FunctionalInterface` annotation).",
+      "Regular interfaces can have any number of abstract methods."
+    ],
+    "code": "// Functional interface — one abstract method\n@FunctionalInterface\npublic interface LivingThing {\n    void canBreathe();   // abstract method #1\n}\n\n// Regular interface (NOT @FunctionalInterface) extends LivingThing\npublic interface Bird extends LivingThing {\n    void canFly(String weather);   // abstract method #2\n}\n// ✅ COMPILES FINE",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "5.3 Use Case 3: Functional Extending Functional",
+    "subtitle": "### Scenario A: Both have DIFFERENT abstract methods → ❌ Compile Error",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Writing Your Own Functional Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Writing Your Own Functional Interface"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Summary Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Summary Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Lambda vs. Anonymous Class",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Four Built-in Functional Interfaces",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Functional Interface Inheritance Decision Tree",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Adding a Second Abstract Method to a `@FunctionalInterface`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Fix:** Remove the second abstract method, or make it `default` with an implementation."
+    ],
+    "code": "@FunctionalInterface\npublic interface Bird {\n    void canFly(String weather);\n    int getHeight();   // ❌ COMPILE ERROR\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Using Lambda with a Non-Functional Interface",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ❌ COMPILE ERROR: Bird is not a functional interface\nBird b = weather -> System.out.println(weather);\n```",
+      "**Fix:** Use anonymous class or `implements`, or reduce the interface to one abstract method."
+    ],
+    "code": "public interface Bird {\n    void canFly(String weather);\n    int getHeight();   // two abstract methods\n}\n\n// ❌ COMPILE ERROR: Bird is not a functional interface\nBird b = weather -> System.out.println(weather);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Wrong Argument Count in Lambda",
+    "subtitle": "// ❌ COMPILE ERROR: wrong number of arguments\nAdder adder = (a) -> a + 1;",
+    "bullets": [
+      "// ❌ COMPILE ERROR: wrong number of arguments\nAdder adder = (a) -> a + 1;",
+      "// ✅ CORRECT\nAdder adder = (a, b) -> a + b;\n```"
+    ],
+    "code": "@FunctionalInterface\ninterface Adder {\n    int add(int a, int b);   // two parameters\n}\n\n// ❌ COMPILE ERROR: wrong number of arguments\nAdder adder = (a) -> a + 1;\n\n// ✅ CORRECT\nAdder adder = (a, b) -> a + b;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Using `return` in a Single-Line Lambda Without Braces",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ❌ COMPILE ERROR: return not allowed in expression lambda\nSquare sq = n -> return n * n;",
+      "// ✅ CORRECT — no return, no braces for single expression\nSquare sq = n -> n * n;",
+      "// ✅ ALSO CORRECT — return with braces\nSquare sq2 = n -> { return n * n; };\n```"
+    ],
+    "code": "@FunctionalInterface\ninterface Square {\n    int compute(int n);\n}\n\n// ❌ COMPILE ERROR: return not allowed in expression lambda\nSquare sq = n -> return n * n;\n\n// ✅ CORRECT — no return, no braces for single expression\nSquare sq = n -> n * n;\n\n// ✅ ALSO CORRECT — return with braces\nSquare sq2 = n -> { return n * n; };",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Empty Parentheses Missing for Zero-Parameter Lambda",
+    "subtitle": "// ❌ COMPILE ERROR: syntax error\nAction a = -> System.out.println(\"Hello\");",
+    "bullets": [
+      "// ❌ COMPILE ERROR: syntax error\nAction a = -> System.out.println(\"Hello\");",
+      "// ✅ CORRECT — empty parentheses required\nAction a = () -> System.out.println(\"Hello\");\n```"
+    ],
+    "code": "@FunctionalInterface\ninterface Action {\n    void execute();   // no parameters\n}\n\n// ❌ COMPILE ERROR: syntax error\nAction a = -> System.out.println(\"Hello\");\n\n// ✅ CORRECT — empty parentheses required\nAction a = () -> System.out.println(\"Hello\");",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Thinking `default` Methods Break the Functional Interface Rule",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "@FunctionalInterface\npublic interface Bird {\n    void canFly(String weather);   // abstract — counts\n    default void breathe() { }    // default — does NOT count\n    static void info() { }        // static — does NOT count\n}\n// ✅ VALID — still a functional interface",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 7: Forgetting Semicolon After Lambda Expression Statement",
+    "subtitle": "// ✅ Correct\nBird b = weather -> System.out.println(weather);",
+    "bullets": [
+      "// ✅ Correct\nBird b = weather -> System.out.println(weather);\n```"
+    ],
+    "code": "// ❌ Missing semicolon\nBird b = weather -> System.out.println(weather)\n\n// ✅ Correct\nBird b = weather -> System.out.println(weather);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Parameters: empty `()` if none, or `(param1, param2, ...)`. Type annotations optional.",
+      "Body: single expression (no braces, implicit return) or block `{ ... }` (needs explicit `return` for non-void).",
+      "`Consumer<T>` — accepts T, returns nothing. Method: `accept()`",
+      "`Supplier<T>` — accepts nothing, returns T. Method: `get()`",
+      "`Function<T,R>` — accepts T, returns R. Method: `apply()`"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is the defining characteristic of a functional interface?",
+      "What does SAM stand for?",
+      "What does it mean?",
+      "Is `@FunctionalInterface` mandatory?",
+      "What does it do?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implement the `Greeter` interface from Q4 using all three approaches: `implements`, anonymous class, and lambda expression.",
+      "Write a `Consumer<String>` lambda that prints the string in uppercase.",
+      "Write a `Supplier<Integer>` lambda that returns a random integer between 1 and 100.",
+      "Write a `Function<String, Integer>` lambda that returns the number of vowels in a string."
+    ],
+    "code": "@FunctionalInterface\n    interface MyInterface {\n        void doSomething();\n        void doSomethingElse();\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A `Supplier<String>` provides raw data",
+      "A `Function<String, Integer>` transforms it",
+      "A `Predicate<Integer>` validates it",
+      "A `Consumer<Integer>` consumes (prints) the result"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Quick Revision Summary"
+  }
+]

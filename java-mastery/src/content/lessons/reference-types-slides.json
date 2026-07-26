@@ -1,0 +1,669 @@
+[
+  {
+    "layout": "title",
+    "title": "Reference Types",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Variables — Part 2: Reference Data Types, Wrapper Classes & Constants",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Variables — Part 2: Reference Data Types, Wrapper Classes & Constants"
+  },
+  {
+    "layout": "diagram",
+    "title": "Data Type Taxonomy — Quick Recap",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What are Reference Data Types?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What are Reference Data Types?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **reference data type** is any type whose variable does **not store the actual value** directly.",
+      "Instead, the variable stores a **reference** (memory address) pointing to the location in **heap memory** where the actual data lives.",
+      "This is the fundamental distinction from primitive types, which store values directly."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why the Name \"Reference\"?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you create an object using the `new` keyword, Java:\n1.",
+      "Allocates a block of memory in the **heap**\n2.",
+      "Stores the object's data there\n3.",
+      "Gives the variable a **reference** (pointer-like address) to that memory location",
+      "The variable itself doesn't *hold* the object — it *points to* where the object lives."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Heap Memory — What it is",
+    "subtitle": "Java's memory is divided into regions. The two most important for now:",
+    "bullets": [
+      "Java's memory is divided into regions. The two most important for now:",
+      "| Memory Region | What lives here |\n|---------------|----------------|\n| **Stack** | Primitive variables, method call frames, local variable references |\n| **Heap** | All objects created with `new`, String literals (in String Constant Pool) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Diagram — Reference vs Value",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Pass By Value in Java — The Critical Concept",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you pass a **primitive** to a method → a **copy of the value** is passed. Changes inside the method do **not** affect the original.",
+      "When you pass an **object** to a method → a **copy of the reference** (address) is passed. Both the original and the method's copy **point to the same heap object**. So changes to the object's fields **are reflected** in the caller."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Reference Type 1 — Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Reference Type 1 — Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **class** is the most fundamental reference data type in Java. When you instantiate a class using `new`, an object is created in heap memory, and the variable holds a reference to it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Class Reference and Shared Memory",
+    "subtitle": "int getEmployeeId() {\n        return employeeId;\n    }",
+    "bullets": [
+      "int getEmployeeId() {\n        return employeeId;\n    }",
+      "void setEmployeeId(int id) {\n        this.employeeId = id;\n    }\n}",
+      "public class Main {\n    static void modify(Employee emp) {\n        emp.employeeId = 20; // modifies the object in heap\n    }",
+      "public static void main(String[] args) {\n        Employee empObj = new Employee();\n        empObj.employeeId = 10;"
+    ],
+    "code": "class Employee {\n    int employeeId;\n\n    int getEmployeeId() {\n        return employeeId;\n    }\n\n    void setEmployeeId(int id) {\n        this.employeeId = id;\n    }\n}\n\npublic class Main {\n    static void modify(Employee emp) {\n        emp.employeeId = 20; // modifies the object in heap\n    }\n\n    public static void main(String[] args) {\n        Employee empObj = new Employee();\n        empObj.employeeId = 10;\n\n        System.out.println(\"Before: \" + empObj.employeeId); // 10\n\n        modify(empObj); // passing the reference by value\n\n        System.out.println(\"After: \" + empObj.employeeId);  // 20\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Step-by-Step Execution",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Step | What Happens |\n|------|-------------|\n| `Employee empObj = new Employee()` | JVM allocates heap memory for an Employee object.",
+      "`empObj` stores the address (e.g., `AIJ1246987`) |\n| `empObj.employeeId = 10` | Via the reference, `employeeId` at that heap address is set to `10` |\n| `modify(empObj)` is called | A **copy of the reference** (`AIJ1246987`) is passed into `emp` parameter |\n| `emp.employeeId = 20` | `emp` points to the SAME heap object → sets `employeeId` to `20` |\n| Back in `main`, print `empObj.employeeId` | `empObj` still points to same heap address → sees `20` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Multiple References to the Same Object",
+    "subtitle": "Employee obj2 = empObj; // obj2 now points to the SAME heap object",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Primitive Pass-by-Value — Contrast",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public static void main(String[] args) {\n    int a = 10;\n    modifyPrimitive(a);\n    System.out.println(a); // 10 — unchanged\n}\n```",
+      "With primitives, `a` lives on the **stack**. A copy of `10` is sent to `modifyPrimitive`. Changing `x` inside the method has zero effect on `a`."
+    ],
+    "code": "static void modifyPrimitive(int x) {\n    x = 20; // only changes local copy\n}\n\npublic static void main(String[] args) {\n    int a = 10;\n    modifyPrimitive(a);\n    System.out.println(a); // 10 — unchanged\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Primitive vs Reference — Key Difference Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | Primitive | Reference (Object) |\n|--------|-----------|--------------------|\n| Stored in | Stack | Heap (reference on Stack) |\n| Variable holds | Actual value | Memory address |\n| Pass to method | Copy of value | Copy of reference |\n| Method changes reflected?",
+      "| ❌ No | ✅ Yes (if mutating fields) |\n| Default value | `0`, `false`, `'\\0'` | `null` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Reference Type 2 — String",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Reference Type 2 — String"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "The String Constant Pool",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "String Literals vs `new String()`",
+    "subtitle": "There are two ways to create a String in Java, with very different behavior:",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "`==` vs `.equals()` for Strings — Critical Concept",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator / Method | What it checks |\n|-------------------|---------------|\n| `==` | Are both references pointing to the **exact same memory location**?",
+      "|\n| `.equals()` | Do both strings contain the **same characters** (same value)?",
+      "System.out.println(s1 == s2);        // true  — both point to same pool entry\nSystem.out.println(s1 == s3);        // false — s3 is a separate heap object\nSystem.out.println(s1.equals(s2));   // true  — same content\nSystem.out.println(s1.equals(s3));   // true  — same content\n```",
+      "**Output:**\n```\ntrue\nfalse\ntrue\ntrue\n```"
+    ],
+    "code": "String s1 = \"hello\";\nString s2 = \"hello\";\nString s3 = new String(\"hello\");\n\nSystem.out.println(s1 == s2);        // true  — both point to same pool entry\nSystem.out.println(s1 == s3);        // false — s3 is a separate heap object\nSystem.out.println(s1.equals(s2));   // true  — same content\nSystem.out.println(s1.equals(s3));   // true  — same content",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "String Immutability",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why is String a Reference Type?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A `String` variable holds a **reference** to a string object (either in the pool or on the heap)",
+      "It is not stored directly on the stack like a primitive",
+      "It can be `null` (a primitive cannot be null)",
+      "It behaves like an object: has methods like `.length()`, `.equals()`, `.substring()`, etc."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Reference Type 3 — Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Reference Type 3 — Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An **interface** is also a reference data type in Java.",
+      "It works very similarly to a class from a reference perspective — variables of an interface type hold references to objects of classes that **implement** that interface."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class Teacher implements Person {\n    @Override\n    public String profession() {\n        return \"Teaching\";\n    }\n}",
+      "class Engineer implements Person {\n    @Override\n    public String profession() {\n        return \"Software Engineer\";\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        // Valid: interface reference holds child object\n        Person p1 = new Engineer();   // ✅\n        Person p2 = new Teacher();    // ✅",
+      "// Also valid: concrete type reference\n        Engineer e = new Engineer();  // ✅\n        Teacher t = new Teacher();    // ✅"
+    ],
+    "code": "interface Person {\n    String profession();\n}\n\nclass Teacher implements Person {\n    @Override\n    public String profession() {\n        return \"Teaching\";\n    }\n}\n\nclass Engineer implements Person {\n    @Override\n    public String profession() {\n        return \"Software Engineer\";\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // Valid: interface reference holds child object\n        Person p1 = new Engineer();   // ✅\n        Person p2 = new Teacher();    // ✅\n\n        // Also valid: concrete type reference\n        Engineer e = new Engineer();  // ✅\n        Teacher t = new Teacher();    // ✅\n\n        // INVALID: cannot instantiate an interface directly\n        // Person p3 = new Person();  // ❌ Compile error\n\n        System.out.println(p1.profession()); // Software Engineer\n        System.out.println(p2.profession()); // Teaching\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Rules for Interface References",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Valid?",
+      "| Reason |\n|------|--------|--------|\n| `Person p = new Engineer()` | ✅ | Parent interface ref can hold child object |\n| `Person p = new Teacher()` | ✅ | Same as above |\n| `Engineer e = new Engineer()` | ✅ | Concrete type ref holding its own object |\n| `Person p = new Person()` | ❌ | Cannot instantiate an interface — no implementation exists |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Memory Diagram — Interface Reference",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Reference Type 4 — Array",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Reference Type 4 — Array"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An **array** in Java is a reference data type that stores a **fixed-size, ordered sequence of elements of the same data type** in contiguous memory locations in the heap."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Creating a 1D Array",
+    "subtitle": "There are two main ways to create a 1D array:",
+    "bullets": [
+      "There are two main ways to create a 1D array:",
+      "### Method 1 — Declare Size, Then Assign Values",
+      "arr[0] = 10;\narr[3] = 40;\n// Default value for int is 0, so unset indices are 0\n// Result: [10, 0, 0, 40, 0]\n```",
+      "### Method 2 — Declare and Initialize in One Line"
+    ],
+    "code": "int[] arr = new int[5]; // allocate 5 integer slots in heap\n\narr[0] = 10;\narr[3] = 40;\n// Default value for int is 0, so unset indices are 0\n// Result: [10, 0, 0, 40, 0]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Memory Representation — 1D Array",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Creating a 2D Array",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A 2D array is essentially an **array of arrays**. Think of it as a table with rows and columns.",
+      "### Method 1 — Declare Size, Then Assign",
+      "arr[2][2] = 20; // row 2, column 2 → set to 20\narr[1][3] = 30; // row 1, column 3 → set to 30\n```",
+      "### Method 2 — Declare and Initialize"
+    ],
+    "code": "int[][] arr = new int[5][4]; // 5 rows, 4 columns\n// Default values: all zeros\n\narr[2][2] = 20; // row 2, column 2 → set to 20\narr[1][3] = 30; // row 1, column 3 → set to 30",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2D Array — Visual Representation",
+    "subtitle": "For new int[5][4] (5 rows, 4 columns), default state:",
+    "bullets": [
+      "For `new int[5][4]` (5 rows, 4 columns), default state:"
+    ],
+    "code": "Col 0  Col 1  Col 2  Col 3\nRow 0  [  0     0     0     0  ]\nRow 1  [  0     0     0    30  ]  ← arr[1][3] = 30\nRow 2  [  0     0    20     0  ]  ← arr[2][2] = 20\nRow 3  [  0     0     0     0  ]\nRow 4  [  0     0     0     0  ]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Why is Array a Reference Type?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Created with `new` → lives in **heap memory**",
+      "The variable holds a **reference** to the heap memory block",
+      "Passing an array to a method passes the reference → modifications inside the method affect the original array"
+    ],
+    "code": "static void modify(int[] a) {\n    a[0] = 999; // modifies heap memory\n}\n\npublic static void main(String[] args) {\n    int[] nums = {1, 2, 3};\n    modify(nums);\n    System.out.println(nums[0]); // 999 — changed!\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Wrapper Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Wrapper Classes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java provides a **wrapper class** for each of the 8 primitive types. A wrapper class is a class that \"wraps\" a primitive value inside an object, giving it reference-type capabilities."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Primitive to Wrapper Mapping",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Primitive | Wrapper Class |\n|-----------|--------------|\n| `byte` | `Byte` |\n| `short` | `Short` |\n| `int` | `Integer` |\n| `long` | `Long` |\n| `float` | `Float` |\n| `double` | `Double` |\n| `char` | `Character` |\n| `boolean` | `Boolean` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Do Wrapper Classes Exist?",
+    "subtitle": "### Reason 1 — Reference Capability (Modification Reflection)",
+    "bullets": [
+      "### Reason 1 — Reference Capability (Modification Reflection)",
+      "When you pass a primitive to a method and modify it there, the original is **unchanged**. This is because primitives are stored on the stack and passed by value (a copy).",
+      "public static void main(String[] args) {\n    int a = 10;\n    modify(a);\n    System.out.println(a); // 10 — unchanged\n}\n```",
+      "With a wrapper class (which is an object), you get reference behaviour:"
+    ],
+    "code": "// With primitive — change NOT reflected\nstatic void modify(int x) {\n    x = 20;\n}\n\npublic static void main(String[] args) {\n    int a = 10;\n    modify(a);\n    System.out.println(a); // 10 — unchanged\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Wrapper Class Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Autoboxing and Unboxing",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Autoboxing and Unboxing"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java performs automatic conversions between primitives and their wrapper types. These conversions are so common that Java handles them **automatically** (since Java 5)."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definitions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Term | Direction | What happens |\n|------|-----------|--------------|\n| **Autoboxing** | Primitive → Wrapper | Java automatically wraps a primitive into its wrapper object |\n| **Unboxing** | Wrapper → Primitive | Java automatically extracts the primitive value from a wrapper object |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Examples",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// UNBOXING — Integer object to primitive int\nInteger x = 20;\nint x1 = x;              // unboxing: Integer → int\n// equivalent to: int x1 = x.intValue();\n```"
+    ],
+    "code": "// AUTOBOXING — primitive int to Integer object\nint a = 10;\nInteger a1 = a;           // autoboxing: int → Integer\n// equivalent to: Integer a1 = Integer.valueOf(a);\n\n// UNBOXING — Integer object to primitive int\nInteger x = 20;\nint x1 = x;              // unboxing: Integer → int\n// equivalent to: int x1 = x.intValue();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Autoboxing in Collections",
+    "subtitle": "The most common place you'll see autoboxing in practice:",
+    "bullets": [
+      "The most common place you'll see autoboxing in practice:",
+      "list.add(5);    // autoboxing: int 5 → Integer.valueOf(5)\nlist.add(10);   // autoboxing: int 10 → Integer.valueOf(10)",
+      "int first = list.get(0); // unboxing: Integer → int\nSystem.out.println(first); // 5\n```"
+    ],
+    "code": "ArrayList<Integer> list = new ArrayList<>();\n\nlist.add(5);    // autoboxing: int 5 → Integer.valueOf(5)\nlist.add(10);   // autoboxing: int 10 → Integer.valueOf(10)\n\nint first = list.get(0); // unboxing: Integer → int\nSystem.out.println(first); // 5",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Flowchart — Autoboxing and Unboxing",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Common Autoboxing Pitfall — `==` with Integer Cache",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Integer c = 200;\nInteger d = 200;\nSystem.out.println(c == d); // false — outside cache range, different objects",
+      "System.out.println(c.equals(d)); // true — always use .equals() for value comparison\n```"
+    ],
+    "code": "Integer a = 100;\nInteger b = 100;\nSystem.out.println(a == b); // true — both from cache, same object\n\nInteger c = 200;\nInteger d = 200;\nSystem.out.println(c == d); // false — outside cache range, different objects\n\nSystem.out.println(c.equals(d)); // true — always use .equals() for value comparison",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Constant Variables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Constant Variables"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **constant variable** is a variable whose value is set once and **can never be changed**. In Java, constants are created using a combination of `static` and `final` keywords."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Recap — `static` Variables",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A `static` variable belongs to the **class**, not to any individual object. All objects share a single copy.",
+      "Employee obj1 = new Employee();\nEmployee obj2 = new Employee();",
+      "obj1.employeeId = 20; // changes shared value to 20\nSystem.out.println(obj2.employeeId); // 20 — same variable!\n```",
+      "But `static` alone doesn't prevent modification — both `obj1` and `obj2` can change it."
+    ],
+    "code": "class Employee {\n    static int employeeId = 10;\n}\n\nEmployee obj1 = new Employee();\nEmployee obj2 = new Employee();\n\nobj1.employeeId = 20; // changes shared value to 20\nSystem.out.println(obj2.employeeId); // 20 — same variable!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Making it a Constant — `static final`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Adding `final` means the value is **assigned once and locked**. Any attempt to reassign it causes a **compile error**.",
+      "// Anywhere in code:\n// Employee.EMPLOYEE_ID = 20; // ❌ Compile error: cannot assign to final variable\nSystem.out.println(Employee.EMPLOYEE_ID); // ✅ Reading is fine\n```"
+    ],
+    "code": "class Employee {\n    public static final int EMPLOYEE_ID = 10;\n}\n\n// Anywhere in code:\n// Employee.EMPLOYEE_ID = 20; // ❌ Compile error: cannot assign to final variable\nSystem.out.println(Employee.EMPLOYEE_ID); // ✅ Reading is fine",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Naming Convention for Constants",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "By Java convention, constant variable names are written in **ALL_CAPS_WITH_UNDERSCORES** (SCREAMING_SNAKE_CASE):"
+    ],
+    "code": "public static final int MAX_RETRY_COUNT = 3;\npublic static final double PI = 3.14159265;\npublic static final String APP_NAME = \"MyApp\";",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "`static` vs `final` vs `static final`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Modifier | One copy shared?",
+      "| Can be changed?",
+      "| Constant?",
+      "|\n|----------|-----------------|-----------------|-----------|\n| `static` | ✅ Yes | ✅ Yes | ❌ No |\n| `final` | ❌ No (per object) | ❌ No | Per-object constant |\n| `static final` | ✅ Yes | ❌ No | ✅ **True constant** |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Full Constant Demo",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Main {\n    public static void main(String[] args) {\n        System.out.println(AppConfig.MAX_CONNECTIONS); // 100\n        System.out.println(AppConfig.DB_NAME);         // production_db",
+      "// AppConfig.MAX_CONNECTIONS = 200; // ❌ Compile error\n    }\n}\n```",
+      "**Output:**\n```\n100\nproduction_db\n```"
+    ],
+    "code": "class AppConfig {\n    public static final int MAX_CONNECTIONS = 100;\n    public static final String DB_NAME = \"production_db\";\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(AppConfig.MAX_CONNECTIONS); // 100\n        System.out.println(AppConfig.DB_NAME);         // production_db\n\n        // AppConfig.MAX_CONNECTIONS = 200; // ❌ Compile error\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Constant Variables — Summary",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Reference Data Types",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a reference data type?",
+      "| Variable holds a memory address (reference) pointing to heap, not the value itself |\n| What are the four main reference data types in Java?",
+      "| Class, String, Interface, Array |\n| Is Java pass-by-value or pass-by-reference?",
+      "| Always pass-by-value — but for objects, the value being passed is the reference |\n| How do reference types give us pointer-like behavior?",
+      "| Multiple variables can reference the same heap object; mutations are shared |\n| What is the default value of a reference type?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "String Specific",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is the String Constant Pool?",
+      "| A special area in heap where string literals are stored and reused |\n| Why are Strings immutable in Java?",
+      "| To safely allow pool reuse — if literals could change, shared references would be corrupted |\n| What is the difference between `==` and `.equals()` for Strings?",
+      "| `==` checks same memory reference; `.equals()` checks same content |\n| What happens when you use `new String(\"hello\")`?",
+      "| Creates a new heap object outside the pool — even if the pool has \"hello\" |\n| Why is String a reference type even though Java defines it?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Wrapper Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a wrapper class?",
+      "| A class that wraps a primitive to give it object/reference capabilities |\n| Name all 8 primitive-wrapper pairs | int/Integer, double/Double, char/Character, boolean/Boolean, byte/Byte, short/Short, long/Long, float/Float |\n| Why do we need wrapper classes?",
+      "| (1) Reference/mutation capability; (2) Java Collections only accept objects |\n| What is autoboxing?",
+      "| Automatic conversion from primitive to wrapper (e.g., `int` → `Integer`) |\n| What is unboxing?",
+      "| Automatic conversion from wrapper to primitive (e.g., `Integer` → `int`) |\n| Integer cache trap | `Integer` caches -128 to 127; `==` may give unexpected results outside that range |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Constant Variables",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| How do you declare a constant in Java?",
+      "| `public static final TYPE NAME = value;` |\n| What does `static` do?",
+      "| One shared copy across all instances |\n| What does `final` do?",
+      "| Prevents reassignment after initial value is set |\n| What is the naming convention for constants?",
+      "| ALL_CAPS_WITH_UNDERSCORES |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Master Summary"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Mind Map",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "✅ **Reference data type** = variable holds a **memory address**, not the actual value",
+      "✅ **Object lives in heap**; reference lives on stack",
+      "✅ Java is always **pass-by-value** — for objects, the *value* passed is the reference",
+      "✅ Multiple variables can reference the **same heap object** — mutations are shared",
+      "✅ **String Constant Pool** — string literals are stored and reused in a pool inside heap"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

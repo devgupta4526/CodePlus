@@ -1,0 +1,716 @@
+[
+  {
+    "layout": "title",
+    "title": "Interfaces Fundamentals",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Interfaces — Comprehensive Study Guide (Part 1)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Interfaces — Comprehensive Study Guide (Part 1)"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is an Interface?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is an Interface?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An interface is one of the most fundamental concepts in Java.",
+      "It is the backbone of abstraction, polymorphism, and loosely coupled design.",
+      "Every professional Java codebase uses interfaces extensively."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Consider driving a car.",
+      "When you press the brake pedal, the car slows down.",
+      "You (System 1) interact with the car (System 2) through the pedal — which is the **interface**.",
+      "You don't know whether the car uses disc brakes, drum brakes, regenerative braking, or ABS logic.",
+      "All of that is hidden."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Technical Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "In short: an interface defines **method signatures** (the *what*) and leaves **implementation** (the *how*) entirely to the classes that use it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "One-Line Summary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. How to Define an Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. How to Define an Interface"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "modifier interface InterfaceName extends ParentInterface1, ParentInterface2 {\n    // method signatures (abstract by default)\n    // constants (public static final by default)\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Syntax Breakdown",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Part | Explanation |\n|------|-------------|\n| `modifier` | Only `public` or default (package-private) are allowed |\n| `interface` | The keyword that declares this as an interface |\n| `InterfaceName` | Name of the interface — by convention, a noun or adjective (e.g., `Flyable`, `Comparable`) |\n| `extends` | Used when this interface extends one or more other interfaces |\n| `ParentInterface1, ParentInterface2` | Comma-separated list of parent interfaces (NOT classes) |\n| `{ ...",
+      "}` | Body — contains method signatures and constants |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Access Modifiers for Interfaces",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Modifier | Allowed?",
+      "| Meaning |\n|----------|----------|---------|\n| `public` | ✅ Yes | Accessible from any package |\n| *(default / package-private)* | ✅ Yes | Accessible only within the same package |\n| `protected` | ❌ No | Not applicable to top-level interfaces |\n| `private` | ❌ No | Not applicable to top-level interfaces |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Basic Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public interface Bird {\n    void fly();     // abstract method — signature only, no body\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Interface Extending Multiple Interfaces",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An interface can extend **multiple other interfaces** using a comma-separated list:",
+      "public interface LivingThing {\n    void breathe();\n}",
+      "// NonFlyingBird extends both Bird and LivingThing\npublic interface NonFlyingBird extends Bird, LivingThing {\n    void run();\n}\n```"
+    ],
+    "code": "public interface Bird {\n    void fly();\n}\n\npublic interface LivingThing {\n    void breathe();\n}\n\n// NonFlyingBird extends both Bird and LivingThing\npublic interface NonFlyingBird extends Bird, LivingThing {\n    void run();\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Why We Need Interfaces",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Why We Need Interfaces"
+  },
+  {
+    "layout": "split",
+    "title": "3.1 Abstraction",
+    "subtitle": "### What is Abstraction?",
+    "bullets": [
+      "### What is Abstraction?",
+      "Abstraction means **hiding implementation details** and **exposing only the features** the user needs to know.",
+      "### How Interfaces Achieve Abstraction",
+      "An interface defines only method signatures — there is no implementation code. The implementing class provides the *how*. The caller only ever sees the *what*."
+    ],
+    "code": "┌─────────────┐     interface      ┌─────────────────┐\n│  System 1   │ ─── fly(), eat() ──▶  System 2        │\n│  (caller)   │                   │  (implementer)   │\n│             │                   │  full logic here │\n└─────────────┘                   └─────────────────┘\n     ↑\nknows nothing about\nSystem 2's internals",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "3.2 Polymorphism",
+    "subtitle": "### Interface as a Data Type",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "3.3 Multiple Inheritance & The Diamond Problem",
+    "subtitle": "### Why Multiple Inheritance is Banned for Classes",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Methods in an Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Methods in an Interface"
+  },
+  {
+    "layout": "split",
+    "title": "Key Rules for Interface Methods",
+    "subtitle": "### Rule 1 — All Methods Are Implicitly public",
+    "bullets": [
+      "### Rule 1 — All Methods Are Implicitly `public`",
+      "Whether or not you write `public`, all methods in an interface are public by default:",
+      "Both `fly()` and `eat()` are identical in terms of access — both are `public`. Writing `public` is optional but not wrong.",
+      "### Rule 2 — Methods Cannot Be Declared `final`"
+    ],
+    "code": "public interface Bird {\n    void fly();           // implicitly public — same as writing 'public void fly()'\n    public void eat();    // explicitly public — same as above\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Fields in an Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Fields in an Interface"
+  },
+  {
+    "layout": "split",
+    "title": "Key Rule — All Fields Are `public static final`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`public` — accessible from anywhere",
+      "`static` — belongs to the interface itself, not to any instance",
+      "`final` — cannot be changed after assignment (it is a **constant**)"
+    ],
+    "code": "public interface Bird {\n    int MAX_HEIGHT_IN_FEET = 2000;\n    // identical to:\n    // public static final int MAX_HEIGHT_IN_FEET = 2000;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Are Interface Fields Always Constants?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interfaces cannot be instantiated, so instance variables (non-static fields) make no sense.",
+      "Every field must be associated with the interface itself (hence `static`) and should not be changeable by implementors (hence `final`).",
+      "This ensures the interface provides reliable, unchangeable constants."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class FlightCalculator implements GeographicConstants {\n    public void display() {\n        System.out.println(\"Planet: \" + PLANET_NAME);\n        System.out.println(\"Earth radius: \" + EARTH_RADIUS_KM + \" km\");\n        System.out.println(\"Max altitude: \" + MAX_ALTITUDE_FEET + \" feet\");\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        FlightCalculator fc = new FlightCalculator();\n        fc.display();",
+      "// Access directly via interface name — it's static\n        System.out.println(GeographicConstants.EARTH_RADIUS_KM);\n    }\n}\n```",
+      "**Output:**\n```\nPlanet: Earth\nEarth radius: 6371.0 km\nMax altitude: 60000 feet\n6371.0\n```"
+    ],
+    "code": "public interface GeographicConstants {\n    double EARTH_RADIUS_KM = 6371.0;         // public static final\n    int    MAX_ALTITUDE_FEET = 60000;         // public static final\n    String PLANET_NAME = \"Earth\";             // public static final\n}\n\npublic class FlightCalculator implements GeographicConstants {\n    public void display() {\n        System.out.println(\"Planet: \" + PLANET_NAME);\n        System.out.println(\"Earth radius: \" + EARTH_RADIUS_KM + \" km\");\n        System.out.println(\"Max altitude: \" + MAX_ALTITUDE_FEET + \" feet\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        FlightCalculator fc = new FlightCalculator();\n        fc.display();\n\n        // Access directly via interface name — it's static\n        System.out.println(GeographicConstants.EARTH_RADIUS_KM);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Interface Implementation",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Interface Implementation"
+  },
+  {
+    "layout": "split",
+    "title": "The `implements` Keyword",
+    "subtitle": "A class uses the implements keyword to adopt an interface:",
+    "bullets": [
+      "A class uses the `implements` keyword to adopt an interface:"
+    ],
+    "code": "class ClassName implements InterfaceName {\n    // must provide implementation for all abstract methods\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Rule 1 — Overriding Method Cannot Have a More Restrictive Access Modifier",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interface methods are implicitly `public`. When a class implements an interface method, it must maintain or widen the access — it **cannot** narrow it (e.g., making it `protected` or `private`):",
+      "public class Eagle implements Bird {\n    @Override\n    protected void fly() {  // ❌ COMPILE ERROR — more restrictive than public\n        System.out.println(\"Eagle flies.\");\n    }\n}\n```",
+      "**Fix:**"
+    ],
+    "code": "public interface Bird {\n    void fly();  // implicitly public\n}\n\npublic class Eagle implements Bird {\n    @Override\n    protected void fly() {  // ❌ COMPILE ERROR — more restrictive than public\n        System.out.println(\"Eagle flies.\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Rule 2 — A Concrete Class Must Implement ALL Abstract Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If a concrete class implements an interface but does not implement every abstract method declared in it, the compiler will throw an error:",
+      "public class Eagle implements Bird {\n    @Override\n    public void fly() { System.out.println(\"Flying.\"); }",
+      "@Override\n    public void eat() { System.out.println(\"Eating.\"); }",
+      "// ❌ nest() is not implemented — COMPILE ERROR\n    // \"Eagle is not abstract and does not override abstract method nest() in Bird\"\n}\n```"
+    ],
+    "code": "public interface Bird {\n    void fly();\n    void eat();\n    void nest();\n}\n\npublic class Eagle implements Bird {\n    @Override\n    public void fly() { System.out.println(\"Flying.\"); }\n\n    @Override\n    public void eat() { System.out.println(\"Eating.\"); }\n\n    // ❌ nest() is not implemented — COMPILE ERROR\n    // \"Eagle is not abstract and does not override abstract method nest() in Bird\"\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Rule 3 — A Class Can Implement Multiple Interfaces",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// One class, three interfaces ✅\npublic class Duck implements Flyable, Swimmable, Runnable {\n    @Override public void fly()  { System.out.println(\"Duck flies.\"); }\n    @Override public void swim() { System.out.println(\"Duck swims.\"); }\n    @Override public void run()  { System.out.println(\"Duck runs.\"); }\n}\n```"
+    ],
+    "code": "interface Flyable   { void fly(); }\ninterface Swimmable { void swim(); }\ninterface Runnable  { void run(); }\n\n// One class, three interfaces ✅\npublic class Duck implements Flyable, Swimmable, Runnable {\n    @Override public void fly()  { System.out.println(\"Duck flies.\"); }\n    @Override public void swim() { System.out.println(\"Duck swims.\"); }\n    @Override public void run()  { System.out.println(\"Duck runs.\"); }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Full Implementation Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Eagle implements Bird {\n    @Override\n    public void fly() {\n        System.out.println(\"Eagle: soaring at 3000 feet.\");\n    }",
+      "@Override\n    public void eat() {\n        System.out.println(\"Eagle: catching fish.\");\n    }\n}",
+      "public class Hen implements Bird {\n    @Override\n    public void fly() {\n        System.out.println(\"Hen: fluttering 2 feet.\");\n    }",
+      "@Override\n    public void eat() {\n        System.out.println(\"Hen: pecking at grain.\");\n    }\n}"
+    ],
+    "code": "public interface Bird {\n    void fly();\n    void eat();\n}\n\npublic class Eagle implements Bird {\n    @Override\n    public void fly() {\n        System.out.println(\"Eagle: soaring at 3000 feet.\");\n    }\n\n    @Override\n    public void eat() {\n        System.out.println(\"Eagle: catching fish.\");\n    }\n}\n\npublic class Hen implements Bird {\n    @Override\n    public void fly() {\n        System.out.println(\"Hen: fluttering 2 feet.\");\n    }\n\n    @Override\n    public void eat() {\n        System.out.println(\"Hen: pecking at grain.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Bird b1 = new Eagle();\n        Bird b2 = new Hen();\n\n        b1.fly(); b1.eat();\n        b2.fly(); b2.eat();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Abstract Class Implementing an Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Abstract Class Implementing an Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Rule",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implement some methods (provide concrete implementations).",
+      "Leave others as abstract (to be implemented by a concrete subclass).",
+      "Add additional abstract methods of its own."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Abstract class implementing Bird — not forced to implement everything\npublic abstract class Eagle implements Bird {\n    @Override\n    public void canFly() {              // ✅ provides implementation\n        System.out.println(\"Yes, eagle can fly.\");\n    }\n    // numberOfLegs() is NOT implemented — left as abstract for children",
+      "public abstract void wingSpan();    // adds a new abstract method\n}",
+      "// Concrete class — MUST implement all remaining abstract methods\npublic class WhiteEagle extends Eagle {\n    @Override\n    public void numberOfLegs() {        // ✅ from Bird interface\n        System.out.println(\"2 legs.\");\n    }",
+      "@Override\n    public void wingSpan() {            // ✅ from Eagle abstract class\n        System.out.println(\"Wingspan: 7 feet.\");\n    }\n}"
+    ],
+    "code": "public interface Bird {\n    void canFly();\n    void numberOfLegs();\n}\n\n// Abstract class implementing Bird — not forced to implement everything\npublic abstract class Eagle implements Bird {\n    @Override\n    public void canFly() {              // ✅ provides implementation\n        System.out.println(\"Yes, eagle can fly.\");\n    }\n    // numberOfLegs() is NOT implemented — left as abstract for children\n\n    public abstract void wingSpan();    // adds a new abstract method\n}\n\n// Concrete class — MUST implement all remaining abstract methods\npublic class WhiteEagle extends Eagle {\n    @Override\n    public void numberOfLegs() {        // ✅ from Bird interface\n        System.out.println(\"2 legs.\");\n    }\n\n    @Override\n    public void wingSpan() {            // ✅ from Eagle abstract class\n        System.out.println(\"Wingspan: 7 feet.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        WhiteEagle we = new WhiteEagle();\n        we.canFly();        // from Eagle (concrete)\n        we.numberOfLegs();  // from WhiteEagle (overrides Bird's abstract)\n        we.wingSpan();      // from WhiteEagle (overrides Eagle's abstract)\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Class Hierarchy Diagram",
+    "subtitle": "### How the Concrete Class Checks for Unimplemented Methods",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Nested Interfaces",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Nested Interfaces"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "When to Use",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Nested interfaces are used to **group logically related interfaces** in one place — similar to how nested classes group related classes."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "8.1 Interface Nested Within an Interface",
+    "subtitle": "### Rules",
+    "bullets": [
+      "### Rules",
+      "| Rule | Detail |\n|------|--------|\n| Access modifier | Must be `public` — everything inside an interface is public |\n| Can have its own abstract methods | ✅ Yes |\n| Can be implemented independently | ✅ Yes |\n| Can be implemented alongside the outer interface | ✅ Yes |",
+      "### Code Example",
+      "public interface NonFlyingBird {      // nested interface — must be public\n        void canRun();                    // nested interface method\n    }\n}\n```"
+    ],
+    "code": "public interface Bird {\n    void canFly();                        // outer interface method\n\n    public interface NonFlyingBird {      // nested interface — must be public\n        void canRun();                    // nested interface method\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "8.2 Interface Nested Within a Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When an interface is nested inside a **class** (not another interface), it can have any access modifier: `public`, `protected`, `private`, or default.",
+      "### Rules",
+      "| Property | Nested in Interface | Nested in Class |\n|----------|--------------------|-----------------| \n| Access modifiers allowed | `public` only | `public`, `protected`, `private`, default |\n| Reason | Interface members are always public | Class members can have any access |",
+      "### Code Example"
+    ],
+    "code": "public class Bird {\n    protected interface NonFlyingBird {   // ✅ protected is allowed here\n        void canRun();\n    }\n}\n\npublic class Emu implements Bird.NonFlyingBird {\n    @Override\n    public void canRun() {\n        System.out.println(\"Emu runs at 30 mph.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Bird.NonFlyingBird nfb = new Emu();\n        nfb.canRun();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "8.3 Famous Real-World Example — `Map.Entry`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java's own standard library uses nested interfaces. `Map.Entry<K,V>` is an interface nested inside the `Map<K,V>` interface:",
+      "Set<Entry<K, V>> entrySet();\n}\n```",
+      "You use it like this:",
+      "for (Map.Entry<String, Integer> entry : scores.entrySet()) {\n    System.out.println(entry.getKey() + \" → \" + entry.getValue());\n}\n```"
+    ],
+    "code": "// Simplified — how Java's Map.Entry works\npublic interface Map<K, V> {\n    interface Entry<K, V> {       // nested interface\n        K getKey();\n        V getValue();\n    }\n\n    Set<Entry<K, V>> entrySet();\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Interface vs Abstract Class — 10 Differences",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Interface vs Abstract Class — 10 Differences"
+  },
+  {
+    "layout": "split",
+    "title": "Code Side-by-Side",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Animal(String name) {               // constructor ✅\n        this.name = name;\n    }",
+      "abstract void makeSound();          // abstract method — needs 'abstract' keyword\n    void breathe() {                    // concrete method ✅\n        System.out.println(\"Breathing.\");\n    }\n}",
+      "// Interface\ninterface Creature {\n    int MAX_LIFESPAN = 100;             // public static final constant",
+      "void makeSound();                   // abstract — no keyword needed, no body\n    // void breathe() { ... }          // ❌ not allowed pre-Java 8\n}\n```"
+    ],
+    "code": "// Abstract Class\nabstract class Animal {\n    String name;                        // instance variable ✅\n    private int age;                    // private variable ✅\n\n    Animal(String name) {               // constructor ✅\n        this.name = name;\n    }\n\n    abstract void makeSound();          // abstract method — needs 'abstract' keyword\n    void breathe() {                    // concrete method ✅\n        System.out.println(\"Breathing.\");\n    }\n}\n\n// Interface\ninterface Creature {\n    int MAX_LIFESPAN = 100;             // public static final constant\n\n    void makeSound();                   // abstract — no keyword needed, no body\n    // void breathe() { ... }          // ❌ not allowed pre-Java 8\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Key Notes on the 10 Differences",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Difference 3 — Methods (important clarification):**\nBefore Java 8, interfaces could ONLY have abstract methods.",
+      "From Java 8, `default` and `static` methods with bodies are allowed.",
+      "From Java 9, `private` methods are also allowed.",
+      "These are covered in Part 2."
+    ],
+    "code": "// Abstract class — only ONE parent class\nabstract class A extends B { }  // B must be a class\n\n// Interface — MANY parent interfaces\ninterface X extends Y, Z, W { }  // Y, Z, W must all be interfaces\n\n// Class implementing multiple interfaces\nclass MyClass implements X, Y, Z { }  // ✅ allowed",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Interface Implementation Chain",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Multiple Interface Implementation (Diamond Problem Solution)",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Nested Interface Structure",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Abstract Class + Interface Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Interface Definition Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "Interface Members — Implicit Modifiers",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Member | Implicit Modifiers | Can You Change?",
+      "|\n|--------|--------------------|----------------|\n| Methods | `public abstract` | Add `public` explicitly — fine.",
+      "Change to `private`/`protected` — ❌ |\n| Fields | `public static final` | Add explicitly — fine.",
+      "Change to non-static or non-final — ❌ |\n| Nested interfaces (in interface) | `public` | Cannot make private/protected |\n| Nested interfaces (in class) | none | Can be `public`, `protected`, `private`, or default |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Can vs Cannot — Interface Checklist",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Action | Allowed?",
+      "|\n|--------|----------|\n| Create an object of an interface | ❌ No |\n| Hold a reference to an implementing class | ✅ Yes |\n| Interface extends multiple interfaces | ✅ Yes |\n| Interface extends a class | ❌ No |\n| Class implements multiple interfaces | ✅ Yes |\n| Abstract class implements interface partially | ✅ Yes |\n| Concrete class implements interface partially | ❌ No — must implement all |\n| Method in interface declared `final` | ❌ No |\n| Method in interface declared `private` | ❌ No (before Java 9) |\n| Field in interface non-final | ❌ No |\n| Interface have a constructor | ❌ No |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Trying to Instantiate an Interface",
+    "subtitle": "Fix: Instantiate a concrete implementing class:",
+    "bullets": [
+      "**Fix:** Instantiate a concrete implementing class:"
+    ],
+    "code": "Bird b = new Bird();  // ❌ COMPILE ERROR — Bird is an interface",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Making Interface Method `final`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Fix:** Remove `final` — interface methods are abstract by design and must be overridable:"
+    ],
+    "code": "public interface Animal {\n    final void eat();  // ❌ COMPILE ERROR — illegal modifier final for interface method\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Using More Restrictive Access in Implementing Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Eagle implements Bird {\n    void fly() { }         // ❌ package-private — more restrictive than public\n    protected void fly() { } // ❌ protected — more restrictive than public\n}\n```",
+      "**Fix:**"
+    ],
+    "code": "public interface Bird {\n    void fly();  // public\n}\n\npublic class Eagle implements Bird {\n    void fly() { }         // ❌ package-private — more restrictive than public\n    protected void fly() { } // ❌ protected — more restrictive than public\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Trying to Modify an Interface Field",
+    "subtitle": "Config.TIMEOUT = 60;  // ❌ COMPILE ERROR — field is final",
+    "bullets": [
+      "Config.TIMEOUT = 60;  // ❌ COMPILE ERROR — field is final\n```",
+      "Interface fields are constants — they can never be changed after initialization."
+    ],
+    "code": "public interface Config {\n    int TIMEOUT = 30;\n}\n\nConfig.TIMEOUT = 60;  // ❌ COMPILE ERROR — field is final",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Concrete Class Missing Interface Method Implementation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Circle implements Shape {\n    @Override\n    public double area() { return 3.14 * 5 * 5; }\n    // perimeter() missing ❌ COMPILE ERROR\n}\n```",
+      "**Fix:** Implement all methods, or declare the class `abstract`:",
+      "// Option B: declare abstract (let subclass implement perimeter)\npublic abstract class Circle implements Shape {\n    @Override public double area() { return Math.PI * 5 * 5; }\n    // perimeter() left for subclass\n}\n```"
+    ],
+    "code": "public interface Shape {\n    double area();\n    double perimeter();\n}\n\npublic class Circle implements Shape {\n    @Override\n    public double area() { return 3.14 * 5 * 5; }\n    // perimeter() missing ❌ COMPILE ERROR\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Interface Extending a Class",
+    "subtitle": "Fix: Interfaces can only extend other interfaces:",
+    "bullets": [
+      "**Fix:** Interfaces can only extend other interfaces:"
+    ],
+    "code": "class Animal { }\ninterface Pet extends Animal { }  // ❌ COMPILE ERROR — interface cannot extend a class",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Interview Notes"
+  },
+  {
+    "layout": "split",
+    "title": "Most Frequently Asked Questions",
+    "subtitle": "Q1: What is an interface in Java?",
+    "bullets": [
+      "**Q1: What is an interface in Java?**",
+      "A: An interface is a contract that defines what a class must do (method signatures and constants) without specifying how.",
+      "It enables abstraction, polymorphism, and multiple inheritance.",
+      "A class uses `implements` to adopt an interface and must provide implementations for all its abstract methods."
+    ],
+    "code": "Bird b = new Eagle();  // ✅",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What keyword does a class use to adopt an interface?",
+      "What are the implicit modifiers on interface methods?",
+      "What are the implicit modifiers on interface fields?",
+      "Can you instantiate an interface?",
+      "Can you hold a reference to an implementing class?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "6. Create an interface `Shape` with methods `area()` and `perimeter()`. Implement it with `Circle` and `Rectangle` classes. Store both in a `Shape[]` array and call both methods on each.",
+      "7. Demonstrate the diamond problem using classes (show why it fails), then solve it using interfaces.",
+      "8. Create an interface `Flyable` and `Swimmable`. Create a class `Duck` that implements both. Call methods through both interface reference types.",
+      "9. Write a nested interface `Map.Entry` style example with an outer interface `Library` containing a nested interface `Book`. Implement both using a class."
+    ],
+    "code": "interface A { int X = 10; }\n    interface B { int X = 20; }\n    class C implements A, B {\n        public void show() {\n            System.out.println(A.X);\n            System.out.println(B.X);\n        }\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Create an abstract class `Vehicle` that implements an interface `Drivable` (with methods `start()` and `stop()`).",
+      "The abstract class should implement `start()` but leave `stop()` for concrete children.",
+      "Create a concrete `Car` class that completes the hierarchy.",
+      "Explain why the following does not compile and fix it:\n    ```java\n    interface Greeter { void greet(); }\n    class Hello implements Greeter {\n        protected void greet() { System.out.println(\"Hello!\"); }\n    }\n    ```"
+    ],
+    "code": "interface Greeter { void greet(); }\n    class Hello implements Greeter {\n        protected void greet() { System.out.println(\"Hello!\"); }\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Summary Cheat Sheet"
+  }
+]

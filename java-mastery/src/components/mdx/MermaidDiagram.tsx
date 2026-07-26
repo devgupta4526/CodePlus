@@ -22,6 +22,7 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
 
         mermaid.initialize({
           startOnLoad: false,
+          suppressErrorRendering: true,
           theme: resolvedTheme === 'dark' ? 'dark' : 'default',
           themeVariables:
             resolvedTheme === 'dark'
@@ -64,9 +65,14 @@ export function MermaidDiagram({ chart }: MermaidDiagramProps) {
 
   if (error) {
     return (
-      <div className="my-5 p-4 rounded-xl border border-[var(--error)]/30 bg-[var(--error)]/5 text-sm text-[var(--error)]">
-        <p className="font-medium mb-1">Diagram render error</p>
-        <pre className="text-xs text-[var(--text-muted)] whitespace-pre-wrap">{error}</pre>
+      <div className="my-5 rounded-xl border border-[var(--border-color)] bg-[var(--surface)] overflow-hidden shadow-sm">
+        <div className="px-4 py-2 border-b border-[var(--border-color)] bg-[var(--surface-elevated)] text-[10px] text-[var(--text-muted)] flex items-center justify-between">
+          <span className="font-mono">diagram-spec.mermaid</span>
+          <span className="text-[var(--text-muted)] font-semibold uppercase tracking-wider bg-[var(--border-color)] px-1.5 py-0.5 rounded text-[8px]">Source Code View</span>
+        </div>
+        <pre className="p-4 text-xs text-[var(--text-secondary)] font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed bg-[var(--surface)]">
+          {chart}
+        </pre>
       </div>
     );
   }

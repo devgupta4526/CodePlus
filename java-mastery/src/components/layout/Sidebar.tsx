@@ -10,11 +10,12 @@ import { useProgress } from '@/hooks/useProgress';
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  course?: string;
 }
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose, course = 'java' }: SidebarProps) {
   const pathname = usePathname();
-  const chapters = getChaptersWithLessons();
+  const chapters = getChaptersWithLessons(course);
   const { isCompleted } = useProgress();
   
   // Desktop minimizable state

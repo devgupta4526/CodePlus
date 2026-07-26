@@ -1,0 +1,919 @@
+[
+  {
+    "layout": "title",
+    "title": "Variables Primitive Types",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Variables — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Variables — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is a Variable?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is a Variable?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **variable** is the most fundamental building block of any Java program. Before you can write any meaningful logic, you must understand what variables are and how Java manages them."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **label** (the variable name) — so you can refer to it later.",
+      "A **type of content it can hold** (the data type) — a jar labelled *water* can only hold water; a jar labelled *coins* can only hold coins.",
+      "The **actual content** (the value) — e.g., the number `32`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "dataType variableName = value;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example",
+    "subtitle": "### Line-by-Line Explanation",
+    "bullets": [
+      "### Line-by-Line Explanation",
+      "| Part | Meaning |\n|------|---------|\n| `int` | Data type — tells Java the variable will hold whole (integer) numbers |\n| `var` | Variable name — the label you use to refer to this container |\n| `=` | Assignment operator — puts the value into the container |\n| `32` | The value stored in the container |\n| `;` | Semicolon — required at the end of every Java statement |"
+    ],
+    "code": "int var = 32;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Memory Representation",
+    "subtitle": "When int var = 32; is executed:",
+    "bullets": [
+      "Java allocates **4 bytes** of memory on the **stack** (for local variables) or **heap** (for instance variables inside objects).",
+      "The value `32` is stored in binary (`00000000 00000000 00000000 00100000`).",
+      "The name `var` is a reference to that memory location."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Java as a Statically Typed & Strongly Typed Language",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Java as a Statically Typed & Strongly Typed Language"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java has two important type-related properties that distinguish it from dynamically typed languages like Python or JavaScript."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Static Typing",
+    "subtitle": "In Java, you cannot write:",
+    "bullets": [
+      "In Java, you cannot write:",
+      "You must always write:",
+      "The compiler knows the type of every variable before the program runs. This allows the compiler to catch type errors early.",
+      "**Contrast with Python (dynamically typed):**"
+    ],
+    "code": "var = 10;  // ❌ ERROR — data type not specified",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Strong Typing",
+    "subtitle": "In Java, each primitive data type has strict limits:",
+    "bullets": [
+      "`int` can hold values approximately from **−2.1 billion to +2.1 billion**.",
+      "You **cannot** store a value like `99999999999999` in an `int` without a compile-time error."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Interview Question",
+    "subtitle": "Q: Is Java a statically typed language? Is Java a strongly typed language?",
+    "bullets": [
+      "**Static**: All variable types must be declared at compile time.",
+      "**Strong**: Each type has a fixed range and implicit out-of-range assignments are not allowed."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Variable Declaration Syntax",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Variable Declaration Syntax"
+  },
+  {
+    "layout": "split",
+    "title": "Full Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "dataType variableName = value;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Variations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "int age;           // Declaration only (no value assigned yet)\nint age = 25;      // Declaration + initialization\nint a, b, c;       // Multiple variables of the same type in one line\nint a = 1, b = 2;  // Multiple variables with initial values",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Syntax Breakdown",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Element | Description |\n|---------|-------------|\n| `dataType` | One of Java's 8 primitive types, or a reference type (class/interface/array) |\n| `variableName` | A legal Java identifier following naming conventions |\n| `=` | The assignment operator |\n| `value` | A literal, expression, or result of a method call compatible with `dataType` |\n| `;` | Statement terminator — mandatory in Java |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Variable Naming Conventions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Variable Naming Conventions"
+  },
+  {
+    "layout": "split",
+    "title": "Rules — Compiler Enforced",
+    "subtitle": "### ✅ Rule 1: Variable Names Are Case-Sensitive",
+    "bullets": [
+      "**Unicode letters** (A–Z, a–z, and letters from any human language)",
+      "**Digits** (0–9) — but NOT as the first character",
+      "**Dollar sign** (`$`)",
+      "**Underscore** (`_`)"
+    ],
+    "code": "int age = 10;\nint Age = 20;  // This is a DIFFERENT variable from 'age'\nint AGE = 30;  // This is yet another DIFFERENT variable",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Conventions — Professional Standards",
+    "subtitle": "### 🎨 Convention 1: Single-Word Variable Names — All Lowercase",
+    "bullets": [
+      "### 🎨 Convention 1: Single-Word Variable Names — All Lowercase",
+      "### 🎨 Convention 2: Multi-Word Variable Names — camelCase",
+      "When a variable name consists of multiple words, start with lowercase and capitalize each subsequent word.",
+      "### 🎨 Convention 3: Constant Variables — ALL_CAPS with Underscores"
+    ],
+    "code": "int age = 25;\nString city = \"Jaipur\";\ndouble price = 99.99;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Types of Variables in Java",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Types of Variables in Java"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Primitive Data Types — Deep Dive",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Primitive Data Types — Deep Dive"
+  },
+  {
+    "layout": "split",
+    "title": "6.1 `char`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "`char c1 = 'A';` — Declares a char and directly assigns the character `A`.",
+      "`char c2 = 65;` — The integer `65` is the ASCII code for `A`. Java internally stores `65` and displays `A` when printed.",
+      "`char c3 = 97;` — The integer `97` is the ASCII code for lowercase `a`."
+    ],
+    "code": "2^15 + 2^14 + ... + 2^1 + 2^0 = 65,535\n(all 16 bits set to 1)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.2 `byte`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "Positive side: 0 to 127 (128 values)",
+      "Negative side: −128 to −1 (128 values)",
+      "Total: 256 values",
+      "MSB = `0` → positive number"
+    ],
+    "code": "byte variableName = 100;\nbyte variableName = -50;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.3 `short`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | 2 bytes (16 bits) |\n| Range | −32,768 to 32,767 |\n| Default value | `0` |\n| Representation | Signed two's complement |",
+      "### Syntax"
+    ],
+    "code": "short s = 200;\nshort s = -1000;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.4 `int`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | 4 bytes (32 bits) |\n| Range | −2,147,483,648 to 2,147,483,647 (approximately ±2.1 billion) |\n| Default value | `0` |\n| Representation | Signed two's complement |",
+      "### Range Formula"
+    ],
+    "code": "Minimum: −2^31 = −2,147,483,648\nMaximum:  2^31 − 1 =  2,147,483,647",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.5 `long`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "Use `long` when your value exceeds the range of `int` (greater than ~2.1 billion). Common use cases include timestamps (milliseconds since epoch), large file sizes, and population counters.",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | 8 bytes (64 bits) |\n| Range | −9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (approximately ±9.2 × 10^18) |\n| Default value | `0L` |\n| Representation | Signed two's complement |"
+    ],
+    "code": "long bigNumber = 500L;               // 'L' suffix tells Java this is a long literal\nlong worldPopulation = 8_000_000_000L;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.6 `float`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | 4 bytes (32 bits) |\n| Precision | ~6–7 significant decimal digits |\n| Default value | `0.0f` |\n| Standard | IEEE 754 single precision |",
+      "### Syntax"
+    ],
+    "code": "float price = 63.20f;   // 'f' suffix is REQUIRED\nfloat pi = 3.14f;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.7 `double`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | 8 bytes (64 bits) |\n| Precision | ~15–16 significant decimal digits |\n| Default value | `0.0d` |\n| Standard | IEEE 754 double precision |",
+      "### Syntax"
+    ],
+    "code": "double price = 63.20;    // no suffix needed — double is the default\ndouble price = 63.20d;   // 'd' suffix is optional but valid",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.8 `boolean`",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "### Size & Range",
+      "| Property | Value |\n|----------|-------|\n| Size | Conceptually 1 bit (JVM implementation may vary) |\n| Values | `true` or `false` only |\n| Default value | `false` |",
+      "### Syntax"
+    ],
+    "code": "boolean isLoggedIn = true;\nboolean hasError = false;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Two's Complement & Signed Representation",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Two's Complement & Signed Representation"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why This Matters",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is one of the most important (and confusing) concepts for beginners.",
+      "Java's integer types (`byte`, `short`, `int`, `long`) are all **signed two's complement** integers.",
+      "Understanding this explains why the ranges are asymmetric and what happens during overflow."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Sign Bit",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **most significant bit (MSB)** — leftmost — is the **sign bit**.",
+      "`0` in MSB → positive number",
+      "`1` in MSB → negative number"
+    ],
+    "code": "0 1 1 1 1 1 1 1  =  +127   (MSB = 0, so positive)\n1 0 0 0 0 0 0 0  =  −128   (MSB = 1, so negative)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What is Two's Complement?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "1101   (−3)"
+    ],
+    "code": "+3 = 0011",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why −128 to 127 (Not −127 to 127)?",
+    "subtitle": "This gives 256 total values, and the range −128 to 127.",
+    "bullets": [
+      "Positive values: `00000001` to `01111111` → 1 to 127 (127 values)",
+      "Zero: `00000000` → 0 (1 value)",
+      "Negative values: `10000000` to `11111111` → −128 to −1 (128 values)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Overflow Behavior",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Type Conversion",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Type Conversion"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java frequently requires converting values between different data types. There are three kinds of conversions:",
+      "1. **Widening** (automatic)\n2. **Narrowing** (explicit / casting)\n3. **Promotion** (during expressions)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "8.1 Widening (Automatic) Conversion",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "8.2 Narrowing (Explicit / Downcasting)",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "When you assign a value of a **larger** data type to a **smaller** data type, Java **does NOT** convert automatically.",
+      "You must explicitly tell Java to cast it.",
+      "This is called **explicit casting** or **narrowing**."
+    ],
+    "code": "smallerType varName = (smallerType) largerTypeValue;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "8.3 Promotion During Expressions",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Kinds of Variables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Kinds of Variables"
+  },
+  {
+    "layout": "split",
+    "title": "9.1 Member (Instance) Variables",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "Variables declared **directly inside a class**, but **outside any method or constructor**. Each object (instance) of the class gets its **own private copy**.",
+      "### Key Characteristics",
+      "| Property | Detail |\n|----------|--------|\n| Declared in | Class body (outside any method) |\n| Default value | Yes (see Section 10) |\n| Scope | Accessible from any method in the class |\n| Lifetime | Lives as long as the object lives |\n| Copies | One per object |"
+    ],
+    "code": "public class Employee {\n    int memberVariable = 10;  // instance/member variable\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Employee obj1 = new Employee();\n        Employee obj2 = new Employee();\n\n        obj1.memberVariable = 50;\n        obj2.memberVariable = 100;\n\n        System.out.println(obj1.memberVariable);  // Output: 50\n        System.out.println(obj2.memberVariable);  // Output: 100\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.2 Local Variables",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "Variables declared **inside a method, constructor, or block**. They are created when the method is called and destroyed when the method returns.",
+      "### Key Characteristics",
+      "| Property | Detail |\n|----------|--------|\n| Declared in | Inside a method or block `{ }` |\n| Default value | **None** — must initialize before use |\n| Scope | Only within the `{ }` block where declared |\n| Lifetime | Exists only during the execution of that method |"
+    ],
+    "code": "public class LocalExample {\n    void myMethod() {\n        byte localVar = 100;  // must initialize manually\n        System.out.println(localVar);  // Output: 100\n    }  // localVar is destroyed here\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.3 Static (Class) Variables",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "Variables declared with the `static` keyword inside a class. There is only **one copy** for the entire class, shared by all objects.",
+      "### Key Characteristics",
+      "| Property | Detail |\n|----------|--------|\n| Declared with | `static` keyword |\n| Default value | Yes (same as member variables) |\n| Scope | Class-wide |\n| Lifetime | Entire program lifetime |\n| Access | Via class name: `ClassName.variableName` |\n| Copies | **One per class** (not per object) |"
+    ],
+    "code": "public class Employee {\n    static int staticVar = 100;  // one copy for all Employee objects\n    int memberVar = 10;          // one copy per Employee object\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Employee obj1 = new Employee();\n        Employee obj2 = new Employee();\n\n        // Access static variable via class name\n        System.out.println(Employee.staticVar);  // Output: 100\n\n        // Both objects share the same static variable\n        Employee.staticVar = 999;\n        System.out.println(Employee.staticVar);  // Output: 999\n\n        // Member variables are independent per object\n        obj1.memberVar = 50;\n        obj2.memberVar = 75;\n        System.out.println(obj1.memberVar);  // Output: 50\n        System.out.println(obj2.memberVar);  // Output: 75\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.4 Method Parameters",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Method parameters behave like **local variables** — they are created when the method is called and destroyed when it returns.",
+      "They have no default value — they are always provided by the caller."
+    ],
+    "code": "public class Calculator {\n    int add(int a, int b) {  // a and b are method parameters\n        return a + b;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Calculator calc = new Calculator();\n        int result = calc.add(2, 5);  // 2 → a, 5 → b\n        System.out.println(result);   // Output: 7\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.5 Constructor Parameters",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "Variables listed in a **constructor's parameter list**. They receive values when a new object is created.",
+      "### Code Example",
+      "// Default constructor (no parameters)\n    Employee() {\n        id = 0;\n        name = \"Unknown\";\n    }"
+    ],
+    "code": "public class Employee {\n    int id;\n    String name;\n\n    // Default constructor (no parameters)\n    Employee() {\n        id = 0;\n        name = \"Unknown\";\n    }\n\n    // Parameterized constructor\n    Employee(int id, String name) {\n        this.id = id;\n        this.name = name;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Employee e1 = new Employee();          // calls default constructor\n        Employee e2 = new Employee(101, \"Alice\");  // calls parameterized constructor\n\n        System.out.println(e1.id + \" \" + e1.name);  // Output: 0 Unknown\n        System.out.println(e2.id + \" \" + e2.name);  // Output: 101 Alice\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Default Values",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Default Values"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Float & Double — The Precision Warning",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Float & Double — The Precision Warning"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Problem",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Both `float` and `double` follow the **IEEE 754** standard for floating-point arithmetic. This standard uses binary (base-2) representation for decimal numbers.",
+      "The problem is that many decimal fractions **cannot be represented exactly in binary**, just like `1/3` cannot be represented exactly in base-10 (`0.3333...`).",
+      "This leads to **tiny rounding errors** that accumulate during arithmetic operations."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Demonstration",
+    "subtitle": "System.out.println(var3);  // Actual output: 0.20000002\n    }\n}",
+    "bullets": [
+      "System.out.println(var3);  // Actual output: 0.20000002\n    }\n}\n```",
+      "**Output:**\n```\n0.20000002\n```",
+      "We expected `0.2`, but got `0.20000002`. The same issue occurs with `double`."
+    ],
+    "code": "public class PrecisionProblem {\n    public static void main(String[] args) {\n        float var1 = 0.3f;\n        float var2 = 0.1f;\n        float var3 = var1 - var2;  // expected: 0.2\n\n        System.out.println(var3);  // Actual output: 0.20000002\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Does This Happen? (IEEE 754)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The value `0.3` in binary is a **repeating fraction** (similar to `1/3` in decimal). The computer stores an approximation, and when you subtract another approximation, the tiny errors compound."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Impact",
+    "subtitle": "This is NOT a minor academic concern. In financial systems:",
+    "bullets": [
+      "**Wrong:** `0.1 + 0.2 = 0.30000000000000004` (float/double)",
+      "**Correct:** `0.1 + 0.2 = 0.3` (BigDecimal)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Solution: Use `BigDecimal`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "For any application requiring **exact decimal arithmetic** (financial, scientific, medical):",
+      "public class BigDecimalExample {\n    public static void main(String[] args) {\n        BigDecimal a = new BigDecimal(\"0.3\");\n        BigDecimal b = new BigDecimal(\"0.1\");\n        BigDecimal result = a.subtract(b);\n        System.out.println(result);  // Output: 0.2 ✅\n    }\n}\n```",
+      "**Output:**\n```\n0.2\n```"
+    ],
+    "code": "import java.math.BigDecimal;\n\npublic class BigDecimalExample {\n    public static void main(String[] args) {\n        BigDecimal a = new BigDecimal(\"0.3\");\n        BigDecimal b = new BigDecimal(\"0.1\");\n        BigDecimal result = a.subtract(b);\n        System.out.println(result);  // Output: 0.2 ✅\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "All 8 Primitive Data Types",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Type | Size | Range | Default | Use Case |\n|------|------|-------|---------|----------|\n| `byte` | 1 byte (8 bits) | −128 to 127 | `0` | Raw binary data, small integers |\n| `short` | 2 bytes (16 bits) | −32,768 to 32,767 | `0` | Large arrays where memory matters |\n| `int` | 4 bytes (32 bits) | −2,147,483,648 to 2,147,483,647 | `0` | General-purpose integer (most common) |\n| `long` | 8 bytes (64 bits) | −9.2×10^18 to 9.2×10^18 | `0L` | Large numbers, timestamps |\n| `float` | 4 bytes (32 bits) | ~±3.4×10^38 | `0.0f` | Approximate decimals (avoid for money) |\n| `double` | 8 bytes (64 bits) | ~±1.8×10^308 | `0.0d` | Approximate decimals (avoid for money) |\n| `char` | 2 bytes (16 bits) | 0 to 65,535 | `'\\u0000'` | Single character |\n| `boolean` | ~1 bit (JVM-dependent) | `true` / `false` | `false` | Logical flags, conditions |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Type Suffixes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Type | Suffix Required | Example |\n|------|----------------|---------|\n| `long` | `L` | `100L` |\n| `float` | `f` | `3.14f` |\n| `double` | `d` (optional) | `3.14d` or `3.14` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Variable Kinds at a Glance",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Kind | Declared In | Default Value?",
+      "| Scope | Lifetime |\n|------|-------------|----------------|-------|----------|\n| Member (instance) | Class body | ✅ Yes | Whole class | Lifetime of object |\n| Static (class) | Class body with `static` | ✅ Yes | Whole class | Whole program |\n| Local | Inside method/block | ❌ No | That block only | Duration of method call |\n| Method parameter | Method signature | ❌ No (caller provides) | Inside method | Duration of method call |\n| Constructor parameter | Constructor signature | ❌ No (caller provides) | Inside constructor | During construction |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Type Conversion Summary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Conversion | Direction | Manual Cast?",
+      "| Data Loss Risk?",
+      "|\n|------------|-----------|-------------|-----------------|\n| Widening | Small → Large | ❌ Not needed | None |\n| Narrowing | Large → Small | ✅ Required | Yes (possible overflow) |\n| Promotion | During expression | ❌ Automatic | None (result in larger type) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Primitive Type Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Widening Conversion Chain",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Type Conversion Decision Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Variable Scope Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Starting a Variable Name with a Digit",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "int 1stValue = 10;  // ❌ COMPILE ERROR\nint firstValue = 10;  // ✅ CORRECT",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Using a Reserved Word as a Variable Name",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "int int = 5;    // ❌ COMPILE ERROR — 'int' is reserved\nint myInt = 5;  // ✅ CORRECT",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Using float/double for Currency",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ✅ Correct:\nimport java.math.BigDecimal;\nBigDecimal price = new BigDecimal(\"0.3\").subtract(new BigDecimal(\"0.1\"));\nSystem.out.println(price);  // Prints 0.2\n```"
+    ],
+    "code": "float price = 0.3f - 0.1f;\nSystem.out.println(price);  // ❌ Prints 0.20000002 — NOT 0.2!\n\n// ✅ Correct:\nimport java.math.BigDecimal;\nBigDecimal price = new BigDecimal(\"0.3\").subtract(new BigDecimal(\"0.1\"));\nSystem.out.println(price);  // Prints 0.2",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Forgetting the `L` Suffix for long Literals",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "long bigNum = 10000000000;   // ❌ COMPILE ERROR — too big for int\nlong bigNum = 10000000000L;  // ✅ CORRECT",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Forgetting the `f` Suffix for float",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "float f = 3.14;   // ❌ COMPILE ERROR — 3.14 is a double literal\nfloat f = 3.14f;  // ✅ CORRECT",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Using a Local Variable Without Initializing",
+    "subtitle": "void myMethod() {\n    int x = 0;\n    System.out.println(x);  // ✅ CORRECT\n}",
+    "bullets": [
+      "void myMethod() {\n    int x = 0;\n    System.out.println(x);  // ✅ CORRECT\n}\n```"
+    ],
+    "code": "void myMethod() {\n    int x;\n    System.out.println(x);  // ❌ COMPILE ERROR — x not initialized\n}\n\nvoid myMethod() {\n    int x = 0;\n    System.out.println(x);  // ✅ CORRECT\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 7: Expecting Narrowing to Happen Automatically",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "byte b = (byte) bigValue;  // ✅ explicit cast — but b will be -56 (overflow!)\n```"
+    ],
+    "code": "int bigValue = 200;\nbyte b = bigValue;  // ❌ COMPILE ERROR — possible loss of value\n\nbyte b = (byte) bigValue;  // ✅ explicit cast — but b will be -56 (overflow!)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 8: Confusing Single vs. Double Quotes for char",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "char c = \"A\";  // ❌ COMPILE ERROR — \"A\" is a String, not a char\nchar c = 'A';  // ✅ CORRECT — single quotes for char",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 9: Accessing Static Variables Through Object References",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Employee.staticVar = 10;  // ✅ Access through class name (recommended)\nobj1.staticVar = 10;      // ⚠️ Works but is misleading — avoid this style",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Most Frequently Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Q1: Is Java statically typed or dynamically typed?**\nA: Java is **statically typed** — all variable types must be declared at compile time.",
+      "**Q2: Is Java strongly typed or weakly typed?**\nA: Java is **strongly typed** — each data type has a defined range, and you cannot implicitly assign a value outside that range.",
+      "**Q3: How many primitive types does Java have? Name them.**\nA: 8 — `byte`, `short`, `int`, `long`, `float`, `double`, `char`, `boolean`.",
+      "**Q4: What is the default value of int, boolean, char?**\nA: `int` → `0`, `boolean` → `false`, `char` → `'\\u0000'`.",
+      "**Q5: Do local variables get default values?**\nA: No. Only instance (member) and static variables get default values."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Declare a variable of type `int` named `score` and assign it the value `100`.",
+      "What is the output of `System.out.println((char) 65);`?",
+      "Declare a `boolean` variable `isActive` and set it to `true`.",
+      "What is the default value of a `double` member variable?",
+      "Which is larger: `int` or `long`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "6. What is the output of the following code?\n   ```java\n   byte a = 127;\n   byte b = 1;\n   int c = a + b;\n   System.out.println(c);\n   ```",
+      "7. Predict the output:\n   ```java\n   int x = 128;\n   byte y = (byte) x;\n   System.out.println(y);\n   ```",
+      "8. Why does the following code not compile?\n   ```java\n   float f = 3.14;\n   ```\n   How do you fix it?",
+      "9. What is the output?\n   ```java\n   float a = 0.1f;\n   float b = 0.2f;\n   System.out.println(a + b);\n   ```"
+    ],
+    "code": "byte a = 127;\n   byte b = 1;\n   int c = a + b;\n   System.out.println(c);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "11. Explain why the range of `byte` is −128 to 127 (not 0 to 255) using two's complement.",
+      "12. Given a `byte` value of `200` (which is outside byte's range), what value will be stored after `byte b = (byte) 200`? Show your working.",
+      "13. Will the following compile? Explain:\n    ```java\n    byte x = 10;\n    byte y = 20;\n    byte z = x + y;\n    ```",
+      "14. Explain the difference between `float f = 3.14f` and `double d = 3.14`. Which is more precise, and why?"
+    ],
+    "code": "byte x = 10;\n    byte y = 20;\n    byte z = x + y;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Summary Cheat Sheet"
+  }
+]

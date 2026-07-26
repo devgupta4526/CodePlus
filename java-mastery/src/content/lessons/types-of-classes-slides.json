@@ -1,0 +1,1108 @@
+[
+  {
+    "layout": "title",
+    "title": "Types Of Classes",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Types of Classes — Comprehensive Study Guide (Part 1)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Types of Classes — Comprehensive Study Guide (Part 1)"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Overview — Types of Classes in Java",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Overview — Types of Classes in Java"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Concrete Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Concrete Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A concrete class is the most common, everyday type of class in Java.",
+      "If you have written any Java class and created objects from it, you have already used a concrete class — even if you did not know the term."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Property | Detail |\n|----------|--------|\n| Can create objects?",
+      "| ✅ Yes — using `new` |\n| All methods implemented?",
+      "| ✅ Yes — no abstract methods allowed |\n| Can extend another class?",
+      "| ✅ Yes |\n| Can implement an interface?",
+      "| ✅ Yes — and must implement all interface methods |\n| Access modifiers allowed | `public` or package-private (default) only |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Think of a concrete class like a completed blueprint.",
+      "An abstract class or interface is an *unfinished* blueprint with gaps.",
+      "A concrete class has every detail filled in — you can hand it to a builder (the JVM) and it will construct the object without needing anything else."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public class ClassName {\n    // fields\n    // methods with full implementation\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Examples",
+    "subtitle": "### Example 1 — Simple Concrete Class",
+    "bullets": [
+      "### Example 1 — Simple Concrete Class",
+      "void display() {                        // method has full implementation\n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        Person p = new Person();            // ✅ object created with 'new'\n        p.name = \"Alice\";\n        p.age = 30;\n        p.display();\n    }\n}\n```",
+      "**Output:**\n```\nName: Alice, Age: 30\n```"
+    ],
+    "code": "public class Person {\n    String name;\n    int age;\n\n    void display() {                        // method has full implementation\n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Person p = new Person();            // ✅ object created with 'new'\n        p.name = \"Alice\";\n        p.age = 30;\n        p.display();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Class-Level Access Modifiers",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Unlike variables and methods — which can be `public`, `private`, `protected`, or default — **top-level classes** (declared directly in a `.java` file) can only be:",
+      "| Modifier | Meaning |\n|----------|---------|\n| `public` | Accessible from any package |\n| *(nothing)* — default / package-private | Accessible only within the same package |"
+    ],
+    "code": "public class OpenClass { }  // accessible everywhere\nclass PackageClass { }      // accessible only within same package\nprivate class X { }         // ❌ COMPILE ERROR for top-level class\nprotected class Y { }       // ❌ COMPILE ERROR for top-level class",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Abstract Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Abstract Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An abstract class sits between a fully implemented concrete class and a completely unimplemented interface.",
+      "It lets you define **some** behavior while leaving **other** behavior for child classes to fill in."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is Abstraction?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Abstraction** means hiding the internal implementation details and exposing only the features (interface) that the user needs.",
+      "**Real-world analogy:** When you press the brake pedal in a car, you don't need to know about hydraulic fluid, callipers, rotors, or ABS logic.",
+      "You just press the pedal and the car stops.",
+      "The *what* is exposed; the *how* is hidden.",
+      "That's abstraction."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Two Ways to Achieve Abstraction in Java",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Abstraction Level | Notes |\n|--------|-------------------|-------|\n| `interface` | 100% | All methods are definitions only (pre-Java 8); `default`/`static` methods added in Java 8+ |\n| `abstract class` | 0% to 100% | Can mix abstract and implemented methods |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// abstract method — no body, just declaration\n    abstract void abstractMethod();\n}\n```"
+    ],
+    "code": "abstract class ClassName {\n    // concrete method — has implementation\n    void concreteMethod() {\n        System.out.println(\"I have a body.\");\n    }\n\n    // abstract method — no body, just declaration\n    abstract void abstractMethod();\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Rules",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Detail |\n|------|--------|\n| Declared with | `abstract` keyword before `class` |\n| Abstract methods | No body — just a signature + semicolon |\n| Concrete methods | Have full implementation — allowed inside abstract class |\n| Can instantiate?",
+      "| ❌ No — `new AbstractClass()` is a compile error |\n| Can store a reference?",
+      "| ✅ Yes — `AbstractClass ref = new ConcreteSubclass()` |\n| Child class must | Implement all inherited abstract methods, OR itself be declared `abstract` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Code Example — Abstract Class Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Abstract Class vs Interface",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Abstract Class | Interface |\n|---------|---------------|-----------|\n| Keyword | `abstract class` | `interface` |\n| Abstraction level | 0–100% | 100% (default pre-Java 8) |\n| Constructor | ✅ Allowed | ❌ Not allowed |\n| Instance variables | ✅ Allowed | Only `public static final` constants |\n| Access modifiers on methods | Any | `public` by default |\n| Multiple inheritance | ❌ Only one class | ✅ A class can implement many |\n| `extends` vs `implements` | Extended with `extends` | Implemented with `implements` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Super Class & Sub Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Super Class & Sub Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definitions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class Subclass extends Superclass {\n    // child content — inherits everything from Superclass (except private members)\n}\n```"
+    ],
+    "code": "class Superclass {\n    // parent content\n}\n\nclass Subclass extends Superclass {\n    // child content — inherits everything from Superclass (except private members)\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class B extends A {         // B is a subclass of A\n    void show() {\n        System.out.println(\"I am class B — the subclass.\");\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        B obj = new B();\n        obj.display();      // inherited from A\n        obj.show();         // defined in B\n    }\n}\n```",
+      "**Output:**\n```\nI am class A — the superclass.\nI am class B — the subclass.\n```"
+    ],
+    "code": "class A {\n    void display() {\n        System.out.println(\"I am class A — the superclass.\");\n    }\n}\n\nclass B extends A {         // B is a subclass of A\n    void show() {\n        System.out.println(\"I am class B — the subclass.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        B obj = new B();\n        obj.display();      // inherited from A\n        obj.show();         // defined in B\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Points",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A class can have only **one direct superclass** in Java (no multiple class inheritance).",
+      "A class can have **multiple subclasses**.",
+      "The subclass inherits all non-private fields and methods of the superclass.",
+      "The subclass can override (redefine) inherited methods."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. The Object Class — Parent of All",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. The Object Class — Parent of All"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is one of the most important concepts in all of Java and a classic interview topic."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Implicit Hierarchy",
+    "subtitle": "When you write:",
+    "bullets": [
+      "When you write:",
+      "Java treats it exactly as:"
+    ],
+    "code": "class Person {\n    // no 'extends' keyword\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Visual Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Important Methods Provided by Object",
+    "subtitle": "The Object class gives every Java class access to these built-in methods:",
+    "bullets": [
+      "The `Object` class gives every Java class access to these built-in methods:",
+      "| Method | Description |\n|--------|-------------|\n| `toString()` | Returns a string representation of the object |\n| `equals(Object obj)` | Checks if two objects are logically equal |\n| `hashCode()` | Returns an integer hash code for the object |\n| `getClass()` | Returns the runtime `Class` of the object |\n| `clone()` | Creates and returns a copy of the object |\n| `wait()` | Used in multi-threading — causes thread to wait |\n| `notify()` | Used in multi-threading — wakes one waiting thread |\n| `notifyAll()` | Wakes all threads waiting on this object |\n| `finalize()` | Called by GC before object is garbage collected (deprecated in Java 9+) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Using Object as Universal Reference",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class ObjectTest {\n    public static void main(String[] args) {\n        // Object is parent of all — any object can be stored in Object reference\n        Object obj1 = new Person();\n        Object obj2 = new Audi();",
+      "// getClass() — find out what actual type is stored\n        System.out.println(obj1.getClass());  // Output: class Person\n        System.out.println(obj2.getClass());  // Output: class Audi\n    }\n}\n```",
+      "**Output:**\n```\nclass Person\nclass Audi\n```",
+      "### When Is This Useful?"
+    ],
+    "code": "class Person { }\nclass Audi { }\n\npublic class ObjectTest {\n    public static void main(String[] args) {\n        // Object is parent of all — any object can be stored in Object reference\n        Object obj1 = new Person();\n        Object obj2 = new Audi();\n\n        // getClass() — find out what actual type is stored\n        System.out.println(obj1.getClass());  // Output: class Person\n        System.out.println(obj2.getClass());  // Output: class Audi\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Nested Classes — Overview",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Nested Classes — Overview"
+  },
+  {
+    "layout": "split",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "class OuterClass {\n    class NestedClass {   // ← nested class\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "When to Use Nested Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Groups logically related code together",
+      "Increases encapsulation",
+      "Reduces namespace clutter"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Full Taxonomy of Nested Classes",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Static Nested Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Static Nested Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Property | Detail |\n|----------|--------|\n| Declared with | `static` keyword inside outer class |\n| Access to outer instance variables?",
+      "| ❌ No — only static members of outer class |\n| Access to outer static variables?",
+      "| ✅ Yes |\n| Needs outer class object to instantiate?",
+      "| ❌ No — access directly via outer class name |\n| Access modifiers allowed | `public`, `private`, `protected`, or default |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Think of it like a static method on a class. Just as a `static` method belongs to the class (not to any object), a static nested class belongs to the outer class, not to any instance of it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static class NestedClass {     // ← static nested class\n        void display() {\n            System.out.println(classVar);    // ✅ can access static member\n            // System.out.println(instanceVar); // ❌ COMPILE ERROR — not static\n        }\n    }\n}\n```"
+    ],
+    "code": "class OuterClass {\n    static int classVar = 10;      // static variable\n    int instanceVar = 20;          // instance variable\n\n    static class NestedClass {     // ← static nested class\n        void display() {\n            System.out.println(classVar);    // ✅ can access static member\n            // System.out.println(instanceVar); // ❌ COMPILE ERROR — not static\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How to Instantiate a Static Nested Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You **do not need** an object of the outer class. Access it directly through the outer class name:",
+      "Compare this to accessing a static method:"
+    ],
+    "code": "OuterClass.NestedClass obj = new OuterClass.NestedClass();\nobj.display();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Full Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static class StaticNestedClass {\n        void display() {\n            System.out.println(\"Class variable: \" + classVariable);\n            // instanceVariable not accessible here\n        }\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        // No outer class object needed\n        OuterClass.StaticNestedClass nested = new OuterClass.StaticNestedClass();\n        nested.display();\n    }\n}\n```",
+      "**Output:**\n```\nClass variable: 100\n```"
+    ],
+    "code": "class OuterClass {\n    static int classVariable = 100;\n    int instanceVariable = 200;\n\n    static class StaticNestedClass {\n        void display() {\n            System.out.println(\"Class variable: \" + classVariable);\n            // instanceVariable not accessible here\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // No outer class object needed\n        OuterClass.StaticNestedClass nested = new OuterClass.StaticNestedClass();\n        nested.display();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Private Static Nested Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A static nested class can be made `private`. In that case, it can only be accessed from within the outer class itself:",
+      "void exposeSecret() {\n        PrivateNested pn = new PrivateNested();  // ✅ created inside outer class\n        pn.secret();\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        // new OuterClass.PrivateNested(); // ❌ COMPILE ERROR — private\n        OuterClass outer = new OuterClass();\n        outer.exposeSecret();              // ✅ access via a public method\n    }\n}\n```",
+      "**Output:**\n```\nOnly OuterClass can see me.\n```"
+    ],
+    "code": "class OuterClass {\n    private static class PrivateNested {\n        void secret() {\n            System.out.println(\"Only OuterClass can see me.\");\n        }\n    }\n\n    void exposeSecret() {\n        PrivateNested pn = new PrivateNested();  // ✅ created inside outer class\n        pn.secret();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // new OuterClass.PrivateNested(); // ❌ COMPILE ERROR — private\n        OuterClass outer = new OuterClass();\n        outer.exposeSecret();              // ✅ access via a public method\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Non-Static Nested Class (Inner Class)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Non-Static Nested Class (Inner Class)"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Property | Detail |\n|----------|--------|\n| Declared with | No `static` keyword |\n| Access to outer instance variables?",
+      "| ✅ Yes — full access |\n| Access to outer static variables?",
+      "| ✅ Yes |\n| Needs outer class object to instantiate?",
+      "| ✅ Yes — must create outer object first |\n| Access modifiers allowed | `public`, `private`, `protected`, or default |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class InnerClass {           // ← non-static inner class\n        void display() {\n            System.out.println(instanceVar);  // ✅ can access instance variable\n            System.out.println(classVar);     // ✅ can access static variable\n        }\n    }\n}\n```"
+    ],
+    "code": "class OuterClass {\n    int instanceVar = 10;\n    static int classVar = 20;\n\n    class InnerClass {           // ← non-static inner class\n        void display() {\n            System.out.println(instanceVar);  // ✅ can access instance variable\n            System.out.println(classVar);     // ✅ can access static variable\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How to Instantiate a Non-Static Inner Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You **must** first create an object of the outer class, then use that to create the inner class object:"
+    ],
+    "code": "OuterClass outer = new OuterClass();                      // Step 1: outer object\nOuterClass.InnerClass inner = outer.new InnerClass();     // Step 2: inner object via outer\ninner.display();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Full Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class InnerClass {\n        void print() {\n            System.out.println(\"Instance var: \" + instanceVar);\n            System.out.println(\"Class var: \" + classVar);\n        }\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.InnerClass inner = outer.new InnerClass();\n        inner.print();\n    }\n}\n```",
+      "**Output:**\n```\nInstance var: 10\nClass var: 20\n```"
+    ],
+    "code": "class OuterClass {\n    int instanceVar = 10;\n    static int classVar = 20;\n\n    class InnerClass {\n        void print() {\n            System.out.println(\"Instance var: \" + instanceVar);\n            System.out.println(\"Class var: \" + classVar);\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.InnerClass inner = outer.new InnerClass();\n        inner.print();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Static Nested vs Non-Static Inner — Side-by-Side",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Static Nested Class | Non-Static Inner Class |\n|---------|--------------------|-----------------------|\n| `static` keyword | ✅ Yes | ❌ No |\n| Accesses outer instance variables | ❌ No | ✅ Yes |\n| Accesses outer static variables | ✅ Yes | ✅ Yes |\n| Instantiation | `new Outer.Nested()` | `outer.new Inner()` |\n| Needs outer object | ❌ No | ✅ Yes |\n| Association | Outer class | Outer class instance |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Member Inner Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Member Inner Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The inner class examples shown in Section 8 are member inner classes.",
+      "The name distinguishes them from **local** inner classes (defined inside a method) and **anonymous** inner classes (defined without a name)."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Points",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Has direct access to all instance and static members of the outer class.",
+      "Can be given any access modifier: `public`, `private`, `protected`, or default.",
+      "Instantiated using `outerObject.new InnerClass()`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class MemberInner {              // member inner class\n        void display() {\n            System.out.println(\"Outer data: \" + data);  // ✅ private data accessible!\n        }\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.MemberInner inner = outer.new MemberInner();\n        inner.display();\n    }\n}\n```",
+      "**Output:**\n```\nOuter data: 42\n```"
+    ],
+    "code": "class OuterClass {\n    private int data = 42;\n\n    class MemberInner {              // member inner class\n        void display() {\n            System.out.println(\"Outer data: \" + data);  // ✅ private data accessible!\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.MemberInner inner = outer.new MemberInner();\n        inner.display();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Local Inner Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Local Inner Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Property | Detail |\n|----------|--------|\n| Defined inside | A method, loop, if-block, or any `{ }` block |\n| Scope | Only within the block where it is defined |\n| Access modifiers allowed | ❌ None — cannot be `public`, `private`, or `protected` |\n| Accesses outer members | ✅ Static and instance variables of outer class |\n| Accesses block local variables | ✅ Only if they are effectively final |\n| Can be instantiated outside the block?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why No Access Modifiers?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A local inner class lives entirely inside a method/block.",
+      "Its lifetime is the same as the method call's stack frame — when the method returns, the memory is freed.",
+      "There is no point giving it `public` or `private` since it cannot exist outside the block anyway."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Memory Note",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When a method is called, the JVM allocates a **stack frame** for it.",
+      "All local variables and local classes exist within this frame.",
+      "When the method returns, the frame is popped off the stack and all its contents are gone.",
+      "That is why a local inner class can only be instantiated and used inside the block where it is defined."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "void display() {\n        int methodVar = 30;  // local variable — effectively final",
+      "class LocalInner {   // ← local inner class, defined inside a method\n            void print() {\n                System.out.println(\"Instance var: \" + instanceVar);  // ✅\n                System.out.println(\"Class var: \" + classVar);        // ✅\n                System.out.println(\"Method var: \" + methodVar);      // ✅\n            }\n        }",
+      "LocalInner li = new LocalInner();  // ✅ instantiated inside the block\n        li.print();\n        // LocalInner is destroyed when display() returns\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        outer.display();\n        // Cannot access LocalInner here — it doesn't exist outside display()\n    }\n}\n```"
+    ],
+    "code": "class OuterClass {\n    int instanceVar = 10;\n    static int classVar = 20;\n\n    void display() {\n        int methodVar = 30;  // local variable — effectively final\n\n        class LocalInner {   // ← local inner class, defined inside a method\n            void print() {\n                System.out.println(\"Instance var: \" + instanceVar);  // ✅\n                System.out.println(\"Class var: \" + classVar);        // ✅\n                System.out.println(\"Method var: \" + methodVar);      // ✅\n            }\n        }\n\n        LocalInner li = new LocalInner();  // ✅ instantiated inside the block\n        li.print();\n        // LocalInner is destroyed when display() returns\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        outer.display();\n        // Cannot access LocalInner here — it doesn't exist outside display()\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How to Use a Local Inner Class from Outside",
+    "subtitle": "You cannot — but you can call the method that uses it:",
+    "bullets": [
+      "You cannot — but you can call the method that uses it:"
+    ],
+    "code": "OuterClass outer = new OuterClass();\nouter.display();  // display() internally creates and uses LocalInner",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Anonymous Inner Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Anonymous Inner Class"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "When to Use",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you want to override or implement a class/interface behavior **once**, without creating a full named subclass. It is ideal for short, single-use implementations."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "How It Works — Under the Hood",
+    "subtitle": "When you write an anonymous class, the Java compiler silently:",
+    "bullets": [
+      "When you write an anonymous class, the Java compiler silently:",
+      "**Creates a hidden subclass** with a compiler-generated name (e.g., `OuterClass$1`).",
+      "**Makes it extend** the abstract class (or implement the interface) you specified.",
+      "**Implements the method(s)** with the body you wrote.",
+      "**Creates an instance** of that hidden subclass."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "AbstractClass ref = new AbstractClass() {\n    @Override\n    void abstractMethod() {\n        // your implementation here\n    }\n};   // ← semicolon — this is a statement",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Without Anonymous Class (Verbose Way)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class Audi extends Car {          // must create a new file / class\n    @Override\n    void pressBrake() {\n        System.out.println(\"Audi brake applied.\");\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        Audi a = new Audi();\n        a.pressBrake();\n    }\n}\n```"
+    ],
+    "code": "abstract class Car {\n    abstract void pressBrake();\n}\n\nclass Audi extends Car {          // must create a new file / class\n    @Override\n    void pressBrake() {\n        System.out.println(\"Audi brake applied.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Audi a = new Audi();\n        a.pressBrake();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — With Anonymous Class (Concise Way)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Main {\n    public static void main(String[] args) {\n        Car audiCar = new Car() {         // ← anonymous class\n            @Override\n            void pressBrake() {\n                System.out.println(\"Anonymous Audi brake applied.\");\n            }\n        };                                // ← semicolon required",
+      "audiCar.pressBrake();\n    }\n}\n```",
+      "**Output:**\n```\nAnonymous Audi brake applied.\n```",
+      "### Line-by-Line Explanation"
+    ],
+    "code": "abstract class Car {\n    abstract void pressBrake();\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Car audiCar = new Car() {         // ← anonymous class\n            @Override\n            void pressBrake() {\n                System.out.println(\"Anonymous Audi brake applied.\");\n            }\n        };                                // ← semicolon required\n\n        audiCar.pressBrake();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What the Compiler Generates (Conceptually)",
+    "subtitle": "// Then assigns: Car audiCar = new Main$1();",
+    "bullets": [
+      "// Then assigns: Car audiCar = new Main$1();\n```",
+      "You can verify this by looking at the compiled `.class` files — you will see a file named `Main$1.class` alongside `Main.class`."
+    ],
+    "code": "// This is what the compiler creates INVISIBLY:\nclass Main$1 extends Car {\n    @Override\n    void pressBrake() {\n        System.out.println(\"Anonymous Audi brake applied.\");\n    }\n}\n\n// Then assigns: Car audiCar = new Main$1();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Anonymous Class with an Interface",
+    "subtitle": "Anonymous classes work equally well with interfaces:",
+    "bullets": [
+      "Anonymous classes work equally well with interfaces:",
+      "public class Main {\n    public static void main(String[] args) {\n        Greeting g = new Greeting() {     // anonymous class implementing interface\n            @Override\n            public void sayHello() {\n                System.out.println(\"Hello from anonymous class!\");\n            }\n        };\n        g.sayHello();\n    }\n}\n```",
+      "**Output:**\n```\nHello from anonymous class!\n```"
+    ],
+    "code": "interface Greeting {\n    void sayHello();\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Greeting g = new Greeting() {     // anonymous class implementing interface\n            @Override\n            public void sayHello() {\n                System.out.println(\"Hello from anonymous class!\");\n            }\n        };\n        g.sayHello();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Inheritance in Nested Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Inheritance in Nested Classes"
+  },
+  {
+    "layout": "split",
+    "title": "Scenario 1 — Inner Class Inheriting Another Inner Class (Same Outer Class)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "class InnerClass2 extends InnerClass1 {  // inherits from sibling inner class\n        int extra = 99;\n        void show() {\n            System.out.println(\"InnerClass2 show, extra = \" + extra);\n            display();  // inherited from InnerClass1\n        }\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.InnerClass2 ic2 = outer.new InnerClass2();\n        ic2.show();\n        ic2.display();  // inherited method accessible\n    }\n}\n```",
+      "**Output:**\n```\nInnerClass2 show, extra = 99\nInnerClass1 display, data = 10\nInnerClass1 display, data = 10\n```"
+    ],
+    "code": "class OuterClass {\n    class InnerClass1 {\n        int data = 10;\n        void display() {\n            System.out.println(\"InnerClass1 display, data = \" + data);\n        }\n    }\n\n    class InnerClass2 extends InnerClass1 {  // inherits from sibling inner class\n        int extra = 99;\n        void show() {\n            System.out.println(\"InnerClass2 show, extra = \" + extra);\n            display();  // inherited from InnerClass1\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        OuterClass.InnerClass2 ic2 = outer.new InnerClass2();\n        ic2.show();\n        ic2.display();  // inherited method accessible\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Scenario 2 — External Class Inheriting a Static Nested Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Since a static nested class is associated with the outer class (not an instance), extending it from an outside class is straightforward:",
+      "class SomeOtherClass extends OuterClass.StaticNestedClass {\n    void show() {\n        System.out.println(\"SomeOtherClass show.\");\n        display();  // inherited from StaticNestedClass\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        SomeOtherClass obj = new SomeOtherClass();\n        obj.show();\n    }\n}\n```",
+      "**Output:**\n```\nSomeOtherClass show.\nStaticNestedClass display.\n```"
+    ],
+    "code": "class OuterClass {\n    static class StaticNestedClass {\n        void display() {\n            System.out.println(\"StaticNestedClass display.\");\n        }\n    }\n}\n\nclass SomeOtherClass extends OuterClass.StaticNestedClass {\n    void show() {\n        System.out.println(\"SomeOtherClass show.\");\n        display();  // inherited from StaticNestedClass\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        SomeOtherClass obj = new SomeOtherClass();\n        obj.show();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Scenario 3 — External Class Inheriting a Non-Static Inner Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is the trickiest case. Since a non-static inner class is associated with an **instance** of the outer class, you must explicitly create an outer class instance and call `super()` using it.",
+      "class SomeOtherClass extends OuterClass.InnerClass {\n    SomeOtherClass() {\n        // Must create an OuterClass instance first, then call super via it\n        new OuterClass().super();   // ← required to initialize the InnerClass part\n    }",
+      "void show() {\n        System.out.println(\"SomeOtherClass show.\");\n        display();  // inherited from InnerClass\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        SomeOtherClass obj = new SomeOtherClass();\n        obj.show();\n    }\n}\n```"
+    ],
+    "code": "class OuterClass {\n    class InnerClass {\n        void display() {\n            System.out.println(\"InnerClass display.\");\n        }\n    }\n}\n\nclass SomeOtherClass extends OuterClass.InnerClass {\n    SomeOtherClass() {\n        // Must create an OuterClass instance first, then call super via it\n        new OuterClass().super();   // ← required to initialize the InnerClass part\n    }\n\n    void show() {\n        System.out.println(\"SomeOtherClass show.\");\n        display();  // inherited from InnerClass\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        SomeOtherClass obj = new SomeOtherClass();\n        obj.show();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Access Modifiers — Full Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Access Modifiers — Full Comparison"
+  },
+  {
+    "layout": "bullets",
+    "title": "Top-Level Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Modifier | Top-Level Class | Meaning |\n|----------|----------------|---------|\n| `public` | ✅ Allowed | Accessible from any package |\n| *(default)* | ✅ Allowed | Accessible only within the same package |\n| `private` | ❌ Not allowed | N/A |\n| `protected` | ❌ Not allowed | N/A |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Nested Classes (All Types)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Modifier | Static Nested | Member Inner | Local Inner | Anonymous |\n|----------|:-------------:|:------------:|:-----------:|:---------:|\n| `public` | ✅ | ✅ | ❌ | ❌ |\n| `protected` | ✅ | ✅ | ❌ | ❌ |\n| *(default)* | ✅ | ✅ | ✅ | ❌ |\n| `private` | ✅ | ✅ | ❌ | ❌ |",
+      "Local and anonymous inner classes cannot be given access modifiers because their scope is inherently confined to a single block."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Nested Class Taxonomy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Abstract Class Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Object Class Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Instantiation Rules — Decision Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "All Nested Class Types at a Glance",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Type | Static?",
+      "| Access to Instance Vars | Access Modifiers | Instantiation |\n|------|---------|------------------------|-----------------|--------------|\n| Static Nested Class | ✅ Yes | ❌ No | public/protected/default/private | `new Outer.Nested()` |\n| Member Inner Class | ❌ No | ✅ Yes | public/protected/default/private | `outer.new Inner()` |\n| Local Inner Class | ❌ No | ✅ Yes | None (no modifier) | Inside block only |\n| Anonymous Inner Class | ❌ No | ✅ Yes | None (no modifier) | `new Type() { ..."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Abstract Class vs Concrete Class vs Interface",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Concrete Class | Abstract Class | Interface |\n|---------|:-------------:|:--------------:|:---------:|\n| Can instantiate?",
+      "| ✅ | ❌ | ❌ |\n| Can have abstract methods?",
+      "| ❌ | ✅ | ✅ (all methods, pre-Java 8) |\n| Can have concrete methods?",
+      "| ✅ | ✅ | ✅ (only `default`/`static`, Java 8+) |\n| Can have constructors?",
+      "| ✅ | ✅ | ❌ |\n| Can have instance variables?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Trying to Instantiate an Abstract Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Car c = new Car();  // ❌ COMPILE ERROR: Car is abstract; cannot be instantiated\n```",
+      "**Fix:** Create a concrete subclass:"
+    ],
+    "code": "abstract class Car {\n    abstract void brake();\n}\n\nCar c = new Car();  // ❌ COMPILE ERROR: Car is abstract; cannot be instantiated",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Accessing Instance Variable from Static Nested Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "static class Nested {\n        void show() {\n            System.out.println(instanceVar);  // ❌ COMPILE ERROR\n        }\n    }\n}\n```",
+      "**Fix:** Access only static members, or pass the outer instance as a parameter."
+    ],
+    "code": "class Outer {\n    int instanceVar = 5;\n\n    static class Nested {\n        void show() {\n            System.out.println(instanceVar);  // ❌ COMPILE ERROR\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Forgetting Outer Object When Creating Non-Static Inner Class",
+    "subtitle": "Fix:",
+    "bullets": [
+      "**Fix:**"
+    ],
+    "code": "OuterClass.InnerClass obj = new OuterClass.InnerClass();  // ❌ COMPILE ERROR",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Missing Semicolon After Anonymous Class",
+    "subtitle": "Fix:",
+    "bullets": [
+      "**Fix:**"
+    ],
+    "code": "Car c = new Car() {\n    void brake() { System.out.println(\"braking\"); }\n}   // ❌ COMPILE ERROR — missing semicolon",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Giving Access Modifiers to a Local Inner Class",
+    "subtitle": "Fix: Remove the modifier:",
+    "bullets": [
+      "**Fix:** Remove the modifier:"
+    ],
+    "code": "void myMethod() {\n    private class LocalInner { }  // ❌ COMPILE ERROR — modifiers not allowed\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Thinking a Class Without `extends` Has No Parent",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is incorrect. Java implicitly adds `extends Object`, so `Person` always has `Object` as its parent."
+    ],
+    "code": "class Person { }  // appears to have no parent",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Most Frequently Asked Questions",
+    "subtitle": "Q1: What is the difference between an abstract class and an interface?",
+    "bullets": [
+      "**Q1: What is the difference between an abstract class and an interface?**",
+      "A: An abstract class can have both abstract and concrete methods, constructors, and instance variables.",
+      "It supports 0–100% abstraction.",
+      "An interface (pre-Java 8) only has abstract methods (100% abstraction).",
+      "A class can implement multiple interfaces but extend only one class."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "19. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "19. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What keyword is used to declare an abstract class?",
+      "Can you create an object of an abstract class?",
+      "Why or why not?",
+      "What is the parent class of every Java class?",
+      "What is a concrete class?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Create an abstract class `Animal` with an abstract method `makeSound()` and a concrete method `breathe()`.",
+      "Create two concrete subclasses `Dog` and `Cat` that implement `makeSound()`.",
+      "Demonstrate polymorphism.",
+      "7. Write code that stores a `Dog` object in an `Animal` reference and calls `makeSound()`."
+    ],
+    "code": "abstract class Greeter {\n        abstract void greet();\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "11. Create an outer class `Library` with a non-static inner class `Book`. The `Book` class should have access to the `Library`'s `libraryName` field. Instantiate a `Book` from a separate class.",
+      "12. Create a local inner class inside a method. Show that it can access the method's local variable. Explain what \"effectively final\" means in this context.",
+      "13. Demonstrate Scenario 3 from Section 12 (external class inheriting a non-static inner class). Explain why `new OuterClass().super()` is required.",
+      "What is the output of the following?"
+    ],
+    "code": "class Outer {\n        static int x = 10;\n        int y = 20;\n        static class Nested {\n            void show() { System.out.println(x); }\n        }\n        class Inner {\n            void show() { System.out.println(y); }\n        }\n    }\n    public class Test {\n        public static void main(String[] args) {\n            new Outer.Nested().show();\n            new Outer().new Inner().show();\n        }\n    }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "20. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "20. Summary Cheat Sheet"
+  }
+]

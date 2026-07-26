@@ -1,0 +1,523 @@
+[
+  {
+    "layout": "title",
+    "title": "Annotations",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Annotations — Complete Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Annotations — Complete Study Guide"
+  },
+  {
+    "layout": "diagram",
+    "title": "Annotation Taxonomy — Mind Map",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is an Annotation?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is an Annotation?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Properties",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Property | Detail |\n|----------|--------|\n| **Syntax** | Always preceded by `@` (at the rate) symbol |\n| **Usage** | Optional — code works without annotations; they add information, not logic |\n| **Applies to** | Classes, interfaces, methods, fields, parameters, constructors, local variables, packages, other annotations |\n| **Accessed via** | Reflection at runtime (when `RetentionPolicy.RUNTIME` is used) |\n| **Relationship to metadata** | Annotations ARE metadata — data about the code |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "A Familiar Example — `@Override`",
+    "subtitle": "class Eagle implements Bird {",
+    "bullets": [
+      "`@Override` is metadata telling the **compiler**: \"Verify that this method actually overrides something from a parent class or interface.\"",
+      "If no matching method exists in the parent, the compiler throws an error.",
+      "If you remove `@Override`, the code still compiles — but you lose the safety check."
+    ],
+    "code": "interface Bird {\n    void canFly();\n}\n\nclass Eagle implements Bird {\n\n    @Override               // This is an annotation\n    public void canFly() {\n        System.out.println(\"Eagle flies\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How Annotations Work Internally",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Categories of Annotations",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Categories of Annotations"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Predefined Annotations — Used on Java Code",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Predefined Annotations — Used on Java Code"
+  },
+  {
+    "layout": "split",
+    "title": "`@Deprecated`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "@deprecated Use {@link #newSendMessage()} instead."
+    ],
+    "code": "class Mobile {\n\n    @Deprecated\n    void oldSendMessage() {\n        System.out.println(\"Old SMS method\");\n    }\n\n    void newSendMessage() {\n        System.out.println(\"New method — use this instead\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Mobile m = new Mobile();\n        m.oldSendMessage(); // ⚠️ Compiler warning: 'oldSendMessage()' is deprecated\n        m.newSendMessage(); // ✅ No warning\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`@Override`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nTells the compiler: *\"Verify that this method is actually overriding a method from a parent class or interface.\"* If no such method exists in the parent, the compiler throws an **error**.",
+      "### Effect\nCompile-time safety check — prevents silent bugs where you think you're overriding but are actually creating a new method (e.g., due to a typo in the method name).",
+      "### Where It Can Be Applied\nMethods only.",
+      "### Code Example"
+    ],
+    "code": "interface Bird {\n    void canFly();\n}\n\nclass Eagle implements Bird {\n    @Override\n    public void canFly() {   // ✅ Correct override\n        System.out.println(\"Eagle flies\");\n    }\n}\n\nclass Sparrow implements Bird {\n    @Override\n    public void canFly1() { // ❌ Compile error: method does not override or implement a method\n        System.out.println(\"Sparrow flies\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`@SuppressWarnings`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nInstructs the compiler to **ignore specific warnings** for the annotated element.",
+      "### Where It Can Be Applied\nField, method, parameter, constructor, local variable, type.",
+      "### Common Warning Keys",
+      "| Warning Key | Suppresses |\n|-------------|-----------|\n| `\"deprecation\"` | Warnings about using deprecated code |\n| `\"unused\"` | Warnings about unused variables, methods |\n| `\"unchecked\"` | Warnings about unchecked type operations |\n| `\"all\"` | All compiler warnings |\n| `\"rawtypes\"` | Warnings about using raw generic types |"
+    ],
+    "code": "class Mobile {\n    @Deprecated\n    void oldMethod() { }\n}\n\npublic class Main {\n\n    // Suppress warning for this specific method\n    @SuppressWarnings(\"deprecation\")\n    void useOldMethod() {\n        Mobile m = new Mobile();\n        m.oldMethod(); // No warning shown\n    }\n\n    // Suppress ALL warnings for this class\n    @SuppressWarnings(\"all\")\n    void anotherMethod() {\n        Mobile m = new Mobile();\n        m.oldMethod(); // No warning shown\n        int unused = 5; // No \"unused\" warning either\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`@FunctionalInterface`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nMarks an interface as a **functional interface** — one that has exactly one abstract method.",
+      "The compiler enforces this constraint: if you add a second abstract method, it is a compile error.",
+      "### Where It Can Be Applied\nType (interface, class, enum) — practically only meaningful on interfaces.",
+      "### Code Example"
+    ],
+    "code": "@FunctionalInterface\ninterface MyFunction {\n    void execute(); // One abstract method — OK\n\n    // void anotherMethod(); // ❌ Compile error: Multiple non-overriding abstract methods\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`@SafeVarargs`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`static`",
+      "`final`",
+      "`private` (Java 9+)"
+    ],
+    "code": "class Example {\n\n    // Without @SafeVarargs — compiler shows heap pollution warning\n    @SafeVarargs\n    public static void printValues(List<Integer>... lists) {\n        for (List<Integer> list : lists) {\n            System.out.println(list);\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Heap Pollution — Deep Dive",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Heap Pollution — Deep Dive"
+  },
+  {
+    "layout": "split",
+    "title": "What is Heap Pollution?",
+    "subtitle": "### Normal (Non-Polluted) Heap",
+    "bullets": [
+      "### Normal (Non-Polluted) Heap",
+      "### Polluted Heap"
+    ],
+    "code": "Stack                        Heap\n────                         ────\nList<Integer> myList  ──►   [1, 2, 3, 4, 5]   ← correct: Integer values",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Why Does Varargs Cause Heap Pollution Risk?",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Warning and How to Suppress It",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Whenever you pass a generic type as varargs, the compiler warns:\n```\nPossible heap pollution from parameterized vararg type List<Integer>\n```",
+      "If you have verified your code **does not actually cause heap pollution**, suppress with:"
+    ],
+    "code": "Possible heap pollution from parameterized vararg type List<Integer>",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Meta-Annotations — Annotations on Annotations",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Meta-Annotations — Annotations on Annotations"
+  },
+  {
+    "layout": "split",
+    "title": "`@Target`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nSpecifies **where** an annotation can be applied — methods only, fields only, classes only, etc.",
+      "### Element Types",
+      "| `ElementType` | Where the annotation can be applied |\n|---------------|-------------------------------------|\n| `TYPE` | Class, interface, enum |\n| `FIELD` | Instance variable / field |\n| `METHOD` | Method |\n| `PARAMETER` | Method parameter |\n| `CONSTRUCTOR` | Constructor |\n| `LOCAL_VARIABLE` | Local variable inside a method |\n| `ANNOTATION_TYPE` | Another annotation (makes it a meta-annotation) |\n| `PACKAGE` | Package |\n| `TYPE_PARAMETER` | Generic type parameter (e.g., `T` in `class Foo<T>`) |\n| `TYPE_USE` | Any use of a type (Java 8+) — e.g., before `String` in `List<String>` |",
+      "### How `@Override` Uses `@Target`"
+    ],
+    "code": "// How @Override is defined inside Java (simplified):\n@Target(ElementType.METHOD)       // Can only be used on methods\n@Retention(RetentionPolicy.SOURCE) // Not stored in .class file\npublic @interface Override {\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "`@Retention`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "`@Documented`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nBy default, annotations are **not included** in the generated Javadoc.",
+      "`@Documented` changes this — any annotation marked with `@Documented` will appear in the Javadoc of the elements it annotates.",
+      "### Comparison",
+      "// @SafeVarargs HAS @Documented\n// → @SafeVarargs appears in Javadoc of annotated methods\n```"
+    ],
+    "code": "// @Override does NOT have @Documented\n// → @Override does not appear in Javadoc of overriding methods\n\n// @SafeVarargs HAS @Documented\n// → @SafeVarargs appears in Javadoc of annotated methods",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`@Inherited`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### What It Does\nBy default, annotations applied to a parent class are **not available to child classes**. `@Inherited` changes this — the annotation propagates to subclasses automatically.",
+      "### Default Behavior (Without `@Inherited`)",
+      "@MyAnnotation\nclass Parent { }",
+      "class Child extends Parent { } // Does NOT have @MyAnnotation"
+    ],
+    "code": "@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\npublic @interface MyAnnotation { } // No @Inherited\n\n@MyAnnotation\nclass Parent { }\n\nclass Child extends Parent { } // Does NOT have @MyAnnotation\n\npublic class Main {\n    public static void main(String[] args) {\n        MyAnnotation a = Child.class.getAnnotation(MyAnnotation.class);\n        System.out.println(a); // null — not inherited\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "`@Repeatable`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Meta-Annotations — Summary Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Meta-Annotation | Purpose | Target |\n|----------------|---------|--------|\n| `@Target` | Defines WHERE the annotation can be applied | Annotations |\n| `@Retention` | Defines HOW LONG the annotation is retained | Annotations |\n| `@Documented` | Makes the annotation appear in Javadoc | Annotations |\n| `@Inherited` | Allows annotation to propagate to subclasses | Annotations on classes |\n| `@Repeatable` | Allows same annotation to be used multiple times | Annotations |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Custom (User-Defined) Annotations",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Custom (User-Defined) Annotations"
+  },
+  {
+    "layout": "split",
+    "title": "Creating an Annotation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Annotations are created using the `@interface` keyword (not to be confused with a regular `interface`):"
+    ],
+    "code": "public @interface MyAnnotation {\n    // annotation members go here\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Form 1 — Empty Annotation (Marker Annotation)",
+    "subtitle": "No members — just used as a flag/marker:",
+    "bullets": [
+      "No members — just used as a flag/marker:",
+      "@MyAnnotation\nclass TestClass { }\n```"
+    ],
+    "code": "@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\npublic @interface MyAnnotation {\n    // No members — just a marker\n}\n\n@MyAnnotation\nclass TestClass { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Form 2 — Annotation with Members",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Members look like methods but have no parameters and no body. They define the data the annotation can carry:",
+      "// Usage — must provide values for all members without defaults\n@MyCustomAnnotation(name = \"TestClass\", version = 1)\nclass TestClass { }\n```",
+      "### Annotation Member Rules",
+      "| Rule | Detail |\n|------|--------|\n| Parameters | ❌ Members cannot have parameters |\n| Body | ❌ Members cannot have a body |\n| Return type | Only: primitive types, `String`, `Class`, `enum`, another annotation, or **arrays** of these |\n| Custom objects | ❌ Cannot use custom class objects as return type |\n| Naming | Conventionally used as `value()` for the single most important member |"
+    ],
+    "code": "@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\npublic @interface MyCustomAnnotation {\n    String name();    // String member\n    int version();    // int member\n}\n\n// Usage — must provide values for all members without defaults\n@MyCustomAnnotation(name = \"TestClass\", version = 1)\nclass TestClass { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Form 3 — Annotation with Default Values",
+    "subtitle": "Members can have default values using the default keyword:",
+    "bullets": [
+      "Members can have default values using the `default` keyword:",
+      "// Usage — can omit members that have defaults\n@MyAnnotation                                    // ✅ name=\"Hello\", version=1\nclass ClassA { }",
+      "@MyAnnotation(name = \"SJ\")                      // ✅ name=\"SJ\", version=1\nclass ClassB { }",
+      "@MyAnnotation(name = \"SJ\", version = 2)         // ✅ name=\"SJ\", version=2\nclass ClassC { }\n```"
+    ],
+    "code": "@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\npublic @interface MyAnnotation {\n    String name() default \"Hello\"; // default value\n    int version() default 1;\n}\n\n// Usage — can omit members that have defaults\n@MyAnnotation                                    // ✅ name=\"Hello\", version=1\nclass ClassA { }\n\n@MyAnnotation(name = \"SJ\")                      // ✅ name=\"SJ\", version=1\nclass ClassB { }\n\n@MyAnnotation(name = \"SJ\", version = 2)         // ✅ name=\"SJ\", version=2\nclass ClassC { }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Complete Custom Annotation Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Step 1 — Create the annotation\n@Retention(RetentionPolicy.RUNTIME)\n@Target({ElementType.TYPE, ElementType.METHOD})\n@Documented\npublic @interface ApiInfo {\n    String author() default \"Unknown\";\n    String version() default \"1.0\";\n    String description();           // No default — must always be provided\n    boolean deprecated() default false;\n}",
+      "// Step 2 — Use it\n@ApiInfo(\n    author = \"Shreyansh\",\n    version = \"2.0\",\n    description = \"Main service class for user management\"\n)\npublic class UserService {",
+      "@ApiInfo(\n        description = \"Fetches user by ID\",\n        deprecated = true\n    )\n    public void getUserById(int id) { }\n}\n```"
+    ],
+    "code": "import java.lang.annotation.*;\n\n// Step 1 — Create the annotation\n@Retention(RetentionPolicy.RUNTIME)\n@Target({ElementType.TYPE, ElementType.METHOD})\n@Documented\npublic @interface ApiInfo {\n    String author() default \"Unknown\";\n    String version() default \"1.0\";\n    String description();           // No default — must always be provided\n    boolean deprecated() default false;\n}\n\n// Step 2 — Use it\n@ApiInfo(\n    author = \"Shreyansh\",\n    version = \"2.0\",\n    description = \"Main service class for user management\"\n)\npublic class UserService {\n\n    @ApiInfo(\n        description = \"Fetches user by ID\",\n        deprecated = true\n    )\n    public void getUserById(int id) { }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Accessing Annotations via Reflection",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Accessing Annotations via Reflection"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Annotations with `RetentionPolicy.RUNTIME` can be read at runtime using Java's Reflection API."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Reflection Methods for Annotations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | What it does |\n|--------|-------------|\n| `clazz.getAnnotation(AnnotationType.class)` | Returns the annotation of the given type if present; `null` otherwise |\n| `clazz.getAnnotations()` | Returns all annotations on the element |\n| `clazz.getDeclaredAnnotations()` | Returns all annotations directly on the element (excluding inherited) |\n| `clazz.getAnnotationsByType(AnnotationType.class)` | Returns array — useful for `@Repeatable` annotations |\n| `clazz.isAnnotationPresent(AnnotationType.class)` | Returns `true` if the annotation is present |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Reading a Custom Annotation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\n@interface MyAnnotation {\n    String name() default \"default\";\n}",
+      "@MyAnnotation(name = \"TestClass\")\nclass TestClass { }",
+      "public class Main {\n    public static void main(String[] args) {\n        // Get the Class object\n        Class<?> clazz = new TestClass().getClass();",
+      "// Check if annotation is present\n        if (clazz.isAnnotationPresent(MyAnnotation.class)) {\n            // Get the annotation\n            MyAnnotation annotation = clazz.getAnnotation(MyAnnotation.class);\n            System.out.println(\"Annotation found: \" + annotation);\n            System.out.println(\"name = \" + annotation.name());\n        } else {\n            System.out.println(\"Annotation not found\");\n        }\n    }\n}\n```"
+    ],
+    "code": "import java.lang.annotation.*;\n\n@Retention(RetentionPolicy.RUNTIME)\n@Target(ElementType.TYPE)\n@interface MyAnnotation {\n    String name() default \"default\";\n}\n\n@MyAnnotation(name = \"TestClass\")\nclass TestClass { }\n\npublic class Main {\n    public static void main(String[] args) {\n        // Get the Class object\n        Class<?> clazz = new TestClass().getClass();\n\n        // Check if annotation is present\n        if (clazz.isAnnotationPresent(MyAnnotation.class)) {\n            // Get the annotation\n            MyAnnotation annotation = clazz.getAnnotation(MyAnnotation.class);\n            System.out.println(\"Annotation found: \" + annotation);\n            System.out.println(\"name = \" + annotation.name());\n        } else {\n            System.out.println(\"Annotation not found\");\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What Happens Without `RUNTIME` Retention",
+    "subtitle": "@MyAnnotation\nclass TestClass { }",
+    "bullets": [
+      "@MyAnnotation\nclass TestClass { }",
+      "public class Main {\n    public static void main(String[] args) {\n        MyAnnotation a = TestClass.class.getAnnotation(MyAnnotation.class);\n        System.out.println(a); // null — annotation not available at runtime\n    }\n}\n```",
+      "**Output:**\n```\nnull\n```"
+    ],
+    "code": "@Retention(RetentionPolicy.CLASS) // or SOURCE — NOT RUNTIME\n@Target(ElementType.TYPE)\n@interface MyAnnotation { }\n\n@MyAnnotation\nclass TestClass { }\n\npublic class Main {\n    public static void main(String[] args) {\n        MyAnnotation a = TestClass.class.getAnnotation(MyAnnotation.class);\n        System.out.println(a); // null — annotation not available at runtime\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Reflection + Repeatable Annotations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Use `getAnnotationsByType()` (not `getAnnotation()`) for repeatable annotations, since there may be multiple instances."
+    ],
+    "code": "Category[] categories = Eagle.class.getAnnotationsByType(Category.class);\n// Returns all @Category annotations applied to Eagle",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Annotation Basics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is an annotation in Java?",
+      "| Metadata added to Java code using `@`; optional; used by compiler/JVM/frameworks for processing |\n| How do you denote an annotation?",
+      "| Always starts with `@` — e.g., `@Override`, `@Deprecated` |\n| How are annotations accessed at runtime?",
+      "| Via Java Reflection API when `RetentionPolicy.RUNTIME` is set |\n| Are annotations mandatory?",
+      "| No — they're optional metadata; removing them doesn't break code |\n| Where can annotations be applied?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Predefined Annotations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What does `@Deprecated` do?",
+      "| Marks element as outdated; compiler shows warning when used |\n| What does `@Override` do?",
+      "| Tells compiler to verify the method actually overrides a parent method; compile error if not |\n| What does `@SuppressWarnings` do?",
+      "| Suppresses specific compiler warnings; use carefully as warnings may prevent bugs |\n| What does `@FunctionalInterface` do?",
+      "| Enforces that interface has exactly one abstract method; compile error if more are added |\n| What does `@SafeVarargs` do?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Heap Pollution",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is heap pollution?",
+      "| When a variable of parameterized type (e.g., `List<Integer>`) holds reference to wrong type object (e.g., `List<String>`) |\n| What causes heap pollution with varargs?",
+      "| Varargs become `Object[]` internally; allows storing wrong types; leads to `ClassCastException` at runtime |\n| How to suppress heap pollution warning?",
+      "| `@SafeVarargs` on a `static`, `final`, or `private` method that accepts varargs |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Meta-Annotations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a meta-annotation?",
+      "| An annotation applied on another annotation |\n| What does `@Target` do?",
+      "| Specifies where an annotation can be applied (method, field, type, etc.) |\n| What does `@Retention` do?",
+      "| Specifies how long the annotation is retained: `SOURCE`, `CLASS`, or `RUNTIME` |\n| What is the difference between `RetentionPolicy.CLASS` and `RUNTIME`?",
+      "| `CLASS` is in bytecode but ignored by JVM; `RUNTIME` is in bytecode AND available via reflection |\n| Why does `@Override` use `RetentionPolicy.SOURCE`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Custom Annotations",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| How do you create a custom annotation?",
+      "| `public @interface AnnotationName { }` — use `@interface` keyword |\n| What types can annotation members have?",
+      "| Primitives, String, Class, enum, another annotation, or arrays of these |\n| Can annotation members have parameters?",
+      "| No — they have no parameters and no body |\n| How do you add a default value to an annotation member?",
+      "| `String name() default \"hello\";` |\n| What is a marker annotation?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Master Summary"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "✅ **Annotation** = metadata added to Java code using `@` symbol",
+      "✅ Optional — does not change program logic directly; provides information to compiler/JVM/frameworks",
+      "✅ Can be applied to: classes, methods, fields, parameters, constructors, local variables, packages, and other annotations",
+      "✅ Accessed at runtime via **Reflection** — only if `RetentionPolicy.RUNTIME` is used",
+      "✅ `@Deprecated` — marks element as outdated; compiler warning when used"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

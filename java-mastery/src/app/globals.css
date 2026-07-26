@@ -121,7 +121,19 @@ body {
   color: var(--fg);
   font-family: var(--font-sans), system-ui, sans-serif;
   min-height: 100vh;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
+
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 
 /* ── Selection ───────────────────────────────────────────────────────────── */
 ::selection {

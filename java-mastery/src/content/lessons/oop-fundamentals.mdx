@@ -65,25 +65,28 @@ These two aspects — *what it is* and *what it does* — are the foundation of 
 ## Mind Map — OOP Overview
 
 ```mermaid
-mindmap
-  root((OOP))
-    Objects
-      Properties / State
-      Behavior / Methods
-    Classes
-      Blueprint
-      Template
-      Skeleton
-    Four Pillars
-      Abstraction
-      Encapsulation
-      Inheritance
-      Polymorphism
-    Relationships
-      IS-A
-      HAS-A
-        Aggregation
-        Composition
+flowchart TD
+    OOP((OOP))
+    OOP --> Objects
+    Objects --> Properties["Properties / State"]
+    Objects --> Behavior["Behavior / Methods"]
+    
+    OOP --> Classes
+    Classes --> Blueprint
+    Classes --> Template
+    Classes --> Skeleton
+    
+    OOP --> Pillars["Four Pillars"]
+    Pillars --> Abstraction
+    Pillars --> Encapsulation
+    Pillars --> Inheritance
+    Pillars --> Polymorphism
+    
+    OOP --> Relationships
+    Relationships --> ISA["IS-A"]
+    Relationships --> HASA["HAS-A"]
+    HASA --> Aggregation
+    HASA --> Composition
 ```
 
 ---
@@ -306,24 +309,27 @@ classDiagram
 # 4. The Four Pillars of OOP
 
 ```mermaid
-mindmap
-  root((Four Pillars of OOP))
-    Abstraction
-      Hide internal implementation
-      Expose only essential features
-      Achieved via Interface and Abstract Class
-    Encapsulation
-      Bundle data + methods in one class
-      Data hiding via access modifiers
-      Promotes loose coupling
-    Inheritance
-      Child inherits parent properties
-      Code reusability
-      IS-A relationship
-    Polymorphism
-      Same method, many forms
-      Overloading - Compile time
-      Overriding - Runtime
+flowchart TD
+    Pillars((Four Pillars of OOP))
+    Pillars --> Abstraction
+    Abstraction --> A1["Hide internal implementation"]
+    Abstraction --> A2["Expose only essential features"]
+    Abstraction --> A3["Achieved via Interface & Abstract Class"]
+    
+    Pillars --> Encapsulation
+    Encapsulation --> E1["Bundle data + methods in one class"]
+    Encapsulation --> E2["Data hiding via access modifiers"]
+    Encapsulation --> E3["Promotes loose coupling"]
+    
+    Pillars --> Inheritance
+    Inheritance --> I1["Child inherits parent properties"]
+    Inheritance --> I2["Code reusability"]
+    Inheritance --> I3["IS-A relationship"]
+    
+    Pillars --> Polymorphism
+    Polymorphism --> PL1["Same method, many forms"]
+    Polymorphism --> PL2["Overloading - Compile time"]
+    Polymorphism --> PL3["Overriding - Runtime"]
 ```
 
 ---
@@ -750,7 +756,7 @@ flowchart TD
         A3[Class A] --> B3[Class B]
         A3 --> C3[Class C]
     end
-    subgraph Multiple - NOT ALLOWED via extends
+    subgraph "Multiple - NOT ALLOWED via extends"
         A4[Class A] -.->|❌| C4[Class C]
         B4[Class B] -.->|❌| C4
     end
@@ -857,8 +863,8 @@ Because interfaces don't have implementation (only method signatures), there is 
 
 ```mermaid
 flowchart TD
-    P[Polymorphism] --> O[Method Overloading\nStatic / Compile-Time Polymorphism]
-    P --> R[Method Overriding\nDynamic / Runtime Polymorphism]
+    P[Polymorphism] --> O["Method Overloading\nStatic / Compile-Time Polymorphism"]
+    P --> R["Method Overriding\nDynamic / Runtime Polymorphism"]
 ```
 
 ---
@@ -916,10 +922,10 @@ Hello World
 
 ```mermaid
 flowchart TD
-    Call[calc.doSum is called] --> Check{What arguments?}
-    Check -->|int, int| M1[doSum int a, int b]
-    Check -->|String, String| M2[doSum String a, String b]
-    Check -->|int, int, int| M3[doSum int a, int b, int c]
+    Call["calc.doSum is called"] --> Check{"What arguments?"}
+    Check -->|int, int| M1["doSum int a, int b"]
+    Check -->|String, String| M2["doSum String a, String b"]
+    Check -->|int, int, int| M3["doSum int a, int b, int c"]
 ```
 
 At compile time, the Java compiler looks at the **argument types and count** and resolves which method to invoke. The decision is made **before the program even runs**.
@@ -1060,11 +1066,11 @@ When `obj.method()` is called:
 
 ```mermaid
 flowchart TD
-    Call[obj.getEngine called] --> Check{Is getEngine in child class?}
-    Check -->|Yes| CallChild[Call child's getEngine]
-    Check -->|No| CheckParent{Is getEngine in parent class?}
-    CheckParent -->|Yes| CallParent[Call parent's getEngine]
-    CheckParent -->|No| Error[Compile Error - method not found]
+    Call["obj.getEngine called"] --> Check{"Is getEngine in child class?"}
+    Check -->|Yes| CallChild["Call child's getEngine"]
+    Check -->|No| CheckParent{"Is getEngine in parent class?"}
+    CheckParent -->|Yes| CallParent["Call parent's getEngine"]
+    CheckParent -->|No| Error["Compile Error - method not found"]
 ```
 
 ---
@@ -1237,13 +1243,13 @@ class School {
 
 ```mermaid
 classDiagram
-    Animal <|-- Dog : IS-A (Inheritance / extends)
-    Vehicle <|-- Car : IS-A (Inheritance / extends)
+    Animal <|-- Dog : "IS-A (Inheritance / extends)"
+    Vehicle <|-- Car : "IS-A (Inheritance / extends)"
 
-    School o-- Student : HAS-A Aggregation (weak)
-    School *-- Room : HAS-A Composition (strong)
+    School o-- Student : "HAS-A Aggregation (weak)"
+    School *-- Room : "HAS-A Composition (strong)"
 
-    Bike *-- Engine : HAS-A Composition (strong)
+    Bike *-- Engine : "HAS-A Composition (strong)"
 ```
 
 ---
@@ -1299,29 +1305,32 @@ classDiagram
 ## All Four Pillars — Quick Revision
 
 ```mermaid
-mindmap
-  root((OOP Pillars))
-    Abstraction
-      Hides implementation
-      Exposes only essential
-      Via Interface / Abstract Class
-      Example: Car brake pedal
-    Encapsulation
-      Bundles data + methods
-      Access modifiers control access
-      private fields + public methods
-      Example: Medicine capsule
-    Inheritance
-      Child gets parent members
-      extends keyword
-      IS-A relationship
-      Code reusability
-      Diamond problem via interface
-    Polymorphism
-      Many forms, same method
-      Overloading = Compile-time
-      Overriding = Runtime
-      Dynamic dispatch
+flowchart TD
+    Pillars((OOP Pillars))
+    Pillars --> Abstraction
+    Abstraction --> A1["Hides implementation"]
+    Abstraction --> A2["Exposes only essential"]
+    Abstraction --> A3["Via Interface / Abstract Class"]
+    Abstraction --> A4["Example: Car brake pedal"]
+    
+    Pillars --> Encapsulation
+    Encapsulation --> E1["Bundles data + methods"]
+    Encapsulation --> E2["Access modifiers control access"]
+    Encapsulation --> E3["private fields + public methods"]
+    Encapsulation --> E4["Example: Medicine capsule"]
+    
+    Pillars --> Inheritance
+    Inheritance --> I1["Child gets parent members"]
+    Inheritance --> I2["extends keyword"]
+    Inheritance --> I3["IS-A relationship"]
+    Inheritance --> I4["Code reusability"]
+    Inheritance --> I5["Diamond problem via interface"]
+    
+    Pillars --> Polymorphism
+    Polymorphism --> P1["Many forms, same method"]
+    Polymorphism --> P2["Overloading = Compile-time"]
+    Polymorphism --> P3["Overriding = Runtime"]
+    Polymorphism --> P4["Dynamic dispatch"]
 ```
 
 ---
@@ -1348,10 +1357,10 @@ mindmap
 
 ```mermaid
 flowchart TD
-    A[Class Relationships] --> ISA[IS-A\nInheritance\nkeyword: extends]
-    A --> HASA[HAS-A\nAssociation\nobject as field]
-    HASA --> AGG[Aggregation\nWeak\nObjects exist independently\nSchool - Student]
-    HASA --> COMP[Composition\nStrong\nChild dies with parent\nSchool - Room]
+    A["Class Relationships"] --> ISA["IS-A\nInheritance\nkeyword: extends"]
+    A --> HASA["HAS-A\nAssociation\nobject as field"]
+    HASA --> AGG["Aggregation\nWeak\nObjects exist independently\nSchool - Student"]
+    HASA --> COMP["Composition\nStrong\nChild dies with parent\nSchool - Room"]
 ```
 
 ---

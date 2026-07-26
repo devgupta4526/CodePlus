@@ -1,0 +1,379 @@
+[
+  {
+    "layout": "title",
+    "title": "Constructors",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Constructors — Complete Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Constructors — Complete Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is a Constructor?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is a Constructor?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **constructor** is a special block of code inside a class that serves two purposes:",
+      "1. **Creates an instance** (object) of the class\n2. **Initializes the instance variables** of that object",
+      "Every time you write `new ClassName()`, a constructor is being called behind the scenes."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Role of `new` — A Common Misconception",
+    "subtitle": "Many beginners think new creates the object. More precisely:",
+    "bullets": [
+      "**`new`** signals to the Java runtime: *\"Call the constructor — not a method — for this class\"*",
+      "The **constructor** is what actually allocates memory and initializes the object",
+      "`new` is necessary because a method can also have the same name as the class, and Java needs a way to distinguish \"call the constructor\" from \"call that same-named method\""
+    ],
+    "code": "class Employee {\n    int employeeId;\n\n    // This is a CONSTRUCTOR (no return type)\n    Employee() {\n        employeeId = 0;\n    }\n\n    // This is a METHOD (has return type — even if it's the same name)\n    int Employee(int id) {\n        return id * 2;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Constructor vs Method — Quick Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Constructor | Method |\n|---------|-------------|--------|\n| Name | Same as class name | Any valid identifier |\n| Return type | None (not even `void`) | Must have a return type or `void` |\n| Called by | `new` keyword (implicitly) | Explicitly by name |\n| Purpose | Create + initialize object | Define behavior |\n| Inherited?",
+      "| ❌ No | ✅ Yes |\n| Can be overridden?",
+      "| ❌ No | ✅ Yes (if not `final`) |\n| Can be `static`?",
+      "| ❌ No | ✅ Yes |\n| Can be `final`?",
+      "| ❌ No | ✅ Yes |\n| Can be `abstract`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Mind Map — Constructor Fundamentals",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Constructor vs Method — Key Distinctions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Constructor vs Method — Key Distinctions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Is the Constructor Name the Same as the Class Name?",
+    "subtitle": "Simple reason: easy identification.",
+    "bullets": [
+      "Simple reason: **easy identification**.",
+      "A class can have hundreds of methods. By enforcing that only the constructor shares the class name, you can immediately spot it just by reading the code — without needing any other hint."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Does the Constructor Have No Return Type?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The JVM knows a constructor must return an instance of its enclosing class",
+      "Declaring a return type would make Java treat it as a regular method instead"
+    ],
+    "code": "class Employee {\n    int employeeId;\n\n    // CONSTRUCTOR — no return type, implicitly returns Employee object\n    Employee() {\n        this.employeeId = 0;\n    }\n\n    // METHOD — same name, but has a return type (int)\n    // Java sees this as a regular method, NOT a constructor\n    int Employee(int value) {\n        return value;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Why Can't Constructors Be `static`, `final`, or `abstract`?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Why Can't Constructors Be `static`, `final`, or `abstract`?"
+  },
+  {
+    "layout": "diagram",
+    "title": "Why Can't a Constructor Be `final`?",
+    "subtitle": "### Reasoning",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Can't a Constructor Be `abstract`?",
+    "subtitle": "### Reasoning",
+    "bullets": [
+      "### Reasoning",
+      "An `abstract` method means: *I declare the method signature here, but the implementation must be provided by a subclass.*",
+      "For a subclass to provide the implementation, it must **inherit** the abstract method. But again — **constructors are not inherited**.",
+      "class Manager extends Employee {\n    // How would Manager \"implement\" an Employee constructor?"
+    ],
+    "code": "abstract class Employee {\n    abstract Employee(); // ❌ Hypothetical — what would this mean?\n}\n\nclass Manager extends Employee {\n    // How would Manager \"implement\" an Employee constructor?\n    // It can't inherit it, so it can't implement it.\n    // Manager's constructor must be named Manager(), not Employee()\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Why Can't a Constructor Be `static`?",
+    "subtitle": "### Reasoning — Two Problems",
+    "bullets": [
+      "### Reasoning — Two Problems",
+      "**Problem 1: Static methods cannot access instance variables**",
+      "A constructor's primary job is to **initialize instance variables**. Static methods/blocks belong to the class, not to any object — they have no concept of \"which object's variables to set.\"",
+      "// If constructor were static:\n    static Employee() {\n        this.employeeId = 10; // ❌ ERROR — static context can't use 'this'\n                               // static has no reference to any specific object\n    }\n}\n```"
+    ],
+    "code": "class Employee {\n    int employeeId; // instance variable\n\n    // If constructor were static:\n    static Employee() {\n        this.employeeId = 10; // ❌ ERROR — static context can't use 'this'\n                               // static has no reference to any specific object\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Summary Table — Why These Modifiers Are Forbidden",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Modifier | Why NOT Allowed on Constructor |\n|----------|-------------------------------|\n| `final` | Constructors can't be inherited → can't be overridden → `final` is meaningless |\n| `abstract` | Constructors can't be inherited → child can't implement → `abstract` is meaningless |\n| `static` | Static can't access instance variables (breaks initialization) + breaks `super()` chaining |\n| `synchronized` | Not applicable — object doesn't exist yet when constructor runs |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Can an Interface Have a Constructor?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Can an Interface Have a Constructor?"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Types of Constructors",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Types of Constructors"
+  },
+  {
+    "layout": "split",
+    "title": "Type 1 — Default Constructor",
+    "subtitle": "### Definition",
+    "bullets": [
+      "Takes no arguments",
+      "Has an empty body",
+      "Sets all instance variables to their **default values** (`0` for numbers, `null` for objects, `false` for booleans)"
+    ],
+    "code": "class Calculation {\n    String name;   // default: null\n    int value;     // default: 0\n    boolean flag;  // default: false\n    // No constructor defined by programmer\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Type 2 — No-Argument Constructor",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "A **no-argument constructor** is a constructor with no parameters that you **manually define yourself**.",
+      "It looks similar to the default constructor but is explicitly written by the programmer, allowing you to add custom initialization logic.",
+      "### Example"
+    ],
+    "code": "class Calculation {\n    String name;\n\n    // No-argument constructor — manually defined\n    Calculation() {\n        name = \"\"; // custom initialization — not just the JVM default\n        System.out.println(\"Calculation object created.\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Calculation c = new Calculation();\n        System.out.println(c.name); // \"\"\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Type 3 — Parameterized Constructor",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "A **parameterized constructor** accepts one or more parameters, allowing you to pass values at the time of object creation to initialize instance variables with specific data.",
+      "### Example",
+      "// Parameterized constructor\n    Employee(String employeeName) {\n        this.name = employeeName;\n        this.employeeId = 0; // default for this constructor\n    }\n}"
+    ],
+    "code": "class Employee {\n    String name;\n    int employeeId;\n\n    // Parameterized constructor\n    Employee(String employeeName) {\n        this.name = employeeName;\n        this.employeeId = 0; // default for this constructor\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Employee e = new Employee(\"Shreyansh\");\n        System.out.println(e.name);       // Shreyansh\n        System.out.println(e.employeeId); // 0\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Type 4 — Constructor Overloading",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Type 5 — Private Constructor",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Constructor Chaining",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Constructor Chaining"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Constructor chaining** is the mechanism of calling one constructor from another constructor. It eliminates code duplication and ensures consistent initialization.",
+      "There are two types:\n1. **`this()`** — chains constructors within the **same class**\n2. **`super()`** — chains to the **parent class constructor**"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Chaining Type 1 — Using `this()`",
+    "subtitle": "### Example",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Chaining Type 2 — Using `super()`",
+    "subtitle": "### Key Rule — Implicit super()",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Core Constructor Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a constructor?",
+      "| Special method-like block; same name as class; no return type; creates + initializes objects |\n| What does `new` do?",
+      "| Signals JVM to call the constructor (not a same-named method); then the constructor creates the object |\n| Why is the constructor name same as the class name?",
+      "| Easy identification; convention to distinguish from methods |\n| Why does a constructor have no return type?",
+      "| Implicitly returns instance of its own class; JVM handles this; declaring return type would make it a method |\n| Can a method have the same name as the class?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Modifier Questions (Most Frequently Asked)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| Why can't a constructor be `final`?",
+      "| Constructors aren't inherited → can't be overridden → `final` is meaningless |\n| Why can't a constructor be `abstract`?",
+      "| Constructors aren't inherited → child can't implement → `abstract` is meaningless |\n| Why can't a constructor be `static`?",
+      "| Static can't access instance variables (breaks initialization) + breaks `super()` chaining |\n| Are constructors inherited?",
+      "| No — naming convention would break (child class name ≠ parent constructor name) |\n| Can you have a constructor in an interface?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Types & Patterns",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a default constructor?",
+      "| Auto-added by Java when no constructor is defined; no-arg, sets fields to defaults |\n| When is the default constructor NOT added?",
+      "| When you define any constructor yourself |\n| What is a parameterized constructor?",
+      "| Takes arguments to initialize fields at creation time |\n| What is constructor overloading?",
+      "| Multiple constructors with different parameter lists in the same class |\n| Is there constructor overriding?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Constructor Chaining",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is constructor chaining?",
+      "| Calling one constructor from another to reuse initialization logic |\n| What is `this()` used for?",
+      "| Call another constructor in the same class |\n| What is `super()` used for?",
+      "| Call the parent class constructor from a child constructor |\n| Where must `this()` / `super()` appear?",
+      "| Must be the **first statement** in the constructor body |\n| What happens if parent has only a parameterized constructor?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Master Summary"
+  },
+  {
+    "layout": "diagram",
+    "title": "All Constructor Types — Quick Reference",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Constructor Chaining Summary",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "End of Chapter — Java Constructors",
+    "bullets": [
+      "✅ **Constructor** = same name as class + no return type + called via `new`",
+      "✅ **`new`** tells the JVM: \"call the constructor, not the same-named method\"",
+      "✅ **No return type** because constructor implicitly returns the class instance",
+      "✅ **Constructor ≠ inherited** → cannot be `final` (no overriding), cannot be `abstract` (no implementation by child)",
+      "✅ **Constructor ≠ static** → static can't access instance variables; also breaks `super()` chaining"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

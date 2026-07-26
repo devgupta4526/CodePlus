@@ -1,0 +1,866 @@
+[
+  {
+    "layout": "title",
+    "title": "Reflection",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Reflection — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Reflection — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is Reflection?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is Reflection?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Reflection is a powerful and advanced feature of Java that allows a program to **examine and modify itself at runtime**.",
+      "With reflection, you can look inside any class, discover its methods, fields, and constructors, and even invoke them — all while the program is running, without knowing the class at compile time."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-World Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Imagine a doctor performing an X-ray on a patient.",
+      "The patient doesn't need to do anything differently.",
+      "The X-ray machine (reflection) looks *inside* the body (class) and reveals its internal structure — bones, organs, sizes — without the patient's active cooperation.",
+      "The doctor can then act on what they find.",
+      "Reflection does the same for Java classes. It peeks inside them at runtime and exposes their internal structure."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Formal Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What Reflection Can Do",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Capability | Description |\n|-----------|-------------|\n| Inspect a class | Get class name, modifier, interfaces implemented |\n| Inspect methods | Get method names, return types, parameters, modifiers |\n| Inspect fields | Get field names, types, modifiers |\n| Inspect constructors | Get constructor parameters and modifiers |\n| **Invoke methods** | Call any method (including private) at runtime |\n| **Change field values** | Set any field (including private) at runtime |\n| **Create objects** | Call any constructor (including private) at runtime |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Package Location",
+    "subtitle": "All reflection classes live in java.lang.reflect:",
+    "bullets": [
+      "All reflection classes live in `java.lang.reflect`:",
+      "The `Class` class itself lives in `java.lang` (no import needed)."
+    ],
+    "code": "import java.lang.reflect.Method;\nimport java.lang.reflect.Field;\nimport java.lang.reflect.Constructor;\nimport java.lang.reflect.Modifier;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. The `Class` Object — Foundation of Reflection",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. The `Class` Object — Foundation of Reflection"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is the `Class` Class?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Before you can reflect anything, you need to understand `java.lang.Class`. This is a special class whose name is literally `Class` — and it is the **entry point** for all reflection."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Who Creates Class Objects?",
+    "subtitle": "The JVM creates them — not you.",
+    "bullets": [
+      "**The JVM creates them — not you.**",
+      "When the JVM loads a class (e.g., `Bird`), it:\n1.",
+      "Reads the compiled `.class` bytecode file.",
+      "Creates an instance of `java.lang.Class` internally.",
+      "Populates that `Class` instance with metadata about `Bird`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "What Metadata Does a Class Object Hold?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Class Object for \"Eagle\"\n┌────────────────────────────────────────────┐\n│  getName()          → \"Eagle\"              │\n│  getModifiers()     → public               │\n│  getMethods()       → [fly, eat, ...]      │\n│  getFields()        → [breed, ...]         │\n│  getConstructors()  → [Eagle()]            │\n│  getSuperclass()    → Object               │\n│  getInterfaces()    → [Flyable, ...]       │\n└────────────────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How Many Class Objects Exist?",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Three Ways to Get a Class Object",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Three Ways to Get a Class Object"
+  },
+  {
+    "layout": "split",
+    "title": "Method 1 — `Class.forName(String className)`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Pass the fully qualified class name as a `String`. This is useful when you **don't have the class available at compile time** (the most dynamic approach)."
+    ],
+    "code": "Class<?> eagleClass = Class.forName(\"Eagle\");\n// or with full package path:\nClass<?> listClass = Class.forName(\"java.util.ArrayList\");",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 2 — `.class` Literal",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If you have access to the class type at compile time, use the `.class` literal directly on the class name. This is the safest and most readable approach.",
+      "No exception handling required — this is resolved at compile time."
+    ],
+    "code": "Class<Eagle> eagleClass = Eagle.class;\nClass<Integer> intClass  = Integer.class;\nClass<String>  strClass  = String.class;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 3 — `object.getClass()`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If you already have an **instance** of the class, call `getClass()` on it. This is inherited from `java.lang.Object`, so every Java object has this method.",
+      "This is useful when you receive an object of unknown type and want to inspect it dynamically."
+    ],
+    "code": "Eagle eagle = new Eagle();\nClass<?> eagleClass = eagle.getClass();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Side-by-Side Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Syntax | Compile-time class needed?",
+      "| Exception?",
+      "| Best Used When |\n|--------|--------|---------------------------|-----------|----------------|\n| `Class.forName()` | `Class.forName(\"Eagle\")` | ❌ No — string only | ✅ Yes — `ClassNotFoundException` | Class name known only at runtime (plugins, frameworks) |\n| `.class` literal | `Eagle.class` | ✅ Yes | ❌ No | Class known at compile time |\n| `getClass()` | `obj.getClass()` | ✅ Yes (object exists) | ❌ No | You already have an instance |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Reflecting a Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Reflecting a Class"
+  },
+  {
+    "layout": "split",
+    "title": "The Subject Class",
+    "subtitle": "Throughout all examples, we will use this simple class:",
+    "bullets": [
+      "Throughout all examples, we will use this simple class:",
+      "public void fly() {\n        System.out.println(\"Eagle is flying.\");\n    }",
+      "private void eat() {\n        System.out.println(\"Eagle is eating.\");\n    }\n}\n```"
+    ],
+    "code": "public class Eagle {\n    public String breed;          // public field\n    private boolean canSwim;      // private field\n\n    public void fly() {\n        System.out.println(\"Eagle is flying.\");\n    }\n\n    private void eat() {\n        System.out.println(\"Eagle is eating.\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Getting Basic Class Metadata",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class ReflectClass {\n    public static void main(String[] args) {\n        // Step 1: Get the Class object\n        Class<Eagle> eagleClass = Eagle.class;",
+      "// Step 2: Fetch metadata\n        System.out.println(\"Class name: \" + eagleClass.getName());\n        System.out.println(\"Simple name: \" + eagleClass.getSimpleName());\n        System.out.println(\"Modifier: \" + Modifier.toString(eagleClass.getModifiers()));\n        System.out.println(\"Superclass: \" + eagleClass.getSuperclass().getName());\n        System.out.println(\"Package: \" + eagleClass.getPackageName());\n    }\n}\n```",
+      "**Output:**\n```\nClass name: Eagle\nSimple name: Eagle\nModifier: public\nSuperclass: java.lang.Object\nPackage: (default package)\n```",
+      "### Line-by-Line Explanation"
+    ],
+    "code": "import java.lang.reflect.Modifier;\n\npublic class ReflectClass {\n    public static void main(String[] args) {\n        // Step 1: Get the Class object\n        Class<Eagle> eagleClass = Eagle.class;\n\n        // Step 2: Fetch metadata\n        System.out.println(\"Class name: \" + eagleClass.getName());\n        System.out.println(\"Simple name: \" + eagleClass.getSimpleName());\n        System.out.println(\"Modifier: \" + Modifier.toString(eagleClass.getModifiers()));\n        System.out.println(\"Superclass: \" + eagleClass.getSuperclass().getName());\n        System.out.println(\"Package: \" + eagleClass.getPackageName());\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Useful Class-Level Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Returns | Example Output |\n|--------|---------|---------------|\n| `getName()` | Fully qualified class name | `\"com.example.Eagle\"` |\n| `getSimpleName()` | Class name only | `\"Eagle\"` |\n| `getModifiers()` | `int` modifier code | Use `Modifier.toString()` to read |\n| `getSuperclass()` | Parent `Class` object | `java.lang.Object` |\n| `getInterfaces()` | Array of implemented interfaces | `[Flyable, ...]` |\n| `getPackageName()` | Package name | `\"com.example\"` |\n| `isInterface()` | `boolean` | `false` |\n| `isAbstract()` | `boolean` (via Modifier) | `false` |\n| `getDeclaredClasses()` | Nested classes | array |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Reflecting Methods",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Reflecting Methods"
+  },
+  {
+    "layout": "split",
+    "title": "Getting All PUBLIC Methods — `getMethods()`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class ReflectMethods {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "Method[] methods = eagleClass.getMethods();  // public only, including inherited",
+      "for (Method method : methods) {\n            System.out.println(\"Method: \"        + method.getName());\n            System.out.println(\"Return Type: \"   + method.getReturnType());\n            System.out.println(\"Declared in: \"   + method.getDeclaringClass());\n            System.out.println(\"---\");\n        }\n    }\n}\n```",
+      "**Output (abbreviated):**\n```\nMethod: fly\nReturn Type: void\nDeclared in: class Eagle\n---\nMethod: wait\nReturn Type: void\nDeclared in: class java.lang.Object\n---\nMethod: notify\nReturn Type: void\nDeclared in: class java.lang.Object\n---\n..."
+    ],
+    "code": "import java.lang.reflect.Method;\n\npublic class ReflectMethods {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        Method[] methods = eagleClass.getMethods();  // public only, including inherited\n\n        for (Method method : methods) {\n            System.out.println(\"Method: \"        + method.getName());\n            System.out.println(\"Return Type: \"   + method.getReturnType());\n            System.out.println(\"Declared in: \"   + method.getDeclaringClass());\n            System.out.println(\"---\");\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Getting ALL Methods (Including Private) — `getDeclaredMethods()`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class ReflectDeclaredMethods {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "Method[] methods = eagleClass.getDeclaredMethods(); // all in Eagle, no Object methods",
+      "for (Method method : methods) {\n            System.out.println(\"Method: \"    + method.getName());\n            System.out.println(\"Modifier: \"  + Modifier.toString(method.getModifiers()));\n            System.out.println(\"Return Type: \" + method.getReturnType());\n            System.out.println(\"---\");\n        }\n    }\n}\n```",
+      "**Output:**\n```\nMethod: fly\nModifier: public\nReturn Type: void\n---\nMethod: eat\nModifier: private\nReturn Type: void\n---\n```"
+    ],
+    "code": "import java.lang.reflect.Method;\nimport java.lang.reflect.Modifier;\n\npublic class ReflectDeclaredMethods {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        Method[] methods = eagleClass.getDeclaredMethods(); // all in Eagle, no Object methods\n\n        for (Method method : methods) {\n            System.out.println(\"Method: \"    + method.getName());\n            System.out.println(\"Modifier: \"  + Modifier.toString(method.getModifiers()));\n            System.out.println(\"Return Type: \" + method.getReturnType());\n            System.out.println(\"---\");\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Method Metadata — All Available Get Methods",
+    "subtitle": "Once you have a Method object, you can extract:",
+    "bullets": [
+      "Once you have a `Method` object, you can extract:",
+      "| Method | Returns |\n|--------|---------|\n| `getName()` | Method name (`\"fly\"`) |\n| `getReturnType()` | Return type (`void`, `int`, etc.) |\n| `getParameterTypes()` | Array of parameter types |\n| `getParameterCount()` | Number of parameters |\n| `getModifiers()` | Modifier int (use `Modifier.toString()`) |\n| `getDeclaringClass()` | The class in which this method is declared |\n| `getExceptionTypes()` | Exceptions the method declares it throws |\n| `getAnnotations()` | Annotations on the method |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "getMethods() vs getDeclaredMethods()",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `getMethods()` | `getDeclaredMethods()` |\n|---------|---------------|----------------------|\n| Access scope | `public` only | All — `public` + `private` + `protected` + default |\n| Inherited methods?",
+      "| ✅ Yes — includes `Object` methods | ❌ No — current class only |\n| Private methods?",
+      "| ❌ No | ✅ Yes |\n| Use when | You want all publicly accessible behavior | You want to inspect exactly what this class defines |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Invoking a Method via Reflection",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Invoking a Method via Reflection"
+  },
+  {
+    "layout": "split",
+    "title": "The Subject Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public class Eagle {\n    public void fly(int speed, boolean gliding, String direction) {\n        System.out.println(\"Flying at speed \" + speed +\n                           \", gliding=\" + gliding +\n                           \", direction=\" + direction);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step-by-Step Invocation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class InvokeMethodReflection {\n    public static void main(String[] args) throws Exception {",
+      "// Step 1: Get the Class object\n        Class<?> eagleClass = Class.forName(\"Eagle\");",
+      "// Step 2: Create an instance of Eagle using reflection\n        Object eagleInstance = eagleClass.getDeclaredConstructor().newInstance();",
+      "// Step 3: Get the specific method by name and parameter types\n        Method flyMethod = eagleClass.getMethod(\"fly\",\n                int.class, boolean.class, String.class);"
+    ],
+    "code": "import java.lang.reflect.Constructor;\nimport java.lang.reflect.Method;\n\npublic class InvokeMethodReflection {\n    public static void main(String[] args) throws Exception {\n\n        // Step 1: Get the Class object\n        Class<?> eagleClass = Class.forName(\"Eagle\");\n\n        // Step 2: Create an instance of Eagle using reflection\n        Object eagleInstance = eagleClass.getDeclaredConstructor().newInstance();\n\n        // Step 3: Get the specific method by name and parameter types\n        Method flyMethod = eagleClass.getMethod(\"fly\",\n                int.class, boolean.class, String.class);\n\n        // Step 4: Invoke the method on the instance, passing arguments\n        flyMethod.invoke(eagleInstance, 120, true, \"North\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Invoking a Private Method",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "To invoke a private method, you must use `getDeclaredMethod()` (not `getMethod()`) and call `setAccessible(true)`:"
+    ],
+    "code": "Method eatMethod = eagleClass.getDeclaredMethod(\"eat\");\neatMethod.setAccessible(true);   // bypass private access restriction\neatMethod.invoke(eagleInstance);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Reflecting Fields",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Reflecting Fields"
+  },
+  {
+    "layout": "split",
+    "title": "Getting All PUBLIC Fields — `getFields()`",
+    "subtitle": "Returns all public fields of the class and its superclasses.",
+    "bullets": [
+      "Returns all `public` fields of the class and its superclasses.",
+      "public class ReflectFields {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "Field[] fields = eagleClass.getFields();   // public only",
+      "for (Field field : fields) {\n            System.out.println(\"Field name:     \" + field.getName());\n            System.out.println(\"Field type:     \" + field.getType());\n            System.out.println(\"Modifier:       \" +\n                java.lang.reflect.Modifier.toString(field.getModifiers()));\n            System.out.println(\"---\");\n        }\n    }\n}\n```"
+    ],
+    "code": "import java.lang.reflect.Field;\n\npublic class ReflectFields {\n    public static void main(String[] args) {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        Field[] fields = eagleClass.getFields();   // public only\n\n        for (Field field : fields) {\n            System.out.println(\"Field name:     \" + field.getName());\n            System.out.println(\"Field type:     \" + field.getType());\n            System.out.println(\"Modifier:       \" +\n                java.lang.reflect.Modifier.toString(field.getModifiers()));\n            System.out.println(\"---\");\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Getting ALL Fields — `getDeclaredFields()`",
+    "subtitle": "Returns all fields in the class (public and private), but not inherited ones.",
+    "bullets": [
+      "Returns all fields in the class (public and private), but not inherited ones.",
+      "for (Field field : allFields) {\n    System.out.println(field.getName() + \" | \" +\n                       field.getType().getSimpleName() + \" | \" +\n                       Modifier.toString(field.getModifiers()));\n}\n```",
+      "**Output:**\n```\nbreed | String | public\ncanSwim | boolean | private\n```",
+      "Both fields appear now."
+    ],
+    "code": "Field[] allFields = eagleClass.getDeclaredFields();\n\nfor (Field field : allFields) {\n    System.out.println(field.getName() + \" | \" +\n                       field.getType().getSimpleName() + \" | \" +\n                       Modifier.toString(field.getModifiers()));\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Field Metadata — Available Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Returns |\n|--------|---------|\n| `getName()` | Field name (`\"breed\"`) |\n| `getType()` | Field type (`String`, `boolean`, etc.) |\n| `getModifiers()` | Modifier int |\n| `get(object)` | Current value of the field on that object |\n| `set(object, value)` | Sets the value of the field on that object |\n| `isAccessible()` | Whether access override is set |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Changing Field Values via Reflection",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Changing Field Values via Reflection"
+  },
+  {
+    "layout": "split",
+    "title": "Setting a Public Field",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class SetPublicField {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "// Get the specific field by name\n        Field breedField = eagleClass.getDeclaredField(\"breed\");",
+      "// Create an Eagle instance\n        Eagle eagleInstance = (Eagle) eagleClass.getDeclaredConstructor().newInstance();",
+      "// Set the value\n        breedField.set(eagleInstance, \"Golden Eagle\");"
+    ],
+    "code": "import java.lang.reflect.Field;\n\npublic class SetPublicField {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        // Get the specific field by name\n        Field breedField = eagleClass.getDeclaredField(\"breed\");\n\n        // Create an Eagle instance\n        Eagle eagleInstance = (Eagle) eagleClass.getDeclaredConstructor().newInstance();\n\n        // Set the value\n        breedField.set(eagleInstance, \"Golden Eagle\");\n\n        // Verify by reading the field directly\n        System.out.println(\"Breed: \" + eagleInstance.breed);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Setting a Private Field — The setAccessible Hack",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Trying to set a private field without `setAccessible(true)` throws an exception:",
+      "**Fix — use `setAccessible(true)`:**",
+      "public class SetPrivateField {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "Field canSwimField = eagleClass.getDeclaredField(\"canSwim\");"
+    ],
+    "code": "Field canSwimField = eagleClass.getDeclaredField(\"canSwim\");\ncanSwimField.set(eagleInstance, true);\n// ❌ throws: IllegalAccessException\n// \"class Main cannot access a member of class Eagle with modifiers 'private'\"",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Field Reflection Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Reflecting Constructors",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Reflecting Constructors"
+  },
+  {
+    "layout": "split",
+    "title": "The Subject Class",
+    "subtitle": "public void fly() {\n        System.out.println(\"Eagle is flying.\");\n    }\n}",
+    "bullets": [
+      "public void fly() {\n        System.out.println(\"Eagle is flying.\");\n    }\n}\n```",
+      "Since the constructor is `private`, you normally **cannot** create an `Eagle` object:"
+    ],
+    "code": "public class Eagle {\n    private Eagle() {    // private constructor\n        System.out.println(\"Eagle created via private constructor.\");\n    }\n\n    public void fly() {\n        System.out.println(\"Eagle is flying.\");\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Inspecting Constructors via Reflection",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class ReflectConstructor {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "Constructor<?>[] constructors = eagleClass.getDeclaredConstructors();",
+      "for (Constructor<?> constructor : constructors) {\n            System.out.println(\"Constructor: \" + constructor.getName());\n            System.out.println(\"Modifier: \" + Modifier.toString(constructor.getModifiers()));\n            System.out.println(\"Parameter count: \" + constructor.getParameterCount());\n        }\n    }\n}\n```",
+      "**Output:**\n```\nConstructor: Eagle\nModifier: private\nParameter count: 0\n```"
+    ],
+    "code": "import java.lang.reflect.Constructor;\nimport java.lang.reflect.Modifier;\n\npublic class ReflectConstructor {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        Constructor<?>[] constructors = eagleClass.getDeclaredConstructors();\n\n        for (Constructor<?> constructor : constructors) {\n            System.out.println(\"Constructor: \" + constructor.getName());\n            System.out.println(\"Modifier: \" + Modifier.toString(constructor.getModifiers()));\n            System.out.println(\"Parameter count: \" + constructor.getParameterCount());\n        }\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Invoking a Private Constructor via Reflection",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class InvokePrivateConstructor {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;",
+      "// Get the private no-arg constructor\n        Constructor<Eagle> constructor = eagleClass.getDeclaredConstructor();",
+      "// Bypass private access restriction\n        constructor.setAccessible(true);",
+      "// Call the private constructor — creates a new Eagle object!\n        Eagle eagle = constructor.newInstance();"
+    ],
+    "code": "import java.lang.reflect.Constructor;\n\npublic class InvokePrivateConstructor {\n    public static void main(String[] args) throws Exception {\n        Class<Eagle> eagleClass = Eagle.class;\n\n        // Get the private no-arg constructor\n        Constructor<Eagle> constructor = eagleClass.getDeclaredConstructor();\n\n        // Bypass private access restriction\n        constructor.setAccessible(true);\n\n        // Call the private constructor — creates a new Eagle object!\n        Eagle eagle = constructor.newInstance();\n\n        // Call a method on the illegally created object\n        eagle.fly();\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. How Reflection Breaks Singleton",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. How Reflection Breaks Singleton"
+  },
+  {
+    "layout": "split",
+    "title": "Background — What is Singleton?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **Singleton pattern** ensures that only **one instance** of a class ever exists.",
+      "It is implemented using:\n1.",
+      "A `private` constructor (prevents external instantiation via `new`)\n2.",
+      "A `static` method that controls access to the single instance"
+    ],
+    "code": "public class Singleton {\n    private static Singleton instance;\n\n    private Singleton() { }   // private — no one can call 'new Singleton()'\n\n    public static Singleton getInstance() {\n        if (instance == null) {\n            instance = new Singleton();\n        }\n        return instance;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How Reflection Destroys Singleton",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class BreakSingleton {\n    public static void main(String[] args) throws Exception {\n        // Normal way — gets the single instance\n        Singleton s1 = Singleton.getInstance();",
+      "// Reflection way — creates a SECOND instance illegally\n        Class<Singleton> singletonClass = Singleton.class;\n        Constructor<Singleton> constructor = singletonClass.getDeclaredConstructor();\n        constructor.setAccessible(true);               // bypass private\n        Singleton s2 = constructor.newInstance();      // second object!",
+      "System.out.println(\"s1 == s2: \" + (s1 == s2));  // false — two objects!\n        System.out.println(\"s1 hash: \" + s1.hashCode());\n        System.out.println(\"s2 hash: \" + s2.hashCode());\n    }\n}\n```",
+      "**Output:**\n```\ns1 == s2: false\ns1 hash: 1829164700\ns2 hash: 2018699554\n```"
+    ],
+    "code": "import java.lang.reflect.Constructor;\n\npublic class BreakSingleton {\n    public static void main(String[] args) throws Exception {\n        // Normal way — gets the single instance\n        Singleton s1 = Singleton.getInstance();\n\n        // Reflection way — creates a SECOND instance illegally\n        Class<Singleton> singletonClass = Singleton.class;\n        Constructor<Singleton> constructor = singletonClass.getDeclaredConstructor();\n        constructor.setAccessible(true);               // bypass private\n        Singleton s2 = constructor.newInstance();      // second object!\n\n        System.out.println(\"s1 == s2: \" + (s1 == s2));  // false — two objects!\n        System.out.println(\"s1 hash: \" + s1.hashCode());\n        System.out.println(\"s2 hash: \" + s2.hashCode());\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How to Protect Singleton from Reflection",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Add a guard inside the constructor — if an instance already exists and someone tries to call the constructor again, throw an exception:",
+      "private Singleton() {\n        // Guard against reflection attacks\n        if (instance != null) {\n            throw new RuntimeException(\n                \"Use getInstance() — reflection-based instantiation is not allowed.\");\n        }\n    }",
+      "public static Singleton getInstance() {\n        if (instance == null) {\n            instance = new Singleton();\n        }\n        return instance;\n    }\n}\n```",
+      "Now if reflection tries to call the private constructor after the first instance exists:"
+    ],
+    "code": "public class Singleton {\n    private static Singleton instance;\n\n    private Singleton() {\n        // Guard against reflection attacks\n        if (instance != null) {\n            throw new RuntimeException(\n                \"Use getInstance() — reflection-based instantiation is not allowed.\");\n        }\n    }\n\n    public static Singleton getInstance() {\n        if (instance == null) {\n            instance = new Singleton();\n        }\n        return instance;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. getFields vs getDeclaredFields — The Difference",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. getFields vs getDeclaredFields — The Difference"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Rule",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Scope | Access Level Returned |\n|--------|-------|----------------------|\n| `getFields()` | Class + all superclasses | `public` only |\n| `getDeclaredFields()` | This class only | `public` + `private` + `protected` + default |\n| `getMethods()` | Class + all superclasses | `public` only |\n| `getDeclaredMethods()` | This class only | All access levels |\n| `getConstructors()` | This class only | `public` only |\n| `getDeclaredConstructors()` | This class only | All access levels |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Memory Diagram",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "getMethods() → [fly (Eagle), wait (Object), notify (Object), equals (Object), ...]\ngetDeclaredMethods() → [fly (Eagle), eat (Eagle)]   ← private eat included, no Object methods\n```"
+    ],
+    "code": "Eagle.class\n ├── public field: breed              ← returned by BOTH getFields() and getDeclaredFields()\n ├── private field: canSwim           ← returned by getDeclaredFields() ONLY\n └── (inherited from Object)\n      └── no public fields            ← getFields() searches here too, finds nothing\n\ngetMethods() → [fly (Eagle), wait (Object), notify (Object), equals (Object), ...]\ngetDeclaredMethods() → [fly (Eagle), eat (Eagle)]   ← private eat included, no Object methods",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Why Reflection Should Be Avoided",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Why Reflection Should Be Avoided"
+  },
+  {
+    "layout": "split",
+    "title": "Reason 1 — It Breaks Encapsulation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Object-oriented programming is built on the principle of **encapsulation**: private members are private for a reason.",
+      "They represent internal implementation details that other classes should not access or modify.",
+      "Reflection completely bypasses this:",
+      "// Reflection destroys that intention:\nField f = obj.getClass().getDeclaredField(\"secretApiKey\");\nf.setAccessible(true);\nString stolen = (String) f.get(obj);  // reads private data\nf.set(obj, \"tampered-key\");           // overwrites private data\n```"
+    ],
+    "code": "// Developer's intention:\nprivate String secretApiKey = \"sk-abc123\";\n\n// Reflection destroys that intention:\nField f = obj.getClass().getDeclaredField(\"secretApiKey\");\nf.setAccessible(true);\nString stolen = (String) f.get(obj);  // reads private data\nf.set(obj, \"tampered-key\");           // overwrites private data",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Reason 2 — It is Slow",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Reflection works at **runtime** by doing name-based lookups.",
+      "Every time you call `getMethod(\"fly\")`, the JVM must:\n1.",
+      "Search through the class's method list by string comparison.",
+      "Resolve parameter types."
+    ],
+    "code": "// Direct call — compiled, JIT-optimized, fast:\neagle.fly();\n\n// Reflection — runtime lookup, no JIT optimization, slow:\nMethod m = Eagle.class.getDeclaredMethod(\"fly\");\nm.invoke(eagle);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Reason 3 — It Defeats IDE and Compiler Safety",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The IDE cannot check if `\"fly\"` actually exists.",
+      "The compiler cannot catch typos.",
+      "Errors only surface at runtime as `NoSuchMethodException`."
+    ],
+    "code": "// Typo — compiler is silent, IDE is silent, crashes at runtime:\nMethod m = Eagle.class.getDeclaredMethod(\"fyl\");  // NoSuchMethodException at runtime",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Summary of Disadvantages",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Disadvantage | Impact |\n|-------------|--------|\n| Breaks encapsulation | Private members can be accessed/modified by anyone |\n| Runtime performance | 10–100x slower than direct access |\n| No compile-time safety | Typos in method/field names only fail at runtime |\n| Breaks Singleton | Private constructors can be invoked |\n| Complexity | Code is harder to read, debug, and maintain |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. When Reflection IS Used",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. When Reflection IS Used"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "JVM Class Loading and Class Object Creation",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Three Ways to Get a Class Object",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Reflection Capability Map",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "How Reflection Breaks Singleton",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "All Reflection Methods at a Glance",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Target | Public + Inherited | All in This Class Only |\n|--------|--------------------|----------------------|\n| Methods | `getMethods()` | `getDeclaredMethods()` |\n| Fields | `getFields()` | `getDeclaredFields()` |\n| Constructors | `getConstructors()` | `getDeclaredConstructors()` |\n| Single method | `getMethod(name, paramTypes...)` | `getDeclaredMethod(name, paramTypes...)` |\n| Single field | `getField(name)` | `getDeclaredField(name)` |\n| Single constructor | `getConstructor(paramTypes...)` | `getDeclaredConstructor(paramTypes...)` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "`java.lang.reflect` Key Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Class | Purpose |\n|-------|---------|\n| `Class<T>` | Entry point — represents a class/interface at runtime |\n| `Method` | Represents a method; can be invoked |\n| `Field` | Represents a field; can be read/written |\n| `Constructor<T>` | Represents a constructor; can be invoked |\n| `Modifier` | Utility to decode modifier integers to readable strings |\n| `Parameter` | Represents a method/constructor parameter |\n| `Annotation` | Base for all annotations — readable via reflection |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Private Access Bypass",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Step | Code |\n|------|------|\n| Get the private member | `getDeclaredMethod()` / `getDeclaredField()` / `getDeclaredConstructor()` |\n| Bypass access check | `.setAccessible(true)` |\n| Use it | `.invoke()` / `.get()` / `.set()` / `.newInstance()` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Using `getMethod()` to Find a Private Method",
+    "subtitle": "Fix: Use getDeclaredMethod():",
+    "bullets": [
+      "**Fix:** Use `getDeclaredMethod()`:"
+    ],
+    "code": "Method m = eagleClass.getMethod(\"eat\");   // ❌ NoSuchMethodException\n// getMethod only returns public methods",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Forgetting `setAccessible(true)` for Private Members",
+    "subtitle": "Fix:",
+    "bullets": [
+      "**Fix:**"
+    ],
+    "code": "Field canSwim = eagleClass.getDeclaredField(\"canSwim\");\ncanSwim.set(instance, true);   // ❌ IllegalAccessException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Wrong Parameter Types in `getMethod()`",
+    "subtitle": "Fix: Use primitive class literals for primitive parameters:",
+    "bullets": [
+      "**Fix:** Use primitive class literals for primitive parameters:"
+    ],
+    "code": "// Eagle.fly(int, boolean, String) — correct signature\nMethod m = eagleClass.getMethod(\"fly\", Integer.class, Boolean.class, String.class);\n// ❌ NoSuchMethodException — must use primitive types, not wrappers",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Passing Wrong Argument Types to `invoke()`",
+    "subtitle": "Fix: Match argument types exactly:",
+    "bullets": [
+      "**Fix:** Match argument types exactly:"
+    ],
+    "code": "// Method signature: fly(int, boolean, String)\nmethod.invoke(instance, \"120\", \"true\", \"North\");  // ❌ IllegalArgumentException\n// Strings passed for int and boolean",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Not Handling Checked Exceptions",
+    "subtitle": "Fix:",
+    "bullets": [
+      "**Fix:**"
+    ],
+    "code": "Class<?> cls = Class.forName(\"Eagle\");  // ❌ unhandled ClassNotFoundException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Using `newInstance()` (Deprecated)",
+    "subtitle": "Fix: Use getDeclaredConstructor().newInstance():",
+    "bullets": [
+      "**Fix:** Use `getDeclaredConstructor().newInstance()`:"
+    ],
+    "code": "Eagle e = (Eagle) eagleClass.newInstance();  // ❌ deprecated in Java 9+",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Most Frequently Asked Questions",
+    "subtitle": "Q1: What is Java Reflection?",
+    "bullets": [
+      "**Q1: What is Java Reflection?**",
+      "A: Java Reflection is an API (`java.lang.reflect`) that allows a program to inspect and manipulate the structure of classes, methods, fields, and constructors at runtime — even private ones.",
+      "It is typically used by frameworks like Spring, Hibernate, and JUnit.",
+      "**Q2: What is the `Class` class in Java?**",
+      "A: `java.lang.Class` is a class whose instances represent classes and interfaces at runtime."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "19. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "19. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What package contains the reflection API classes (`Method`, `Field`, `Constructor`)?",
+      "Name the three ways to get a `Class` object in Java.",
+      "What is the difference between `getFields()` and `getDeclaredFields()`?",
+      "Which method do you call to bypass private access in reflection?",
+      "Does `getMethods()` return private methods?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "6. Write a program that uses reflection to print the name, return type, and modifier of every method declared in a class `Person` (including private methods).",
+      "7. Write a program that uses reflection to read and then change the value of a `private` field named `salary` in an `Employee` class.",
+      "8. Write a program that uses `Class.forName(\"java.util.ArrayList\")` and prints all public methods of `ArrayList`.",
+      "9. Demonstrate how reflection breaks the Singleton pattern. Then modify the Singleton class to protect against it.",
+      "10. Why does `getMethod(\"fly\", Integer.class)` fail when the actual method signature is `fly(int)`? What is the fix?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "11. Write a program that uses reflection to invoke a private method `calculateTax(double amount)` on an `Invoice` class without modifying that class.",
+      "12. Create a generic method `printClassInfo(Object obj)` that uses reflection to print the class name, all field names and values, and all method names of the passed object.",
+      "13. Explain the full execution flow when `method.invoke(obj, args)` is called — from the Java code down to JVM method dispatch.",
+      "Implement a simple dependency injection framework (like Spring's `@Autowired`) using reflection — scan a class for fields annotated with a custom `@Inject` annotation and set their values automatically.",
+      "15. Why is an `enum`-based Singleton immune to reflection attacks? Show the Java specification behavior that prevents it."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "20. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "20. Summary Cheat Sheet"
+  }
+]

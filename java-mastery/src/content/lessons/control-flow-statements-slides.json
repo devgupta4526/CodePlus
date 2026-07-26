@@ -1,0 +1,538 @@
+[
+  {
+    "layout": "title",
+    "title": "Control Flow Statements",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Control Flow Statements — Complete Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Control Flow Statements — Complete Study Guide"
+  },
+  {
+    "layout": "diagram",
+    "title": "Mind Map — Control Flow Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Overview — Three Types of Control Flow",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Overview — Three Types of Control Flow"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Decision Making Statements",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Decision Making Statements"
+  },
+  {
+    "layout": "diagram",
+    "title": "Simple `if`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "`if-else`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "`if-else-if` Ladder",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Nested `if`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Definition\nAn `if-else` statement placed **inside** another `if` block or `else` block. There is no limit on nesting depth.",
+      "### Syntax",
+      "### Code Example",
+      "if (value > 8) {\n    System.out.println(\"Value is greater than 8\");"
+    ],
+    "code": "if (outerCondition) {\n    // outer if block\n    if (innerCondition) {\n        // inner if block\n    } else {\n        // inner else block\n    }\n} else {\n    // outer else block\n    if (anotherCondition) {\n        // ...\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Switch Statement",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Switch Statement"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **switch statement** is functionally similar to the `if-else-if` ladder — it evaluates an expression and matches it against several `case` values, executing the matching block.",
+      "It is often more readable than a long chain of `else-if` when comparing one variable against many fixed values."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "switch (expression) {\n    case value1:\n        // code\n        break;\n    case value2:\n        // code\n        break;\n    // ... more cases\n    default:\n        // runs if no case matched\n        break; // optional if default is last\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "How It Works — Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Basic Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "switch (a + b) {  // expression evaluates to 3\n    case 1:\n        System.out.println(\"a + b is 1\");\n        break;\n    case 2:\n        System.out.println(\"a + b is 2\");\n        break;\n    case 3:\n        System.out.println(\"a + b is 3\"); // ✅ matches\n        break;\n    default:\n        System.out.println(\"a + b is something else\");\n}\n```",
+      "**Output:**\n```\na + b is 3\n```"
+    ],
+    "code": "int a = 1, b = 2;\n\nswitch (a + b) {  // expression evaluates to 3\n    case 1:\n        System.out.println(\"a + b is 1\");\n        break;\n    case 2:\n        System.out.println(\"a + b is 2\");\n        break;\n    case 3:\n        System.out.println(\"a + b is 3\"); // ✅ matches\n        break;\n    default:\n        System.out.println(\"a + b is something else\");\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The `break` Statement — Why It Matters",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If `break` is omitted from a matched case, execution **falls through** to the next case, running its code regardless of whether the case value matches.",
+      "### Without `break` — Fall-Through Example",
+      "switch (a + b) {\n    case 1:\n        System.out.println(\"a + b is 1\");\n        // no break!",
+      "case 2:\n        System.out.println(\"a + b is 2\");\n        // no break!"
+    ],
+    "code": "int a = 1, b = 2; // a + b = 3\n\nswitch (a + b) {\n    case 1:\n        System.out.println(\"a + b is 1\");\n        // no break!\n    case 2:\n        System.out.println(\"a + b is 2\");\n        // no break!\n    case 3:\n        System.out.println(\"a + b is 3\"); // matches here\n        // no break!\n    case 4:\n        System.out.println(\"a + b is 4\"); // fall-through!\n        // no break!\n    default:\n        System.out.println(\"default\");   // fall-through!\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`default` Can Be Anywhere",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The `default` block does not have to be at the bottom. However, if it is **not at the end**, it must have a `break` to prevent fall-through.",
+      "switch (a + b) {\n    case 1:\n        System.out.println(\"one\");\n        break;\n    default:\n        System.out.println(\"default: \" + (a + b)); // matches here\n        // no break — falls through to case 2\n    case 2:\n        System.out.println(\"a + b is 2\");\n        break;  // stops here\n    case 3:\n        System.out.println(\"three\");\n        break;\n}\n```",
+      "**Output:**\n```\ndefault: 10\na + b is 2\n```"
+    ],
+    "code": "int a = 9, b = 1; // a + b = 10\n\nswitch (a + b) {\n    case 1:\n        System.out.println(\"one\");\n        break;\n    default:\n        System.out.println(\"default: \" + (a + b)); // matches here\n        // no break — falls through to case 2\n    case 2:\n        System.out.println(\"a + b is 2\");\n        break;  // stops here\n    case 3:\n        System.out.println(\"three\");\n        break;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Combining Cases (Clubbing)",
+    "subtitle": "When multiple case values should run the same code, you can club them:",
+    "bullets": [
+      "When multiple case values should run the same code, you can club them:",
+      "// Method 1 — stacked cases (separate lines)\nswitch (month) {\n    case \"January\":\n    case \"February\":\n    case \"March\":\n        System.out.println(\"Month is in Quarter 1\");\n        break;\n    case \"April\":\n    case \"May\":\n    case \"June\":\n        System.out.println(\"Month is in Quarter 2\");\n        break;\n    default:\n        System.out.println(\"Other quarter\");\n}\n```",
+      "**Output:**\n```\nMonth is in Quarter 1\n```",
+      "You can also write multiple values on one line (Java 14+):"
+    ],
+    "code": "String month = \"March\";\n\n// Method 1 — stacked cases (separate lines)\nswitch (month) {\n    case \"January\":\n    case \"February\":\n    case \"March\":\n        System.out.println(\"Month is in Quarter 1\");\n        break;\n    case \"April\":\n    case \"May\":\n    case \"June\":\n        System.out.println(\"Month is in Quarter 2\");\n        break;\n    default:\n        System.out.println(\"Other quarter\");\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Switch Statement Rules",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Rule | Detail |\n|------|--------|\n| **No duplicate case values** | Two cases with the same value = compile error |\n| **Expression and case types must match** | `switch(intVal)` → cases must be `int`; `switch(stringVal)` → cases must be `String` |\n| **Case values must be literals or constants** | Variables are allowed only if declared `final` |\n| **Not all cases need to be handled** | Default is optional in switch statement; missing cases just don't execute |\n| **Nested switch** | A switch inside another switch is fully supported |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Case Value Must Be Literal or Constant",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "switch (someExpression) {\n    case 1:           // ✅ literal\n    case CONST_VALUE: // ✅ final constant\n    // case caseValue: // ❌ compile error — non-final variable\n}\n```"
+    ],
+    "code": "int caseValue = 1; // not final — NOT allowed as case value\nfinal int CONST_VALUE = 1; // final — allowed as case value\n\nswitch (someExpression) {\n    case 1:           // ✅ literal\n    case CONST_VALUE: // ✅ final constant\n    // case caseValue: // ❌ compile error — non-final variable\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Supported Data Types in Switch",
+    "subtitle": "Switch expressions/statements support 10 types:",
+    "bullets": [
+      "Switch expressions/statements support **10 types**:",
+      "| Category | Types |\n|----------|-------|\n| **Primitive** | `byte`, `short`, `int`, `char` |\n| **Wrapper** | `Byte`, `Short`, `Integer`, `Character` |\n| **Other** | `String`, `enum` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Nested Switch",
+    "subtitle": "switch (day) {\n    case MONDAY:\n        int outputValue = 1;",
+    "bullets": [
+      "switch (day) {\n    case MONDAY:\n        int outputValue = 1;",
+      "switch (outputValue) { // nested switch inside case MONDAY\n            case 1:\n                System.out.println(\"Output value is one\");\n                break;\n        }\n        break;\n    default:\n        System.out.println(\"Other day\");\n}\n```",
+      "**Output:**\n```\nOutput value is one\n```"
+    ],
+    "code": "Day day = Day.MONDAY;\n\nswitch (day) {\n    case MONDAY:\n        int outputValue = 1;\n\n        switch (outputValue) { // nested switch inside case MONDAY\n            case 1:\n                System.out.println(\"Output value is one\");\n                break;\n        }\n        break;\n    default:\n        System.out.println(\"Other day\");\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Switch Expression (Java 12+)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Switch Expression (Java 12+)"
+  },
+  {
+    "layout": "bullets",
+    "title": "What's Different?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **switch expression** allows the switch to **return a value** that can be assigned to a variable.",
+      "It also introduces the arrow `->` syntax that eliminates the need for `break` and prevents accidental fall-through."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Problem Switch Expression Solves",
+    "subtitle": "In a switch statement, you cannot directly return a value:",
+    "bullets": [
+      "In a switch statement, you cannot directly return a value:",
+      "The traditional workaround:",
+      "This is verbose and error-prone. Switch expression fixes this."
+    ],
+    "code": "// ❌ This does NOT work — return is not allowed inside switch case\nString result = switch (value) {\n    case 1: return \"one\"; // ❌ Compile error\n};",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Arrow Label Syntax (`->`)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "String outputVal = switch (value) {\n    case 1 -> \"one\";   // returns \"one\" when value == 1\n    case 2 -> \"two\";\n    case 3 -> \"three\";\n    default -> \"other\";\n};",
+      "System.out.println(outputVal); // one\n```",
+      "**Output:**\n```\none\n```",
+      "### Key Properties of Arrow Syntax"
+    ],
+    "code": "int value = 1;\n\nString outputVal = switch (value) {\n    case 1 -> \"one\";   // returns \"one\" when value == 1\n    case 2 -> \"two\";\n    case 3 -> \"three\";\n    default -> \"other\";\n};\n\nSystem.out.println(outputVal); // one",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "All Cases Must Be Covered",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Switch expression assigns a value to a variable, so every possible input must produce a result:",
+      "// ❌ Compile error — switch expression does not cover all possible inputs\nString outputVal = switch (value) {\n    case 1 -> \"one\";\n    case 2 -> \"two\";\n    // Missing default — compiler complains even if value is always 1\n};\n```",
+      "**Fix — add `default`:**"
+    ],
+    "code": "int value = 1;\n\n// ❌ Compile error — switch expression does not cover all possible inputs\nString outputVal = switch (value) {\n    case 1 -> \"one\";\n    case 2 -> \"two\";\n    // Missing default — compiler complains even if value is always 1\n};",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Using Blocks with `yield`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The arrow `->` returns a single expression — you cannot write multiple lines. If you need a code block (multiple statements before returning), use **`yield`**:",
+      "String outputVal = switch (value) {\n    case 1 -> \"one\"; // single expression — no yield needed",
+      "case 2 -> {      // block — yield required to return\n        String temp = \"tw\";\n        temp = temp + \"o\"; // some logic\n        yield temp;        // return value using yield\n    }",
+      "case 3 -> {\n        System.out.println(\"Preparing three...\");\n        yield \"three\";\n    }"
+    ],
+    "code": "int value = 2;\n\nString outputVal = switch (value) {\n    case 1 -> \"one\"; // single expression — no yield needed\n\n    case 2 -> {      // block — yield required to return\n        String temp = \"tw\";\n        temp = temp + \"o\"; // some logic\n        yield temp;        // return value using yield\n    }\n\n    case 3 -> {\n        System.out.println(\"Preparing three...\");\n        yield \"three\";\n    }\n\n    default -> \"other\"; // single expression\n};\n\nSystem.out.println(outputVal); // two",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Switch Statement vs Switch Expression — Full Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Switch Statement | Switch Expression (Java 12+) |\n|---------|-----------------|------------------------------|\n| Returns a value | ❌ No | ✅ Yes |\n| `break` required | ✅ Yes (to prevent fall-through) | ❌ No (arrow syntax handles it) |\n| Fall-through possible | ✅ Yes (if `break` omitted) | ❌ No (with arrow syntax) |\n| All cases must be handled | ❌ No | ✅ Yes (compile error otherwise) |\n| `yield` keyword | ❌ N/A | ✅ Used to return from a block |\n| Arrow `->` syntax | ❌ Not available | ✅ Available |\n| Java version | All versions | Java 12+ |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Iterative Statements",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Iterative Statements"
+  },
+  {
+    "layout": "diagram",
+    "title": "`for` Loop",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Nested `for` Loop",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Two (or more) for loops where the inner loop runs **completely** for each iteration of the outer loop. Most commonly used for 2D matrix traversal.",
+      "### Code Example",
+      "**Output:**\n```\n(1,1) (1,2) (1,3) \n(2,1) (2,2) (2,3) \n(3,1) (3,2) (3,3) \n```",
+      "### Execution Pattern"
+    ],
+    "code": "for (int x = 1; x <= 3; x++) {\n    for (int y = 1; y <= 3; y++) {\n        System.out.print(\"(\" + x + \",\" + y + \") \");\n    }\n    System.out.println(); // new line after each row\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`while` Loop",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Definition\nRepeats a block while the condition is `true`. The condition is checked **before each iteration** — if it's false from the start, the loop body never executes.",
+      "### Syntax",
+      "### Code Example",
+      "while (value <= 5) {\n    System.out.println(value);\n    value++;\n}\n```"
+    ],
+    "code": "initialization;\nwhile (condition) {\n    // loop body\n    increment/decrement;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`do-while` Loop",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Definition\nSimilar to `while`, but the condition is checked **after** the loop body executes. This guarantees the loop body runs **at least once**, even if the condition is initially false.",
+      "### Syntax",
+      "### Code Example",
+      "do {\n    System.out.println(val);\n    val++;\n} while (val <= 5);\n```"
+    ],
+    "code": "initialization;\ndo {\n    // loop body — runs at least once\n    increment/decrement;\n} while (condition); // semicolon required here",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "`while` vs `do-while` — Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `while` | `do-while` |\n|---------|---------|-----------|\n| Condition checked | Before each iteration | After each iteration |\n| Minimum executions | 0 (condition false initially → never runs) | 1 (always runs at least once) |\n| Use when | May need to run 0 times | Must run at least once |\n| Semicolon after `while` | ❌ No | ✅ Yes — `} while (cond);` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "`for-each` Loop",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Loop Comparison — All Four",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Loop | Condition Check | Min Runs | Best For |\n|------|----------------|----------|----------|\n| `for` | Before each iteration | 0 | Known iteration count |\n| `while` | Before each iteration | 0 | Unknown count, check first |\n| `do-while` | After each iteration | 1 (always) | Must run at least once |\n| `for-each` | After each element | 0 (empty collection) | Iterating arrays/collections |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Branching Statements",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Branching Statements"
+  },
+  {
+    "layout": "split",
+    "title": "`break`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Definition\nImmediately **exits** the **nearest enclosing loop or switch block**. Execution continues with the first statement after that loop/switch.",
+      "### Syntax",
+      "### Code Example",
+      "**Output:**\n```\n1\n2\nAfter loop\n```"
+    ],
+    "code": "break; // exits the immediately enclosing loop or switch",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "`continue`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Definition\nSkips the **remaining statements** in the current iteration and moves to the **next iteration** of the loop. Does NOT exit the loop — it just skips the current cycle.",
+      "### Syntax",
+      "### Code Example",
+      "**Output:**\n```\n1\n2\n4\n5\n6\n7\n8\n9\n10\n```"
+    ],
+    "code": "continue; // skip rest of current iteration, go to next",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "`break` vs `continue` — Step-by-Step Comparison",
+    "subtitle": "### For a loop printing 1 to 5, stopping/skipping at 3:",
+    "bullets": [
+      "### For a loop printing 1 to 5, stopping/skipping at 3:",
+      "| Value | With `break` | With `continue` |\n|-------|-------------|----------------|\n| 1 | Print 1 | Print 1 |\n| 2 | Print 2 | Print 2 |\n| 3 | Exit loop | Skip — go to next iteration |\n| 4 | (loop ended) | Print 4 |\n| 5 | (loop ended) | Print 5 |\n| **Output** | `1 2` | `1 2 4 5` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Flowchart — `break` vs `continue`",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "`break` vs `continue` — Summary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `break` | `continue` |\n|---------|---------|-----------|\n| Effect | Exits the loop entirely | Skips current iteration only |\n| Loop continues?",
+      "| ❌ No — loop ends | ✅ Yes — next iteration runs |\n| Works with | `for`, `while`, `do-while`, `switch` | `for`, `while`, `do-while` |\n| Targets | Immediately enclosing loop/switch | Immediately enclosing loop |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Decision Making",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What are the types of control flow statements in Java?",
+      "| Decision making, iterative, branching |\n| What is the difference between `if-else` and `switch`?",
+      "| `switch` compares one expression against fixed constants; `if-else` can evaluate any boolean expression |\n| Can you use a `return` inside a switch statement?",
+      "| Not to return from the switch itself; `return` exits the enclosing method |\n| What data types can be used in a switch expression?",
+      "| `byte`, `short`, `int`, `char`, their wrappers, `String`, `enum` — 10 total; no `float`, `double`, `long`, `boolean` |\n| Can two switch cases have the same value?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Switch Expression",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| When was switch expression introduced?",
+      "| Java 12 |\n| What is the `->` arrow in switch expression?",
+      "| Returns value from that case; eliminates need for `break`; prevents fall-through |\n| What is `yield`?",
+      "| Keyword to return a value from a code block (`{ }`) inside a switch expression case |\n| Must switch expressions handle all cases?",
+      "| Yes — compile error otherwise; add `default` to cover remaining cases |\n| Difference between switch statement and switch expression?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Loops",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is the difference between `while` and `do-while`?",
+      "| `while` checks condition first (0+ runs); `do-while` checks after (1+ runs — always runs at least once) |\n| When would you use `do-while` over `while`?",
+      "| When the loop body must execute at least once regardless of the condition |\n| What is `for-each` and when is it used?",
+      "| Enhanced for loop to iterate over arrays/collections; cleaner but no index access |\n| Can you modify array elements inside a `for-each`?",
+      "| No — the loop variable is a copy of the element, not the element itself |\n| What are the three parts of a `for` loop?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Branching",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What does `break` do inside a loop?",
+      "| Immediately exits the nearest enclosing loop or switch |\n| What does `continue` do?",
+      "| Skips the rest of the current iteration and moves to the next one |\n| Does `break` in an inner loop affect the outer loop?",
+      "| No — only exits the immediately enclosing loop |\n| What is the difference between `break` and `continue`?",
+      "| `break` exits the loop; `continue` skips current iteration but continues the loop |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Master Summary"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "✅ **Simple `if`** — runs block if condition `true`; skips otherwise",
+      "✅ **`if-else`** — exactly one of two blocks always executes",
+      "✅ **`if-else-if` ladder** — top-to-bottom evaluation; first match wins; `else` is optional fallback",
+      "✅ **Nested `if`** — `if-else` inside another `if-else`; no depth limit",
+      "✅ **Switch statement** — compares expression against constant case values; similar to `if-else-if` ladder"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

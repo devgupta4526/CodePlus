@@ -1,0 +1,666 @@
+[
+  {
+    "layout": "title",
+    "title": "Generics",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Generics — Complete Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Generics — Complete Study Guide"
+  },
+  {
+    "layout": "diagram",
+    "title": "Mind Map — Generics Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "1. The Problem Generics Solve",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. The Problem Generics Solve"
+  },
+  {
+    "layout": "split",
+    "title": "The Starting Problem — Using `Object` as a Universal Type",
+    "subtitle": "Before understanding generics, let's understand why they were needed.",
+    "bullets": [
+      "Before understanding generics, let's understand *why they were needed*.",
+      "Since `Object` is the **parent of all classes** in Java, a variable of type `Object` can hold a reference to any object.",
+      "This seems powerful — but it creates a painful problem: **you always have to typecast, and you can make mistakes at runtime**.",
+      "### Example — The Pre-Generics Approach"
+    ],
+    "code": "class Print {\n    Object value;\n\n    void setPrintValue(Object value) {\n        this.value = value;\n    }\n\n    Object getPrintValue() {\n        return value;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Print obj = new Print();\n\n        // Storing an Integer\n        obj.setPrintValue(1);\n        int intVal = (int) obj.getPrintValue(); // Must typecast — tedious\n\n        // Storing a String — also accepted (no restriction)\n        obj.setPrintValue(\"Hello\");\n\n        // Now what type does this hold? Integer? String? Something else?\n        // You have no idea without tracking it manually.\n        Object val = obj.getPrintValue();\n\n        if (val instanceof Integer) {\n            int v = (int) val;\n        } else if (val instanceof String) {\n            String v = (String) val;\n        }\n        // ... and so on for every possible type\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. What are Generics?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. What are Generics?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Generics** allow you to write classes, interfaces, and methods where the **type of data being operated on is specified as a parameter**.",
+      "Instead of hardcoding `Object`, you define a placeholder (like `T`) that is replaced with a concrete type when the code is used."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax — The Diamond Operator",
+    "subtitle": "The diamond operator <> is used to declare and use type parameters:",
+    "bullets": [
+      "The **diamond operator** `<>` is used to declare and use type parameters:",
+      "Common type parameter naming conventions (just conventions — you can use any letter):",
+      "| Letter | Common Usage |\n|--------|-------------|\n| `T` | Type (general purpose) |\n| `E` | Element (used in collections) |\n| `K` | Key (used in maps) |\n| `V` | Value (used in maps) |\n| `N` | Number |\n| `R` | Return type |"
+    ],
+    "code": "ClassName<TypeParameter>",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Generic Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Generic Classes"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "void setValue(T value) {\n        this.value = value;\n    }",
+    "bullets": [
+      "void setValue(T value) {\n        this.value = value;\n    }",
+      "T getValue() {\n        return value;\n    }\n}\n```"
+    ],
+    "code": "class ClassName<T> {\n    T value; // T used as field type\n\n    void setValue(T value) {\n        this.value = value;\n    }\n\n    T getValue() {\n        return value;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Converting the `Print` Class to Generic",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// AFTER — using Generic (type-safe)\nclass Print<T> {\n    T value;\n    void setPrintValue(T value) { this.value = value; }\n    T getPrintValue() { return value; }\n}\n```"
+    ],
+    "code": "// BEFORE — using Object (problem-prone)\nclass Print {\n    Object value;\n    void setPrintValue(Object value) { this.value = value; }\n    Object getPrintValue() { return value; }\n}\n\n// AFTER — using Generic (type-safe)\nclass Print<T> {\n    T value;\n    void setPrintValue(T value) { this.value = value; }\n    T getPrintValue() { return value; }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Using the Generic Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Create a Print for String\n        Print<String> strObj = new Print<>();\n        strObj.setPrintValue(\"Hello Generics\");\n        String str = strObj.getPrintValue(); // No cast needed!",
+      "System.out.println(str); // Hello Generics",
+      "// Type safety at compile time:\n        // intObj.setPrintValue(\"Hello\"); // ❌ Compile error — can only accept Integer\n    }\n}\n```",
+      "**Output:**\n```\n42\nHello Generics\n```"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        // Create a Print for Integer\n        Print<Integer> intObj = new Print<>();\n        intObj.setPrintValue(42);\n        int val = intObj.getPrintValue(); // No cast needed!\n        System.out.println(val); // 42\n\n        // Create a Print for String\n        Print<String> strObj = new Print<>();\n        strObj.setPrintValue(\"Hello Generics\");\n        String str = strObj.getPrintValue(); // No cast needed!\n        System.out.println(str); // Hello Generics\n\n        // Type safety at compile time:\n        // intObj.setPrintValue(\"Hello\"); // ❌ Compile error — can only accept Integer\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Line-by-Line Explanation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Code | Explanation |\n|------|-------------|\n| `Print<Integer>` | Tell Java: replace `T` with `Integer` for this object |\n| `Print<String>` | Tell Java: replace `T` with `String` for this object |\n| `intObj.getPrintValue()` | Returns `Integer` — no cast needed because compiler knows the type |\n| `intObj.setPrintValue(\"Hello\")` | ❌ Compile error — type constraint enforced at compile time |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "What Can Replace `T`?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Use wrapper classes for primitives: `int` → `Integer`, `double` → `Double`, etc."
+    ],
+    "code": "Print<Integer> p1 = new Print<>();  // ✅ Integer (wrapper class)\nPrint<String>  p2 = new Print<>();  // ✅ String\nPrint<MyClass> p3 = new Print<>();  // ✅ Any custom class\nPrint<int>     p4 = new Print<>();  // ❌ Compile error — int is primitive\nPrint<double>  p5 = new Print<>();  // ❌ Compile error — double is primitive",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Before vs After — Generics Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | Without Generics (`Object`) | With Generics (`T`) |\n|--------|-----------------------------|---------------------|\n| Type safety | ❌ None | ✅ Compile-time |\n| Typecasting | ❌ Required everywhere | ✅ Not needed |\n| Error detection | ❌ Runtime (ClassCastException) | ✅ Compile time |\n| Code clarity | ❌ Unclear what type is stored | ✅ Explicitly declared |\n| Multiple types accidentally | ❌ Can mix types | ✅ Constrained to one |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Inheritance with Generic Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Inheritance with Generic Classes"
+  },
+  {
+    "layout": "split",
+    "title": "Case 1 — Non-Generic Subclass",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When the subclass is **not generic**, it must **specify the type parameter at the point of `extends`** — locking in the type for good.",
+      "// Non-generic subclass — must specify T at extends\nclass ColorPrint extends Print<String> {\n    String color;\n}\n```",
+      "**Output:**\n```\nVivid Blue\n```"
+    ],
+    "code": "class Print<T> {\n    T value;\n    T getPrintValue() { return value; }\n    void setPrintValue(T value) { this.value = value; }\n}\n\n// Non-generic subclass — must specify T at extends\nclass ColorPrint extends Print<String> {\n    String color;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Case 2 — Generic Subclass",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When the subclass is **also generic**, it passes the type parameter through. The concrete type is specified only at **object creation time**.",
+      "ColorPrint<Integer> ci = new ColorPrint<>();\n        ci.setPrintValue(100);\n        System.out.println(ci.getPrintValue()); // 100\n    }\n}\n```",
+      "**Output:**\n```\nOcean Blue\n100\n```"
+    ],
+    "code": "class ColorPrint<T> extends Print<T> {\n    // T flows through from Print<T>\n    String color;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Inheritance Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Summary — Generic vs Non-Generic Subclass",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | Non-Generic Subclass | Generic Subclass |\n|--------|---------------------|-----------------|\n| Type fixed at | `extends` declaration | Object creation time |\n| Flexibility | Low — one type forever | High — any type per object |\n| Syntax | `class Child extends Parent<String>` | `class Child<T> extends Parent<T>` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Multiple Type Parameters",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Multiple Type Parameters"
+  },
+  {
+    "layout": "split",
+    "title": "Example — Key-Value Pair",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "void put(K key, V value) {\n        this.key = key;\n        this.value = value;\n    }",
+      "K getKey() { return key; }\n    V getValue() { return value; }\n}\n```"
+    ],
+    "code": "class Pair<K, V> {\n    K key;\n    V value;\n\n    void put(K key, V value) {\n        this.key = key;\n        this.value = value;\n    }\n\n    K getKey() { return key; }\n    V getValue() { return value; }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Using the Pair Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// K = Integer, V = String\n        Pair<Integer, String> pair2 = new Pair<>();\n        pair2.put(101, \"Shreyansh\");\n        System.out.println(pair2.getKey() + \": \" + pair2.getValue()); // 101: Shreyansh\n    }\n}\n```",
+      "**Output:**\n```\nAge: 25\n101: Shreyansh\n```"
+    ],
+    "code": "public class Main {\n    public static void main(String[] args) {\n        // K = String, V = Integer\n        Pair<String, Integer> pair = new Pair<>();\n        pair.put(\"Age\", 25);\n        System.out.println(pair.getKey() + \": \" + pair.getValue()); // Age: 25\n\n        // K = Integer, V = String\n        Pair<Integer, String> pair2 = new Pair<>();\n        pair2.put(101, \"Shreyansh\");\n        System.out.println(pair2.getKey() + \": \" + pair2.getValue()); // 101: Shreyansh\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Two Valid Object Creation Syntaxes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Syntax 2 — type inferred from left side (diamond inference)\nPair<String, Integer> p2 = new Pair<>();  // preferred — less verbose\n```",
+      "Both are correct. Syntax 2 is preferred in modern Java (Java 7+) because the compiler can infer the type from the left side."
+    ],
+    "code": "// Syntax 1 — type specified on both sides\nPair<String, Integer> p1 = new Pair<String, Integer>();\n\n// Syntax 2 — type inferred from left side (diamond inference)\nPair<String, Integer> p2 = new Pair<>();  // preferred — less verbose",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Generic Methods",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Generic Methods"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You don't always need to make an entire class generic.",
+      "Sometimes only **one or two methods** need to work with a type parameter.",
+      "Java allows you to make **individual methods generic** while keeping the class itself non-generic."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Return type uses T\npublic <T> T methodName(T parameter) {\n    return parameter;\n}\n```"
+    ],
+    "code": "// Return type is void, type parameter T declared BEFORE the return type\npublic <T> void methodName(T parameter) {\n    // use T here\n}\n\n// Return type uses T\npublic <T> T methodName(T parameter) {\n    return parameter;\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Example — Generic Method in a Non-Generic Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public <T> void printValue(T value) {\n        System.out.println(\"Value: \" + value);\n        System.out.println(\"Type: \" + value.getClass().getSimpleName());\n    }\n}",
+      "public class Main {\n    public static void main(String[] args) {\n        GenericMethodClass gm = new GenericMethodClass();",
+      "gm.printValue(42);          // T = Integer\n        gm.printValue(\"Hello\");     // T = String\n        gm.printValue(3.14);        // T = Double",
+      "// Custom class\n        // gm.printValue(new Bus()); // T = Bus — works too\n    }\n}\n```"
+    ],
+    "code": "class GenericMethodClass {\n    // Non-generic class — but contains a generic method\n\n    public <T> void printValue(T value) {\n        System.out.println(\"Value: \" + value);\n        System.out.println(\"Type: \" + value.getClass().getSimpleName());\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        GenericMethodClass gm = new GenericMethodClass();\n\n        gm.printValue(42);          // T = Integer\n        gm.printValue(\"Hello\");     // T = String\n        gm.printValue(3.14);        // T = Double\n\n        // Custom class\n        // gm.printValue(new Bus()); // T = Bus — works too\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Generic Method vs Generic Class — Scope Difference",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Raw Types",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Raw Types"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **raw type** is when you use a generic class **without specifying any type parameter**. When you don't supply a type, the compiler internally treats the type parameter as `Object`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class Main {\n    public static void main(String[] args) {\n        // Parameterized type — type-safe\n        Print<String> parameterized = new Print<>();\n        parameterized.setPrintValue(\"Hello\");\n        // parameterized.setPrintValue(42); // ❌ Compile error",
+      "// Raw type — no type specified\n        Print raw = new Print(); // internally: Print<Object>\n        raw.setPrintValue(\"Hello\");   // ✅ accepted\n        raw.setPrintValue(42);        // ✅ also accepted — no restriction\n        raw.setPrintValue(new Object()); // ✅ also accepted\n    }\n}\n```"
+    ],
+    "code": "class Print<T> {\n    T value;\n    void setPrintValue(T value) { this.value = value; }\n    T getPrintValue() { return value; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // Parameterized type — type-safe\n        Print<String> parameterized = new Print<>();\n        parameterized.setPrintValue(\"Hello\");\n        // parameterized.setPrintValue(42); // ❌ Compile error\n\n        // Raw type — no type specified\n        Print raw = new Print(); // internally: Print<Object>\n        raw.setPrintValue(\"Hello\");   // ✅ accepted\n        raw.setPrintValue(42);        // ✅ also accepted — no restriction\n        raw.setPrintValue(new Object()); // ✅ also accepted\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What Happens Internally",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// What the compiler sees internally:\nPrint<Object> raw = new Print<Object>(); // Object is substituted for T\n```",
+      "Since `Object` is the parent of all, the raw type accepts anything — which defeats the purpose of generics."
+    ],
+    "code": "// What you write:\nPrint raw = new Print();\n\n// What the compiler sees internally:\nPrint<Object> raw = new Print<Object>(); // Object is substituted for T",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Bounded Generics",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Bounded Generics"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "By default, a type parameter `T` can be replaced with **any** reference type.",
+      "**Bounded generics** let you **restrict** what types can be used as the type argument — only a specific class/interface hierarchy is allowed."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Upper Bound — `extends`",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Multi-Bound — `extends` with Multiple Interfaces",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "A **multi-bound** type parameter requires that the type argument **extend one class AND implement one or more interfaces** simultaneously.",
+      "### Background — Java Inheritance Rules (Recap)",
+      "| Rule | Explanation |\n|------|-------------|\n| A class can `extend` only ONE class | No multiple class inheritance in Java (Diamond Problem) |\n| A class can `implement` multiple interfaces | No conflict — interfaces have no implementation |"
+    ],
+    "code": "class ClassName<T extends ParentClass & Interface1 & Interface2> {\n    // T must extend ParentClass AND implement Interface1 AND Interface2\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Bounded Generics Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Wildcards",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Wildcards"
+  },
+  {
+    "layout": "split",
+    "title": "The Problem Wildcards Solve",
+    "subtitle": "Consider this class hierarchy:",
+    "bullets": [
+      "Consider this class hierarchy:",
+      "You know that `Bus` is a subtype of `Vehicle`. But is `List<Bus>` a subtype of `List<Vehicle>`?",
+      "**No. And this is crucial to understand.**",
+      "List<Vehicle> vehicleList = new ArrayList<>();\nList<Bus>     busList     = new ArrayList<>();"
+    ],
+    "code": "Vehicle\n├── Bus\n└── Car",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Wildcard Syntax — The `?` Operator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **wildcard** `?` is a special type argument that means \"unknown type\". It makes generic types flexible in ways that regular type parameters don't.",
+      "There are three forms:",
+      "| Wildcard | Syntax | Meaning |\n|----------|--------|---------|\n| Upper Bound | `?",
+      "extends Type` | Type or any subclass |\n| Lower Bound | `?",
+      "super Type` | Type or any superclass |\n| Unbounded | `?` | Any type |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Wildcard Type 1 — Upper Bound (`? extends`)",
+    "subtitle": "Accepts: the specified type AND all its subclasses.",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Wildcard Type 2 — Lower Bound (`? super`)",
+    "subtitle": "Accepts: the specified type AND all its superclasses.",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Wildcard Type 3 — Unbounded (`?`)",
+    "subtitle": "Accepts: any type whatsoever.",
+    "bullets": [
+      "**Accepts: any type whatsoever.**",
+      "Use this when your method only needs to work with methods from `Object` (the parent of all), because that's the only thing you can safely call — you don't know what the actual type is.",
+      "public class Main {\n    public static void main(String[] args) {\n        Print p = new Print();",
+      "List<Integer> ints    = List.of(1, 2, 3);\n        List<String>  strings = List.of(\"a\", \"b\", \"c\");\n        List<Vehicle> vehicles = new ArrayList<>();"
+    ],
+    "code": "class Print {\n    void printList(List<?> list) {\n        for (Object item : list) {\n            // Can only call Object methods — .toString(), .hashCode(), etc.\n            System.out.println(item);\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Print p = new Print();\n\n        List<Integer> ints    = List.of(1, 2, 3);\n        List<String>  strings = List.of(\"a\", \"b\", \"c\");\n        List<Vehicle> vehicles = new ArrayList<>();\n\n        p.printList(ints);     // ✅\n        p.printList(strings);  // ✅\n        p.printList(vehicles); // ✅\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Generic Type Parameter vs Wildcard — When to Use Which",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Generic Type Parameter vs Wildcard — When to Use Which"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Differences",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Generic Type `<T extends Number>` | Wildcard `<?",
+      "extends Number>` |\n|---------|----------------------------------|------------------------------|\n| **Multiple parameters same type** | ✅ Enforces same type across params | ❌ Each `?` can be different type |\n| **Lower bound** (`super`) | ❌ Not supported | ✅ Supported |\n| **Multiple type params** | ✅ `<T, K, V>` | ❌ One `?` only per use |\n| **Flexibility** | More structured/restrictive | More flexible |\n| **When to use** | When parameters must share the same type | When you just need to accept a range of types |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Example — The Critical Difference",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// GENERIC TYPE — source and destination MUST be the SAME type\n<T extends Number> void computeList(List<T> source, List<T> destination) {\n    // If source is List<Integer>, destination MUST also be List<Integer>\n}\n```",
+      "// With wildcard:\ncomputeListWildcard(intList, doubleList);  // ✅ Different types OK",
+      "// With generic type:\n// computeListGeneric(intList, doubleList); // ❌ Compile error — T can't be both Integer and Double\ncomputeListGeneric(intList, intList);      // ✅ Same type OK\n```"
+    ],
+    "code": "// WILDCARD — source and destination can be DIFFERENT types (both just extend Number)\nvoid computeList(List<? extends Number> source, List<? extends Number> destination) {\n    // source could be List<Integer>, destination could be List<Double>\n    // No enforcement that they're the same type\n}\n\n// GENERIC TYPE — source and destination MUST be the SAME type\n<T extends Number> void computeList(List<T> source, List<T> destination) {\n    // If source is List<Integer>, destination MUST also be List<Integer>\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Decision Guide",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Type Erasure",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Type Erasure"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is Type Erasure?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**`Object`** (for unbounded types)",
+      "**The upper bound class** (for bounded types like `T extends Number` → replaced with `Number`)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Examples of Type Erasure",
+    "subtitle": "### Unbounded Generic Class",
+    "bullets": [
+      "### Unbounded Generic Class",
+      "// What the bytecode looks like after erasure:\nclass Print {\n    Object value;\n    Object getPrintValue() { return value; }\n    void setPrintValue(Object value) { this.value = value; }\n}\n```",
+      "### Bounded Generic Class",
+      "// What the bytecode looks like after erasure:\nclass Print {\n    Number value;            // T replaced with upper bound: Number\n    Number getPrintValue() { return value; }\n}\n```"
+    ],
+    "code": "// What you write:\nclass Print<T> {\n    T value;\n    T getPrintValue() { return value; }\n    void setPrintValue(T value) { this.value = value; }\n}\n\n// What the bytecode looks like after erasure:\nclass Print {\n    Object value;\n    Object getPrintValue() { return value; }\n    void setPrintValue(Object value) { this.value = value; }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Does Type Erasure Exist?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Type erasure was introduced to maintain **backward compatibility** with pre-Java 5 code (before generics were added).",
+      "Existing bytecode and libraries that used raw types (`List`, `Map`) could continue to work unchanged."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Consequences of Type Erasure",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Consequence | Explanation |\n|-------------|-------------|\n| Cannot use `instanceof` with type params | `if (obj instanceof T)` → ❌ T is erased at runtime |\n| Cannot create instances of T | `new T()` → ❌ Compiler doesn't know what T is at runtime |\n| Cannot create arrays of parameterized types | `new T[10]` → ❌ |\n| `List<Integer>` and `List<String>` are same class at runtime | Both become `List` after erasure |",
+      "// T t = new T();             // ❌ Compile error — can't instantiate T",
+      "// T[] arr = new T[10];       // ❌ Compile error — can't create T array\n    }\n}\n```"
+    ],
+    "code": "class Example<T> {\n    void test(Object obj) {\n        // if (obj instanceof T) { }  // ❌ Compile error — T is erased\n\n        // T t = new T();             // ❌ Compile error — can't instantiate T\n\n        // T[] arr = new T[10];       // ❌ Compile error — can't create T array\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Type Erasure Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Core Generics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What are generics in Java?",
+      "| Write type-parameterized classes/methods; type specified at use time; shifts errors to compile time |\n| Why were generics introduced?",
+      "| Avoid typecasting, provide type safety, prevent ClassCastException at runtime |\n| Can generics use primitive types?",
+      "| No — only reference types; use wrapper classes (Integer, Double, etc.) |\n| What is a type parameter?",
+      "| Placeholder letter (T, K, V) replaced with actual type at compile time |\n| What is the diamond operator?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Generic Classes & Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| How do you make a class generic?",
+      "| Add `<T>` after class name; use T as field/method types |\n| How do you make a method generic?",
+      "| Declare type param before return type: `public <T> void method(T param)` |\n| What is the scope of a generic method's type param?",
+      "| Limited to that method only |\n| What is a raw type?",
+      "| Using a generic class without specifying type param; compiler uses Object internally; avoid in production |\n| Can a non-generic class have generic methods?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Bounded Generics",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is an upper bound in generics?",
+      "| `T extends SomeClass` — restricts T to SomeClass or its subclasses |\n| What keyword is used for interface bounds?",
+      "| Still `extends` (not `implements`) — e.g., `T extends Comparable` |\n| What is a multi-bound type parameter?",
+      "| `T extends Class & Interface1 & Interface2` — class first, then interfaces |\n| Can you have multiple class bounds?",
+      "| No — only one class; multiple interfaces after `&` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Wildcards",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is a wildcard?",
+      "| `?` — unknown type in generics; three forms: unbounded, upper bound, lower bound |\n| Is `List<Dog>` a subtype of `List<Animal>`?",
+      "| No — generic types are invariant; use wildcards for flexibility |\n| What is `List<?",
+      "extends Animal>`?",
+      "| Upper bound wildcard — accepts List of Animal or any subclass |\n| What is `List<?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Type Erasure",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Answer |\n|----------|-----------|\n| What is type erasure?",
+      "| Compiler removes generic type info at compile time; bytecode has no generics |\n| What replaces unbounded T at runtime?",
+      "| `Object` |\n| What replaces bounded `T extends Number` at runtime?",
+      "| `Number` |\n| Why does type erasure exist?",
+      "| Backward compatibility with pre-Java 5 code |\n| Can you use `instanceof` with generic type T?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Master Summary"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "End of Chapter — Java Generics",
+    "bullets": [
+      "✅ **Problem with `Object`**: requires typecasting, no type safety, runtime `ClassCastException`",
+      "✅ **Generics** = type parameters replace `Object`; specified at compile time; type-safe; no casting needed",
+      "✅ **Only reference types** — primitives not allowed; use wrapper classes (`int` → `Integer`)",
+      "✅ **Generic class**: `class Name<T>` — T usable across entire class (fields, methods)",
+      "✅ **Generic method**: `public <T> void method(T param)` — T scoped to that method only"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

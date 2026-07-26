@@ -1,0 +1,769 @@
+[
+  {
+    "layout": "title",
+    "title": "Memory Management",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Memory Management — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Memory Management — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Introduction to Java Memory Management",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Introduction to Java Memory Management"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you write a Java program and run it, every variable, every object, every method call consumes **RAM (Random Access Memory)**.",
+      "Understanding *how* that memory is allocated, organized, and freed is one of the most important concepts for any Java developer — both for interviews and for writing efficient, production-quality code."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Who Manages Memory in Java?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Automatically allocated** when you create variables and objects",
+      "**Automatically freed** by the **Garbage Collector** when objects are no longer needed"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Two Main Memory Areas",
+    "subtitle": "JVM divides the available RAM into two primary regions:",
+    "bullets": [
+      "JVM divides the available RAM into two primary regions:"
+    ],
+    "code": "┌─────────────────────────────────────────────────────────┐\n│                      JVM Memory                         │\n│                                                         │\n│   ┌─────────────┐        ┌──────────────────────────┐  │\n│   │    STACK    │        │          HEAP            │  │\n│   │  (smaller)  │        │        (larger)          │  │\n│   │             │        │                          │  │\n│   │ • Primitive │        │ • Objects                │  │\n│   │   values    │        │ • String pool            │  │\n│   │ • References│        │ • Instance variables     │  │\n│   │ • Method    │        │                          │  │\n│   │   frames    │        │                          │  │\n│   └─────────────┘        └──────────────────────────┘  │\n│                                                         │\n│   (one per thread)       (one shared by all threads)    │\n└─────────────────────────────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Stack Memory",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Stack Memory"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What Gets Stored in Stack?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Data Type | Stored In Stack?",
+      "| Details |\n|---|---|---|\n| Primitive variables (`int`, `double`, `boolean`, etc.) | ✅ Yes | Value stored directly |\n| Object references | ✅ Yes | The reference (address/pointer) is stored; the object itself is in heap |\n| Method frames | ✅ Yes | One frame per active method call |\n| Local variables | ✅ Yes | All variables declared inside a method |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Key Characteristics of Stack",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "All local variables of the method",
+      "All object references created inside the method",
+      "The method's parameters"
+    ],
+    "code": "Thread 1 Stack   Thread 2 Stack   Thread 3 Stack\n┌───────────┐    ┌───────────┐    ┌───────────┐\n│  method B │    │  method D │    │  method F │\n│───────────│    │───────────│    │───────────│\n│  method A │    │  method C │    │  method E │\n└───────────┘    └───────────┘    └───────────┘\n         All share one common Heap",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Heap Memory",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Heap Memory"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What Gets Stored in Heap?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Data Type | Stored In Heap?",
+      "| Details |\n|---|---|---|\n| Objects (created with `new`) | ✅ Yes | Full object data stored here |\n| String literals | ✅ Yes | In the **String Pool** (a special area inside heap) |\n| Instance variables | ✅ Yes | Stored as part of the object |\n| Arrays | ✅ Yes | Arrays are objects in Java |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics of Heap",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Larger** than stack memory",
+      "**One shared heap** per JVM instance — all threads access the same heap",
+      "Objects live until they are **garbage collected**",
+      "Managed by the **Garbage Collector**",
+      "Running out of heap memory causes: `java.lang.OutOfMemoryError`"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Stack vs. Heap — Complete Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Stack vs. Heap — Complete Comparison"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Memory in Action — Full Code Walkthrough",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Memory in Action — Full Code Walkthrough"
+  },
+  {
+    "layout": "split",
+    "title": "The Code",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public static void main(String[] args) {\n        int primitiveVariable = 10;                          // line 1\n        Person personObj = new Person();                     // line 2\n        String stringLiteral = \"24\";                         // line 3\n        MemoryManagement memObj = new MemoryManagement();    // line 4\n        memObj.memoryManagementTest(personObj);              // line 5\n    }",
+      "public void memoryManagementTest(Person personObj) {\n        Person personObj2 = personObj;                       // line 6\n        String stringLiteral2 = \"24\";                        // line 7\n        String stringLiteral3 = new String(\"24\");            // line 8\n    }                                                        // line 9 — method ends\n}                                                            // line 10 — main ends\n```"
+    ],
+    "code": "public class MemoryManagement {\n\n    public static void main(String[] args) {\n        int primitiveVariable = 10;                          // line 1\n        Person personObj = new Person();                     // line 2\n        String stringLiteral = \"24\";                         // line 3\n        MemoryManagement memObj = new MemoryManagement();    // line 4\n        memObj.memoryManagementTest(personObj);              // line 5\n    }\n\n    public void memoryManagementTest(Person personObj) {\n        Person personObj2 = personObj;                       // line 6\n        String stringLiteral2 = \"24\";                        // line 7\n        String stringLiteral3 = new String(\"24\");            // line 8\n    }                                                        // line 9 — method ends\n}                                                            // line 10 — main ends",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step-by-Step Memory Trace",
+    "subtitle": "### Initial State",
+    "bullets": [
+      "A **Person object** is created in the **heap**",
+      "A **reference** (`personObj`) pointing to that heap object is stored on the **stack**",
+      "String literals are stored in the **String Pool** (inside heap)",
+      "String Pool first checks: is `\"24\"` already in the pool? No → creates it"
+    ],
+    "code": "STACK                   HEAP\n┌─────────┐             ┌─────────────────────────────┐\n│ (empty) │             │           (empty)           │\n└─────────┘             └─────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Memory Flow Diagram",
+    "subtitle": "A-->B-->C-->D-->E-->F-->G-->H-->I-->J-->K-->L",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Garbage Collector",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Garbage Collector"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why GC Exists",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Without GC, heap memory would fill up with abandoned objects and eventually cause the program to crash (`OutOfMemoryError`). GC eliminates the need for manual memory management."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "When Does GC Run?",
+    "subtitle": "GC is controlled entirely by JVM. You cannot force it to run on demand.",
+    "bullets": [
+      "How full the heap is",
+      "Memory allocation rate",
+      "Application pause time goals"
+    ],
+    "code": "System.gc();   // Suggests to JVM: \"Please run GC now\"",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "What Makes an Object Eligible for GC?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "An object becomes eligible for garbage collection when there are **no more active references** pointing to it from the stack (or from other reachable objects)."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Stop-the-World Pause",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is why GC algorithm design is critical — minimizing pause times directly improves application **throughput** and **latency**."
+    ],
+    "code": "Application threads:  ─────────────╗  ╔─────────────────────────\n                                   ↓  ↑\nGC thread:                         ╔══╝  (GC completes)\n                       [ PAUSE - App threads stopped ]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Types of Object References",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Types of Object References"
+  },
+  {
+    "layout": "split",
+    "title": "7.1 Strong Reference",
+    "subtitle": "Lifecycle: Object lives as long as the strong reference is reachable.",
+    "bullets": [
+      "**Lifecycle:** Object lives as long as the strong reference is reachable."
+    ],
+    "code": "Person pObj = new Person();   // Strong reference\n// GC will NOT delete the Person object as long as pObj exists and is reachable",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "7.2 Weak Reference",
+    "subtitle": "WeakReference<Person> weakPObj = new WeakReference<>(new Person());",
+    "bullets": [
+      "WeakReference<Person> weakPObj = new WeakReference<>(new Person());",
+      "// Access the object (before GC runs)\nPerson p = weakPObj.get();   // may return the object",
+      "// After GC runs\nSystem.gc();\nPerson pAfterGC = weakPObj.get();   // returns null — object was collected\n```",
+      "**Lifecycle:** Object lives until the next GC cycle. After GC runs, `get()` returns `null`."
+    ],
+    "code": "import java.lang.ref.WeakReference;\n\nWeakReference<Person> weakPObj = new WeakReference<>(new Person());\n\n// Access the object (before GC runs)\nPerson p = weakPObj.get();   // may return the object\n\n// After GC runs\nSystem.gc();\nPerson pAfterGC = weakPObj.get();   // returns null — object was collected",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "7.3 Soft Reference",
+    "subtitle": "SoftReference<Person> softPObj = new SoftReference<>(new Person());",
+    "bullets": [
+      "SoftReference<Person> softPObj = new SoftReference<>(new Person());",
+      "// GC runs — if memory is fine, object is kept alive\n// GC runs — if memory is critically low, object is collected\nPerson p = softPObj.get();   // may be null if GC cleared it\n```",
+      "**Lifecycle:** Object may survive multiple GC cycles until heap pressure is high enough to force eviction.",
+      "**Common use case:** Memory-sensitive caches — the cache grows when memory is plentiful, shrinks automatically under memory pressure."
+    ],
+    "code": "import java.lang.ref.SoftReference;\n\nSoftReference<Person> softPObj = new SoftReference<>(new Person());\n\n// GC runs — if memory is fine, object is kept alive\n// GC runs — if memory is critically low, object is collected\nPerson p = softPObj.get();   // may be null if GC cleared it",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "7.4 Phantom Reference",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "ReferenceQueue<Person> queue = new ReferenceQueue<>();\nPhantomReference<Person> phantomRef = new PhantomReference<>(new Person(), queue);",
+      "// phantomRef.get() always returns null\n// Used for finalization and resource cleanup\n```",
+      "**Common use case:** Advanced resource cleanup (e.g., closing native resources after an object is GC'd)."
+    ],
+    "code": "import java.lang.ref.PhantomReference;\nimport java.lang.ref.ReferenceQueue;\n\nReferenceQueue<Person> queue = new ReferenceQueue<>();\nPhantomReference<Person> phantomRef = new PhantomReference<>(new Person(), queue);\n\n// phantomRef.get() always returns null\n// Used for finalization and resource cleanup",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Reference Types Comparison",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Making an Object Eligible for GC",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Making an Object Eligible for GC"
+  },
+  {
+    "layout": "split",
+    "title": "Method 1: Assign `null` to the Reference",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "personObj = null;\n// personObj now holds null — no reference to Person object\n// Person object is now eligible for GC\n```"
+    ],
+    "code": "Person personObj = new Person();\n// personObj → [Person Object in heap]\n\npersonObj = null;\n// personObj now holds null — no reference to Person object\n// Person object is now eligible for GC",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 2: Reassign the Reference to Another Object",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "obj1 = obj2;\n// obj1 now points to Person Object 2\n// Person Object 1 has no references → eligible for GC\n```"
+    ],
+    "code": "Person obj1 = new Person();   // obj1 → [Person Object 1]\nPerson obj2 = new Person();   // obj2 → [Person Object 2]\n\nobj1 = obj2;\n// obj1 now points to Person Object 2\n// Person Object 1 has no references → eligible for GC",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 3: Reference Goes Out of Scope",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public void someMethod() {\n    Person p = new Person();   // p → [Person Object]\n    // ... use p ...\n}   // p goes out of scope — stack frame destroyed\n    // Person Object has no references → eligible for GC",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 4: All References Pointing to an Object Are Removed",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "obj1 = null;                   // one reference removed — object NOT yet eligible\nobj2 = null;                   // last reference removed — NOW eligible for GC\n```"
+    ],
+    "code": "Person obj1 = new Person();\nPerson obj2 = obj1;            // two references to same object\n\nobj1 = null;                   // one reference removed — object NOT yet eligible\nobj2 = null;                   // last reference removed — NOW eligible for GC",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Heap Memory — Internal Structure",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Heap Memory — Internal Structure"
+  },
+  {
+    "layout": "split",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "┌──────────────────────────────────────────┐\n│  META SPACE (NON-HEAP — outside heap)    │\n│  Class metadata, static vars, constants  │\n└──────────────────────────────────────────┘\n```"
+    ],
+    "code": "┌─────────────────────────────────────────────────────────────────────┐\n│                           HEAP MEMORY                               │\n│                                                                     │\n│   ┌────────────────────────────────────┐   ┌─────────────────────┐ │\n│   │         YOUNG GENERATION          │   │   OLD GENERATION    │ │\n│   │                                   │   │    (Tenured)        │ │\n│   │  ┌──────────┐  ┌────┐  ┌────┐    │   │                     │ │\n│   │  │  EDEN    │  │ S0 │  │ S1 │    │   │  Long-lived         │ │\n│   │  │          │  │    │  │    │    │   │  objects            │ │\n│   │  │ New objs │  │Surv│  │Surv│    │   │                     │ │\n│   │  │ created  │  │ivor│  │ivor│    │   │                     │ │\n│   │  └──────────┘  └────┘  └────┘    │   │                     │ │\n│   └────────────────────────────────────┘   └─────────────────────┘ │\n└─────────────────────────────────────────────────────────────────────┘\n\n┌──────────────────────────────────────────┐\n│  META SPACE (NON-HEAP — outside heap)    │\n│  Class metadata, static vars, constants  │\n└──────────────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.1 Young Generation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Every new object is **first allocated in Eden**",
+      "When Eden fills up, Minor GC is triggered",
+      "Two equal-sized spaces: **S0** and **S1**",
+      "At any given time, **one is in use and the other is empty**"
+    ],
+    "code": "Eden:  [O1] [O2] [O3] [O4] [O5]\nS0:    (empty)\nS1:    (empty)\nOld:   (empty)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "9.2 Old Generation (Tenured)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Holds **long-lived objects** that have survived many GC cycles in Young Generation",
+      "GC here is called **Major GC** (or **Full GC**)",
+      "Major GC runs **much less frequently** than Minor GC",
+      "Major GC is **more time-consuming** because:",
+      "Objects here have many references pointing to them"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "9.3 Meta Space",
+    "subtitle": "### What Is It?",
+    "bullets": [
+      "### What Is It?",
+      "### What Does Meta Space Store?",
+      "| Data | Description |\n|---|---|\n| **Class metadata** | Information about loaded classes (name, methods, fields) |\n| **Static (class) variables** | Variables declared with `static` — belong to the class, not objects |\n| **Constants** | Values declared `static final` |\n| **Method bytecode** | The compiled instructions of methods |",
+      "### Meta Space vs. PermGen (Historical Context)",
+      "| Feature | PermGen (before Java 8) | Meta Space (Java 8+) |\n|---|---|---|\n| Location | Part of heap | Outside heap (native memory) |\n| Size | Fixed | Dynamically expandable |\n| Error when full | `OutOfMemoryError: PermGen space` | `OutOfMemoryError: Metaspace` (rare) |\n| Stores | Same type of class data | Same type of class data |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Heap + Meta Space Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Garbage Collection Algorithms",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Garbage Collection Algorithms"
+  },
+  {
+    "layout": "split",
+    "title": "Mark and Sweep",
+    "subtitle": "The foundational GC algorithm. It operates in two phases:",
+    "bullets": [
+      "The foundational GC algorithm. It operates in two phases:",
+      "### Phase 1: Mark\nGC traverses all **reachable objects** starting from **GC roots** (stack references, static references).",
+      "Every reachable object is **marked** as alive.",
+      "Unmarked objects are candidates for deletion."
+    ],
+    "code": "Before Mark:\nHeap: [O1✓] [O2?] [O3✓] [O4?] [O5✓]\n              ↑ no ref        ↑ no ref\n\nAfter Mark:\nMarked alive: O1, O3, O5\nMarked for deletion: O2, O4",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mark and Sweep with Compaction",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Eliminates fragmentation",
+      "New objects can be allocated quickly (just move the pointer)",
+      "Better cache performance (objects are contiguous)",
+      "Compaction requires moving objects, which means **updating all references** to those objects — expensive"
+    ],
+    "code": "After Compact:\nHeap: [O1] [O3] [O5] [                     FREE                     ]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Types of Garbage Collectors",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Types of Garbage Collectors"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| GC Type | GC Threads | Pause Time | Compaction | Best For |\n|---|---|---|---|---|\n| **Serial GC** | 1 thread | Long | Yes | Single-core, small apps |\n| **Parallel GC** | Multiple | Medium | Yes | Throughput-focused (Java 8 default) |\n| **CMS (Concurrent Mark Sweep)** | Concurrent | Short (mostly) | No | Low-latency apps |\n| **G1 GC** | Concurrent + Parallel | Very short | Yes | Balanced (Java 9+ default) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "11.1 Serial GC",
+    "subtitle": "Enable with: -XX:+UseSerialGC",
+    "bullets": [
+      "**Only one GC thread** does all the cleanup work",
+      "All application threads are **paused** for the entire duration",
+      "**Slow** — single-threaded is inherently slower",
+      "**Simple** — minimal overhead, good for tiny applications or single-core systems"
+    ],
+    "code": "GC Thread:    ═══════════════════════════\nApp Threads:  ────────╗               ╔──────\n                      │  PAUSE (long) │\n                      └───────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "11.2 Parallel GC *(Java 8 default)*",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Multiple GC threads** work in parallel (count depends on CPU cores)",
+      "Application threads still **paused** during GC, but for a **shorter time**",
+      "Higher **throughput** than Serial GC",
+      "Still has Stop-the-World pause — just shorter"
+    ],
+    "code": "GC Thread 1:  ════════════\nGC Thread 2:  ════════════   (parallel)\nGC Thread 3:  ════════════\nApp Threads:  ────────╗    ╔────────────\n                      │PAUSE│ (shorter)\n                      └─────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "11.3 Concurrent Mark Sweep (CMS)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "GC threads run **concurrently** with application threads — most GC work happens without stopping the app",
+      "Application threads are paused for **very short periods** (only during initial mark and re-mark phases)",
+      "**No compaction** — memory can become fragmented over time",
+      "No compaction → fragmentation can lead to `OutOfMemoryError` even with free memory"
+    ],
+    "code": "App Threads:  ─────────────────────────────────────────\nGC Thread:    ────────╗ ╔══════════════╗ ╔════╗ ╔──────\n                      │ │  concurrent  │ │    │ │\n                      │ │  GC work     │ │    │ │\n                      ╚═╝              ╚═╝    ╚═╝\n                    (tiny   (most work   (tiny  (tiny\n                    pause)  concurrent) pause) pause)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "11.4 G1 GC (Garbage First) *(Java 9+ default)*",
+    "subtitle": "Enable with: -XX:+UseG1GC",
+    "bullets": [
+      "Divides heap into **equal-sized regions** (not contiguous Eden/Old/Survivor areas)",
+      "GC prioritizes regions with the **most garbage** first",
+      "Runs **concurrently** AND **in parallel**",
+      "**Does compaction** — avoids fragmentation"
+    ],
+    "code": "Heap divided into equal regions:\n┌───┬───┬───┬───┬───┬───┬───┬───┐\n│ E │ S │ O │ E │ S │ O │ E │ F │  E=Eden, S=Survivor, O=Old, F=Free\n└───┴───┴───┴───┴───┴───┴───┴───┘\nGC targets regions with MOST garbage first (hence \"Garbage First\")",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "GC Evolution Timeline",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Impact on Application Performance",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "App threads pause less → more time processing requests",
+      "**Throughput increases** (e.g., from 1000 to 1500 requests/minute)",
+      "**Latency decreases** (faster response times)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Summary Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Summary Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete JVM Memory Architecture",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Object Lifecycle",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Thinking `System.gc()` Forces GC",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "System.gc();   // ❌ Does NOT guarantee GC will run",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Thinking Objects Are Immediately Deleted When References Are Removed",
+    "subtitle": "The object stays in heap until the Garbage Collector runs (which JVM controls).",
+    "bullets": [
+      "The object stays in heap until the Garbage Collector runs (which JVM controls)."
+    ],
+    "code": "Person p = new Person();\np = null;   // Object is ELIGIBLE for GC, but NOT immediately deleted",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Mistake 3: Confusing Stack Overflow with Out of Memory",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Error | Cause | Memory Area |\n|---|---|---|\n| `StackOverflowError` | Too many nested method calls (stack is full) | Stack |\n| `OutOfMemoryError` | Too many objects, GC cannot free enough (heap is full) | Heap |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: String Literal vs. String Object",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "System.out.println(s1 == s2);   // true  (same pool reference)\nSystem.out.println(s1 == s3);   // false (different heap objects)\nSystem.out.println(s1.equals(s3)); // true (same content)\n```"
+    ],
+    "code": "String s1 = \"hello\";            // String Pool (heap) — may be shared\nString s2 = \"hello\";            // Points to SAME pool entry as s1\nString s3 = new String(\"hello\");// NEW object in heap (NOT pool)\n\nSystem.out.println(s1 == s2);   // true  (same pool reference)\nSystem.out.println(s1 == s3);   // false (different heap objects)\nSystem.out.println(s1.equals(s3)); // true (same content)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Mistake 5: Assuming JVM is Platform-Independent for GC Behavior",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "GC behavior (timing, algorithms used) can vary between JVM implementations (HotSpot, OpenJ9, GraalVM) and can be tuned with JVM flags. Never assume specific GC timing in application code."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Holding Unnecessary References (Memory Leak Pattern)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public void addToCache(Object obj) {\n        cache.add(obj);   // Objects added here are NEVER eligible for GC\n                           // (static list holds strong references)\n    }\n}\n```",
+      "This is a common **memory leak pattern** in Java — static collections holding strong references prevent GC from freeing objects."
+    ],
+    "code": "public class MyCache {\n    static List<Object> cache = new ArrayList<>();   // static = lives forever\n\n    public void addToCache(Object obj) {\n        cache.add(obj);   // Objects added here are NEVER eligible for GC\n                           // (static list holds strong references)\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Stack** — stores method frames, local variables, primitive values, and object references. One per thread. LIFO.",
+      "**Heap** — stores all objects and arrays. One shared heap. Managed by Garbage Collector.",
+      "**Young Generation** — new objects start here (Eden → Survivor S0/S1). Minor GC runs frequently here.",
+      "**Old Generation (Tenured)** — objects promoted after surviving age threshold. Major GC runs less frequently.",
+      "**Meta Space (non-heap)** — stores class metadata, static variables, constants. Replaced PermGen in Java 8. Expandable."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What are the two main memory areas in Java?",
+      "Which is larger?",
+      "What kind of data is stored in stack?",
+      "What kind in heap?",
+      "What does LIFO mean?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Trace through the memory allocation for this code:\n   ```java\n   public static void main(String[] args) {\n       int x = 5;\n       String s = \"hello\";\n       Person p = new Person(\"Alice\");\n   }\n   ```\n   Show what is in stack and heap after each line.",
+      "What is the difference between a strong reference and a weak reference?",
+      "Explain Minor GC vs.",
+      "Major GC — when each runs and what each collects."
+    ],
+    "code": "public static void main(String[] args) {\n       int x = 5;\n       String s = \"hello\";\n       Person p = new Person(\"Alice\");\n   }",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Trace the full memory lifecycle (stack + heap + GC) for the complete `MemoryManagement` code example from this lecture.",
+      "At each step, show what is in stack, what is in heap, and what becomes eligible for GC.",
+      "Explain object promotion in detail: from Eden → Survivor → Old Generation, with age tracking.",
+      "What is the default age threshold in HotSpot JVM?",
+      "Compare Serial GC, Parallel GC, CMS, and G1 GC on the dimensions of: thread count, pause time, compaction, and best use case."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Quick Revision Summary"
+  }
+]

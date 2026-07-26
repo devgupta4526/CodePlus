@@ -25,6 +25,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
+import settingsData from '@/data/settings.json';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -45,12 +46,26 @@ const COURSES = [
     border: 'rgba(249,115,22,0.2)',
     title: 'Java Foundations',
     subtitle: 'Core language · OOP · JVM · Collections',
-    lessons: 23,
+    lessons: 22,
     hours: '~18',
     level: 'Beginner → Advanced',
     href: '/dashboard',
     available: true,
   },
+  {
+    emoji: '💻',
+    color: '#8B5CF6',
+    bg: 'rgba(139,92,246,0.08)',
+    border: 'rgba(139,92,246,0.2)',
+    title: 'Computer Organization & Architecture',
+    subtitle: 'CPU · Memory · Pipelining · DMA · Assembly',
+    lessons: 7,
+    hours: '~12',
+    level: 'Core Computer Science',
+    href: '/dashboard',
+    available: true,
+  },
+
   {
     emoji: '🍃',
     color: '#22C55E',
@@ -199,7 +214,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/5 text-sm text-[var(--accent)] mb-8"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Free · No Login · 6 Learning Paths</span>
+            <span>{settingsData.heroTagline}</span>
           </motion.div>
 
           <motion.h1
@@ -208,11 +223,18 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-[1.1] mb-6"
           >
-            Learn to code.
-            <br />
-            <span className="bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--highlight)] bg-clip-text text-transparent">
-              Land the job.
-            </span>
+            {settingsData.heroTitle.split('\\n').map((line, idx) => (
+              <span key={idx}>
+                {idx > 0 && <br />}
+                {idx === 1 ? (
+                  <span className="bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--highlight)] bg-clip-text text-transparent">
+                    {line}
+                  </span>
+                ) : (
+                  line
+                )}
+              </span>
+            ))}
           </motion.h1>
 
           <motion.p
@@ -221,9 +243,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mx-auto text-lg text-[var(--text-muted)] leading-relaxed mb-10"
           >
-            CodePulse is an interactive learning platform covering Java, Python, Spring Boot, DSA,
-            and more — with structured courses, a coding playground, MCQ drills, and a job board
-            built for developers who want results.
+            {settingsData.heroSubtitle}
           </motion.p>
 
           <motion.div
@@ -254,10 +274,10 @@ export default function HomePage() {
       <section className="border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
         <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { icon: BookOpen,      label: 'Lessons',      value: '100+' },
-            { icon: Layers,        label: 'Courses',       value: '6' },
-            { icon: Clock,         label: 'Content Hours', value: '80+' },
-            { icon: GraduationCap, label: 'Topics Covered',value: '200+' },
+            { icon: BookOpen,      label: 'Lessons',      value: settingsData.statsLessons },
+            { icon: Layers,        label: 'Courses',       value: settingsData.statsCourses },
+            { icon: Clock,         label: 'Content Hours', value: settingsData.statsHours },
+            { icon: GraduationCap, label: 'Topics Covered',value: settingsData.statsTopics },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -474,11 +494,11 @@ export default function HomePage() {
               <Code2 className="w-3.5 h-3.5 text-white" />
             </div>
             <span className="text-sm font-heading font-semibold text-[var(--text-secondary)]">
-              CodePulse
+              {settingsData.platformName}
             </span>
           </div>
           <p className="text-xs text-[var(--text-disabled)]">
-            Built for developers who want to learn and land jobs.
+            {settingsData.footerText}
           </p>
         </div>
       </footer>

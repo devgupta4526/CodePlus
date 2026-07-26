@@ -1,0 +1,1011 @@
+[
+  {
+    "layout": "title",
+    "title": "Operators",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Operators — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Operators — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Core Terminology — Operator, Operand, Expression",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Core Terminology — Operator, Operand, Expression"
+  },
+  {
+    "layout": "bullets",
+    "title": "Operator",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`+` → addition",
+      "`-` → subtraction",
+      "`*` → multiplication",
+      "`>` → greater-than comparison"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Operand",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Constants (literals):** `5 + 3` — both `5` and `3` are constant operands",
+      "**Variables:** `a + b` — both `a` and `b` are variable operands"
+    ],
+    "code": "int a = 3, b = 4;\nint result = a + b;\n//           ↑   ↑     ← operands\n//             ↑       ← operator",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Expression",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "5 + 3 * 4 - a    // an expression with operands (5, 3, 4, a) and operators (+, *, -)\ntrue             // a single operand, zero operators — still an expression",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Categories of Operators in Java",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Categories of Operators in Java"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Arithmetic Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Arithmetic Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Arithmetic operators perform basic **mathematical operations** on numeric operands."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Name | Example | Result |\n|----------|------|---------|--------|\n| `+` | Addition | `5 + 3` | `8` |\n| `-` | Subtraction | `5 - 3` | `2` |\n| `*` | Multiplication | `5 * 3` | `15` |\n| `/` | Division | `5 / 2` | `2` (integer division) |\n| `%` | Modulus (remainder) | `5 % 2` | `1` |"
+    ],
+    "code": "> int result = 5 / 2;   // result = 2, NOT 2.5\n> double d   = 5.0 / 2; // d = 2.5 — at least one operand must be double\n>",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "System.out.println(\"a + b = \" + (a + b));   // 7\n        System.out.println(\"a - b = \" + (a - b));   // 3\n        System.out.println(\"a * b = \" + (a * b));   // 10\n        System.out.println(\"a / b = \" + (a / b));   // 2  (integer division)\n        System.out.println(\"a % b = \" + (a % b));   // 1  (remainder)\n    }\n}\n```",
+      "**Output:**\n```\na + b = 7\na - b = 3\na * b = 10\na / b = 2\na % b = 1\n```"
+    ],
+    "code": "public class ArithmeticDemo {\n    public static void main(String[] args) {\n        int a = 5, b = 2;\n\n        System.out.println(\"a + b = \" + (a + b));   // 7\n        System.out.println(\"a - b = \" + (a - b));   // 3\n        System.out.println(\"a * b = \" + (a * b));   // 10\n        System.out.println(\"a / b = \" + (a / b));   // 2  (integer division)\n        System.out.println(\"a % b = \" + (a % b));   // 1  (remainder)\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Relational (Comparison) Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Relational (Comparison) Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Meaning | Example (`a=4, b=7`) | Result |\n|----------|---------|----------------------|--------|\n| `==` | Equal to | `a == b` | `false` |\n| `!=` | Not equal to | `a != b` | `true` |\n| `>` | Greater than | `a > b` | `false` |\n| `<` | Less than | `a < b` | `true` |\n| `>=` | Greater than or equal | `a >= b` | `false` |\n| `<=` | Less than or equal | `a <= b` | `true` |"
+    ],
+    "code": "> if (a = 5)   { }  // ❌ COMPILE ERROR in Java (assigns 5 to a, not a comparison)\n> if (a == 5)  { }  // ✅ correct comparison\n>",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "System.out.println(\"a == b : \" + (a == b));  // false\n        System.out.println(\"a != b : \" + (a != b));  // true\n        System.out.println(\"a >  b : \" + (a >  b));  // false\n        System.out.println(\"a <  b : \" + (a <  b));  // true\n        System.out.println(\"a >= b : \" + (a >= b));  // false\n        System.out.println(\"a <= b : \" + (a <= b));  // true\n    }\n}\n```",
+      "**Output:**\n```\na == b : false\na != b : true\na >  b : false\na <  b : true\na >= b : false\na <= b : true\n```"
+    ],
+    "code": "public class RelationalDemo {\n    public static void main(String[] args) {\n        int a = 4, b = 7;\n\n        System.out.println(\"a == b : \" + (a == b));  // false\n        System.out.println(\"a != b : \" + (a != b));  // true\n        System.out.println(\"a >  b : \" + (a >  b));  // false\n        System.out.println(\"a <  b : \" + (a <  b));  // true\n        System.out.println(\"a >= b : \" + (a >= b));  // false\n        System.out.println(\"a <= b : \" + (a <= b));  // true\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Logical Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Logical Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Symbol | Meaning |\n|----------|--------|---------|\n| Logical AND | `&&` | `true` only if **both** conditions are `true` |\n| Logical OR | `\\|\\|` | `true` if **at least one** condition is `true` |\n| Logical NOT | `!` | Inverts the boolean value |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Truth Tables",
+    "subtitle": "### AND (&&)",
+    "bullets": [
+      "### AND (`&&`)",
+      "| Condition 1 | Condition 2 | Result |\n|-------------|-------------|--------|\n| `false` | `false` | `false` |\n| `false` | `true` | `false` |\n| `true` | `false` | `false` |\n| `true` | `true` | ✅ `true` |",
+      "### OR (`||`)",
+      "| Condition 1 | Condition 2 | Result |\n|-------------|-------------|--------|\n| `false` | `false` | `false` |\n| `false` | `true` | ✅ `true` |\n| `true` | `false` | ✅ `true` |\n| `true` | `true` | ✅ `true` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Short-Circuit Evaluation",
+    "subtitle": "This is one of the most important behaviors of logical operators.",
+    "bullets": [
+      "This is one of the most important behaviors of logical operators.",
+      "### Short-Circuit AND (`&&`)",
+      "**Why?** Because if any condition in an AND chain is false, the whole result is false — no need to check further.",
+      "// Condition 1: a < 3 → false\n// Since first is false, Condition 2 is NEVER evaluated\nboolean result = (a < 3) && (a != b);\nSystem.out.println(result);  // false\n```"
+    ],
+    "code": "int a = 4, b = 7;\n\n// Condition 1: a < 3 → false\n// Since first is false, Condition 2 is NEVER evaluated\nboolean result = (a < 3) && (a != b);\nSystem.out.println(result);  // false",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// AND examples\n        System.out.println((a < 3)  && (a != b));  // false && true  → false\n        System.out.println((a > 3)  && (a != b));  // true  && true  → true",
+      "// OR examples\n        System.out.println((a < 3)  || (a != b));  // false || true  → true\n        System.out.println((a > 3)  || (a != b));  // true  || true  → true (short-circuit)",
+      "// NOT example\n        boolean flag = true;\n        System.out.println(!flag);                  // false\n    }\n}\n```",
+      "**Output:**\n```\nfalse\ntrue\ntrue\ntrue\nfalse\n```"
+    ],
+    "code": "public class LogicalDemo {\n    public static void main(String[] args) {\n        int a = 4, b = 7;\n\n        // AND examples\n        System.out.println((a < 3)  && (a != b));  // false && true  → false\n        System.out.println((a > 3)  && (a != b));  // true  && true  → true\n\n        // OR examples\n        System.out.println((a < 3)  || (a != b));  // false || true  → true\n        System.out.println((a > 3)  || (a != b));  // true  || true  → true (short-circuit)\n\n        // NOT example\n        boolean flag = true;\n        System.out.println(!flag);                  // false\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Unary Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Unary Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Five Unary Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Name | Example | Effect |\n|----------|------|---------|--------|\n| `++` | Increment | `a++` or `++a` | Increases value by 1 |\n| `--` | Decrement | `a--` or `--a` | Decreases value by 1 |\n| `+` | Unary Plus | `+a` | Makes value positive (no real effect on positives) |\n| `-` | Unary Minus | `-a` | Negates the value |\n| `!` | Logical NOT | `!flag` | Flips `true`↔`false` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Increment & Decrement — Prefix vs Postfix",
+    "subtitle": "This is a very common interview topic and source of confusion.",
+    "bullets": [
+      "This is a **very common interview topic** and source of confusion.",
+      "### Postfix (`a++`, `a--`)",
+      "### Prefix (`++a`, `--a`)"
+    ],
+    "code": "Step 1: Return current value of a\nStep 2: Then increment (or decrement) a",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Step by Step",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// POSTFIX increment: return 5, then a becomes 6\n        System.out.println(a++);  // prints 5   (a is now 6)",
+      "// PREFIX increment: a becomes 7, then return 7\n        System.out.println(++a);  // prints 7   (a is now 7)",
+      "// POSTFIX decrement: return 7, then a becomes 6\n        System.out.println(a--);  // prints 7   (a is now 6)",
+      "// PREFIX decrement: a becomes 5, then return 5\n        System.out.println(--a);  // prints 5   (a is now 5)"
+    ],
+    "code": "public class UnaryDemo {\n    public static void main(String[] args) {\n        int a = 5;\n\n        // POSTFIX increment: return 5, then a becomes 6\n        System.out.println(a++);  // prints 5   (a is now 6)\n\n        // PREFIX increment: a becomes 7, then return 7\n        System.out.println(++a);  // prints 7   (a is now 7)\n\n        // POSTFIX decrement: return 7, then a becomes 6\n        System.out.println(a--);  // prints 7   (a is now 6)\n\n        // PREFIX decrement: a becomes 5, then return 5\n        System.out.println(--a);  // prints 5   (a is now 5)\n\n        // Unary minus\n        System.out.println(-a);   // prints -5  (a stays 5)\n\n        // Logical NOT\n        boolean flag = true;\n        System.out.println(!flag); // prints false\n        System.out.println(!flag); // prints false (flag unchanged)\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Assignment Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Assignment Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Expanded Form | Example | Equivalent |\n|----------|---------------|---------|------------|\n| `=` | — | `a = 5` | assign 5 to a |\n| `+=` | `a = a + x` | `a += 4` | `a = a + 4` |\n| `-=` | `a = a - x` | `a -= 3` | `a = a - 3` |\n| `*=` | `a = a * x` | `a *= 5` | `a = a * 5` |\n| `/=` | `a = a / x` | `a /= 5` | `a = a / 5` |\n| `%=` | `a = a % x` | `a %= 3` | `a = a % 3` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — Full Trace",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "variable = a;              // variable = 5\n        System.out.println(variable);  // 5",
+      "variable += a;             // variable = 5 + 5 = 10\n        System.out.println(variable);  // 10",
+      "variable -= 3;             // variable = 10 - 3 = 7\n        System.out.println(variable);  // 7",
+      "variable *= a;             // variable = 7 * 5 = 35\n        System.out.println(variable);  // 35"
+    ],
+    "code": "public class AssignmentDemo {\n    public static void main(String[] args) {\n        int a = 5;\n        int variable = 0;\n\n        variable = a;              // variable = 5\n        System.out.println(variable);  // 5\n\n        variable += a;             // variable = 5 + 5 = 10\n        System.out.println(variable);  // 10\n\n        variable -= 3;             // variable = 10 - 3 = 7\n        System.out.println(variable);  // 7\n\n        variable *= a;             // variable = 7 * 5 = 35\n        System.out.println(variable);  // 35\n\n        variable /= a;             // variable = 35 / 5 = 7\n        System.out.println(variable);  // 7\n\n        variable %= 3;             // variable = 7 % 3 = 1\n        System.out.println(variable);  // 1\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Chained Assignment (Right-to-Left Associativity)",
+    "subtitle": "Assignment operators evaluate right to left:",
+    "bullets": [
+      "Assignment operators evaluate **right to left**:"
+    ],
+    "code": "int a, b, c;\na = b = c = 10;\n// Step 1: c = 10\n// Step 2: b = c (= 10)\n// Step 3: a = b (= 10)\nSystem.out.println(a + \" \" + b + \" \" + c);  // 10 10 10",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Bitwise Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Bitwise Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Bitwise Operators?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Low-level programming (networking, embedded systems)",
+      "Performance-critical algorithms",
+      "DSA problems (checking even/odd, swapping, flags)",
+      "Cryptography and encoding"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Four Bitwise Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Symbol | Operation |\n|----------|--------|-----------|\n| Bitwise AND | `&` | Both bits must be `1` → result is `1` |\n| Bitwise OR | `\\|` | Either bit is `1` → result is `1` |\n| Bitwise XOR | `^` | Bits are **different** → result is `1` |\n| Bitwise NOT | `~` | Flips all bits |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Bit-by-Bit Truth Tables",
+    "subtitle": "### AND (&)",
+    "bullets": [
+      "### AND (`&`)",
+      "| Bit A | Bit B | A & B |\n|-------|-------|-------|\n| 0 | 0 | 0 |\n| 0 | 1 | 0 |\n| 1 | 0 | 0 |\n| 1 | 1 | **1** |",
+      "### OR (`|`)",
+      "| Bit A | Bit B | A \\| B |\n|-------|-------|--------|\n| 0 | 0 | 0 |\n| 0 | 1 | **1** |\n| 1 | 0 | **1** |\n| 1 | 1 | **1** |",
+      "### XOR (`^`)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Worked Example — AND, OR, XOR",
+    "subtitle": "### AND: a & b",
+    "bullets": [
+      "### AND: `a & b`",
+      "### OR: `a | b`",
+      "### XOR: `a ^ b`"
+    ],
+    "code": "a = 4  → binary:  0 1 0 0\nb = 6  → binary:  0 1 1 0",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "System.out.println(\"a & b = \" + (a & b));   // 4  (0100)\n        System.out.println(\"a | b = \" + (a | b));   // 6  (0110)\n        System.out.println(\"a ^ b = \" + (a ^ b));   // 2  (0010)\n        System.out.println(\"~a    = \" + (~a));       // -5\n    }\n}\n```",
+      "**Output:**\n```\na & b = 4\na | b = 6\na ^ b = 2\n~a    = -5\n```"
+    ],
+    "code": "public class BitwiseDemo {\n    public static void main(String[] args) {\n        int a = 4;   // 0100\n        int b = 6;   // 0110\n\n        System.out.println(\"a & b = \" + (a & b));   // 4  (0100)\n        System.out.println(\"a | b = \" + (a | b));   // 6  (0110)\n        System.out.println(\"a ^ b = \" + (a ^ b));   // 2  (0010)\n        System.out.println(\"~a    = \" + (~a));       // -5\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "8.1 Bitwise NOT (`~`) — In-Depth Explanation",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The `~` operator is the most confusing bitwise operator in Java because it interacts with Java's **signed integer representation (two's complement)**.",
+      "### Why `~4` gives `-5` and not `3`",
+      "**Step 1: Represent +4 in 8-bit binary**",
+      "**Step 2: Apply NOT (flip every bit)**"
+    ],
+    "code": "+4  =  0000 0100\n        ↑\n        MSB = 0 → positive number",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Bitwise Shift Operators",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Bitwise Shift Operators"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Shift operators move all bits of a number **left** or **right** by a specified number of positions. They are essentially very fast **multiplication or division by powers of 2**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Three Types",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Symbol | Name | Effect |\n|----------|--------|------|--------|\n| Left shift | `<<` | Signed left shift | Shift bits left; fill right with `0` |\n| Right shift | `>>` | Signed right shift | Shift bits right; fill left with **sign bit** |\n| Unsigned right shift | `>>>` | Unsigned right shift | Shift bits right; fill left with `0` always |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "9.1 Left Shift (`<<`)",
+    "subtitle": "### How It Works",
+    "bullets": [
+      "Shift all bits to the **left** by `n` positions.",
+      "The leftmost bits are **discarded**.",
+      "The rightmost vacated positions are **always filled with `0`**."
+    ],
+    "code": "a << n  ≡  a × 2^n",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.2 Signed Right Shift (`>>`)",
+    "subtitle": "### How It Works",
+    "bullets": [
+      "Shift all bits to the **right** by `n` positions.",
+      "The rightmost bits are **discarded**.",
+      "The leftmost vacated positions are filled with the **sign bit** (MSB):",
+      "Positive number (MSB = 0) → fill with `0`"
+    ],
+    "code": "a >> n  ≡  a / 2^n   (for positive numbers)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "9.3 Unsigned Right Shift (`>>>`)",
+    "subtitle": "### How It Works",
+    "bullets": [
+      "Shift all bits to the **right** by `n` positions.",
+      "The rightmost bits are **discarded**.",
+      "The leftmost vacated positions are **always filled with `0`**, regardless of the sign bit."
+    ],
+    "code": "a = -5  →  1111 1011\n\na >>> 1:   shift right by 1\n            0111 1101  = 125\n            ↑ always filled with 0 — sign NOT preserved",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example — All Three Shift Operators",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Left shift\n        System.out.println(\"4 << 1 = \" + (a << 1));   // 8   (4 × 2)\n        System.out.println(\"4 << 2 = \" + (a << 2));   // 16  (4 × 4)",
+      "// Signed right shift\n        System.out.println(\"4 >> 1 = \" + (a >> 1));   // 2   (4 / 2)",
+      "int neg = -5;\n        System.out.println(\"-5 >> 1  = \" + (neg >> 1));  // -3  (sign preserved)\n        System.out.println(\"-5 >>> 1 = \" + (neg >>> 1)); // 2147483645 (sign not preserved)\n    }\n}\n```",
+      "**Output:**\n```\n4 << 1 = 8\n4 << 2 = 16\n4 >> 1 = 2\n-5 >> 1  = -3\n-5 >>> 1 = 2147483645\n```"
+    ],
+    "code": "public class ShiftDemo {\n    public static void main(String[] args) {\n        int a = 4;\n\n        // Left shift\n        System.out.println(\"4 << 1 = \" + (a << 1));   // 8   (4 × 2)\n        System.out.println(\"4 << 2 = \" + (a << 2));   // 16  (4 × 4)\n\n        // Signed right shift\n        System.out.println(\"4 >> 1 = \" + (a >> 1));   // 2   (4 / 2)\n\n        int neg = -5;\n        System.out.println(\"-5 >> 1  = \" + (neg >> 1));  // -3  (sign preserved)\n        System.out.println(\"-5 >>> 1 = \" + (neg >>> 1)); // 2147483645 (sign not preserved)\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Shift Operators and Powers of 2 — Summary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operation | Mathematical Equivalent | Example |\n|-----------|------------------------|---------|\n| `a << n` | `a × 2^n` | `4 << 3 = 32` |\n| `a >> n` | `a / 2^n` (floor) | `32 >> 3 = 4` |\n| `a >>> n` | `a / 2^n` (unsigned) | `-5 >>> 1 = large positive` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Ternary Operator",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Ternary Operator"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "It is called \"ternary\" because it works on **three operands**: the condition, the true-expression, and the false-expression."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Part | Role |\n|------|------|\n| `condition` | A boolean expression — evaluates to `true` or `false` |\n| `?` | Separates condition from the true branch |\n| `expressionIfTrue` | Returned/executed if condition is `true` |\n| `:` | Separates true branch from false branch (the \"else\") |\n| `expressionIfFalse` | Returned/executed if condition is `false` |"
+    ],
+    "code": "result = condition ? expressionIfTrue : expressionIfFalse;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Equivalent if-else",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Ternary version — identical behavior, one line\nint maxValue = (a > b) ? a : b;\n```"
+    ],
+    "code": "// if-else version\nint maxValue;\nif (a > b) {\n    maxValue = a;\n} else {\n    maxValue = b;\n}\n\n// Ternary version — identical behavior, one line\nint maxValue = (a > b) ? a : b;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Find maximum\n        int max = (a > b) ? a : b;\n        System.out.println(\"Max: \" + max);     // 5",
+      "// Check even or odd\n        String parity = (a % 2 == 0) ? \"even\" : \"odd\";\n        System.out.println(\"a is: \" + parity); // even",
+      "// Nested ternary (use sparingly — reduces readability)\n        int x = 10, y = 20, z = 15;\n        int largest = (x > y) ?",
+      "x : z) : ((y > z) ?"
+    ],
+    "code": "public class TernaryDemo {\n    public static void main(String[] args) {\n        int a = 4, b = 5;\n\n        // Find maximum\n        int max = (a > b) ? a : b;\n        System.out.println(\"Max: \" + max);     // 5\n\n        // Check even or odd\n        String parity = (a % 2 == 0) ? \"even\" : \"odd\";\n        System.out.println(\"a is: \" + parity); // even\n\n        // Nested ternary (use sparingly — reduces readability)\n        int x = 10, y = 20, z = 15;\n        int largest = (x > y) ? ((x > z) ? x : z) : ((y > z) ? y : z);\n        System.out.println(\"Largest: \" + largest); // 20\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Type Comparison Operator — `instanceof`",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Type Comparison Operator — `instanceof`"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Syntax",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Returns `true` if `object` is of type `ClassName` (or a subtype). Returns `false` otherwise."
+    ],
+    "code": "object instanceof ClassName",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Why It's Useful",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Because a parent class reference can hold objects of any child class, `instanceof` lets you safely check the **actual runtime type** before casting:"
+    ],
+    "code": "Parent ref = new Child2();   // parent reference holds Child2 object\nif (ref instanceof Child2) {\n    Child2 c = (Child2) ref; // safe cast — we verified the type first\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class InstanceOfDemo {\n    public static void main(String[] args) {\n        Object obj = new ChildClass2();",
+      "System.out.println(obj instanceof ChildClass2);  // true\n        System.out.println(obj instanceof ChildClass1);  // false\n        System.out.println(obj instanceof Parent);       // true (Child IS a Parent)",
+      "// With child reference\n        ChildClass1 child = new ChildClass1();\n        System.out.println(child instanceof Parent);     // true — subtype\n        System.out.println(child instanceof ChildClass1);// true",
+      "// With Object (parent of all)\n        Object unknownObj = new ChildClass2();\n        System.out.println(unknownObj instanceof ChildClass1);  // false\n        System.out.println(unknownObj instanceof ChildClass2);  // true"
+    ],
+    "code": "class Parent { }\nclass ChildClass1 extends Parent { }\nclass ChildClass2 extends Parent { }\n\npublic class InstanceOfDemo {\n    public static void main(String[] args) {\n        Object obj = new ChildClass2();\n\n        System.out.println(obj instanceof ChildClass2);  // true\n        System.out.println(obj instanceof ChildClass1);  // false\n        System.out.println(obj instanceof Parent);       // true (Child IS a Parent)\n\n        // With child reference\n        ChildClass1 child = new ChildClass1();\n        System.out.println(child instanceof Parent);     // true — subtype\n        System.out.println(child instanceof ChildClass1);// true\n\n        // With Object (parent of all)\n        Object unknownObj = new ChildClass2();\n        System.out.println(unknownObj instanceof ChildClass1);  // false\n        System.out.println(unknownObj instanceof ChildClass2);  // true\n\n        // String check\n        String text = \"Hello\";\n        System.out.println(text instanceof String);  // true\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Operator Precedence & Associativity",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Operator Precedence & Associativity"
+  },
+  {
+    "layout": "split",
+    "title": "What is Precedence?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Example:\n```java\n5 + 2 * 3\n```\nIs this `(5 + 2) * 3 = 21` or `5 + (2 * 3) = 11`?",
+      "Because `*` has **higher precedence** than `+`, the multiplication happens first:\n```\n5 + (2 * 3) = 5 + 6 = 11\n```"
+    ],
+    "code": "5 + 2 * 3",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "What is Associativity?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Example:\n```java\n10 * 5 / 2\n```\nBoth `*` and `/` have the same precedence. Their associativity is **left-to-right**, so:\n```\n(10 * 5) / 2 = 50 / 2 = 25\n```"
+    ],
+    "code": "10 * 5 / 2",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Java Operator Precedence Table",
+    "subtitle": "(Higher row = Higher precedence = Evaluated first)",
+    "bullets": [
+      "(Higher row = Higher precedence = Evaluated first)",
+      "| Priority | Category | Operators | Associativity |\n|----------|----------|-----------|---------------|\n| 1 (Highest) | Postfix | `expr++`, `expr--` | Left → Right |\n| 2 | Unary prefix | `++expr`, `--expr`, `+expr`, `-expr`, `~`, `!` | Right → Left |\n| 3 | Multiplicative | `*`, `/`, `%` | Left → Right |\n| 4 | Additive | `+`, `-` | Left → Right |\n| 5 | Shift | `<<`, `>>`, `>>>` | Left → Right |\n| 6 | Relational | `<`, `>`, `<=`, `>=`, `instanceof` | Left → Right |\n| 7 | Equality | `==`, `!=` | Left → Right |\n| 8 | Bitwise AND | `&` | Left → Right |\n| 9 | Bitwise XOR | `^` | Left → Right |\n| 10 | Bitwise OR | `\\|` | Left → Right |\n| 11 | Logical AND | `&&` | Left → Right |\n| 12 | Logical OR | `\\|\\|` | Left → Right |\n| 13 | Ternary | `?",
+      ":` | Right → Left |\n| 14 (Lowest) | Assignment | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, etc.",
+      "| Right → Left |"
+    ],
+    "code": "> int result = (5 + 2) * 3;   // clearly 21\n> int result = 5 + (2 * 3);   // clearly 11\n>",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Worked Precedence Example",
+    "subtitle": "Step-by-step (apply highest precedence first):",
+    "bullets": [
+      "Step-by-step (apply highest precedence first):"
+    ],
+    "code": "int result = 5 + 2 * 3 - 8 / 4;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Worked Associativity Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "// Assignment — right to left\nint a, b, c;\na = b = c = 10;\n// Step 1 (rightmost first): c = 10\n// Step 2: b = c (b = 10)\n// Step 3: a = b (a = 10)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Solving Complex Expressions Step by Step",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Solving Complex Expressions Step by Step"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Strategy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "When you encounter a complex expression with `++`, `--`, and multiple operators, follow this process:",
+      "**Identify and substitute all operand current values** (handle postfix: return value first, then update; handle prefix: update first, then return value).",
+      "**Build the simplified numeric expression**.",
+      "**Apply operator precedence** (multiplication before addition, etc.).",
+      "**Compute the final result**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Worked Example from the Lecture",
+    "subtitle": "### Step 1: Substitute Operand Values",
+    "bullets": [
+      "### Step 1: Substitute Operand Values",
+      "Track `a`'s value as you go left to right:",
+      "| Token | Current `a` | Action | Value Used | `a` after |\n|-------|------------|--------|------------|-----------|\n| `a++` | 4 | Postfix: use 4, then a++ | **4** | 5 |\n| `++a` | 5 | Prefix: a++ first → 6, then use 6 | **6** | 6 |\n| `--a` | 6 | Prefix: a-- first → 5, then use 5 | **5** | 5 |\n| `a--` | 5 | Postfix: use 5, then a-- | **5** | 4 |",
+      "Substituted expression:\n```\n4 + 6 * 5 + 5\n```"
+    ],
+    "code": "int a = 4;\nint result = a++ + ++a * --a + a--;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Practice Expression (from the lecture)",
+    "subtitle": "### Trace",
+    "bullets": [
+      "### Trace",
+      "| Token | Current `x` | Action | Value Used | `x` after |\n|-------|------------|--------|------------|-----------|\n| `++x` | 2 | Prefix: x=3, use 3 | **3** | 3 |\n| `x++` | 3 | Postfix: use 3, then x=4 | **3** | 4 |\n| `x++` | 4 | Postfix: use 4, then x=5 | **4** | 5 |",
+      "Substituted:\n```\n3 + 3 / 4 - 1\n```",
+      "Apply precedence (`/` before `+` and `-`):\n```\n3 + (3 / 4) - 1\n= 3 + 0 - 1      ← integer division: 3/4 = 0\n= 2\n```"
+    ],
+    "code": "int x = 2;\nint z = ++x + x++ / x++ - 1;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Logical Operator Short-Circuit Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Prefix vs Postfix Execution Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Bitwise NOT — Why ~4 = -5",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Bit Shift Visual",
+    "subtitle": "D[\"a = 4\\n0000 0100\"] --> E\n    E[\"a >> 1\\n0000 0010 = 2\\n(÷2)\"]",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "All Nine Operator Categories",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Category | Operators | Returns | Example |\n|----------|-----------|---------|---------|\n| Arithmetic | `+ - * / %` | Numeric | `5 % 2 = 1` |\n| Relational | `== != > < >= <=` | `boolean` | `4 < 7 = true` |\n| Logical | `&& \\|\\| !` | `boolean` | `true && false = false` |\n| Unary | `++ -- + - !` | Numeric / boolean | `++a`, `!flag` |\n| Assignment | `= += -= *= /= %=` | Assigns value | `a += 3` |\n| Bitwise | `& \\| ^ ~` | Numeric (bit level) | `4 & 6 = 4` |\n| Shift | `<< >> >>>` | Numeric | `4 << 1 = 8` |\n| Ternary | `?",
+      ":` | Value of chosen branch | `a>b ?",
+      "a : b` |\n| Type comparison | `instanceof` | `boolean` | `obj instanceof String` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Bitwise Operator Truth Table (Combined)",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| A | B | A & B | A \\| B | A ^ B |\n|---|---|-------|--------|-------|\n| 0 | 0 | 0 | 0 | 0 |\n| 0 | 1 | 0 | 1 | 1 |\n| 1 | 0 | 0 | 1 | 1 |\n| 1 | 1 | 1 | 1 | 0 |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Shift Operators — Fill Bit Rules",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Operator | Direction | Fill Bit | Sign Preserved?",
+      "|\n|----------|-----------|----------|----------------|\n| `<<` | Left | `0` (always) | N/A (affects MSB) |\n| `>>` | Right | Sign bit (0 or 1) | ✅ Yes |\n| `>>>` | Right | `0` (always) | ❌ No |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Prefix vs Postfix",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| | Postfix (`a++`) | Prefix (`++a`) |\n|-|----------------|----------------|\n| Step 1 | Return current value | Increment/decrement |\n| Step 2 | Increment/decrement | Return new value |\n| Value used in expression | **Old** value | **New** value |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: `=` vs `==`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "if (a = 5) { }   // ❌ COMPILE ERROR — assignment, not comparison\nif (a == 5) { }  // ✅ comparison",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Integer Division Surprise",
+    "subtitle": "Fix: Use double:",
+    "bullets": [
+      "**Fix:** Use `double`:"
+    ],
+    "code": "int result = 5 / 2;\nSystem.out.println(result);  // ❌ prints 2, NOT 2.5",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Confusing Postfix and Prefix in Expressions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Many beginners assume `a++` increments before the assignment. It does not — the assignment gets the old value."
+    ],
+    "code": "int a = 5;\nint b = a++;   // b = 5 (old value), a = 6\nint c = ++a;   // a = 7 first, then c = 7",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Expecting `~n` to Give the Bitwise Complement as Positive",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java uses signed two's complement — `~n` always gives `-(n+1)`, not just a bit flip to a positive number."
+    ],
+    "code": "int a = 4;\nSystem.out.println(~a);  // prints -5, NOT 3",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Using `>>` instead of `>>>` for Unsigned Shift",
+    "subtitle": "If you want to treat bits as unsigned, always use >>>.",
+    "bullets": [
+      "If you want to treat bits as unsigned, always use `>>>`."
+    ],
+    "code": "int n = -5;\nSystem.out.println(n >> 1);   // -3 (sign preserved — may not be intended)\nSystem.out.println(n >>> 1);  // 2147483645 (treats bits as unsigned)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 6: Precedence Assumption Without Parentheses",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "While this happens to be correct, always use parentheses to make intent explicit."
+    ],
+    "code": "boolean result = 4 + 3 > 5 && 2 * 3 == 6;\n// Actual evaluation:\n// (4+3) > 5  →  7 > 5  → true\n// (2*3) == 6  →  6 == 6  → true\n// true && true → true",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 7: `instanceof` on `null`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Object obj = null;\nSystem.out.println(obj instanceof String);  // false — does NOT throw NullPointerException",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Q1: What is the difference between & and &&?",
+    "bullets": [
+      "`++x` → x=3, use 3",
+      "`x++` → use 3, then x=4",
+      "`x++` → use 4, then x=5",
+      "Expression: `3 + 3/4 - 1` → `3 + 0 - 1 = 2` (integer division)",
+      "z = 2, x = 5"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "19. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "19. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is the output of `5 / 2` and `5.0 / 2` in Java?",
+      "What is the difference between `==` and `=`?",
+      "What does `a++` return when `a = 7`?",
+      "What is `a` after the statement?",
+      "What does `~0` evaluate to in Java?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "6. Trace through this expression and find the output:\n   ```java\n   int a = 5;\n   System.out.println(a++ + ++a - a--);\n   // What is printed? What is a afterward?\n   ```",
+      "7. What is the output? Explain using short-circuit evaluation:\n   ```java\n   int x = 0;\n   boolean result = (x != 0) && (10 / x > 1);\n   System.out.println(result);\n   ```",
+      "8. Compute `13 & 10`, `13 | 10`, and `13 ^ 10` by hand using binary. Verify with Java code.",
+      "9. What is the result of `-8 >> 1` and `-8 >>> 1`? Explain the difference."
+    ],
+    "code": "int a = 5;\n   System.out.println(a++ + ++a - a--);\n   // What is printed? What is a afterward?",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "11. Prove that `a ^ b ^ b == a` for any integer `a` and `b` using the XOR truth table. What is this property called, and what is it used for in algorithms?",
+      "12. Write a Java method using only bitwise operators (no `%` or `/`) to check if a number is even or odd.",
+      "13. Trace the full execution of:\n    ```java\n    int a = 4;\n    int result = a++ + ++a * --a + a--;\n    System.out.println(result);\n    System.out.println(a);\n    ```",
+      "14. Explain why `(int)(2.9 + 0.1)` gives `3` but `(int)(1.0 / 3.0 * 3.0)` may not give `1`. Which operator-related concept does this illustrate?"
+    ],
+    "code": "int a = 4;\n    int result = a++ + ++a * --a + a--;\n    System.out.println(result);\n    System.out.println(a);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "20. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "20. Summary Cheat Sheet"
+  }
+]

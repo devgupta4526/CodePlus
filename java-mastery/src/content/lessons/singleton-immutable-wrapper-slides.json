@@ -1,0 +1,437 @@
+[
+  {
+    "layout": "title",
+    "title": "Singleton Immutable Wrapper",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Singleton, Immutable & Wrapper Classes — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Singleton, Immutable & Wrapper Classes — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. Singleton Class",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. Singleton Class"
+  },
+  {
+    "layout": "diagram",
+    "title": "1.1 What is a Singleton?",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "1.2 Method 1: Eager Initialization",
+    "subtitle": "### Concept",
+    "bullets": [
+      "`private` → Nobody outside the class can access or reassign `connObject`",
+      "`static` → Belongs to the **class**, not to any instance. No matter how many times `getInstance()` is called, there is only **one** `connObject` — it is a class-level variable",
+      "`public` → Anyone can call it",
+      "`static` → Can be called **without** an object: `DBConnection.getInstance()`. This is essential — if it were non-static, you'd need an object to call it, which defeats the purpose."
+    ],
+    "code": "public class DBConnection {\n\n    // Step 1: Create the object eagerly — at class load time\n    // private: nobody outside can access this directly\n    // static: belongs to the CLASS, not to any object — only ONE copy ever exists\n    private static DBConnection connObject = new DBConnection();\n\n    // Step 2: Make constructor private — prevents 'new DBConnection()' from outside\n    private DBConnection() {\n        System.out.println(\"DBConnection created\");\n    }\n\n    // Step 3: Public static method to return the single instance\n    // static: can be called via class name without creating an object\n    public static DBConnection getInstance() {\n        return connObject;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "1.3 Method 2: Lazy Initialization",
+    "subtitle": "### Concept",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "1.4 Method 3: Synchronized Method",
+    "subtitle": "### Concept",
+    "bullets": [
+      "### Concept",
+      "Adding the `synchronized` keyword to `getInstance()` ensures that **only one thread can execute the method at a time**, preventing the race condition.",
+      "### Implementation",
+      "private static DBConnection connObject = null;"
+    ],
+    "code": "public class DBConnection {\n\n    private static DBConnection connObject = null;\n\n    private DBConnection() { }\n\n    // synchronized: only ONE thread can be inside this method at a time\n    public static synchronized DBConnection getInstance() {\n        if (connObject == null) {\n            connObject = new DBConnection();\n        }\n        return connObject;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "1.5 Method 4: Double-Checked Locking",
+    "subtitle": "### Concept",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "1.6 The Memory Issue — Why `volatile` is Required",
+    "subtitle": "### Background: CPU Caches (L1 Cache)",
+    "bullets": [
+      "Acquires lock",
+      "Creates new DBConnection()",
+      "Assigns connObject = new DBConnection()",
+      "Stores result in Core 1's L1 CACHE (not yet synced to main memory)"
+    ],
+    "code": "┌─────────────────────────────────────────────┐\n│                    CPU                      │\n│  ┌──────────────┐    ┌──────────────┐       │\n│  │    Core 1    │    │    Core 2    │       │\n│  │  ┌────────┐  │    │  ┌────────┐  │       │\n│  │  │L1 Cache│  │    │  │L1 Cache│  │       │\n│  │  └────────┘  │    │  └────────┘  │       │\n│  └──────────────┘    └──────────────┘       │\n│              ↕ (periodic sync) ↕             │\n│         ┌─────────────────────┐             │\n│         │     Main Memory     │             │\n│         │   (RAM / Heap)      │             │\n│         └─────────────────────┘             │\n└─────────────────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "1.7 Method 5: Bill Pugh Solution (Static Nested Class)",
+    "subtitle": "### Concept",
+    "bullets": [
+      "### Concept",
+      "This exploits a fundamental property of Java class loading:",
+      "### Implementation",
+      "// Constructor private — prevents external instantiation\n    private DBConnection() { }"
+    ],
+    "code": "public class DBConnection {\n\n    // Constructor private — prevents external instantiation\n    private DBConnection() { }\n\n    // Private static nested class — holds the singleton instance\n    // This class is NOT loaded until getInstance() is first called\n    private static class DBConnectionHelper {\n        // Eager initialization inside the nested class\n        // But since the class is loaded lazily, this is effectively lazy too\n        private static final DBConnection INSTANCE = new DBConnection();\n    }\n\n    // When this method is called for the FIRST TIME:\n    //   → JVM loads DBConnectionHelper\n    //   → DBConnectionHelper's static field is initialized (object created)\n    //   → INSTANCE is returned\n    // Subsequent calls:\n    //   → DBConnectionHelper is already loaded → INSTANCE already exists → return it\n    public static DBConnection getInstance() {\n        return DBConnectionHelper.INSTANCE;\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "1.8 Method 6: Enum Singleton",
+    "subtitle": "### Concept",
+    "bullets": [
+      "### Concept",
+      "This is the simplest singleton implementation — and the most robust.",
+      "### Implementation",
+      "// Add your connection methods here\n    public void connect() {\n        System.out.println(\"Connecting to DB...\");\n    }"
+    ],
+    "code": "public enum DBConnection {\n    INSTANCE;   // This is the singleton instance\n\n    // Add your connection methods here\n    public void connect() {\n        System.out.println(\"Connecting to DB...\");\n    }\n\n    public void query(String sql) {\n        System.out.println(\"Executing: \" + sql);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "1.9 Singleton Methods Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Lazy?",
+      "| Thread-Safe?",
+      "| Performance | Complexity | Recommended?",
+      "|\n|---|---|---|---|---|---|\n| Eager Initialization | ❌ | ✅ | Fast | Low | ⚠️ Wastes memory |\n| Lazy Initialization | ✅ | ❌ | Fast | Low | ❌ Not thread-safe |\n| Synchronized Method | ✅ | ✅ | Very slow | Low | ❌ Performance issue |\n| Double-Checked Locking | ✅ | ✅ (with `volatile`) | Good | High | ⚠️ Complex |\n| Bill Pugh Solution | ✅ | ✅ | Excellent | Medium | ✅ **Recommended** |\n| Enum Singleton | ❌ | ✅ | Fast | Very Low | ✅ **Recommended** |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Immutable Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Immutable Classes"
+  },
+  {
+    "layout": "split",
+    "title": "2.1 What is an Immutable Class?",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "You have already encountered immutability: **`String` in Java is immutable**. When you do:",
+      "The original `\"hello\"` object is never changed. A brand new `\"hello world\"` object is created.",
+      "### Real-World Analogy"
+    ],
+    "code": "String s = \"hello\";\ns = s + \" world\";   // Does NOT modify \"hello\" — creates a NEW String object",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.2 Rules for Creating Immutable Classes",
+    "subtitle": "There are five essential rules:",
+    "bullets": [
+      "`private` → No external code can directly read or write the field",
+      "`final` → The field can only be assigned **once** (in the constructor); it cannot be reassigned later"
+    ],
+    "code": "public final class ImmutablePerson {\n    // ...\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.3 The Collection Trap — Defensive Copying",
+    "subtitle": "### The Problem",
+    "bullets": [
+      "### The Problem",
+      "Consider this field:",
+      "The `final` keyword means: **this reference (`pets`) will always point to the same List object**. It does NOT mean the list's contents cannot change.",
+      "But the List object's CONTENTS can still change:\n    pets.add(\"Kiwi\")   → [List Object: \"SJ\", \"PJ\", \"Kiwi\"]  ← MUTABLE!\n```"
+    ],
+    "code": "private final List<String> pets;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "2.4 Complete Immutable Class Example",
+    "subtitle": "// Rule 1: Class declared final\npublic final class ImmutablePerson {",
+    "bullets": [
+      "// Rule 1: Class declared final\npublic final class ImmutablePerson {",
+      "// Rule 2: All fields private and final\n    private final String name;\n    private final List<String> petNames;",
+      "// Rule 3: Fields initialized only in constructor\n    public ImmutablePerson(String name, List<String> petNames) {\n        this.name = name;\n        // Defensive copy in constructor — protects against caller mutation\n        this.petNames = new ArrayList<>(petNames);\n    }",
+      "// Rule 4: Only getters — NO setters\n    public String getName() {\n        return name;   // String is immutable — safe to return directly\n    }"
+    ],
+    "code": "import java.util.ArrayList;\nimport java.util.List;\n\n// Rule 1: Class declared final\npublic final class ImmutablePerson {\n\n    // Rule 2: All fields private and final\n    private final String name;\n    private final List<String> petNames;\n\n    // Rule 3: Fields initialized only in constructor\n    public ImmutablePerson(String name, List<String> petNames) {\n        this.name = name;\n        // Defensive copy in constructor — protects against caller mutation\n        this.petNames = new ArrayList<>(petNames);\n    }\n\n    // Rule 4: Only getters — NO setters\n    public String getName() {\n        return name;   // String is immutable — safe to return directly\n    }\n\n    // Rule 5: Return defensive copy for mutable fields\n    public List<String> getPetNames() {\n        return new ArrayList<>(petNames);   // defensive copy\n    }\n\n    @Override\n    public String toString() {\n        return \"ImmutablePerson{name='\" + name + \"', pets=\" + petNames + \"}\";\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Wrapper Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Wrapper Classes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Every primitive type has a corresponding wrapper class in java.lang:",
+    "bullets": [
+      "Every primitive type has a corresponding wrapper class in `java.lang`:",
+      "| Primitive | Wrapper Class |\n|---|---|\n| `byte` | `Byte` |\n| `short` | `Short` |\n| `int` | `Integer` |\n| `long` | `Long` |\n| `float` | `Float` |\n| `double` | `Double` |\n| `char` | `Character` |\n| `boolean` | `Boolean` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Why Do Wrapper Classes Exist?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java's Collections Framework (e.g., `ArrayList`, `HashMap`) can only work with **objects**, not primitives. Wrapper classes allow primitives to be used as objects:",
+      "// This works — Integer is an object\nArrayList<Integer> list = new ArrayList<>();  // ✅\nlist.add(42);   // autoboxing: 42 (int) → Integer(42)\n```"
+    ],
+    "code": "// This does NOT compile — ArrayList needs objects, not primitives\n// ArrayList<int> list = new ArrayList<>();  // ❌\n\n// This works — Integer is an object\nArrayList<Integer> list = new ArrayList<>();  // ✅\nlist.add(42);   // autoboxing: 42 (int) → Integer(42)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Autoboxing and Unboxing",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Unboxing — Integer → int (automatic)\nInteger wrapped2 = Integer.valueOf(100);\nint primitive2 = wrapped2;     // compiler inserts: wrapped2.intValue()\n```"
+    ],
+    "code": "// Autoboxing — int → Integer (automatic, done by compiler)\nint primitive = 42;\nInteger wrapped = primitive;   // compiler inserts: Integer.valueOf(42)\n\n// Unboxing — Integer → int (automatic)\nInteger wrapped2 = Integer.valueOf(100);\nint primitive2 = wrapped2;     // compiler inserts: wrapped2.intValue()",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Useful Methods in Wrapper Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// Converting to different bases\nString binary = Integer.toBinaryString(10);  // → \"1010\"\nString hex = Integer.toHexString(255);       // → \"ff\"\nString octal = Integer.toOctalString(8);     // → \"10\"",
+      "// Max and Min values\nSystem.out.println(Integer.MAX_VALUE);  // → 2147483647\nSystem.out.println(Integer.MIN_VALUE);  // → -2147483648",
+      "// Comparing\nint result = Integer.compare(5, 10);   // → negative (5 < 10)\n```"
+    ],
+    "code": "// Parsing strings to primitives\nint x = Integer.parseInt(\"123\");       // → 123\ndouble d = Double.parseDouble(\"3.14\"); // → 3.14\n\n// Converting to different bases\nString binary = Integer.toBinaryString(10);  // → \"1010\"\nString hex = Integer.toHexString(255);       // → \"ff\"\nString octal = Integer.toOctalString(8);     // → \"10\"\n\n// Max and Min values\nSystem.out.println(Integer.MAX_VALUE);  // → 2147483647\nSystem.out.println(Integer.MIN_VALUE);  // → -2147483648\n\n// Comparing\nint result = Integer.compare(5, 10);   // → negative (5 < 10)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Integer Caching — Important Gotcha",
+    "subtitle": "Java caches Integer objects for values between -128 and 127 (inclusive):",
+    "bullets": [
+      "Java caches `Integer` objects for values between **-128 and 127** (inclusive):",
+      "Integer c = 128;\nInteger d = 128;\nSystem.out.println(c == d);   // false ← different objects (outside cache range)\nSystem.out.println(c.equals(d)); // true ← same value\n```"
+    ],
+    "code": "Integer a = 127;\nInteger b = 127;\nSystem.out.println(a == b);   // true  ← same cached object\n\nInteger c = 128;\nInteger d = 128;\nSystem.out.println(c == d);   // false ← different objects (outside cache range)\nSystem.out.println(c.equals(d)); // true ← same value",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Summary Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Summary Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Singleton Pattern Decision Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Immutable Class Checklist",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Singleton Mistakes",
+    "subtitle": "### Mistake 1: Forgetting volatile in Double-Checked Locking",
+    "bullets": [
+      "### Mistake 1: Forgetting `volatile` in Double-Checked Locking",
+      "// ✅ CORRECT\nprivate static volatile DBConnection connObject = null;\n```",
+      "Without `volatile`, the double-checked locking pattern is broken due to CPU caching and instruction reordering.",
+      "### Mistake 2: Public Constructor in Singleton"
+    ],
+    "code": "// ❌ WRONG — missing volatile\nprivate static DBConnection connObject = null;\n\n// ✅ CORRECT\nprivate static volatile DBConnection connObject = null;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Immutable Class Mistakes",
+    "subtitle": "### Mistake 4: Missing final on Class",
+    "bullets": [
+      "### Mistake 4: Missing `final` on Class",
+      "// ✅ CORRECT\npublic final class ImmutablePerson {\n    // ...\n}\n```",
+      "### Mistake 5: Returning the Actual Mutable Collection from Getter",
+      "// ✅ CORRECT — returns a defensive copy\npublic List<String> getPetNames() {\n    return new ArrayList<>(petNames);\n}\n```"
+    ],
+    "code": "// ❌ WRONG — subclass can break immutability\npublic class ImmutablePerson {\n    // ...\n}\n\n// ✅ CORRECT\npublic final class ImmutablePerson {\n    // ...\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Best Practices"
+  },
+  {
+    "layout": "bullets",
+    "title": "Singleton",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Prefer Bill Pugh or Enum** for new code — they are the cleanest, safest implementations.",
+      "**Always use `volatile`** with Double-Checked Locking — omitting it is a production bug.",
+      "**Never make the constructor public** — that would allow bypassing `getInstance()`.",
+      "**Be careful with serialization** — if your singleton implements `Serializable`, add `readResolve()` to prevent deserialization from creating a second instance (or use Enum which handles this automatically).",
+      "**Consider dependency injection** — in modern Spring/CDI applications, the framework manages singleton beans; hand-rolling singleton is less common."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Immutable Classes",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Always declare immutable classes `final`** — prevents subclassing attacks.",
+      "**Defensively copy mutable inputs in the constructor** — protect against caller mutation after construction.",
+      "**Defensively copy mutable outputs in getters** — protect internal state from external modification.",
+      "**`String` is safe to return directly** — it is already immutable; no defensive copy needed.",
+      "**For deep immutability** (nested mutable objects), recursively copy or use immutable wrappers (e.g., `Collections.unmodifiableList()`)."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "### Q1: What is a Singleton class and why is it used?",
+      "**Answer:** A Singleton class ensures that **only one object** of that class exists throughout the application's lifetime.",
+      "Used for expensive shared resources like database connections, logging, configuration managers, and caches.",
+      "### Q2: What are the different ways to implement a Singleton?",
+      "**Answer:** Eager Initialization, Lazy Initialization, Synchronized Method, Double-Checked Locking (with `volatile`), Bill Pugh Solution (static nested class), and Enum Singleton."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is the purpose of making a constructor `private` in a Singleton class?",
+      "What does the `static` keyword mean when applied to the singleton instance field?",
+      "Name two real-world scenarios where a Singleton is appropriate.",
+      "List the five rules for creating an immutable class.",
+      "What is the difference between `String s = \"hello\"` and `String s = new String(\"hello\")` in terms of immutability?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implement a thread-safe Singleton using the Synchronized Method approach.",
+      "Then explain its performance drawback.",
+      "Implement the Bill Pugh Singleton.",
+      "Explain why it is lazy without using `synchronized`.",
+      "Why does `final` on a `List` field not guarantee immutability of the list's contents?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Implement all six Singleton patterns from memory.",
+      "For each, state one advantage and one disadvantage.",
+      "A colleague implements Double-Checked Locking but forgets `volatile`.",
+      "Write a scenario (with thread timeline) showing exactly how two objects can be created due to CPU caching.",
+      "A Singleton class implements `Serializable`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Quick Revision Summary"
+  }
+]

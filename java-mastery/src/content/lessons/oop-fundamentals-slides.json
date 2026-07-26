@@ -1,0 +1,350 @@
+[
+  {
+    "layout": "title",
+    "title": "Oop Fundamentals",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Object-Oriented Programming (OOP) — Java Fundamentals",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Object-Oriented Programming (OOP) — Java Fundamentals"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is OOP?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is OOP?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**OOP** stands for **Object-Oriented Programming**.",
+      "As the name suggests, it is a programming paradigm that orients all software design around **objects**.",
+      "Whenever you design a system, the first question you should ask is: *What are the objects present in this problem?*",
+      "Everything revolves around objects — their properties, their behaviors, and how they interact with each other."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-world Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Things you can **describe** just by looking at it (e.g., a car's color, brand, type)",
+      "Things it can **do** (e.g., a car can accelerate, brake, honk)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Every Object Has Two Things",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | OOP Term | Also Called | Example (Dog) |\n|--------|----------|-------------|---------------|\n| Descriptive characteristics | **Properties** | State / Data Members / Fields | color, breed, age |\n| Actions it can perform | **Behavior** | Methods / Functions / Data Methods | bark(), sleep(), eat() |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Mind Map — OOP Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. Procedural vs Object-Oriented Programming",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. Procedural vs Object-Oriented Programming"
+  },
+  {
+    "layout": "split",
+    "title": "What is Procedural Programming?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A program is broken into **functions** (also called procedures)",
+      "Functions are called one after another, passing data between them",
+      "Data moves **freely** from function to function"
+    ],
+    "code": "Task → function1(data) → function2(data) → function3(data) → Result\n         ↑                     ↑\n     can change data      can change data",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Problems with Procedural Programming",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Problem | Explanation |\n|---------|-------------|\n| **No data hiding** | Data moves freely; any function can modify it |\n| **Tight coupling** | Functions are highly dependent on each other's data |\n| **No code reusability** | Logic is hard to reuse across different programs |\n| **Priority on functions** | Focus is on *what to do*, not *what data to protect* |\n| **No inheritance** | Cannot build on existing code structures cleanly |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "How OOP Solves This",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Data does not move freely",
+      "Only the class's own methods can directly modify its data",
+      "Other classes must go through controlled access (via methods)",
+      "This brings **loose coupling** — classes can change internally without breaking others"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Objects and Classes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Objects and Classes"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is an Object?",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "An **object** is a real-world entity that has both **properties (state)** and **behavior (functionality)**. In Java, an object is a concrete instance of a class that lives in memory (heap).",
+      "### Identifying an Object",
+      "Ask two questions:\n1. Can I describe it by just observing it? → Those are its **properties**\n2. Does it do something / perform actions? → Those are its **behaviors**",
+      "If yes to both → it qualifies as an object."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "What is a Class?",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "A **class** is a **blueprint** or **template** or **skeleton** from which objects are created.",
+      "It defines what properties and behaviors an object of that type will have — but it doesn't hold actual data itself.",
+      "The object holds the actual data."
+    ],
+    "code": "Class\n├── Data Variables (Properties / State / Fields)\n│     └── int age, String address, String id\n└── Data Methods (Behavior / Functions)\n      └── getAge(), setAge(), updateAddress()",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Creating Objects from a Class",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A class alone does nothing — you must **instantiate** it (create an object) using the `new` keyword.",
+      "Student engineeringStudent = new Student();\nStudent mbaStudent = new Student();\nStudent csStudent = new Student();\n```",
+      "Each object created is **independent**. Setting age on `engineeringStudent` does not affect `mbaStudent`.",
+      "### Object in Memory"
+    ],
+    "code": "// Syntax: ClassName variableName = new ClassName();\n\nStudent engineeringStudent = new Student();\nStudent mbaStudent = new Student();\nStudent csStudent = new Student();",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Class vs Object — Summary Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Aspect | Class | Object |\n|--------|-------|--------|\n| What it is | Blueprint / Template | Real instance in memory |\n| Where it lives | Method Area (JVM) | Heap Memory |\n| How many | One class definition | Can create unlimited objects |\n| Holds data?",
+      "| No — defines structure | Yes — holds actual values |\n| Created using | `class` keyword | `new` keyword |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Diagram — Class to Objects",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. The Four Pillars of OOP",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. The Four Pillars of OOP"
+  },
+  {
+    "layout": "diagram",
+    "title": "Pillar 1 — Data Abstraction",
+    "subtitle": "### Overview",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Pillar 2 — Data Encapsulation",
+    "subtitle": "### Overview",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Pillar 3 — Inheritance",
+    "subtitle": "### Overview",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Pillar 4 — Polymorphism",
+    "subtitle": "### Overview",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. OOP Relationships",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. OOP Relationships"
+  },
+  {
+    "layout": "bullets",
+    "title": "IS-A Relationship (Inheritance)",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "An **IS-A relationship** means one class *is a type of* another class. It is achieved through **inheritance** (`extends`).",
+      "### Examples",
+      "| Statement | Interpretation |\n|-----------|----------------|\n| `Car extends Vehicle` | Car IS-A Vehicle ✅ |\n| `Dog extends Animal` | Dog IS-A Animal ✅ |\n| `ElectricCar extends Car` | ElectricCar IS-A Car ✅ |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "HAS-A Relationship (Association)",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "A **HAS-A relationship** means one class **contains an object of another class** as a field (data member).",
+      "This is also called **Association** or **Composition/Aggregation** depending on the strength of the relationship.",
+      "### Example"
+    ],
+    "code": "class Engine {\n    int cc;\n    String type;\n}\n\nclass Bike {\n    String brand;\n    Engine engine; // Bike HAS-A Engine\n}\n\nclass School {\n    String name;\n    List<Student> students; // School HAS-A list of Students\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "Aggregation vs Composition",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Interview Question Bank",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Interview Question Bank"
+  },
+  {
+    "layout": "bullets",
+    "title": "Foundational Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Key Points to Cover |\n|----------|---------------------|\n| What is OOP?",
+      "| Object-oriented, everything revolves around objects, objects have properties and behavior |\n| What is a class?",
+      "| Blueprint/template, contains data variables and data methods |\n| What is an object?",
+      "| Real-world entity, instance of a class, has properties and behavior |\n| What is the difference between a class and an object?",
+      "| Class is blueprint (method area), object is instance (heap memory) |\n| What is the difference between procedural and OOP?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Four Pillars Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Pillar | Key Interview Question | Answer Hint |\n|--------|----------------------|-------------|\n| Abstraction | Explain with a real-world example | Car brake, phone call — expose only essential |\n| Abstraction | How to achieve in Java?",
+      "| Interface and Abstract Class |\n| Encapsulation | What is data hiding?",
+      "| Private fields + public getters/setters |\n| Encapsulation | What are access modifiers?",
+      "| private, default, protected, public |\n| Inheritance | Types of inheritance in Java?",
+      "| Single, multilevel, hierarchical — NOT multiple via extends |\n| Inheritance | What is Diamond Problem?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Relationship Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Question | Answer |\n|----------|--------|\n| What is IS-A?",
+      "| Inheritance — child IS-A type of parent |\n| What is HAS-A?",
+      "| Composition/Aggregation — one class has an object of another |\n| Aggregation vs Composition?",
+      "| Aggregation = weak (objects independent); Composition = strong (child dies with parent) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Master Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Master Summary"
+  },
+  {
+    "layout": "diagram",
+    "title": "All Four Pillars — Quick Revision",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Quick Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "✅ **OOP** = everything revolves around objects (properties + behavior)",
+      "✅ **Class** = blueprint; **Object** = instance with real data in heap",
+      "✅ **Abstraction** = hide implementation, expose essential → via `interface` / `abstract class`",
+      "✅ **Encapsulation** = bundle data + methods in a class → `private` fields + `public` methods → loose coupling",
+      "✅ **Inheritance** = child gets parent members → `extends` → IS-A relationship → code reuse"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Relationships Cheat Sheet",
+    "subtitle": "End of Chapter — OOP Fundamentals in Java",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  }
+]

@@ -1,0 +1,605 @@
+[
+  {
+    "layout": "title",
+    "title": "Collection Framework",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Collection Framework — Complete Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Collection Framework — Complete Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is a Collection?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is a Collection?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Before diving into the framework, you need to understand what a **collection** is at its core."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **collection** is a **group of objects** (also called a group of elements) stored together under a single unit."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Real-world Analogy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Think of a **bag of fruits**. The bag is the collection; the individual fruits are the elements. You can add a fruit, remove a fruit, search for a fruit, and count how many fruits are in the bag."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Examples of Collections",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Even before the Java Collection Framework existed, Java had types that acted as collections:",
+      "| Type | Description |\n|---|---|\n| `Array` | A fixed-size sequential collection of elements of the same type |\n| `Vector` | A resizable array (thread-safe, available before JCF) |\n| `Hashtable` | A key-value store (available before JCF) |",
+      "### Example — Array as a Collection",
+      "// Writing (inserting) to an array\na[0] = 1;"
+    ],
+    "code": "// Creating an integer array (a collection of integers)\nint[] a = {1, 2, 3, 4};\n\n// Writing (inserting) to an array\na[0] = 1;\n\n// Reading from an array\nint value = a[0];  // value = 1",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Package",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "All Java collection classes and interfaces are located in the `java.util` package."
+    ],
+    "code": "import java.util.*;  // imports all collection classes",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Version History",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | Added In |\n|---|---|\n| `Array`, `Vector`, `Hashtable` | Java 1.0 / 1.1 |\n| Java Collection Framework (JCF) | Java 1.2 |\n| `Iterable` interface | Java 1.5 |\n| `forEach()` method, Streams | Java 1.8 |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. What is a Framework?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. What is a Framework?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "A framework is a pre-built architecture that provides:",
+    "bullets": [
+      "Ready-made classes and interfaces",
+      "Common methods and functionality",
+      "A standardized structure you can build upon"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What JCF's Framework Provides",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Classes like `ArrayList`, `LinkedList`, `Stack`, `HashSet`, `TreeSet`, etc.",
+      "Interfaces like `Iterable`, `Collection`, `List`, `Set`, `Queue`, `Map`",
+      "Pre-built methods: `add()`, `remove()`, `contains()`, `size()`, `clear()`, `sort()`, etc."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. What is the Java Collection Framework (JCF)?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. What is the Java Collection Framework (JCF)?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The **Java Collection Framework (JCF)** is a unified architecture of classes and interfaces that represent and manipulate groups of objects (collections). It was introduced in **Java 1.2**."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What It Contains",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Interfaces**: Define the contract (what operations are available)",
+      "**Concrete Classes**: Implement those interfaces with specific behavior",
+      "**Utility Classes**: Provide helper methods (e.g., `Collections`)",
+      "**Algorithms**: Sorting, searching, shuffling, etc."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Core Capabilities",
+    "subtitle": "With JCF, you can perform these operations on any collection:",
+    "bullets": [
+      "**Add** elements",
+      "**Remove** elements",
+      "**Update** elements",
+      "**Search** for elements",
+      "**Iterate** over elements"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Why Was JCF Needed? — The Problem It Solved",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Why Was JCF Needed? — The Problem It Solved"
+  },
+  {
+    "layout": "split",
+    "title": "The Problem: No Common Interface",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Before JCF (before Java 1.2), Java had `Array`, `Vector`, and `Hashtable` — but each used **completely different methods** for reading and writing. There was **no common interface**.",
+      "### Comparison of Pre-JCF Collections",
+      "| Operation | Array | Vector | Hashtable |\n|---|---|---|---|\n| Insert | `a[0] = value` | `v.addElement(value)` | `ht.put(key, value)` |\n| Read | `a[0]` | `v.get(0)` | `ht.get(key)` |\n| Size | `a.length` | `v.size()` | `ht.size()` |",
+      "### Code Example Demonstrating the Problem"
+    ],
+    "code": "// Array — index-based read/write\nint[] array = new int[4];\narray[0] = 1;           // Write\nint val = array[0];     // Read\n\n// Vector — method-based read/write (different syntax!)\nVector<Integer> vector = new Vector<>();\nvector.add(10);         // Write\nint val2 = vector.get(0); // Read\n\n// Hashtable — key-value based (completely different!)\nHashtable<String, Integer> ht = new Hashtable<>();\nht.put(\"key\", 10);     // Write\nint val3 = ht.get(\"key\"); // Read",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The Solution: A Common Interface",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "JCF introduced a **common parent interface** called `Collection`. Now, all collection classes implement `Collection`, which means they all share the **same method names**:",
+      "| Operation | Any JCF Collection |\n|---|---|\n| Insert | `.add(element)` |\n| Remove | `.remove(element)` |\n| Search | `.contains(element)` |\n| Size | `.size()` |\n| Iterate | `.iterator()` / enhanced `for` loop |",
+      "### Code Example Demonstrating the Solution",
+      "// ArrayList — uses .add() to insert\nList<Integer> list = new ArrayList<>();\nlist.add(1);"
+    ],
+    "code": "import java.util.*;\n\n// ArrayList — uses .add() to insert\nList<Integer> list = new ArrayList<>();\nlist.add(1);\n\n// Stack — also uses .add() to insert\nStack<Integer> stack = new Stack<>();\nstack.add(2);\n\n// LinkedList — also uses .add() to insert\nLinkedList<Integer> linkedList = new LinkedList<>();\nlinkedList.add(3);\n\n// PriorityQueue — also uses .add() to insert\nPriorityQueue<Integer> pq = new PriorityQueue<>();\npq.add(4);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "5. JCF Hierarchy — Complete Overview",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. JCF Hierarchy — Complete Overview"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Two Trees",
+    "subtitle": "JCF is organized into two separate hierarchies:",
+    "bullets": [
+      "JCF is organized into **two separate hierarchies**:",
+      "1. **The `Iterable` / `Collection` tree** — for single-element collections (lists, sets, queues)\n2. **The `Map` tree** — for key-value pair collections (maps)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Visual Hierarchy Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Concrete Classes Reference Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Concrete Class | Parent Interface | Key Characteristic |\n|---|---|---|\n| `ArrayList` | `List` | Resizable array, index-based access |\n| `LinkedList` | `List`, `Deque` | Doubly linked list, fast insertions |\n| `Vector` | `List` | Thread-safe resizable array (legacy) |\n| `Stack` | `Vector` | LIFO (Last In, First Out) |\n| `PriorityQueue` | `Queue` | Elements ordered by priority |\n| `ArrayDeque` | `Deque` | Double-ended queue |\n| `HashSet` | `Set` | No duplicates, unordered |\n| `LinkedHashSet` | `Set` | No duplicates, insertion-ordered |\n| `TreeSet` | `SortedSet` | No duplicates, sorted order |\n| `HashMap` | `Map` | Key-value pairs, unordered |\n| `LinkedHashMap` | `Map` | Key-value pairs, insertion-ordered |\n| `TreeMap` | `Map` | Key-value pairs, sorted by key |\n| `Hashtable` | `Map` | Thread-safe key-value pairs (legacy) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "6. The `Iterable` Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. The `Iterable` Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Purpose",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Methods of `Iterable`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Added In | Description |\n|---|---|---|\n| `iterator()` | Java 1.5 | Returns an `Iterator` object for traversal |\n| `forEach(Consumer action)` | Java 1.8 | Iterates using a lambda expression |\n| `spliterator()` | Java 1.8 | Returns a `Spliterator` (for parallel processing) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Class Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Three Ways to Iterate a Collection",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Three Ways to Iterate a Collection"
+  },
+  {
+    "layout": "diagram",
+    "title": "Method 1: Using `iterator()` — The `Iterator` Object",
+    "subtitle": "### What is an Iterator?",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Method 2: Enhanced `for` Loop (for-each)",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "Any class that implements `Iterable` can be used in an enhanced `for` loop. This is the simplest and most common way to iterate when you don't need to remove elements.",
+      "### Syntax",
+      "### Code Example"
+    ],
+    "code": "for (ElementType variable : collection) {\n    // use variable\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Method 3: `forEach()` Method with Lambda Expression",
+    "subtitle": "### Overview",
+    "bullets": [
+      "### Overview",
+      "Added in **Java 1.8**, the `forEach()` method is defined on the `Iterable` interface. It accepts a `Consumer` functional interface and uses a **lambda expression** to process each element.",
+      "### What is `Consumer`?",
+      "It takes **one input** and **returns nothing** (void). It is used to represent an action to be performed on each element."
+    ],
+    "code": "void accept(T t);",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. The `Collection` Interface",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. The `Collection` Interface"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "What Extends/Implements Collection",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Common Methods of `Collection`",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Common Methods of `Collection`"
+  },
+  {
+    "layout": "bullets",
+    "title": "Method Reference Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Return Type | Added In | Description |\n|---|---|---|---|\n| `size()` | `int` | 1.2 | Returns total number of elements |\n| `isEmpty()` | `boolean` | 1.2 | Returns `true` if collection has no elements |\n| `contains(Object o)` | `boolean` | 1.2 | Returns `true` if element is present |\n| `add(E e)` | `boolean` | 1.2 | Inserts an element |\n| `remove(Object o)` | `boolean` | 1.2 | Removes first occurrence of element |\n| `addAll(Collection c)` | `boolean` | 1.2 | Inserts all elements from another collection |\n| `removeAll(Collection c)` | `boolean` | 1.2 | Removes all elements that exist in given collection |\n| `containsAll(Collection c)` | `boolean` | 1.2 | Returns `true` if all elements of given collection are present |\n| `clear()` | `void` | 1.2 | Removes ALL elements from the collection |\n| `equals(Object o)` | `boolean` | 1.2 | Checks if two collections are equal |\n| `toArray()` | `Object[]` | 1.2 | Converts collection to an array |\n| `iterator()` | `Iterator<E>` | 1.2 | Returns an iterator |\n| `stream()` | `Stream<E>` | 1.8 | Returns a sequential stream |\n| `parallelStream()` | `Stream<E>` | 1.8 | Returns a parallel stream |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Complete Code Example — All Methods Demonstrated",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class CollectionMethodsExample {\n    public static void main(String[] args) {",
+      "// ── Create collection and add elements ──\n        List<Integer> values = new ArrayList<>();\n        values.add(2);\n        values.add(3);\n        values.add(4);\n        // values = [2, 3, 4]",
+      "// ── size() ──\n        System.out.println(values.size());         // 3",
+      "// ── isEmpty() ──\n        System.out.println(values.isEmpty());      // false"
+    ],
+    "code": "import java.util.ArrayList;\nimport java.util.List;\nimport java.util.Stack;\n\npublic class CollectionMethodsExample {\n    public static void main(String[] args) {\n\n        // ── Create collection and add elements ──\n        List<Integer> values = new ArrayList<>();\n        values.add(2);\n        values.add(3);\n        values.add(4);\n        // values = [2, 3, 4]\n\n        // ── size() ──\n        System.out.println(values.size());         // 3\n\n        // ── isEmpty() ──\n        System.out.println(values.isEmpty());      // false\n\n        // ── contains() ──\n        System.out.println(values.contains(5));    // false\n\n        // ── add() ──\n        values.add(5);\n        System.out.println(values.contains(5));    // true\n        // values = [2, 3, 4, 5]\n\n        // ── remove() by INDEX (primitive int) ──\n        values.remove(3);  // removes element at index 3 (value = 5)\n        System.out.println(values.contains(5));    // false\n        // values = [2, 3, 4]\n\n        // ── remove() by OBJECT (Integer wrapper) ──\n        values.remove(Integer.valueOf(3));  // removes the element with value 3\n        System.out.println(values.contains(3));    // false\n        // values = [2, 4]\n\n        // ── addAll() — merge another collection into this one ──\n        Stack<Integer> stackValues = new Stack<>();\n        stackValues.add(6);\n        stackValues.add(7);\n        stackValues.add(8);\n\n        values.addAll(stackValues);\n        // values = [2, 4, 6, 7, 8]\n\n        // ── containsAll() — check if all elements of stackValues are in values ──\n        System.out.println(values.containsAll(stackValues));  // true\n\n        // ── remove element 7 manually ──\n        values.remove(Integer.valueOf(7));\n        // values = [2, 4, 6, 8]\n\n        // ── containsAll() again — now 7 is missing ──\n        System.out.println(values.containsAll(stackValues));  // false (7 is missing)\n\n        // ── removeAll() — remove all elements that are in stackValues (6, 7, 8) ──\n        values.removeAll(stackValues);\n        // 6 and 8 get removed (7 was already removed)\n        // values = [2, 4]\n\n        System.out.println(values.contains(8));   // false\n\n        // ── clear() ──\n        values.clear();\n        System.out.println(values.isEmpty());     // true\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Important: `remove()` by Index vs. by Object",
+    "subtitle": "This is a very common source of bugs in Java.",
+    "bullets": [
+      "This is a **very common source of bugs** in Java.",
+      "// Removes by INDEX — removes element at index 1 (which is value 20)\nlist.remove(1);\n// list = [10, 30]",
+      "// Removes by OBJECT VALUE — removes element with value 10\nlist.remove(Integer.valueOf(10));\n// list = [30]\n```"
+    ],
+    "code": "List<Integer> list = new ArrayList<>();\nlist.add(10);\nlist.add(20);\nlist.add(30);\n// list = [10, 20, 30]  (indices 0, 1, 2)\n\n// Removes by INDEX — removes element at index 1 (which is value 20)\nlist.remove(1);\n// list = [10, 30]\n\n// Removes by OBJECT VALUE — removes element with value 10\nlist.remove(Integer.valueOf(10));\n// list = [30]",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "The Power of Common Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Because all concrete classes inherit these methods from `Collection`, you only need to learn the method names once:",
+      "arrayList.add(1);    // ✅ works\nlinkedList.add(1);   // ✅ works\nstack.add(1);        // ✅ works\npq.add(1);           // ✅ works\nhashSet.add(1);      // ✅ works\n```"
+    ],
+    "code": "// The same .add() works on ALL of these:\nArrayList<Integer> arrayList = new ArrayList<>();\nLinkedList<Integer> linkedList = new LinkedList<>();\nStack<Integer> stack = new Stack<>();\nPriorityQueue<Integer> pq = new PriorityQueue<>();\nHashSet<Integer> hashSet = new HashSet<>();\n\narrayList.add(1);    // ✅ works\nlinkedList.add(1);   // ✅ works\nstack.add(1);        // ✅ works\npq.add(1);           // ✅ works\nhashSet.add(1);      // ✅ works",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. `Collection` vs `Collections` — Key Difference",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. `Collection` vs `Collections` — Key Difference"
+  },
+  {
+    "layout": "bullets",
+    "title": "Side-by-Side Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `Collection` | `Collections` |\n|---|---|---|\n| Type | **Interface** | **Utility Class** |\n| Package | `java.util` | `java.util` |\n| Purpose | Blueprint for all collection types | Provides helper/utility methods to work on collections |\n| Methods | Instance methods (overridden by concrete classes) | **All static methods** |\n| Part of JCF?",
+      "| Yes — it's the core interface | Yes — it's a utility layer on top |\n| Example use | `List<Integer> list = new ArrayList<>()` | `Collections.sort(list)` |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is a Utility Class?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **utility class** is a class where **all methods are `static`**. You call the methods using the **class name directly** — no object creation needed."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Common `Collections` (Utility Class) Methods",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Method | Description |\n|---|---|\n| `Collections.sort(list)` | Sorts list in natural (ascending) order |\n| `Collections.sort(list, comparator)` | Sorts using custom comparator |\n| `Collections.reverse(list)` | Reverses the order of elements |\n| `Collections.shuffle(list)` | Randomly shuffles elements |\n| `Collections.min(collection)` | Returns the minimum element |\n| `Collections.max(collection)` | Returns the maximum element |\n| `Collections.swap(list, i, j)` | Swaps elements at indices `i` and `j` |\n| `Collections.copy(dest, src)` | Copies all elements from `src` to `dest` |\n| `Collections.binarySearch(list, key)` | Binary search (list must be sorted) |\n| `Collections.rotate(list, distance)` | Rotates elements by given distance |\n| `Collections.frequency(collection, obj)` | Returns count of given element |\n| `Collections.unmodifiableList(list)` | Returns a read-only view of list |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class CollectionsUtilityExample {\n    public static void main(String[] args) {",
+      "List<Integer> list = new ArrayList<>();\n        list.add(3);\n        list.add(1);\n        list.add(2);\n        list.add(4);\n        // list = [3, 1, 2, 4]",
+      "// max — static method, called on class name\n        System.out.println(Collections.max(list));    // 4",
+      "// min\n        System.out.println(Collections.min(list));    // 1"
+    ],
+    "code": "import java.util.ArrayList;\nimport java.util.Collections;\nimport java.util.List;\n\npublic class CollectionsUtilityExample {\n    public static void main(String[] args) {\n\n        List<Integer> list = new ArrayList<>();\n        list.add(3);\n        list.add(1);\n        list.add(2);\n        list.add(4);\n        // list = [3, 1, 2, 4]\n\n        // max — static method, called on class name\n        System.out.println(Collections.max(list));    // 4\n\n        // min\n        System.out.println(Collections.min(list));    // 1\n\n        // sort\n        Collections.sort(list);\n\n        // iterate using forEach\n        list.forEach(value -> System.out.print(value + \" \"));\n        // Output: 1 2 3 4\n\n        // reverse\n        Collections.reverse(list);\n        list.forEach(value -> System.out.print(value + \" \"));\n        // Output: 4 3 2 1\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. The `Map` Interface — Why It's Separate",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. The `Map` Interface — Why It's Separate"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Is `Map` Not Under `Collection` or `Iterable`?",
+    "subtitle": "This is a common interview question. The reason is structural:",
+    "bullets": [
+      "`Collection` stores **single elements**: `[1, 2, 3, 4]`",
+      "`Map` stores **key-value pairs**: `{\"name\": \"Alice\", \"age\": 30}`"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Map Hierarchy",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Interview Notes"
+  },
+  {
+    "layout": "split",
+    "title": "Commonly Asked Questions",
+    "subtitle": "### Q1: What is the Java Collection Framework?",
+    "bullets": [
+      "Arrays used index-based access (`a[0]`)",
+      "Vector used `.addElement()` / `.get()`",
+      "Hashtable used `.put()` / `.get()`",
+      "`Collection` — an **interface** that is the root of the JCF hierarchy (below `Iterable`). Defines operations like `add()`, `remove()`, `size()`, etc."
+    ],
+    "code": "Iterator<Integer> it = list.iterator();\nwhile (it.hasNext()) {\n    Integer val = it.next();\n    if (val == 3) {\n        it.remove(); // Safe — no ConcurrentModificationException\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Summary & Quick Revision",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Summary & Quick Revision"
+  },
+  {
+    "layout": "bullets",
+    "title": "Revision Bullets",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**JCF** introduced in **Java 1.2** to unify collection types under a common API.",
+      "**Problem solved**: No common interface before JCF — each type had different read/write syntax.",
+      "**Iterable** → root interface (Java 1.5); enables `for-each` loop and `forEach()` method.",
+      "**Collection** → extends `Iterable`; root of single-element collection hierarchy (Java 1.2).",
+      "**Three child interfaces of Collection**: `List`, `Set`, `Queue`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "14. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What package contains the Java Collection Framework?",
+      "Which interface is the root of the JCF collection hierarchy?",
+      "What does `size()` return on a collection?",
+      "What does `isEmpty()` return if a collection has elements?",
+      "What Java version introduced the `forEach()` method?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Explain the three ways to iterate a collection with code examples for each.",
+      "Why does using `list.remove()` inside an enhanced for loop throw `ConcurrentModificationException`?",
+      "What is the difference between `Collection` (interface) and `Collections` (class)?",
+      "Write code that uses `Iterator` to remove all even numbers from a `List<Integer>`.",
+      "Explain why `Map` is not part of the `Collection` hierarchy."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "If both `Collection` and `Iterable` existed since their respective versions, why would a class implement `Iterable` directly instead of `Collection`?",
+      "Give a real-world use case.",
+      "Write a generic method that accepts any `Collection<Integer>` and returns the sum of all elements.",
+      "Explain the internal modification count mechanism that causes `ConcurrentModificationException`.",
+      "How does `Iterator.remove()` avoid triggering it?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  }
+]

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { background: #0b0d14; color: #fff; font-family: monospace; }
+  #canvas-area {
+    position: relative;
+    width: 1280px; height: 720px;
+    background: #111;
+  }
+  #canvas-wrap {
+    position: relative;
+    width: 1280px; height: 720px;
+  }
+  #slide-canvas {
+    display: block; position: relative;
+    width: 1280px; height: 720px;
+    background: #0b0d14;
+  }
+  #slide-dom {
+    position: absolute; top: 0; left: 0;
+    width: 1280px; height: 720px;
+    pointer-events: none; overflow: hidden; z-index: 3;
+  }
+  #draw-canvas {
+    position: absolute; top: 0; left: 0;
+    display: block; z-index: 4;
+    width: 1280px; height: 720px;
+  }
+</style>
+</head>
+<body>
+<div id="canvas-area">
+  <div id="canvas-wrap">
+    <canvas id="slide-canvas" width="1280" height="720"></canvas>
+    <div id="slide-dom">
+      <div style="position: absolute; inset: 0px; padding: 46px 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;">
+        <div style="font-size: 34px; font-weight: 700; color: #e8eaf6; text-align: center;">Title is Visible!</div>
+        <div style="font-size: 14px; color: #f87c7c; text-align: center;">Subtitle is visible too</div>
+      </div>
+    </div>
+    <canvas id="draw-canvas" width="1280" height="720"></canvas>
+  </div>
+</div>
+</body>
+</html>

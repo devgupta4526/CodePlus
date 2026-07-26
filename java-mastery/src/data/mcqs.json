@@ -1,0 +1,106 @@
+[
+  {
+    "id": "java-jvm",
+    "question": "What is the primary role of the JVM in Java?",
+    "difficulty": "Easy",
+    "topic": "Java Basics",
+    "options": [
+      {
+        "id": "a",
+        "text": "To compile Java source code into bytecode"
+      },
+      {
+        "id": "b",
+        "text": "To execute Java bytecode on different platforms"
+      },
+      {
+        "id": "c",
+        "text": "To replace the Java compiler completely"
+      },
+      {
+        "id": "d",
+        "text": "To store Java source files in memory"
+      }
+    ],
+    "correctOptionId": "b",
+    "explanation": "The JVM runs compiled Java bytecode, which is what enables Java's platform independence."
+  },
+  {
+    "id": "oop-encapsulation",
+    "question": "Which OOP principle is focused on hiding internal implementation details?",
+    "difficulty": "Easy",
+    "topic": "OOP",
+    "options": [
+      {
+        "id": "a",
+        "text": "Inheritance"
+      },
+      {
+        "id": "b",
+        "text": "Polymorphism"
+      },
+      {
+        "id": "c",
+        "text": "Encapsulation"
+      },
+      {
+        "id": "d",
+        "text": "Abstraction leak"
+      }
+    ],
+    "correctOptionId": "c",
+    "explanation": "Encapsulation bundles data and behavior together while controlling direct access to internal state."
+  },
+  {
+    "id": "collections-map",
+    "question": "Which Java collection is best suited for storing key-value pairs?",
+    "difficulty": "Medium",
+    "topic": "Collections",
+    "options": [
+      {
+        "id": "a",
+        "text": "List"
+      },
+      {
+        "id": "b",
+        "text": "Set"
+      },
+      {
+        "id": "c",
+        "text": "Queue"
+      },
+      {
+        "id": "d",
+        "text": "Map"
+      }
+    ],
+    "correctOptionId": "d",
+    "explanation": "A Map stores entries as key-value pairs and supports lookup by key."
+  },
+  {
+    "id": "exceptions-finally",
+    "question": "Why is a finally block commonly used?",
+    "difficulty": "Medium",
+    "topic": "Exceptions",
+    "options": [
+      {
+        "id": "a",
+        "text": "To declare checked exceptions"
+      },
+      {
+        "id": "b",
+        "text": "To ensure cleanup code runs whether or not an exception occurs"
+      },
+      {
+        "id": "c",
+        "text": "To stop exceptions from being thrown"
+      },
+      {
+        "id": "d",
+        "text": "To define custom exception classes"
+      }
+    ],
+    "correctOptionId": "b",
+    "explanation": "finally is typically used for cleanup, such as closing files or releasing resources."
+  }
+]

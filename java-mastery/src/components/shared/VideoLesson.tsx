@@ -2,14 +2,17 @@
 
 import { useState } from 'react';
 import { Play, ExternalLink, Video } from 'lucide-react';
+import { WatermarkOverlay } from './WatermarkOverlay';
 
 interface VideoLessonProps {
   videoUrl: string;
   title?: string;
 }
 
-/** Converts a YouTube watch URL or short URL to the embed URL. */
+/** Converts a YouTube watch URL or short URL to the embed URL, preserving relative video paths. */
 function toEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  if (url.startsWith('/')) return url;
   try {
     const u = new URL(url);
 
@@ -28,10 +31,10 @@ function toEmbedUrl(url: string): string | null {
       return url;
     }
 
-    // For other URLs (direct video files, Vimeo, etc.) return as-is
+    // For other URLs (direct video files, uploaded paths) return as-is
     return url;
   } catch {
-    return null;
+    return url;
   }
 }
 
@@ -41,7 +44,7 @@ function isYoutube(url: string): boolean {
 
 /**
  * VideoLesson — renders a YouTube embed (via iframe) or a native <video> element
- * depending on the provided URL. Shows a "load" gate to avoid eager loading.
+ * with dynamic anti-piracy User ID watermark overlay.
  */
 export function VideoLesson({ videoUrl, title }: VideoLessonProps) {
   const [loaded, setLoaded] = useState(false);
@@ -81,30 +84,41 @@ export function VideoLesson({ videoUrl, title }: VideoLessonProps) {
               <Play className="w-7 h-7 text-[var(--accent)] ml-1" />
             </div>
             <p className="text-sm text-[var(--text-muted)]">
-              Click to load video
+              Click to load protected video stream
             </p>
-            {youtube && (
+            {youtube ? (
               <p className="text-[10px] text-[var(--text-disabled)]">
-                Loads from YouTube — requires internet connection
+                Loads from YouTube — protected with user watermark
+              </p>
+            ) : (
+              <p className="text-[10px] text-[var(--accent)]">
+                Direct Upload Stream — anti-piracy enabled
               </p>
             )}
           </div>
-        ) : youtube ? (
-          <iframe
-            src={embedUrl}
-            title={title ?? 'Lesson video'}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full border-0"
-          />
         ) : (
-          /* Native video for direct MP4 / WebM URLs */
-          <video
-            src={embedUrl}
-            controls
-            autoPlay
-            className="absolute inset-0 w-full h-full"
-          />
+          <>
+            {youtube ? (
+              <iframe
+                src={embedUrl}
+                title={title ?? 'Lesson video'}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            ) : (
+              /* Native video for direct MP4 / WebM uploaded URLs */
+              <video
+                src={embedUrl}
+                controls
+                autoPlay
+                controlsList="nodownload"
+                className="absolute inset-0 w-full h-full"
+              />
+            )}
+            {/* Dynamic Anti-Piracy User ID Watermark Overlay */}
+            <WatermarkOverlay />
+          </>
         )}
       </div>
 

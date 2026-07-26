@@ -1,0 +1,833 @@
+[
+  {
+    "layout": "title",
+    "title": "Float Double Ieee754",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Float & Double — IEEE 754 Internal Memory Representation",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Float & Double — IEEE 754 Internal Memory Representation"
+  },
+  {
+    "layout": "transition",
+    "title": "1. The Problem — Why 0.7f ≠ 0.7",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. The Problem — Why 0.7f ≠ 0.7"
+  },
+  {
+    "layout": "split",
+    "title": "The Surprising Output",
+    "subtitle": "Expected output:\n\n0.7",
+    "bullets": [
+      "**Expected output:**\n```\n0.7\n```",
+      "**Actual output:**\n```\n0.6999998\n```",
+      "This surprises many developers, including experienced ones. The value `0.7` was stored, but something slightly different came back out."
+    ],
+    "code": "public class FloatProblem {\n    public static void main(String[] args) {\n        float f = 0.7f;\n        System.out.println(f);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why Does This Happen?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Computers store numbers in **binary (base-2)**, not decimal (base-10).",
+      "Many decimal fractions that terminate neatly in base-10 (like `0.7`) **cannot be represented exactly in binary** — they become infinitely repeating binary fractions.",
+      "Because memory is finite, the repeating binary fraction is **truncated** at 23 bits (for `float`) or 52 bits (for `double`).",
+      "When that truncated value is read back and converted to decimal, it is no longer exactly `0.7`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "2. IEEE 754 Standard — Overview",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. IEEE 754 Standard — Overview"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is IEEE 754?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**IEEE 754** is the international standard that specifies how floating-point numbers are stored in binary computer memory.",
+      "It was established by the Institute of Electrical and Electronics Engineers (IEEE) and is used by Java, C, C++, Python, JavaScript, and almost every other language."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why a Standard?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Before IEEE 754, different hardware vendors stored floating-point numbers in incompatible formats.",
+      "A program compiled for one computer might produce different floating-point results on another.",
+      "IEEE 754 (adopted in 1985) unified this into a single format."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Two Formats Relevant to Java",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Java Type | IEEE 754 Format | Total Bits |\n|-----------|-----------------|------------|\n| `float` | Single Precision | 32 bits |\n| `double` | Double Precision | 64 bits |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "The Core Idea",
+    "subtitle": "Any floating-point number is stored as three components:",
+    "bullets": [
+      "Any floating-point number is stored as three components:",
+      "1. **Sign** — is the number positive or negative?\n2. **Exponent** — how large or small is the number (the \"scale\")?\n3. **Mantissa (Significand)** — what are the actual significant digits?",
+      "This is analogous to **scientific notation** in base-10:",
+      "IEEE 754 does the same thing but in **base-2** (binary)."
+    ],
+    "code": "−3.14159 × 10^6\n  ↑         ↑\nsign      exponent\n  mantissa = 3.14159",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Float Memory Layout (32-bit)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Float Memory Layout (32-bit)"
+  },
+  {
+    "layout": "split",
+    "title": "Bit Allocation",
+    "subtitle": "A float occupies exactly 32 bits, divided as follows:",
+    "bullets": [
+      "A `float` occupies exactly **32 bits**, divided as follows:",
+      "| Field | Bits | Position | Purpose |\n|-------|------|----------|---------|\n| Sign (S) | 1 | Bit 31 | `0` = positive, `1` = negative |\n| Exponent (E) | 8 | Bits 30–23 | Stores the power of 2 (with bias added) |\n| Mantissa (M) | 23 | Bits 22–0 | Stores the significant binary digits after the leading `1.` |"
+    ],
+    "code": "31  30        23  22                    0\n┌───┬──────────────┬───────────────────────┐\n│ S │   Exponent   │       Mantissa        │\n│ 1 │    8 bits    │       23 bits         │\n└───┴──────────────┴───────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Constants for float",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Constant | Value | Explanation |\n|----------|-------|-------------|\n| Bias | **127** | Added to the real exponent before storage (= 2^7 − 1) |\n| Mantissa bits | **23** | Determines precision (~7 significant decimal digits) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Double Memory Layout (64-bit)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Double Memory Layout (64-bit)"
+  },
+  {
+    "layout": "split",
+    "title": "Bit Allocation",
+    "subtitle": "A double occupies exactly 64 bits, divided as follows:",
+    "bullets": [
+      "A `double` occupies exactly **64 bits**, divided as follows:",
+      "| Field | Bits | Position | Purpose |\n|-------|------|----------|---------|\n| Sign (S) | 1 | Bit 63 | `0` = positive, `1` = negative |\n| Exponent (E) | 11 | Bits 62–52 | Stores the power of 2 (with bias added) |\n| Mantissa (M) | 52 | Bits 51–0 | Stores the significant binary digits after the leading `1.` |"
+    ],
+    "code": "63  62              52  51                               0\n┌───┬──────────────────┬──────────────────────────────────┐\n│ S │    Exponent      │           Mantissa               │\n│ 1 │    11 bits       │           52 bits                │\n└───┴──────────────────┴──────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Constants for double",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Constant | Value | Explanation |\n|----------|-------|-------------|\n| Bias | **1023** | Added to the real exponent before storage (= 2^10 − 1) |\n| Mantissa bits | **52** | Determines precision (~15–16 significant decimal digits) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. The Four-Step Encoding Process",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. The Four-Step Encoding Process"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Worked Example 1 — Storing 4.125f (Clean Case)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Worked Example 1 — Storing 4.125f (Clean Case)"
+  },
+  {
+    "layout": "split",
+    "title": "Step 1: Convert to Binary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "We need to convert both the integer part (`4`) and the fractional part (`0.125`) to binary separately.",
+      "### Integer Part: 4",
+      "Divide repeatedly by 2 and read remainders **bottom to top**:",
+      "So `4` in binary = **`100`**"
+    ],
+    "code": "4 ÷ 2 = 2  remainder 0\n2 ÷ 2 = 1  remainder 0\n1 ÷ 2 = 0  remainder 1\n              ↑ read upward\nResult: 100",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 2: Normalize",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Mantissa** (the part after `1.`) = `00001`",
+      "**Exponent** = `2` (we moved 2 places left, so power is positive 2)"
+    ],
+    "code": "100.001",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 3: Add Bias to the Exponent",
+    "subtitle": "For float, the bias is 127.",
+    "bullets": [
+      "For `float`, the bias is **127**.",
+      "Convert 129 to 8-bit binary:"
+    ],
+    "code": "Stored exponent = real exponent + bias\nStored exponent = 2 + 127 = 129",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 4: Fill in the 32 Bits",
+    "subtitle": "Now assemble all three fields:",
+    "bullets": [
+      "Now assemble all three fields:",
+      "Full 32-bit memory layout:",
+      "This is exactly how `4.125f` is stored in your computer's memory!"
+    ],
+    "code": "Sign = 0           (4.125 is positive)\nExponent = 10000001  (129 in 8-bit binary)\nMantissa = 00001000000000000000000  (23 bits, padded with zeros)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Worked Example 2 — Storing 0.7f (Imprecise Case)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Worked Example 2 — Storing 0.7f (Imprecise Case)"
+  },
+  {
+    "layout": "split",
+    "title": "Step 1: Convert to Binary",
+    "subtitle": "There is no integer part (it's 0). We only need to convert 0.7:",
+    "bullets": [
+      "There is no integer part (it's `0`). We only need to convert `0.7`:",
+      "The fraction **0.4 → 0.8 → 0.6 → 0.2 → 0.4 → ...** repeats infinitely!",
+      "Reading the integer parts top to bottom:"
+    ],
+    "code": "0.7   × 2 = 1.4   → integer part: 1,  fraction remaining: 0.4\n0.4   × 2 = 0.8   → integer part: 0,  fraction remaining: 0.8\n0.8   × 2 = 1.6   → integer part: 1,  fraction remaining: 0.6\n0.6   × 2 = 1.2   → integer part: 1,  fraction remaining: 0.2\n0.2   × 2 = 0.4   → integer part: 0,  fraction remaining: 0.4  ← SAME AS ROW 2!\n0.4   × 2 = 0.8   → integer part: 0,  fraction remaining: 0.8  ← SAME AS ROW 3!\n0.8   × 2 = 1.6   → integer part: 1,  fraction remaining: 0.6  ← REPEATING!\n...",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 2: Normalize",
+    "subtitle": "Move the binary point 1 place to the right to get a leading 1.:",
+    "bullets": [
+      "**Exponent** = `−1` (moved 1 place right → negative power)",
+      "**Mantissa** = `0110011001100110011...` (repeating)"
+    ],
+    "code": "0.10110011001100110011...",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 3: Add Bias",
+    "subtitle": "Convert 126 to 8-bit binary:",
+    "bullets": [
+      "Convert 126 to 8-bit binary:"
+    ],
+    "code": "Stored exponent = −1 + 127 = 126",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 4: Fill in the 32 Bits",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The mantissa is an **infinite repeating sequence** — we can only store the first **23 bits**, and the rest are **truncated**:",
+      "Full 32-bit memory layout:",
+      "Notice that the stored mantissa (`01100110011001100110011`) is a **truncated approximation** of the true repeating value. When we decode this back to decimal, we will NOT get exactly `0.7`."
+    ],
+    "code": "Full mantissa:  0110011001100110011001100110011...  (infinite)\nStored 23 bits: 01100110011001100110011\n                └──────────────────────┘\n                         truncated here ← precision lost!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "8. The Retrieval Formula — Decoding from Memory",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. The Retrieval Formula — Decoding from Memory"
+  },
+  {
+    "layout": "split",
+    "title": "Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "`S` = sign bit (`0` = positive, `1` = negative)",
+      "`Mantissa` = the decimal value of the stored mantissa bits",
+      "`E` = the stored exponent value (the biased exponent)",
+      "`Bias` = 127 for float, 1023 for double"
+    ],
+    "code": "Value = (−1)^S  ×  (1 + Mantissa)  ×  2^(E − Bias)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "How to Compute the Mantissa's Decimal Value",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Each mantissa bit position represents a power of 2, starting from **2^(−1)** and decreasing:",
+      "For each bit that is `1`, you add its corresponding power. For bits that are `0`, you add nothing."
+    ],
+    "code": "Bit position:  1    2    3    4    5    6  ... 23\nPower of 2: 2^-1  2^-2  2^-3  2^-4  2^-5  2^-6 ... 2^-23\nDecimal:    0.5   0.25  0.125  ...",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Breaking Down the Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Part | Meaning |\n|------|---------|\n| `(−1)^S` | If S=0 → `(−1)^0 = 1` (positive).",
+      "If S=1 → `(−1)^1 = −1` (negative).",
+      "|\n| `(1 + Mantissa)` | The `1` is the implicit leading bit that was not stored.",
+      "Mantissa is the fractional part.",
+      "|\n| `2^(E − Bias)` | Reverse the bias to recover the real exponent, then scale accordingly."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Decoding Worked Example 1 — Retrieving 4.125f",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Decoding Worked Example 1 — Retrieving 4.125f"
+  },
+  {
+    "layout": "split",
+    "title": "Step 1: Compute the Real Exponent",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Real exponent = Stored exponent − Bias = 129 − 127 = 2",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 2: Compute the Mantissa Value",
+    "subtitle": "Mantissa bits: 00001 00000000000000000",
+    "bullets": [
+      "Mantissa bits: `00001 00000000000000000`",
+      "Only the 5th bit is `1`, which corresponds to `2^(−5)`:"
+    ],
+    "code": "Mantissa value = 2^(−5) = 0.03125",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 3: Apply the Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Result: 4.125** ✅ — Perfect! Because `4.125` is representable as a finite binary fraction, it encodes and decodes without any loss."
+    ],
+    "code": "Value = (−1)^0  ×  (1 + 0.03125)  ×  2^2\n      = 1  ×  1.03125  ×  4\n      = 4.125",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Decoding Worked Example 2 — Retrieving 0.7f",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Decoding Worked Example 2 — Retrieving 0.7f"
+  },
+  {
+    "layout": "split",
+    "title": "Step 1: Compute the Real Exponent",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Real exponent = 126 − 127 = −1",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 2: Compute the Mantissa Value",
+    "subtitle": "Mantissa bits: 01100110011001100110011",
+    "bullets": [
+      "Mantissa bits: `01100110011001100110011`",
+      "Identify which bit positions are `1`:",
+      "Bits set to `1` are at positions: 2, 3, 6, 7, 10, 11, 14, 15, 18, 19, 22, 23",
+      "Corresponding powers and decimal values:"
+    ],
+    "code": "Position:   1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23\nBit:        0  1  1  0  0  1  1  0  0   1   1   0   0   1   1   0   0   1   1   0   0   1   1",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Step 3: Apply the Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Result: approximately 0.6997...** — which rounds and prints as **`0.6999998`** ← NOT `0.7`!"
+    ],
+    "code": "Value = (−1)^0  ×  (1 + 0.39941...)  ×  2^(−1)\n      = 1  ×  1.39941...  ×  0.5\n      = 0.69970...",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Why the Bias Exists",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Why the Bias Exists"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Problem Without Bias",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The smallest possible exponent is stored as `00000000` (all zeros).",
+      "The largest possible exponent is stored as `11111111` (all ones).",
+      "A larger stored exponent **always** means a larger value."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "How the Bias Works",
+    "subtitle": "For float, bias = 127:",
+    "bullets": [
+      "For `float`, bias = **127**:",
+      "| Real Exponent | Stored Exponent (real + 127) |\n|---------------|------------------------------|\n| −127 | 0 (reserved for special values) |\n| −3 | 124 |\n| −1 | 126 |\n| 0 | 127 |\n| 1 | 128 |\n| 2 | 129 |\n| 127 | 254 |\n| 128 | 255 (reserved for ±∞, NaN) |",
+      "For `double`, bias = **1023**:",
+      "| Real Exponent | Stored Exponent (real + 1023) |\n|---------------|-------------------------------|\n| −3 | 1020 |\n| −1 | 1022 |\n| 0 | 1023 |\n| 2 | 1025 |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Real exponent = **−1**",
+      "Stored exponent = **−1 + 127 = 126**",
+      "In binary: **01111110**",
+      "−1 in two's complement = `11111111`",
+      "This would be ambiguous — the same as a very large positive exponent in unsigned comparison"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Repeating Binary Fractions — Root Cause of Imprecision",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Repeating Binary Fractions — Root Cause of Imprecision"
+  },
+  {
+    "layout": "split",
+    "title": "The Analogy",
+    "subtitle": "In base-10, the fraction 1/3 cannot be written as a finite decimal:",
+    "bullets": [
+      "In **base-10**, the fraction `1/3` cannot be written as a finite decimal:",
+      "If you round it to 6 decimal places: `0.333333`, you get a close approximation — but not exact.",
+      "In **base-2**, the fraction `7/10` (which is `0.7`) cannot be written as a finite binary fraction:",
+      "If you round it to 23 bits, you get a close approximation — but not exact."
+    ],
+    "code": "1/3 = 0.33333333333...  (repeats forever)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Which Decimals Are Exact in Binary?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A decimal fraction `n/d` is exactly representable in binary **only if** `d` is a power of 2 (i.e., d = 1, 2, 4, 8, 16, 32, ...).",
+      "| Decimal | Fraction | Denominator | Exact in binary?",
+      "|\n|---------|----------|-------------|-----------------|\n| 0.5 | 1/2 | 2 = 2^1 | ✅ Yes |\n| 0.25 | 1/4 | 4 = 2^2 | ✅ Yes |\n| 0.125 | 1/8 | 8 = 2^3 | ✅ Yes |\n| 0.75 | 3/4 | 4 = 2^2 | ✅ Yes |\n| 4.125 | 33/8 | 8 = 2^3 | ✅ Yes |\n| 0.1 | 1/10 | 10 (not a power of 2) | ❌ No |\n| 0.2 | 1/5 | 5 (not a power of 2) | ❌ No |\n| 0.3 | 3/10 | 10 (not a power of 2) | ❌ No |\n| 0.7 | 7/10 | 10 (not a power of 2) | ❌ No |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Float vs Double — Precision Comparison",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Float vs Double — Precision Comparison"
+  },
+  {
+    "layout": "transition",
+    "title": "14. BigDecimal — The Correct Solution",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "14. BigDecimal — The Correct Solution"
+  },
+  {
+    "layout": "bullets",
+    "title": "What is BigDecimal?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Why BigDecimal is Exact",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Code Example",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "public class BigDecimalDemo {\n    public static void main(String[] args) {\n        // ❌ Float: imprecise\n        float f1 = 0.7f;\n        float f2 = 0.3f;\n        System.out.println(\"float result: \" + (f1 - f2));\n        // Output: float result: 0.39999998",
+      "// ❌ Double: still imprecise\n        double d1 = 0.7;\n        double d2 = 0.3;\n        System.out.println(\"double result: \" + (d1 - d2));\n        // Output: double result: 0.39999999999999997",
+      "// ✅ BigDecimal: exact\n        BigDecimal bd1 = new BigDecimal(\"0.7\");\n        BigDecimal bd2 = new BigDecimal(\"0.3\");\n        System.out.println(\"BigDecimal result: \" + bd1.subtract(bd2));\n        // Output: BigDecimal result: 0.4\n    }\n}\n```",
+      "**Output:**\n```\nfloat result: 0.39999998\ndouble result: 0.39999999999999997\nBigDecimal result: 0.4\n```"
+    ],
+    "code": "import java.math.BigDecimal;\nimport java.math.RoundingMode;\n\npublic class BigDecimalDemo {\n    public static void main(String[] args) {\n        // ❌ Float: imprecise\n        float f1 = 0.7f;\n        float f2 = 0.3f;\n        System.out.println(\"float result: \" + (f1 - f2));\n        // Output: float result: 0.39999998\n\n        // ❌ Double: still imprecise\n        double d1 = 0.7;\n        double d2 = 0.3;\n        System.out.println(\"double result: \" + (d1 - d2));\n        // Output: double result: 0.39999999999999997\n\n        // ✅ BigDecimal: exact\n        BigDecimal bd1 = new BigDecimal(\"0.7\");\n        BigDecimal bd2 = new BigDecimal(\"0.3\");\n        System.out.println(\"BigDecimal result: \" + bd1.subtract(bd2));\n        // Output: BigDecimal result: 0.4\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Critical: Always Initialize BigDecimal from String",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "// ✅ CORRECT — pass as String to preserve exact value\nBigDecimal good = new BigDecimal(\"0.7\");\nSystem.out.println(good);\n// Output: 0.7\n```"
+    ],
+    "code": "// ❌ WRONG — the double 0.7 is already imprecise before BigDecimal sees it\nBigDecimal bad = new BigDecimal(0.7);\nSystem.out.println(bad);\n// Output: 0.6999999999999999555910790149937383830547332763671875\n\n// ✅ CORRECT — pass as String to preserve exact value\nBigDecimal good = new BigDecimal(\"0.7\");\nSystem.out.println(good);\n// Output: 0.7",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Common BigDecimal Operations",
+    "subtitle": "BigDecimal a = new BigDecimal(\"10.5\");\nBigDecimal b = new BigDecimal(\"3.2\");",
+    "bullets": [
+      "BigDecimal a = new BigDecimal(\"10.5\");\nBigDecimal b = new BigDecimal(\"3.2\");",
+      "BigDecimal sum        = a.add(b);               // 13.7\nBigDecimal difference = a.subtract(b);           // 7.3\nBigDecimal product    = a.multiply(b);           // 33.60\nBigDecimal quotient   = a.divide(b, 2, RoundingMode.HALF_UP);  // 3.28\n```"
+    ],
+    "code": "import java.math.BigDecimal;\nimport java.math.RoundingMode;\n\nBigDecimal a = new BigDecimal(\"10.5\");\nBigDecimal b = new BigDecimal(\"3.2\");\n\nBigDecimal sum        = a.add(b);               // 13.7\nBigDecimal difference = a.subtract(b);           // 7.3\nBigDecimal product    = a.multiply(b);           // 33.60\nBigDecimal quotient   = a.divide(b, 2, RoundingMode.HALF_UP);  // 3.28",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "15. Quick-Reference Tables",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "15. Quick-Reference Tables"
+  },
+  {
+    "layout": "bullets",
+    "title": "float vs double vs BigDecimal",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | `float` | `double` | `BigDecimal` |\n|---------|---------|---------|--------------|\n| Storage | 32-bit IEEE 754 | 64-bit IEEE 754 | Arbitrary precision |\n| Precision | ~7 decimal digits | ~15–16 decimal digits | Exact (no limit) |\n| Performance | Fast (hardware-accelerated) | Fast (hardware-accelerated) | Slower (software) |\n| Exact for 0.7?",
+      "| ❌ No | ❌ No | ✅ Yes |\n| Use for currency?",
+      "| ❌ Never | ❌ Never | ✅ Always |\n| Suffix needed | `f` (e.g., `3.14f`) | `d` optional (e.g., `3.14`) | N/A (use String constructor) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "IEEE 754 Format Comparison",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Field | float (32-bit) | double (64-bit) |\n|-------|---------------|-----------------|\n| Sign bits | 1 | 1 |\n| Exponent bits | 8 | 11 |\n| Mantissa bits | 23 | 52 |\n| Bias | 127 (2^7 − 1) | 1023 (2^10 − 1) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Four-Step Encoding Summary",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Step | Action |\n|------|--------|\n| 1 | Convert decimal number to binary |\n| 2 | Normalize: write as `1.mantissa × 2^exponent` |\n| 3 | Add bias to exponent (127 for float, 1023 for double) |\n| 4 | Lay out bits: Sign (1) | Exponent (8 or 11) | Mantissa (23 or 52) |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Retrieval Formula",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "Value = (−1)^S  ×  (1 + Mantissa)  ×  2^(StoredExponent − Bias)",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "16. Mermaid Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "16. Mermaid Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "IEEE 754 Float Bit Layout",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Encoding Flowchart",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Why 0.7 is Imprecise — The Repeating Fraction",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "BigDecimal vs float/double Decision Tree",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "17. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "17. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: Comparing Floats with `==`",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "if (a == b) {\n    System.out.println(\"Equal\");\n} else {\n    System.out.println(\"Not equal\");  // ← This prints!\n}\n```",
+      "Because `0.1f + 0.2f` ≈ `0.30000001` (not exactly `0.3f`), the `==` comparison fails.",
+      "**Correct approach — use an epsilon (tolerance):**",
+      "Or use `BigDecimal`:"
+    ],
+    "code": "float a = 0.1f + 0.2f;\nfloat b = 0.3f;\n\nif (a == b) {\n    System.out.println(\"Equal\");\n} else {\n    System.out.println(\"Not equal\");  // ← This prints!\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Constructing BigDecimal from a double",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "System.out.println(wrong);\n// 0.1000000000000000055511151231257827021181583404541015625",
+      "System.out.println(right);\n// 0.1\n```"
+    ],
+    "code": "BigDecimal wrong = new BigDecimal(0.1);      // ❌ already imprecise!\nBigDecimal right = new BigDecimal(\"0.1\");    // ✅ exact\n\nSystem.out.println(wrong);\n// 0.1000000000000000055511151231257827021181583404541015625\n\nSystem.out.println(right);\n// 0.1",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Using float/double for Money",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "In a financial application, this tiny error multiplied across millions of transactions causes real money discrepancies.",
+      "**Always use BigDecimal for money:**"
+    ],
+    "code": "double price = 19.99;\ndouble tax = 0.08;\ndouble total = price * tax;\nSystem.out.println(total);\n// Expected: 1.5992\n// Actual:   1.5992000000000002",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 4: Trusting the Default `println` Output for doubles",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java's `println` rounds the output for display purposes, hiding the underlying imprecision. Use `printf` with many decimal places to see the real stored value."
+    ],
+    "code": "double d = 0.7;\nSystem.out.println(d);         // Output: 0.7   ← looks fine!\nSystem.out.printf(\"%.20f%n\", d); // Output: 0.69999999999999995559 ← truth revealed!",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Forgetting to Specify Scale When Dividing with BigDecimal",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "BigDecimal result = a.divide(b);  // ❌ ArithmeticException: Non-terminating decimal expansion\n```"
+    ],
+    "code": "BigDecimal a = new BigDecimal(\"10\");\nBigDecimal b = new BigDecimal(\"3\");\n\nBigDecimal result = a.divide(b);  // ❌ ArithmeticException: Non-terminating decimal expansion",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "18. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "18. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "19. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "19. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Frequently Asked Interview Questions",
+    "subtitle": "Q1: Why does 0.7f print as 0.6999998 in Java?",
+    "bullets": [
+      "1 bit for sign (0 = positive, 1 = negative)",
+      "8 bits for the biased exponent (real exponent + 127)",
+      "23 bits for the mantissa (fractional part after the implicit leading `1.`)"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "20. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "20. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What is the output of `System.out.println(0.1f + 0.2f)`?",
+      "How many bits does a `float` use in total?",
+      "Break down the allocation.",
+      "What is the bias value for `float`?",
+      "For `double`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Convert the decimal `0.5` to its IEEE 754 32-bit float representation.",
+      "Is it exact?",
+      "Convert the decimal `0.25` to binary.",
+      "Is it exact?",
+      "What is the mantissa and what is the exponent for `0.7` after IEEE 754 normalization?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Convert `−6.75` to its full 32-bit IEEE 754 float representation (show all four steps).",
+      "Given the 32-bit pattern `0 10000000 10000000000000000000000`, what decimal value does it represent?",
+      "(Use the retrieval formula.)\n13.",
+      "Why does the bias in IEEE 754 use `2^(k-1) − 1` where k is the number of exponent bits, rather than simply `2^(k-1)`?",
+      "A bank stores account balances as `double`."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "21. Summary Cheat Sheet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "21. Summary Cheat Sheet"
+  }
+]

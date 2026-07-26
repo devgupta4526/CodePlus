@@ -1,26 +1,25 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, BookOpen, Briefcase,
   Code2, Brain, Trophy, Settings, LogOut, Lock,
   Eye, EyeOff, ChevronRight, Plus, Pencil, Trash2,
-  Save, X, Check, AlertTriangle, RotateCcw, Menu,
+  Save, X, Check, AlertTriangle, Menu,
   BarChart3, Layers, ChevronDown,
-  ChevronUp, Globe, Flame,
+  ChevronUp, Globe, Flame, Terminal, FileCode,
+  Upload, Sparkles, Tv
 } from 'lucide-react';
 
 import {
-  checkAdminSession, adminLogin, adminLogout, resetAllAdminData,
-  getAdminLessons, upsertLesson, deleteLesson, type AdminLesson,
-  getAdminChapters, saveAdminChapters, type AdminChapter,
-  getAdminJobs, upsertJob, deleteJob, type AdminJob,
-  getAdminProblems, upsertProblem, deleteProblem, type AdminProblem,
-  getAdminMcq, upsertMcq, deleteMcq, type AdminMcq,
-  getAdminContests, upsertContest, deleteContest, type AdminContest,
-  getSiteSettings, saveSiteSettings, type SiteSettings,
+  checkAdminSession, adminLogin, adminLogout, type AdminLesson,
+  type AdminChapter, type AdminJob, type AdminProblem, type AdminMcq,
+  type AdminContest, type SiteSettings
 } from '@/lib/adminStore';
+
+const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false });
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -110,7 +109,7 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-2xl"
+        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl border border-[var(--border-color)] bg-[var(--bg)] shadow-2xl"
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-color)] sticky top-0 bg-[var(--bg)] z-10">
           <h3 className="text-base font-heading font-semibold text-[var(--text-primary)]">{title}</h3>
@@ -234,7 +233,7 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
 
 // ── Sidebar ───────────────────────────────────────────────────────────────────
 
-const NAV: { id: Section; label: string; icon: React.ElementType; badge?: string }[] = [
+const NAV: { id: Section; label: string; icon: React.ElementType }[] = [
   { id: 'dashboard', label: 'Dashboard',  icon: LayoutDashboard },
   { id: 'lessons',   label: 'Lessons',    icon: BookOpen },
   { id: 'chapters',  label: 'Chapters',   icon: Layers },
@@ -305,21 +304,17 @@ function Sidebar({ active, onSelect, onLogout, collapsed, onToggle }: {
 
 // ── Dashboard ─────────────────────────────────────────────────────────────────
 
-function DashboardSection() {
-  const lessons  = getAdminLessons();
-  const jobs     = getAdminJobs();
-  const problems = getAdminProblems();
-  const mcq      = getAdminMcq();
-  const contests = getAdminContests();
-  const settings = getSiteSettings();
-
+function DashboardSection({ lessons, jobs, problems, mcqs, contests, settings }: {
+  lessons: AdminLesson[]; jobs: AdminJob[]; problems: AdminProblem[];
+  mcqs: AdminMcq[]; contests: AdminContest[]; settings: SiteSettings | null;
+}) {
   const stats = [
     { icon: BookOpen,  label: 'Lessons',          value: lessons.length,  color: 'text-[var(--accent)]' },
     { icon: Briefcase, label: 'Job Postings',      value: jobs.length,     color: 'text-[var(--success)]' },
     { icon: Code2,     label: 'Practice Problems', value: problems.length, color: 'text-[var(--accent-secondary)]' },
-    { icon: Brain,     label: 'MCQ Questions',     value: mcq.length,      color: 'text-[#FF5F57]' },
+    { icon: Brain,     label: 'MCQ Questions',     value: mcqs.length,      color: 'text-[#FF5F57]' },
     { icon: Trophy,    label: 'Contests',          value: contests.length, color: 'text-[#FACC15]' },
-    { icon: Globe,     label: 'Platform Name',     value: settings.platformName, color: 'text-[var(--text-muted)]' },
+    { icon: Globe,     label: 'Platform Name',     value: settings?.platformName || 'CodePulse', color: 'text-[var(--text-muted)]' },
   ];
 
   const diffBreakdown = {
@@ -384,29 +379,105 @@ function DashboardSection() {
 
       {/* Quick links */}
       <div className="p-5 rounded-2xl border border-[var(--accent)]/15 bg-[var(--accent)]/5">
-        <p className="text-sm font-semibold text-[var(--accent)] mb-3">Quick Info</p>
+        <p className="text-sm font-semibold text-[var(--accent)] mb-3">Workspace Version Control Info</p>
         <ul className="space-y-1.5 text-xs text-[var(--text-secondary)]">
-          <li className="flex items-start gap-2"><ChevronRight className="w-3 h-3 text-[var(--accent)] shrink-0 mt-0.5" />All edits are saved to <strong>localStorage</strong> and applied immediately on the client.</li>
-          <li className="flex items-start gap-2"><ChevronRight className="w-3 h-3 text-[var(--accent)] shrink-0 mt-0.5" />Deleted default items are marked with <code className="font-mono bg-[var(--surface)] px-1 rounded">_deleted: true</code> so they can be restored.</li>
-          <li className="flex items-start gap-2"><ChevronRight className="w-3 h-3 text-[var(--accent)] shrink-0 mt-0.5" />Use <strong>Settings → Reset All Data</strong> to restore all factory defaults.</li>
-          <li className="flex items-start gap-2"><ChevronRight className="w-3 h-3 text-[var(--accent)] shrink-0 mt-0.5" />Default admin password: <code className="font-mono bg-[var(--surface)] px-1 rounded">codepulse2025</code></li>
+          <li className="flex items-start gap-2"><ChevronRight className="w-3.5 h-3.5 text-[var(--accent)] shrink-0 mt-0.5" />All changes are saved directly to repository database source files under <code className="font-mono bg-[var(--surface)] px-1.5 py-0.5 rounded">src/data/</code> and <code className="font-mono bg-[var(--surface)] px-1.5 py-0.5 rounded">src/content/</code>.</li>
+          <li className="flex items-start gap-2"><ChevronRight className="w-3.5 h-3.5 text-[var(--accent)] shrink-0 mt-0.5" />Edits will trigger Next.js hot module reloading (HMR) and show up in Git immediately.</li>
+          <li className="flex items-start gap-2"><ChevronRight className="w-3.5 h-3.5 text-[var(--accent)] shrink-0 mt-0.5" />To undo your edits, discard the file modifications in your terminal using git.</li>
         </ul>
       </div>
     </div>
   );
 }
 
+// Helper to parse YAML-like metadata from MDX frontmatter
+function parseMdxFile(raw: string) {
+  const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---/;
+  const match = raw.match(frontmatterRegex);
+  let meta: Partial<AdminLesson> = {};
+  let content = raw;
+  if (match) {
+    content = raw.replace(frontmatterRegex, '').trim();
+    const yamlStr = match[1];
+    const lines = yamlStr.split('\n');
+    lines.forEach((line) => {
+      const colIdx = line.indexOf(':');
+      if (colIdx >= 0) {
+        const key = line.substring(0, colIdx).trim();
+        const value = line.substring(colIdx + 1).trim();
+        if (value.startsWith('[') && value.endsWith(']')) {
+          const arr = value.slice(1, -1).split(',').map((s) => s.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+          (meta as any)[key] = arr;
+        } else {
+          const cleanVal = value.replace(/^['"]|['"]$/g, '');
+          if (key === 'chapter' || key === 'lesson' || key === 'estimatedMinutes') {
+            (meta as any)[key] = parseInt(cleanVal) || 0;
+          } else {
+            (meta as any)[key] = cleanVal;
+          }
+        }
+      }
+    });
+  }
+  return { meta, content };
+}
+
 // ── Lessons Manager ───────────────────────────────────────────────────────────
 
-function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [lessons, setLessons] = useState<AdminLesson[]>([]);
+function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
+  lessons: AdminLesson[]; onSaveLesson: (l: AdminLesson, content: string) => Promise<boolean>;
+  onDeleteLesson: (slug: string) => Promise<boolean>; showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<AdminLesson | null>(null);
+  const [lessonMdxContent, setLessonMdxContent] = useState('');
+  const [modalTab, setModalTab] = useState<'meta' | 'content'>('meta');
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [uploadingVideo, setUploadingVideo] = useState(false);
 
-  useEffect(() => { setLessons(getAdminLessons()); }, []);
+  const handleVideoFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editing) return;
+    setUploadingVideo(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEditing({ ...editing, videoUrl: data.url });
+        showToast('Video uploaded successfully!');
+      } else {
+        showToast(data.error || 'Video upload failed', false);
+      }
+    } catch {
+      showToast('Failed to upload video', false);
+    } finally {
+      setUploadingVideo(false);
+    }
+  };
+
+
+  // Fetch lesson MDX when editing opens
+  useEffect(() => {
+    if (editing && editing.slug && !isNew) {
+      fetch(`/api/admin?slug=${editing.slug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setLessonMdxContent(data.content || '');
+          }
+        });
+    } else {
+      setLessonMdxContent('');
+    }
+    setModalTab('meta');
+  }, [editing, isNew]);
 
   const filtered = lessons.filter(
     (l) =>
@@ -422,26 +493,61 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
       description: '', difficulty: 'beginner', estimatedMinutes: 30,
       prerequisites: [], objectives: [], tags: [], _custom: true,
     });
+    setLessonMdxContent('');
   }
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+      const { meta, content } = parseMdxFile(text);
+
+      const slug = meta.slug || file.name.replace(/\.mdx?$/, '').toLowerCase().replace(/\s+/g, '-');
+      const title = meta.title || file.name.replace(/\.mdx?$/, '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+      setIsNew(true);
+      setEditing({
+        course: meta.course || 'java',
+        title,
+        slug,
+        chapter: meta.chapter || 1,
+        chapterTitle: meta.chapterTitle || '',
+        lesson: meta.lesson || 1,
+        description: meta.description || '',
+        difficulty: meta.difficulty || 'beginner',
+        estimatedMinutes: meta.estimatedMinutes || 30,
+        prerequisites: meta.prerequisites || [],
+        objectives: meta.objectives || [],
+        tags: meta.tags || [],
+        _custom: true
+      });
+      setLessonMdxContent(content);
+      showToast('Imported from markdown file successfully! Please review metadata and save.');
+    };
+    reader.readAsText(file);
+  };
 
   function openEdit(l: AdminLesson) { setIsNew(false); setEditing({ ...l }); }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing) return;
     if (!editing.title.trim() || !editing.slug.trim()) {
       showToast('Title and slug are required.', false); return;
     }
-    upsertLesson(editing);
-    setLessons(getAdminLessons());
-    setEditing(null);
-    showToast(isNew ? 'Lesson created.' : 'Lesson updated.');
+    const ok = await onSaveLesson(editing, lessonMdxContent);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Lesson created & written to filesystem.' : 'Lesson updated.');
+    }
   }
 
-  function handleDelete(slug: string) {
-    deleteLesson(slug);
-    setLessons(getAdminLessons());
-    setConfirmDelete(null);
-    showToast('Lesson deleted.');
+  async function handleDelete(slug: string) {
+    const ok = await onDeleteLesson(slug);
+    if (ok) {
+      setConfirmDelete(null);
+    }
   }
 
   function toggleExpand(slug: string) {
@@ -462,7 +568,18 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
           <h2 className="text-xl font-heading font-bold text-[var(--text-primary)]">Lessons</h2>
           <p className="text-sm text-[var(--text-muted)]">{lessons.length} total lessons across all courses</p>
         </div>
-        <Btn onClick={openNew}><Plus className="w-4 h-4" /> New Lesson</Btn>
+        <div className="flex gap-2">
+          <label className="flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--surface)] transition-all cursor-pointer shadow-sm">
+            <Upload className="w-4 h-4 text-[var(--accent)]" /> Import MD/MDX
+            <input
+              type="file"
+              accept=".md,.mdx"
+              onChange={handleImportFile}
+              className="hidden"
+            />
+          </label>
+          <Btn onClick={openNew}><Plus className="w-4 h-4" /> New Lesson</Btn>
+        </div>
       </div>
 
       <input
@@ -504,6 +621,15 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
                   <Badge color={diffColor(l.difficulty)}>{l.difficulty}</Badge>
                   <span className="text-xs text-[var(--text-muted)]">{l.estimatedMinutes}m</span>
                   <div className="flex items-center gap-1">
+                    <a
+                      href={`/admin/studio/${l.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Teach Lesson (Slides & Whiteboard)"
+                      className="p-1.5 rounded-lg hover:bg-[var(--accent)]/10 cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+                    >
+                      <Tv className="w-3.5 h-3.5" />
+                    </a>
                     <button onClick={() => openEdit(l)} className="p-1.5 rounded-lg hover:bg-[var(--surface-elevated)] cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
@@ -553,43 +679,104 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
         {editing && (
           <Modal title={isNew ? 'New Lesson' : `Edit: ${editing.title}`} onClose={() => setEditing(null)}>
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Input label="Title *" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="e.g. OOP Fundamentals" />
-                <Input label="Slug *" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v.toLowerCase().replace(/\s+/g, '-') })} placeholder="e.g. oop-fundamentals" />
+              {/* Tab Selector */}
+              <div className="flex border-b border-[var(--border-color)] pb-1 mb-4 gap-4">
+                <button
+                  onClick={() => setModalTab('meta')}
+                  className={`pb-2 text-sm font-semibold transition-colors cursor-pointer border-b-2 px-1 ${modalTab === 'meta' ? 'border-[var(--accent)] text-[var(--text-primary)]' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+                >
+                  Metadata Properties
+                </button>
+                <button
+                  onClick={() => setModalTab('content')}
+                  className={`pb-2 text-sm font-semibold transition-colors cursor-pointer border-b-2 px-1 flex items-center gap-1.5 ${modalTab === 'content' ? 'border-[var(--accent)] text-[var(--text-primary)]' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+                >
+                  <FileCode className="w-4 h-4 text-[var(--accent)]" /> Lesson Markdown Body
+                </button>
               </div>
-              <div className="grid grid-cols-3 gap-4">
-                <Select label="Course" value={editing.course} onChange={(v) => setEditing({ ...editing, course: v as AdminLesson['course'] })} options={['java', 'python', 'springboot']} />
-                <Select label="Difficulty" value={editing.difficulty} onChange={(v) => setEditing({ ...editing, difficulty: v as AdminLesson['difficulty'] })} options={['beginner', 'intermediate', 'advanced']} />
-                <Input label="Est. Minutes" value={String(editing.estimatedMinutes)} onChange={(v) => setEditing({ ...editing, estimatedMinutes: parseInt(v) || 0 })} type="number" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Input label="Chapter #" value={String(editing.chapter)} onChange={(v) => setEditing({ ...editing, chapter: parseInt(v) || 1 })} type="number" />
-                <Input label="Chapter Title" value={editing.chapterTitle} onChange={(v) => setEditing({ ...editing, chapterTitle: v })} placeholder="e.g. Java Foundations" />
-              </div>
-              <Input label="Lesson #" value={String(editing.lesson)} onChange={(v) => setEditing({ ...editing, lesson: parseInt(v) || 1 })} type="number" />
-              <Input label="Description" value={editing.description} onChange={(v) => setEditing({ ...editing, description: v })} placeholder="Short description for this lesson" multiline rows={2} />
-              <Input
-                label="Tags (comma-separated)"
-                value={editing.tags.join(', ')}
-                onChange={(v) => setEditing({ ...editing, tags: v.split(',').map((s) => s.trim()).filter(Boolean) })}
-                placeholder="oop, classes, inheritance"
-              />
-              <Input
-                label="Prerequisites (comma-separated slugs)"
-                value={editing.prerequisites.join(', ')}
-                onChange={(v) => setEditing({ ...editing, prerequisites: v.split(',').map((s) => s.trim()).filter(Boolean) })}
-                placeholder="how-java-works, variables-primitive-types"
-              />
-              <Input
-                label="Learning Objectives (one per line)"
-                value={editing.objectives.join('\n')}
-                onChange={(v) => setEditing({ ...editing, objectives: v.split('\n').map((s) => s.trim()).filter(Boolean) })}
-                multiline rows={4}
-                placeholder="Understand what OOP is..."
-              />
-              <Input label="Video URL (optional)" value={editing.videoUrl ?? ''} onChange={(v) => setEditing({ ...editing, videoUrl: v || undefined })} placeholder="https://youtube.com/watch?v=..." />
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-[var(--border-color)]">
+              {modalTab === 'meta' ? (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input label="Title *" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="e.g. OOP Fundamentals" />
+                    <Input label="Slug *" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v.toLowerCase().replace(/\s+/g, '-') })} placeholder="e.g. oop-fundamentals" />
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <Select label="Course" value={editing.course} onChange={(v) => setEditing({ ...editing, course: v as AdminLesson['course'] })} options={['java', 'coa', 'python', 'springboot']} />
+                    <Select label="Difficulty" value={editing.difficulty} onChange={(v) => setEditing({ ...editing, difficulty: v as AdminLesson['difficulty'] })} options={['beginner', 'intermediate', 'advanced']} />
+                    <Input label="Est. Minutes" value={String(editing.estimatedMinutes)} onChange={(v) => setEditing({ ...editing, estimatedMinutes: parseInt(v) || 0 })} type="number" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input label="Chapter #" value={String(editing.chapter)} onChange={(v) => setEditing({ ...editing, chapter: parseInt(v) || 1 })} type="number" />
+                    <Input label="Chapter Title" value={editing.chapterTitle} onChange={(v) => setEditing({ ...editing, chapterTitle: v })} placeholder="e.g. Java Foundations" />
+                  </div>
+                  <Input label="Lesson #" value={String(editing.lesson)} onChange={(v) => setEditing({ ...editing, lesson: parseInt(v) || 1 })} type="number" />
+                  <Input label="Description" value={editing.description} onChange={(v) => setEditing({ ...editing, description: v })} placeholder="Short description for this lesson" multiline rows={2} />
+                  <Input
+                    label="Tags (comma-separated)"
+                    value={editing.tags.join(', ')}
+                    onChange={(v) => setEditing({ ...editing, tags: v.split(',').map((s) => s.trim()).filter(Boolean) })}
+                    placeholder="oop, classes, inheritance"
+                  />
+                  <Input
+                    label="Prerequisites (comma-separated slugs)"
+                    value={editing.prerequisites.join(', ')}
+                    onChange={(v) => setEditing({ ...editing, prerequisites: v.split(',').map((s) => s.trim()).filter(Boolean) })}
+                    placeholder="how-java-works, variables-primitive-types"
+                  />
+                  <Input
+                    label="Learning Objectives (one per line)"
+                    value={editing.objectives.join('\n')}
+                    onChange={(v) => setEditing({ ...editing, objectives: v.split('\n').map((s) => s.trim()).filter(Boolean) })}
+                    multiline rows={4}
+                    placeholder="Understand what OOP is..."
+                  />
+                  <div className="space-y-1.5">
+                    <Input label="Video URL (YouTube link or uploaded path)" value={editing.videoUrl ?? ''} onChange={(v) => setEditing({ ...editing, videoUrl: v || undefined })} placeholder="https://youtube.com/watch?v=... or /uploads/videos/xxx.mp4" />
+                    <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
+                      <span>Paste YouTube URL or upload custom video file (.mp4, .webm):</span>
+                      <label className="flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-lg border border-[var(--border-color)] bg-[var(--surface-elevated)] text-[var(--text-primary)] hover:bg-[var(--surface)] transition-all cursor-pointer shadow-sm">
+                        <Upload className="w-3.5 h-3.5 text-[var(--accent)]" />
+                        {uploadingVideo ? 'Uploading Video...' : 'Upload Video File'}
+                        <input
+                          type="file"
+                          accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                          onChange={handleVideoFileUpload}
+                          disabled={uploadingVideo}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
+                    <span>Draft your lesson contents in full Markdown / MDX syntax.</span>
+                    <span className="flex items-center gap-1"><Sparkles className="w-3.5 h-3.5 text-[var(--accent)]" /> Monaco Editor</span>
+                  </div>
+                  <div className="h-[400px] border border-[var(--border-color)] rounded-xl overflow-hidden bg-[#1e1e1e]">
+                    <MonacoEditor
+                      height="100%"
+                      language="markdown"
+                      value={lessonMdxContent}
+                      onChange={(v) => setLessonMdxContent(v || '')}
+                      theme="vs-dark"
+                      options={{
+                        minimap: { enabled: false },
+                        fontSize: 14,
+                        automaticLayout: true,
+                        wordWrap: 'on',
+                        scrollBeyondLastLine: false,
+                        padding: { top: 10 }
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-4 border-t border-[var(--border-color)]">
                 <Btn variant="secondary" onClick={() => setEditing(null)}>Cancel</Btn>
                 <Btn onClick={handleSave}><Save className="w-3.5 h-3.5" /> Save Lesson</Btn>
               </div>
@@ -601,7 +788,7 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
       <AnimatePresence>
         {confirmDelete && (
           <ConfirmDialog
-            message={`Delete lesson "${lessons.find((l) => l.slug === confirmDelete)?.title}"? This cannot be undone.`}
+            message={`Delete lesson "${lessons.find((l) => l.slug === confirmDelete)?.title}"? This will delete the MDX file and metadata.`}
             onConfirm={() => handleDelete(confirmDelete)}
             onCancel={() => setConfirmDelete(null)}
           />
@@ -613,12 +800,12 @@ function LessonsSection({ showToast }: { showToast: (msg: string, ok?: boolean) 
 
 // ── Chapters Manager ──────────────────────────────────────────────────────────
 
-function ChaptersSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [chapters, setChapters] = useState<AdminChapter[]>([]);
+function ChaptersSection({ chapters, onSaveChapters, showToast }: {
+  chapters: AdminChapter[]; onSaveChapters: (ch: AdminChapter[]) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [editing, setEditing] = useState<AdminChapter | null>(null);
   const [isNew, setIsNew] = useState(false);
-
-  useEffect(() => { setChapters(getAdminChapters()); }, []);
 
   function openNew() {
     const maxNum = Math.max(0, ...chapters.map((c) => c.number));
@@ -626,23 +813,25 @@ function ChaptersSection({ showToast }: { showToast: (msg: string, ok?: boolean)
     setEditing({ number: maxNum + 1, title: '', description: '', course: 'java' });
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing || !editing.title.trim()) { showToast('Title is required.', false); return; }
     const updated = isNew
       ? [...chapters, editing]
       : chapters.map((c) => c.number === editing.number ? editing : c);
     const sorted = [...updated].sort((a, b) => a.number - b.number);
-    saveAdminChapters(sorted);
-    setChapters(sorted);
-    setEditing(null);
-    showToast(isNew ? 'Chapter created.' : 'Chapter updated.');
+    const ok = await onSaveChapters(sorted);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Chapter created.' : 'Chapter updated.');
+    }
   }
 
-  function handleDelete(num: number) {
+  async function handleDelete(num: number) {
     const updated = chapters.filter((c) => c.number !== num);
-    saveAdminChapters(updated);
-    setChapters(updated);
-    showToast('Chapter deleted.');
+    const ok = await onSaveChapters(updated);
+    if (ok) {
+      showToast('Chapter deleted.');
+    }
   }
 
   return (
@@ -684,7 +873,7 @@ function ChaptersSection({ showToast }: { showToast: (msg: string, ok?: boolean)
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <Input label="Chapter #" value={String(editing.number)} onChange={(v) => setEditing({ ...editing, number: parseInt(v) || 1 })} type="number" />
-                <Select label="Course" value={editing.course ?? 'java'} onChange={(v) => setEditing({ ...editing, course: v })} options={['java', 'python', 'springboot']} />
+                <Select label="Course" value={editing.course ?? 'java'} onChange={(v) => setEditing({ ...editing, course: v })} options={['java', 'coa', 'python', 'springboot']} />
               </div>
               <Input label="Title *" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="e.g. Java Foundations" />
               <Input label="Description" value={editing.description} onChange={(v) => setEditing({ ...editing, description: v })} placeholder="What this chapter covers..." multiline rows={2} />
@@ -702,14 +891,14 @@ function ChaptersSection({ showToast }: { showToast: (msg: string, ok?: boolean)
 
 // ── Jobs Manager ──────────────────────────────────────────────────────────────
 
-function JobsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [jobs, setJobs] = useState<AdminJob[]>([]);
+function JobsSection({ jobs, onSaveJobs, showToast }: {
+  jobs: AdminJob[]; onSaveJobs: (j: AdminJob[]) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [search, setSearch] = useState('');
   const [editing, setEditing] = useState<AdminJob | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
-  useEffect(() => { setJobs(getAdminJobs()); }, []);
 
   const filtered = jobs.filter(
     (j) =>
@@ -729,20 +918,26 @@ function JobsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => 
   function openNew() { setIsNew(true); setEditing({ ...BLANK_JOB, id: Date.now().toString() }); }
   function openEdit(j: AdminJob) { setIsNew(false); setEditing({ ...j }); }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing) return;
     if (!editing.title.trim() || !editing.company.trim()) { showToast('Title and company are required.', false); return; }
-    upsertJob(editing);
-    setJobs(getAdminJobs());
-    setEditing(null);
-    showToast(isNew ? 'Job created.' : 'Job updated.');
+    const updated = isNew
+      ? [...jobs, editing]
+      : jobs.map((j) => j.id === editing.id ? editing : j);
+    const ok = await onSaveJobs(updated);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Job created.' : 'Job updated.');
+    }
   }
 
-  function handleDelete(id: string) {
-    deleteJob(id);
-    setJobs(getAdminJobs());
-    setConfirmDelete(null);
-    showToast('Job deleted.');
+  async function handleDelete(id: string) {
+    const updated = jobs.filter((j) => j.id !== id);
+    const ok = await onSaveJobs(updated);
+    if (ok) {
+      setConfirmDelete(null);
+      showToast('Job deleted.');
+    }
   }
 
   const expColor = (e: string) => e.includes('Entry') ? 'green' : e.includes('Junior') ? 'blue' : e.includes('Mid') ? 'amber' : 'red' as 'green'|'blue'|'amber'|'red';
@@ -848,14 +1043,14 @@ function JobsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => 
 
 // ── Practice Problems Manager ─────────────────────────────────────────────────
 
-function ProblemsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [problems, setProblems] = useState<AdminProblem[]>([]);
+function ProblemsSection({ problems, onSaveProblems, showToast }: {
+  problems: AdminProblem[]; onSaveProblems: (p: AdminProblem[]) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [editing, setEditing] = useState<AdminProblem | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-
-  useEffect(() => { setProblems(getAdminProblems()); }, []);
 
   const filtered = problems.filter(
     (p) => p.title.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase()),
@@ -874,20 +1069,26 @@ function ProblemsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
     });
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing) return;
     if (!editing.title.trim() || !editing.id.trim()) { showToast('Title and ID are required.', false); return; }
-    upsertProblem(editing);
-    setProblems(getAdminProblems());
-    setEditing(null);
-    showToast(isNew ? 'Problem created.' : 'Problem updated.');
+    const updated = isNew
+      ? [...problems, editing]
+      : problems.map((p) => p.id === editing.id ? editing : p);
+    const ok = await onSaveProblems(updated);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Problem created.' : 'Problem updated.');
+    }
   }
 
-  function handleDelete(id: string) {
-    deleteProblem(id);
-    setProblems(getAdminProblems());
-    setConfirmDelete(null);
-    showToast('Problem deleted.');
+  async function handleDelete(id: string) {
+    const updated = problems.filter((p) => p.id !== id);
+    const ok = await onSaveProblems(updated);
+    if (ok) {
+      setConfirmDelete(null);
+      showToast('Problem deleted.');
+    }
   }
 
   const diffColor = (d: string) => d === 'Easy' ? 'green' : d === 'Medium' ? 'amber' : 'red' as 'green'|'amber'|'red';
@@ -924,7 +1125,7 @@ function ProblemsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
               </div>
               <span className="text-xs text-[var(--text-muted)]">{p.category}</span>
               <Badge color={diffColor(p.difficulty)}>{p.difficulty}</Badge>
-              <span className="text-xs text-[var(--text-muted)]">{p.examples.length}</span>
+              <span className="text-xs text-[var(--text-muted)]">{p.examples?.length || 0}</span>
               <div className="flex items-center gap-1">
                 <button onClick={() => { setIsNew(false); setEditing({ ...p }); }} className="p-1.5 rounded-lg hover:bg-[var(--surface-elevated)] cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
                 <button onClick={() => setConfirmDelete(p.id)} className="p-1.5 rounded-lg hover:bg-[#FF5F57]/10 cursor-pointer text-[var(--text-muted)] hover:text-[#FF5F57] transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
@@ -937,7 +1138,7 @@ function ProblemsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
       <AnimatePresence>
         {editing && (
           <Modal title={isNew ? 'New Problem' : `Edit: ${editing.title}`} onClose={() => setEditing(null)}>
-            <div className="space-y-4">
+            <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
               <div className="grid grid-cols-2 gap-4">
                 <Input label="Title *" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="e.g. Two Sum" />
                 <Input label="ID *" value={editing.id} onChange={(v) => setEditing({ ...editing, id: v.toLowerCase().replace(/\s+/g, '-') })} placeholder="e.g. two-sum" />
@@ -993,13 +1194,13 @@ function ProblemsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
 
 // ── MCQ Manager ───────────────────────────────────────────────────────────────
 
-function McqSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [questions, setQuestions] = useState<AdminMcq[]>([]);
+function McqSection({ mcqs, onSaveMcqs, showToast }: {
+  mcqs: AdminMcq[]; onSaveMcqs: (m: AdminMcq[]) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [editing, setEditing] = useState<AdminMcq | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
-  useEffect(() => { setQuestions(getAdminMcq()); }, []);
 
   function openNew() {
     setIsNew(true);
@@ -1014,20 +1215,26 @@ function McqSection({ showToast }: { showToast: (msg: string, ok?: boolean) => v
     });
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing) return;
     if (!editing.question.trim()) { showToast('Question text is required.', false); return; }
-    upsertMcq(editing);
-    setQuestions(getAdminMcq());
-    setEditing(null);
-    showToast(isNew ? 'Question created.' : 'Question updated.');
+    const updated = isNew
+      ? [...mcqs, editing]
+      : mcqs.map((q) => q.id === editing.id ? editing : q);
+    const ok = await onSaveMcqs(updated);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Question created.' : 'Question updated.');
+    }
   }
 
-  function handleDelete(id: string) {
-    deleteMcq(id);
-    setQuestions(getAdminMcq());
-    setConfirmDelete(null);
-    showToast('Question deleted.');
+  async function handleDelete(id: string) {
+    const updated = mcqs.filter((q) => q.id !== id);
+    const ok = await onSaveMcqs(updated);
+    if (ok) {
+      setConfirmDelete(null);
+      showToast('Question deleted.');
+    }
   }
 
   const diffColor = (d: string) => d === 'Easy' ? 'green' : d === 'Medium' ? 'amber' : 'red' as 'green'|'amber'|'red';
@@ -1037,13 +1244,13 @@ function McqSection({ showToast }: { showToast: (msg: string, ok?: boolean) => v
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h2 className="text-xl font-heading font-bold text-[var(--text-primary)]">MCQ Questions</h2>
-          <p className="text-sm text-[var(--text-muted)]">{questions.length} questions in the drill bank</p>
+          <p className="text-sm text-[var(--text-muted)]">{mcqs.length} questions in the drill bank</p>
         </div>
         <Btn onClick={openNew}><Plus className="w-4 h-4" /> New Question</Btn>
       </div>
 
       <div className="space-y-3">
-        {questions.map((q, idx) => (
+        {mcqs.map((q, idx) => (
           <div key={q.id} className="p-4 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)]">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
@@ -1131,13 +1338,13 @@ function McqSection({ showToast }: { showToast: (msg: string, ok?: boolean) => v
 
 // ── Contests Manager ──────────────────────────────────────────────────────────
 
-function ContestsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [contests, setContests] = useState<AdminContest[]>([]);
+function ContestsSection({ contests, onSaveContests, showToast }: {
+  contests: AdminContest[]; onSaveContests: (c: AdminContest[]) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
   const [editing, setEditing] = useState<AdminContest | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
-  useEffect(() => { setContests(getAdminContests()); }, []);
 
   function openNew() {
     setIsNew(true);
@@ -1148,20 +1355,26 @@ function ContestsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
     });
   }
 
-  function handleSave() {
+  async function handleSave() {
     if (!editing) return;
     if (!editing.title.trim()) { showToast('Title is required.', false); return; }
-    upsertContest(editing);
-    setContests(getAdminContests());
-    setEditing(null);
-    showToast(isNew ? 'Contest created.' : 'Contest updated.');
+    const updated = isNew
+      ? [...contests, editing]
+      : contests.map((c) => c.id === editing.id ? editing : c);
+    const ok = await onSaveContests(updated);
+    if (ok) {
+      setEditing(null);
+      showToast(isNew ? 'Contest created.' : 'Contest updated.');
+    }
   }
 
-  function handleDelete(id: string) {
-    deleteContest(id);
-    setContests(getAdminContests());
-    setConfirmDelete(null);
-    showToast('Contest deleted.');
+  async function handleDelete(id: string) {
+    const updated = contests.filter((c) => c.id !== id);
+    const ok = await onSaveContests(updated);
+    if (ok) {
+      setConfirmDelete(null);
+      showToast('Contest deleted.');
+    }
   }
 
   const statusColor = (s: string) => s === 'live' ? 'red' : s === 'upcoming' ? 'amber' : s === 'practice' ? 'green' : 'default' as 'red'|'amber'|'green'|'default';
@@ -1251,27 +1464,33 @@ function ContestsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
 
 // ── Site Settings ─────────────────────────────────────────────────────────────
 
-function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean) => void }) {
-  const [settings, setSettings] = useState<SiteSettings>(getSiteSettings());
-  const [confirmReset, setConfirmReset] = useState(false);
+function SettingsSection({ settings, onSaveSettings, showToast }: {
+  settings: SiteSettings | null; onSaveSettings: (s: SiteSettings) => Promise<boolean>;
+  showToast: (msg: string, ok?: boolean) => void;
+}) {
+  const [localSettings, setLocalSettings] = useState<SiteSettings | null>(null);
   const [dirty, setDirty] = useState(false);
 
+  useEffect(() => {
+    if (settings) {
+      setLocalSettings(settings);
+    }
+  }, [settings]);
+
+  if (!localSettings) return <div className="text-sm text-[var(--text-muted)] animate-pulse">Loading settings...</div>;
+
   function update(partial: Partial<SiteSettings>) {
-    setSettings((prev) => ({ ...prev, ...partial }));
+    setLocalSettings((prev) => prev ? { ...prev, ...partial } : null);
     setDirty(true);
   }
 
-  function handleSave() {
-    saveSiteSettings(settings);
-    setDirty(false);
-    showToast('Settings saved successfully.');
-  }
-
-  function handleReset() {
-    resetAllAdminData();
-    setConfirmReset(false);
-    showToast('All admin data reset to defaults.');
-    setTimeout(() => window.location.reload(), 800);
+  async function handleSave() {
+    if (!localSettings) return;
+    const ok = await onSaveSettings(localSettings);
+    if (ok) {
+      setDirty(false);
+      showToast('Settings saved successfully.');
+    }
   }
 
   return (
@@ -1290,8 +1509,8 @@ function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
           <Globe className="w-4 h-4 text-[var(--accent)]" />
           <span className="text-sm font-semibold text-[var(--text-primary)]">Brand</span>
         </div>
-        <Input label="Platform Name" value={settings.platformName} onChange={(v) => update({ platformName: v })} placeholder="CodePulse" />
-        <Input label="Footer Text" value={settings.footerText} onChange={(v) => update({ footerText: v })} placeholder="Built for developers..." />
+        <Input label="Platform Name" value={localSettings.platformName} onChange={(v) => update({ platformName: v })} placeholder="CodePulse" />
+        <Input label="Footer Text" value={localSettings.footerText} onChange={(v) => update({ footerText: v })} placeholder="Built for developers..." />
       </div>
 
       {/* Hero */}
@@ -1300,9 +1519,9 @@ function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
           <Flame className="w-4 h-4 text-[var(--accent)]" />
           <span className="text-sm font-semibold text-[var(--text-primary)]">Hero Section</span>
         </div>
-        <Input label="Tagline Badge" value={settings.heroTagline} onChange={(v) => update({ heroTagline: v })} placeholder="Free · No Login · 6 Learning Paths" />
-        <Input label="Hero Title (use \\n for line break)" value={settings.heroTitle} onChange={(v) => update({ heroTitle: v })} multiline rows={2} placeholder="Learn to code.\nLand the job." />
-        <Input label="Hero Subtitle" value={settings.heroSubtitle} onChange={(v) => update({ heroSubtitle: v })} multiline rows={2} placeholder="CodePulse is an interactive..." />
+        <Input label="Tagline Badge" value={localSettings.heroTagline} onChange={(v) => update({ heroTagline: v })} placeholder="Free · No Login · 6 Learning Paths" />
+        <Input label="Hero Title (use \\n for line break)" value={localSettings.heroTitle} onChange={(v) => update({ heroTitle: v })} multiline rows={2} placeholder="Learn to code.\nLand the job." />
+        <Input label="Hero Subtitle" value={localSettings.heroSubtitle} onChange={(v) => update({ heroSubtitle: v })} multiline rows={2} placeholder="CodePulse is an interactive..." />
       </div>
 
       {/* Stats */}
@@ -1312,10 +1531,10 @@ function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
           <span className="text-sm font-semibold text-[var(--text-primary)]">Homepage Stats</span>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Lessons stat" value={settings.statsLessons} onChange={(v) => update({ statsLessons: v })} placeholder="100+" />
-          <Input label="Courses stat" value={settings.statsCourses} onChange={(v) => update({ statsCourses: v })} placeholder="6" />
-          <Input label="Content Hours stat" value={settings.statsHours} onChange={(v) => update({ statsHours: v })} placeholder="80+" />
-          <Input label="Topics Covered stat" value={settings.statsTopics} onChange={(v) => update({ statsTopics: v })} placeholder="200+" />
+          <Input label="Lessons stat" value={localSettings.statsLessons} onChange={(v) => update({ statsLessons: v })} placeholder="100+" />
+          <Input label="Courses stat" value={localSettings.statsCourses} onChange={(v) => update({ statsCourses: v })} placeholder="6" />
+          <Input label="Content Hours stat" value={localSettings.statsHours} onChange={(v) => update({ statsHours: v })} placeholder="80+" />
+          <Input label="Topics Covered stat" value={localSettings.statsTopics} onChange={(v) => update({ statsTopics: v })} placeholder="200+" />
         </div>
       </div>
 
@@ -1328,21 +1547,7 @@ function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
         <p className="text-xs text-[var(--text-muted)]">
           Changing the password here updates the session check. You will need to re-login after saving.
         </p>
-        <Input label="New Admin Password" value={settings.adminPassword ?? ''} onChange={(v) => update({ adminPassword: v || undefined })} type="password" placeholder="Leave blank to keep current" />
-      </div>
-
-      {/* Danger zone */}
-      <div className="p-5 rounded-2xl border border-[#FF5F57]/25 bg-[#FF5F57]/5 space-y-3">
-        <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-[#FF5F57]" />
-          <span className="text-sm font-semibold text-[#FF5F57]">Danger Zone</span>
-        </div>
-        <p className="text-xs text-[var(--text-muted)]">
-          Reset all admin-overridden data back to factory defaults. This removes all custom lessons, jobs, problems, MCQs, and contests you have created or edited.
-        </p>
-        <Btn variant="danger" onClick={() => setConfirmReset(true)}>
-          <RotateCcw className="w-4 h-4" /> Reset All Admin Data
-        </Btn>
+        <Input label="New Admin Password" value={localSettings.adminPassword ?? ''} onChange={(v) => update({ adminPassword: v || undefined })} type="password" placeholder="Leave blank to keep current" />
       </div>
 
       {dirty && (
@@ -1350,16 +1555,6 @@ function SettingsSection({ showToast }: { showToast: (msg: string, ok?: boolean)
           <Btn onClick={handleSave}><Save className="w-4 h-4" /> Save All Settings</Btn>
         </div>
       )}
-
-      <AnimatePresence>
-        {confirmReset && (
-          <ConfirmDialog
-            message="This will permanently reset ALL admin-edited data to factory defaults. The page will reload. Are you sure?"
-            onConfirm={handleReset}
-            onCancel={() => setConfirmReset(false)}
-          />
-        )}
-      </AnimatePresence>
     </div>
   );
 }
@@ -1373,10 +1568,45 @@ export function AdminShell() {
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Hydrate auth state from localStorage
-  useEffect(() => {
-    setAuthed(checkAdminSession());
+  // File database states
+  const [loading, setLoading] = useState(true);
+  const [lessons, setLessons] = useState<AdminLesson[]>([]);
+  const [chapters, setChapters] = useState<AdminChapter[]>([]);
+  const [jobs, setJobs] = useState<AdminJob[]>([]);
+  const [problems, setProblems] = useState<AdminProblem[]>([]);
+  const [mcqs, setMcqs] = useState<AdminMcq[]>([]);
+  const [contests, setContests] = useState<AdminContest[]>([]);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  // Refresh data from API
+  const refreshDb = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/admin?action=all');
+      const data = await res.json();
+      if (data.success) {
+        setLessons(data.lessons || []);
+        setChapters(data.chapters || []);
+        setJobs(data.jobs || []);
+        setProblems(data.problems || []);
+        setMcqs(data.mcqs || []);
+        setContests(data.contests || []);
+        setSettings(data.settings || null);
+      }
+    } catch (err) {
+      console.error('Failed to sync settings from filesystem api', err);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    const isAuthed = checkAdminSession();
+    setAuthed(isAuthed);
+    if (isAuthed) {
+      refreshDb();
+    }
+  }, [authed, refreshDb]);
 
   const showToast = useCallback((msg: string, ok = true) => {
     setToast({ msg, ok });
@@ -1389,19 +1619,182 @@ export function AdminShell() {
     setAuthed(false);
   }
 
+  // Action Save/Delete triggers
+  const handleSaveLesson = async (lesson: AdminLesson, content: string) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_lesson', lesson, content }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      } else {
+        showToast(data.error || 'Failed to save lesson', false);
+        return false;
+      }
+    } catch (err) {
+      showToast('Network error saving lesson', false);
+      return false;
+    }
+  };
+
+  const handleDeleteLesson = async (slug: string) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_lesson', slug }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        showToast('Lesson deleted.');
+        return true;
+      } else {
+        showToast(data.error || 'Failed to delete lesson', false);
+        return false;
+      }
+    } catch (err) {
+      showToast('Network error deleting lesson', false);
+      return false;
+    }
+  };
+
+  const handleSaveChapters = async (updatedChapters: AdminChapter[]) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_chapters', chapters: updatedChapters }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving chapters', false);
+    }
+    return false;
+  };
+
+  const handleSaveJobs = async (updatedJobs: AdminJob[]) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_jobs', jobs: updatedJobs }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving jobs', false);
+    }
+    return false;
+  };
+
+  const handleSaveProblems = async (updatedProblems: AdminProblem[]) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_problems', problems: updatedProblems }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving problems', false);
+    }
+    return false;
+  };
+
+  const handleSaveMcqs = async (updatedMcqs: AdminMcq[]) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_mcqs', mcqs: updatedMcqs }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving MCQs', false);
+    }
+    return false;
+  };
+
+  const handleSaveContests = async (updatedContests: AdminContest[]) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_contests', contests: updatedContests }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving contests', false);
+    }
+    return false;
+  };
+
+  const handleSaveSettings = async (updatedSettings: SiteSettings) => {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save_settings', settings: updatedSettings }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await refreshDb();
+        return true;
+      }
+    } catch (err) {
+      showToast('Error saving settings', false);
+    }
+    return false;
+  };
+
   if (!authed) {
     return <LoginScreen onLogin={() => setAuthed(true)} />;
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Terminal className="w-10 h-10 text-[var(--accent)] animate-spin mx-auto" />
+          <p className="text-sm font-semibold text-[var(--text-secondary)]">Syncing local repository database...</p>
+        </div>
+      </div>
+    );
+  }
+
   const sectionMap: Record<Section, React.ReactNode> = {
-    dashboard: <DashboardSection />,
-    lessons:   <LessonsSection showToast={showToast} />,
-    chapters:  <ChaptersSection showToast={showToast} />,
-    jobs:      <JobsSection showToast={showToast} />,
-    problems:  <ProblemsSection showToast={showToast} />,
-    mcq:       <McqSection showToast={showToast} />,
-    contests:  <ContestsSection showToast={showToast} />,
-    settings:  <SettingsSection showToast={showToast} />,
+    dashboard: <DashboardSection lessons={lessons} jobs={jobs} problems={problems} mcqs={mcqs} contests={contests} settings={settings} />,
+    lessons:   <LessonsSection lessons={lessons} onSaveLesson={handleSaveLesson} onDeleteLesson={handleDeleteLesson} showToast={showToast} />,
+    chapters:  <ChaptersSection chapters={chapters} onSaveChapters={handleSaveChapters} showToast={showToast} />,
+    jobs:      <JobsSection jobs={jobs} onSaveJobs={handleSaveJobs} showToast={showToast} />,
+    problems:  <ProblemsSection problems={problems} onSaveProblems={handleSaveProblems} showToast={showToast} />,
+    mcq:       <McqSection mcqs={mcqs} onSaveMcqs={handleSaveMcqs} showToast={showToast} />,
+    contests:  <ContestsSection contests={contests} onSaveContests={handleSaveContests} showToast={showToast} />,
+    settings:  <SettingsSection settings={settings} onSaveSettings={handleSaveSettings} showToast={showToast} />,
   };
 
   return (
@@ -1424,7 +1817,7 @@ export function AdminShell() {
           </div>
           <div className="flex-1" />
           <span className="text-xs text-[var(--text-disabled)] hidden sm:block">
-            All changes persist to localStorage
+            All changes save directly to repository files
           </span>
           <a href="/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
             <Eye className="w-3.5 h-3.5" /> View Site
@@ -1454,4 +1847,3 @@ export function AdminShell() {
     </div>
   );
 }
-

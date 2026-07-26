@@ -32,7 +32,7 @@ const difficultyColors: Record<Difficulty, string> = {
 
 // ── Course catalog ────────────────────────────────────────────────────────────
 
-type CourseId = 'java' | 'python' | 'springboot';
+type CourseId = 'java' | 'coa' | 'python' | 'springboot';
 
 interface CourseEntry {
   id: CourseId;
@@ -53,6 +53,14 @@ const COURSES: CourseEntry[] = [
     available: true,
   },
   {
+    id: 'coa',
+    emoji: '💻',
+    label: 'Computer Organization & Architecture',
+    sublabel: 'CPU · Cache · Pipelining · DMA · Assembly',
+    accentColor: '#8b5cf6',
+    available: true,
+  },
+  {
     id: 'springboot',
     emoji: '🍃',
     label: 'Spring Boot',
@@ -69,6 +77,7 @@ const COURSES: CourseEntry[] = [
     available: true,
   },
 ];
+
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 

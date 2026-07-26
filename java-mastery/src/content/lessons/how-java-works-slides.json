@@ -1,0 +1,733 @@
+[
+  {
+    "layout": "title",
+    "title": "How Java Works",
+    "subtitle": "Java Teaching Studio · Live Session Lecture",
+    "accent": "#F97316",
+    "anim": "type-in"
+  },
+  {
+    "layout": "transition",
+    "title": "Java Overview — Comprehensive Study Guide",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Java Overview — Comprehensive Study Guide"
+  },
+  {
+    "layout": "transition",
+    "title": "1. What is Java?",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "1. What is Java?"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java is one of the most widely used programming languages in the world.",
+      "Before diving into syntax and programs, it is essential to understand *what Java is*, *why it exists*, and *what makes it special*."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Definition",
+    "subtitle": "When asked \"What is Java?\" in an interview or exam, a complete answer is:",
+    "bullets": [
+      "When asked *\"What is Java?\"* in an interview or exam, a complete answer is:"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Key Characteristics of Java",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Characteristic | Description |\n|---|---|\n| **Platform Independent** | Java programs can run on any OS without modification |\n| **Object-Oriented** | Built around the OOP principles: Inheritance, Polymorphism, Encapsulation, Abstraction |\n| **Portable** | Compiled bytecode runs on any system with a JVM |\n| **Strongly Typed** | All variables must be declared with a type |\n| **Compiled + Interpreted** | Source code is compiled to bytecode, then interpreted/JIT-compiled at runtime |\n| **Automatic Memory Management** | Built-in Garbage Collector handles memory |\n| **Multi-threaded** | Built-in support for concurrent programming |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "OOP Features in Java",
+    "subtitle": "Java is built on the four pillars of Object-Oriented Programming:",
+    "bullets": [
+      "Java is built on the four pillars of Object-Oriented Programming:",
+      "These will be covered in dedicated lectures, but they form the foundation of every Java program."
+    ],
+    "code": "┌────────────────────────────────────────────┐\n│         Object-Oriented Programming        │\n│                                            │\n│  1. Inheritance    2. Polymorphism         │\n│  3. Encapsulation  4. Abstraction          │\n└────────────────────────────────────────────┘",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "2. WORA — Write Once, Run Anywhere",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "2. WORA — Write Once, Run Anywhere"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "The single biggest advantage of Java is **portability**. This is captured in the famous acronym:"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "What WORA Means",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A **Windows** desktop",
+      "A **Mac** laptop",
+      "A **Linux** server",
+      "Any other device"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Why WORA Matters",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "3. Three Core Components: JVM, JRE, JDK",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "3. Three Core Components: JVM, JRE, JDK"
+  },
+  {
+    "layout": "diagram",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "3.1 JVM — Java Virtual Machine",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "3.2 JRE — Java Runtime Environment",
+    "subtitle": "### Definition",
+    "bullets": [
+      "### Definition",
+      "### Class Libraries",
+      "Java ships with a massive collection of pre-written, ready-to-use code called **class libraries** (also called the Java API or standard library).",
+      "Examples used in the lecture:"
+    ],
+    "code": "JRE = JVM + Class Libraries",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "3.3 JDK — Java Development Kit",
+    "subtitle": "### Definition",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Comparison Table: JVM vs JRE vs JDK",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Feature | JVM | JRE | JDK |\n|---|---|---|---|\n| Full Form | Java Virtual Machine | Java Runtime Environment | Java Development Kit |\n| Purpose | Execute bytecode | Run Java programs | Develop + Run Java programs |\n| Contains | JIT Compiler, Memory Mgmt | JVM + Class Libraries | JRE + Compiler + Debugger + Tools |\n| Can run `.class` files?",
+      "| ✅ (core function) | ✅ | ✅ |\n| Can compile `.java` files?",
+      "| ❌ | ❌ | ✅ |\n| Platform Dependent?",
+      "| ✅ Yes | ✅ Yes | ✅ Yes |\n| Who needs it?",
+      "| Part of JRE | End users running Java apps | Developers |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "How to Download JDK",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Go to [https://www.oracle.com/java/technologies/downloads/](https://www.oracle.com/java/technologies/downloads/)\n2.",
+      "Choose the version (e.g., Java 8, Java 11, Java 17, Java 21 LTS)\n3.",
+      "Download the installer for your OS (Windows x64, macOS, Linux)\n4.",
+      "Install it following the installer instructions"
+    ],
+    "code": "java -version",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "4. Java Editions: JSE, JEE, JME",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "4. Java Editions: JSE, JEE, JME"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Java comes in three major editions, each targeting a different type of application development."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "The Three Editions",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Detailed Breakdown",
+    "subtitle": "### JSE — Java Standard Edition",
+    "bullets": [
+      "Core language features",
+      "Basic class libraries (`java.lang`, `java.util`, `java.io`, etc.)",
+      "Collections Framework",
+      "Multithreading",
+      "Exception Handling"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Edition Comparison Table",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| Edition | Full Name | Also Called | Target | Key Features |\n|---|---|---|---|---|\n| **JSE** | Java Standard Edition | Core Java | Desktop / General | Classes, OOP, Collections, Threads |\n| **JEE** | Java Enterprise Edition | Java EE / Jakarta EE | Enterprise / Web | Servlets, JSP, JPA, Transactions |\n| **JME** | Java Micro Edition | Java ME / Jakarta EE | Mobile / Embedded | Mobile APIs, Resource-constrained |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "5. How Java Code Flows: Compilation to Execution",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "5. How Java Code Flows: Compilation to Execution"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Understanding the complete flow from writing code to getting output is essential. This is the mechanism behind WORA."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "The Complete Flow",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Step-by-Step Breakdown",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "You write Java code in a `.java` file",
+      "Example: `Employee.java`",
+      "The `javac` compiler (part of JDK) reads the `.java` file",
+      "It checks for syntax errors"
+    ],
+    "code": "javac Employee.java",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "File Extensions Reference",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| File | Extension | Contains | Created By |\n|---|---|---|---|\n| Source File | `.java` | Human-readable Java source code | Developer |\n| Bytecode File | `.class` | Platform-independent bytecode | `javac` compiler |"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Key Insight: Why Bytecode Instead of Machine Code?",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Traditional languages like C/C++ compile directly to machine code. The problem: machine code is **platform-specific**. Code compiled on Windows won't run on Linux.",
+      "Java's solution: compile to **bytecode** (a neutral intermediate format), then let each platform's JVM translate bytecode to its own machine code at runtime.",
+      "Java Approach:\nSource → Bytecode → JVM(Windows) → Machine Code(Windows) ✅\n                  → JVM(Linux)   → Machine Code(Linux)   ✅\n                  → JVM(macOS)   → Machine Code(macOS)   ✅\n```"
+    ],
+    "code": "C/C++ Approach:\nSource → Machine Code (Windows) → ❌ Cannot run on Linux\n\nJava Approach:\nSource → Bytecode → JVM(Windows) → Machine Code(Windows) ✅\n                  → JVM(Linux)   → Machine Code(Linux)   ✅\n                  → JVM(macOS)   → Machine Code(macOS)   ✅",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "6. Writing Your First Java Program",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "6. Writing Your First Java Program"
+  },
+  {
+    "layout": "bullets",
+    "title": "Overview",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Let's build a complete Java program from scratch, understanding every single element."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "6.1 Class Structure",
+    "subtitle": "In Java, everything lives inside a class. A class can contain:",
+    "bullets": [
+      "In Java, **everything lives inside a class**. A class can contain:",
+      "We will explore each of these deeply in future lectures. For now, let's focus on the minimum required structure."
+    ],
+    "code": "Class\n├── Variables (Fields/Attributes)\n├── Methods (Functions/Behaviors)\n├── Constructors (Special initialization methods)\n└── Nested/Inner Classes",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "File Naming Rule",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "| File Name | Class Name | Valid?",
+      "|\n|---|---|---|\n| `Employee.java` | `Employee` | ✅ Yes |\n| `employee.java` | `Employee` | ❌ No |\n| `Employee.java` | `Emp` | ❌ No |\n| `MyClass.java` | `MyClass` | ✅ Yes |",
+      "Also:\n> [!IMPORTANT]\n> **One `.java` file can have only ONE `public` class.**",
+      "You can have multiple classes in one file, but only one of them can be declared `public`, and it must match the filename."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "Basic Class Skeleton",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "code": "public class Employee {\n    // variables, methods, constructors go here\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "diagram",
+    "title": "6.2 The `main` Method",
+    "subtitle": "### What Is the main Method?",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "split",
+    "title": "6.3 Comments in Java",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "This is a Javadoc comment.",
+      "Used to generate API documentation automatically.",
+      "@param name The name of the employee",
+      "@return void"
+    ],
+    "code": "// This is a single-line comment\nint a = 10;  // This comment is after code on the same line",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.4 Variables and Output",
+    "subtitle": "### Declaring a Variable",
+    "bullets": [
+      "### Declaring a Variable",
+      "| Part | Meaning |\n|---|---|\n| `int` | Data type — integer (whole number) |\n| `a` | Variable name |\n| `=` | Assignment operator |\n| `-10` | Value assigned |\n| `;` | Statement terminator (required in Java) |",
+      "### Printing to Console",
+      "| Part | Meaning |\n|---|---|\n| `System` | A built-in class in `java.lang` package |\n| `out` | A static field of `System` — represents the standard output stream (console) |\n| `println` | Method that prints the argument and then moves to a new line |\n| `\"...\"` | String literal — text in double quotes |\n| `+` | String concatenation operator — joins text with variable value |\n| `a` | Variable whose value is appended to the string |"
+    ],
+    "code": "int a = -10;",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "6.5 Compiling and Running",
+    "subtitle": "### The Complete First Program",
+    "bullets": [
+      "Declares a public class named `Employee`",
+      "File must be named `Employee.java`",
+      "Declares the entry point method",
+      "JVM will call this when the program starts"
+    ],
+    "code": "public class Employee {\n\n    public static void main(String[] args) {\n\n        // Single-line comment — compiler ignores this\n        \n        /* Multi-line comment\n           This is also ignored by compiler */\n\n        int a = -10;\n\n        System.out.println(\"This is my first program and output of a is \" + a);\n    }\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "transition",
+    "title": "Step 1: Navigate to the directory containing Employee.java",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Step 1: Navigate to the directory containing Employee.java"
+  },
+  {
+    "layout": "transition",
+    "title": "Step 2: Compile the source file",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Step 2: Compile the source file"
+  },
+  {
+    "layout": "transition",
+    "title": "After this, Employee.class appears in the same directory",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "After this, Employee.class appears in the same directory"
+  },
+  {
+    "layout": "transition",
+    "title": "(You can verify by listing files: ls or dir)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "(You can verify by listing files: ls or dir)"
+  },
+  {
+    "layout": "transition",
+    "title": "Step 3: Run the compiled bytecode",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Step 3: Run the compiled bytecode"
+  },
+  {
+    "layout": "transition",
+    "title": "Initial state: a = -10",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Initial state: a = -10"
+  },
+  {
+    "layout": "transition",
+    "title": "Output: This is my first program and output of a is -10",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Output: This is my first program and output of a is -10"
+  },
+  {
+    "layout": "transition",
+    "title": "Now change the source: a = -11 (save Employee.java)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Now change the source: a = -11 (save Employee.java)"
+  },
+  {
+    "layout": "transition",
+    "title": "But DO NOT recompile",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "But DO NOT recompile"
+  },
+  {
+    "layout": "transition",
+    "title": "Output: This is my first program and output of a is -10   ← STILL -10!",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Output: This is my first program and output of a is -10   ← STILL -10!"
+  },
+  {
+    "layout": "transition",
+    "title": "Because Employee.class hasn't been updated yet",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Because Employee.class hasn't been updated yet"
+  },
+  {
+    "layout": "transition",
+    "title": "Now recompile",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Now recompile"
+  },
+  {
+    "layout": "transition",
+    "title": "Output: This is my first program and output of a is -11   ← NOW -11",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Output: This is my first program and output of a is -11   ← NOW -11"
+  },
+  {
+    "layout": "transition",
+    "title": "7. Platform Dependence vs. Platform Independence",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "7. Platform Dependence vs. Platform Independence"
+  },
+  {
+    "layout": "diagram",
+    "title": "Summary Diagram",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "The Magic Explained",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**You write** `Employee.java` on any machine\n2.",
+      "**You compile** it once → `Employee.class` (bytecode)\n3.",
+      "The `.class` file is **platform independent** — it is the same on every OS\n4.",
+      "**You take** the `.class` file to any system that has a JVM\n5.",
+      "**That JVM** (which is platform-specific) translates the bytecode to native machine code\n6."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "8. Summary Tables and Diagrams",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "8. Summary Tables and Diagrams"
+  },
+  {
+    "layout": "diagram",
+    "title": "Complete Architecture Mind Map",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "diagram",
+    "title": "Java Execution Flow Summary",
+    "subtitle": "Conceptual Details",
+    "diagramType": "custom",
+    "accent": "#8B5CF6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "9. Common Mistakes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "9. Common Mistakes"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 1: File Name Doesn't Match Class Name",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Error:** `class Employee is public, should be declared in a file named Employee.java`",
+      "**Fix:**\n```java\n// File: Employee.java  ← CORRECT\npublic class Employee {\n    // ...\n}\n```"
+    ],
+    "code": "// File: emp.java  ← WRONG\npublic class Employee {   // Class name is Employee but file is emp.java\n    // ...\n}",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 2: Running Without Compiling First",
+    "subtitle": "Error: Error: Could not find or load main class Employee",
+    "bullets": [
+      "**Error:** `Error: Could not find or load main class Employee`",
+      "**Fix:**\n```bash\njavac Employee.java   # compile first\njava Employee         # then run\n```"
+    ],
+    "code": "java Employee   # ← WRONG — running before compiling",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 3: Including `.class` Extension When Running",
+    "subtitle": "Error: Error: Could not find or load main class Employee.class",
+    "bullets": [
+      "**Error:** `Error: Could not find or load main class Employee.class`",
+      "**Fix:**\n```bash\njava Employee   # ← CORRECT — no extension\n```"
+    ],
+    "code": "java Employee.class   # ← WRONG",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Mistake 4: Forgetting to Recompile After Editing",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "Edited Employee.java (changed value from -10 to 100)",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "Edited Employee.java (changed value from -10 to 100)"
+  },
+  {
+    "layout": "split",
+    "title": "Mistake 5: Wrong `main` Method Signature",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**Fix:** The signature must be **exactly**:\n```java\npublic static void main(String[] args) { }\n```"
+    ],
+    "code": "// WRONG — various incorrect signatures\nstatic void main(String[] args) { }           // missing public\npublic void main(String[] args) { }           // missing static\npublic static void Main(String[] args) { }    // capital M — wrong name\npublic static int main(String[] args) { }     // wrong return type\npublic static void main() { }                 // missing String[] args",
+    "accent": "#10B981",
+    "anim": "slide-right"
+  },
+  {
+    "layout": "bullets",
+    "title": "Mistake 6: Confusing Platform Independence of JVM vs Bytecode",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Interactive conceptual explanation",
+      "Drawing & whiteboard analysis",
+      "Live code annotation"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "10. Best Practices",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "10. Best Practices"
+  },
+  {
+    "layout": "transition",
+    "title": "11. Interview Notes",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "11. Interview Notes"
+  },
+  {
+    "layout": "bullets",
+    "title": "Commonly Asked Questions",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "**JVM** — Abstract machine that executes bytecode. Contains JIT compiler. Platform dependent.",
+      "**JRE** — JVM + Class Libraries. Can run Java programs. Cannot develop them.",
+      "**JDK** — JRE + Compiler (javac) + Debugger. Required for development.",
+      "`public` — JVM must be able to call it from outside the class/package",
+      "`static` — JVM calls it without creating an object of the class first"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "12. Practice Questions",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "12. Practice Questions"
+  },
+  {
+    "layout": "bullets",
+    "title": "Easy",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "What does WORA stand for?",
+      "What makes Java WORA?",
+      "What is the file extension of a Java source file?",
+      "A bytecode file?",
+      "What command compiles a Java file named `Hello.java`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Medium",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "Explain the complete flow from writing Java code to seeing output on the console.",
+      "Why is JVM platform dependent but Java programs are platform independent?",
+      "What is the difference between JRE and JDK?",
+      "When would you install each?",
+      "Why must `main` be `static`?"
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "bullets",
+    "title": "Hard",
+    "subtitle": "Conceptual Details",
+    "bullets": [
+      "A colleague claims \"JVM is platform independent because Java is platform independent.\" How would you correct this misunderstanding with a clear explanation?",
+      "Explain why Java's two-step compilation (source → bytecode → machine code) is both a strength and potentially a performance concern, and how JIT mitigates the concern.",
+      "What would happen at runtime if your bytecode calls `Arrays.sort()` but the `java.util` library is not available?",
+      "Where in JVM's architecture does library resolution happen?",
+      "Design a diagram showing how a Java program written on a Linux machine can be run on Windows without any changes to the source or bytecode."
+    ],
+    "accent": "#3B82F6",
+    "anim": "fade-up"
+  },
+  {
+    "layout": "transition",
+    "title": "13. Quick Revision Summary",
+    "subtitle": "Section Introduction",
+    "accent": "#F97316",
+    "anim": "type-in",
+    "nextTopic": "13. Quick Revision Summary"
+  }
+]

@@ -1,0 +1,331 @@
+# 🧮 9.5 Instruction Formats & Addressing Modes
+
+> 🎯 **Weightage: 15.5%** — High-yield topic; expression-conversion and effective-address numericals are exam staples.
+
+---
+
+## 1️⃣ Instruction Structure
+
+### 🏗️ 1.1 The Five Instruction Formats
+An instruction generally has the form `OPCODE + OPERAND(S)`. Based on **how many operand addresses** are explicitly specified, instructions are classified into 5 formats:
+
+| Format | Operands Specified | General Form |
+|---|---|---|
+| 🟥 **4-Address** | 3 source/destination + 1 next-instruction address | `OP A1, A2, A3, A4` |
+| 🟧 **3-Address** | 2 sources + 1 destination | `OP D, S1, S2` |
+| 🟨 **2-Address** | 1 source + 1 source/destination (shared) | `OP D, S` |
+| 🟩 **1-Address (Accumulator)** | 1 operand (uses implicit Accumulator as the other) | `OP A` |
+| 🟦 **0-Address (Stack-based)** | No explicit operand (uses stack top implicitly) | `OP` |
+
+### 📝 1.2 Worked Example: Evaluate `(A + B) × (C − D)` in ALL Five Formats
+
+#### 🟥 4-Address Format
+Each instruction specifies 2 source operands, 1 destination, and 1 address of the NEXT instruction to execute (rarely used in modern systems — mainly historical/theoretical).
+```
+ADD  R1, A, B, I2      ; R1 = A + B ; next → I2
+SUB  R2, C, D, I3      ; R2 = C − D ; next → I3
+MUL  R3, R1, R2, I4    ; R3 = R1 × R2 ; next → I4
+```
+
+#### 🟧 3-Address Format
+```
+ADD  R1, A, B      ; R1 = A + B
+SUB  R2, C, D      ; R2 = C − D
+MUL  R3, R1, R2    ; R3 = R1 × R2
+```
+
+#### 🟨 2-Address Format
+```
+MOV  R1, A         ; R1 = A
+ADD  R1, B         ; R1 = R1 + B  (= A + B)
+MOV  R2, C         ; R2 = C
+SUB  R2, D         ; R2 = R2 − D  (= C − D)
+MUL  R1, R2        ; R1 = R1 × R2
+```
+
+#### 🟩 1-Address (Accumulator-Based) Format
+Every instruction implicitly uses the **Accumulator (AC)** as one operand and the destination.
+```
+LOAD   A           ; AC = A
+ADD    B           ; AC = AC + B   (= A + B)
+STORE  T           ; T = AC        (store partial result)
+LOAD   C           ; AC = C
+SUB    D           ; AC = AC − D   (= C − D)
+MUL    T           ; AC = AC × T
+```
+
+#### 🟦 0-Address (Stack-Based) Format
+Operands are implicitly the top elements of the stack; requires converting the expression to **Postfix (Reverse Polish) Notation** first: `A B + C D − ×`
+```
+PUSH  A
+PUSH  B
+ADD             ; pushes (A+B) onto stack
+PUSH  C
+PUSH  D
+SUB             ; pushes (C−D) onto stack
+MUL             ; pops top 2, pushes (A+B)×(C−D)
+```
+
+### ⚖️ 1.3 Advantages / Disadvantages of Each Format
+| Format | ✅ Advantages | ❌ Disadvantages |
+|---|---|---|
+| 4-Address | Maximum flexibility, explicit control flow | Very long instructions, wastes memory/bandwidth, rarely used practically |
+| 3-Address | Fewer total instructions needed, direct expression mapping | Longer instruction word (needs 3 operand fields) |
+| 2-Address | Shorter than 3-address, still fairly flexible | Overwrites one source operand (destructive), may need extra MOV instructions |
+| 1-Address | Very short instructions (only 1 operand field) | Heavy reliance on Accumulator causes more memory traffic (LOAD/STORE overhead) |
+| 0-Address | Shortest instructions (no operand field at all — just opcode) | Requires expression in postfix form; heavy stack push/pop traffic |
+
+### 📝 Solved Numericals
+
+**Q1.** Convert `X = (A − B) / (C + D × E)` into 3-address code.
+> **Solution**:
+> ```
+> SUB  R1, A, B
+> MUL  R2, D, E
+> ADD  R3, C, R2
+> DIV  X, R1, R3
+> ```
+
+**Q2.** Convert `X = (A + B) × (C + D)` into 2-address code.
+> **Solution**:
+> ```
+> MOV  R1, A
+> ADD  R1, B
+> MOV  R2, C
+> ADD  R2, D
+> MUL  R1, R2
+> MOV  X, R1
+> ```
+
+**Q3.** Convert `X = A × B + C × D` into 1-address (accumulator) code.
+> **Solution**:
+> ```
+> LOAD   A
+> MUL    B
+> STORE  T
+> LOAD   C
+> MUL    D
+> ADD    T
+> STORE  X
+> ```
+
+**Q4.** Convert `X = (A + B) × (C − D)` into 0-address (postfix stack) code — verify postfix conversion.
+> **Solution**:
+> Infix → Postfix: `(A + B) × (C − D)` → `A B + C D − ×`
+> ```
+> PUSH A
+> PUSH B
+> ADD
+> PUSH C
+> PUSH D
+> SUB
+> MUL
+> ```
+
+**Q5.** How many instructions are needed in 3-address format to evaluate `X = A + B × C − D / E` (assuming standard precedence)?
+> **Solution**: Expression = `A + (B×C) − (D/E)`
+> ```
+> MUL  R1, B, C
+> DIV  R2, D, E
+> ADD  R3, A, R1
+> SUB  X, R3, R2
+> ```
+> **4 instructions needed.**
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **2-address format is "destructive"** — the destination operand OVERWRITES one of the sources; always track which operand survives.
+> - 🔑 **0-address format REQUIRES postfix (RPN) conversion** first — a very common exam step students skip, leading to wrong instruction sequences.
+> - 🔑 4-address format is mostly **theoretical/historical** — rarely implemented in real CPUs (mentioned mainly for conceptual completeness/comparison in exams).
+> - 🔑 Fewer address fields → shorter instructions but MORE total instructions needed (and vice versa) — a fundamental trade-off tested conceptually.
+
+---
+
+## 2️⃣ Basic Addressing Modes
+
+### 📖 2.1 Definitions, Examples & Effective Address Calculation
+
+#### 🟣 Immediate Addressing Mode
+- The **operand itself** is specified directly within the instruction (no memory access needed for the operand).
+- **Example**: `MOV R1, #5` → R1 = 5
+- **Effective Address**: N/A (operand IS the data, not an address)
+
+#### 🔵 Absolute / Direct Addressing Mode
+- The instruction contains the **actual memory address** of the operand directly.
+- **Example**: `MOV R1, 200` → R1 = Memory[200]
+- **Effective Address (EA)**: `EA = Address field value` (used as-is)
+
+#### 🟢 Indirect Addressing Mode
+- The instruction contains the address of a memory location that **itself holds the address** of the actual operand (one extra level of memory reference).
+- **Example**: `MOV R1, @200` → R1 = Memory[Memory[200]]
+- **Effective Address (EA)**: `EA = Memory[Address field value]`
+
+#### 🟡 Implied (Implicit) Addressing Mode
+- The operand location is **implicit** in the opcode itself — no address field needed.
+- **Example**: `CLC` (Clear Carry flag) — operand is the Carry flag, implied by the instruction itself.
+- **Effective Address**: N/A (location is fixed/implicit by definition of the instruction)
+
+#### 🟠 Register Addressing Mode
+- The operand is located in a **CPU register**, specified directly in the instruction.
+- **Example**: `MOV R1, R2` → R1 = R2 (contents of register R2)
+- **Effective Address**: N/A (register itself holds operand; no memory access needed)
+
+#### 🔴 Register Indirect Addressing Mode
+- A register holds the **memory address** of the actual operand (register acts as a pointer).
+- **Example**: `MOV R1, (R2)` → R1 = Memory[R2]
+- **Effective Address (EA)**: `EA = Contents of Register`
+
+### ⚖️ 2.2 Advantages / Disadvantages
+| Mode | ✅ Advantages | ❌ Disadvantages |
+|---|---|---|
+| Immediate | Fastest (no memory access for operand) | Limited by instruction word size (small constants only) |
+| Direct/Absolute | Simple, single memory access | Limited address range (fits in instruction), no dynamic addressing |
+| Indirect | Large address range achievable, supports pointers | Slower (2 memory accesses needed) |
+| Implied | Shortest instruction (no address field at all) | Inflexible, fixed operand only |
+| Register | Very fast (no memory access), short instruction | Limited by small number of CPU registers available |
+| Register Indirect | Combines register speed with memory flexibility (pointer-like) | Still needs 1 memory access to fetch actual operand |
+
+### 📊 2.3 Comparison Table — Basic Modes
+| Mode | Definition | Effective Address Formula | Example | Use Case |
+|---|---|---|---|---|
+| Immediate | Operand embedded in instruction | N/A (operand = value itself) | `MOV R1, #5` | Loading constants |
+| Direct/Absolute | Address field = actual operand address | EA = Address Field | `MOV R1, 200` | Simple, fixed-location variables |
+| Indirect | Address field points to a location holding the real address | EA = Memory[Address Field] | `MOV R1, @200` | Pointers, dynamic data structures |
+| Implied | Operand location fixed by the opcode itself | N/A | `CLC` | Flag/accumulator operations |
+| Register | Operand is inside a register | N/A (register = operand) | `MOV R1, R2` | Fast temporary computations |
+| Register Indirect | Register holds address of the operand | EA = Contents of Register | `MOV R1, (R2)` | Pointer-based access, linked structures |
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **Direct vs Indirect** is THE most confused pair: Direct = address field IS the address; Indirect = address field POINTS TO a cell CONTAINING the address (one extra dereference) — always count memory accesses (Direct = 1, Indirect = 2).
+> - 🔑 **Immediate mode has NO effective address** — the value in the instruction IS the data, not an address pointing to data — don't try to compute an "EA" for immediate mode.
+> - 🔑 **Register vs Register Indirect**: Register mode → operand is directly IN the register; Register Indirect → register holds an ADDRESS, and operand is IN memory at that address.
+
+---
+
+## 3️⃣ Complex & Relative Modes
+
+### 🏗️ 3.1 Base Register Addressing
+- **Effective Address = Base Register content + Address field (displacement)**.
+- The **Base Register** typically holds the starting address of a program/data segment; the address field provides an offset from this base.
+- **Use Case**: 🔁 **Relocatable code** — the same program can be loaded at different memory locations; only the Base Register needs updating, while all instruction offsets remain unchanged.
+```
+EA = [Base Register] + Displacement
+```
+
+### 📇 3.2 Index Addressing (with Displacement)
+- **Effective Address = Index Register content + Address field (displacement)**.
+- The **Index Register** typically holds an offset that changes systematically (e.g., incremented in a loop) to step through consecutive memory locations.
+- **Use Case**: 📊 **Array/table processing** — accessing successive array elements by incrementing the index register each iteration, while the base address field stays fixed.
+```
+EA = [Index Register] + Displacement
+```
+
+> 🟡 **Base vs Index — Conceptual Distinction**: Both use the SAME formula structure (`Register + Displacement`), but differ in **purpose/usage pattern**: Base Register = fixed starting point of a segment (changes rarely, e.g., on program relocation); Index Register = frequently changing offset (changes every loop iteration, e.g., array traversal).
+
+### 🎯 3.3 Relative Addressing Mode
+- **Effective Address = Program Counter (PC) content + Address field (displacement)**.
+- Commonly used for **branch/jump instructions**, where the target is specified as an offset RELATIVE to the current instruction's address.
+- **Use Case**: 🔁 **Relocatable code & short branch instructions** — branch targets remain correct even if the whole program is loaded at a different base address, since offsets are relative, not absolute.
+```
+EA = [PC] + Displacement
+```
+
+### ➕➖ 3.4 Auto-Increment / Auto-Decrement Modes
+- **Auto-Increment**: The register (acting as a pointer) is used to access the operand, and is THEN automatically incremented (typically by the operand size) — useful for sequential access (e.g., stepping through an array).
+- **Auto-Decrement**: The register is FIRST automatically decremented, and THEN used to access the operand — useful for stack push operations or reverse traversal.
+```
+Auto-Increment:  EA = [Register] ;  then Register ← Register + d
+Auto-Decrement:  Register ← Register − d ;  then EA = [Register]
+```
+- **Use Case**: 📚 **Stack operations (PUSH/POP)** and **efficient array/string traversal** without needing a separate explicit increment instruction.
+
+### 📞 3.5 Use Case Summary
+| Mode | Primary Use Case |
+|---|---|
+| Base Register | Relocatable programs, segment-based memory organization |
+| Index | Array/table traversal, iterating over data structures |
+| Relative | Branch/jump instructions, position-independent code |
+| Auto-Increment/Decrement | Stack operations (PUSH/POP), sequential array/string processing |
+| Register Indirect | Pointer-based data structures (linked lists, dynamic memory) |
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **Base vs Index vs Relative** all share the SAME mathematical formula (`Register + Displacement`), but the register USED differs: Base Register (segment start), Index Register (loop counter/offset), PC (relative to current instruction) — questions often test which register is implied by the mode NAME.
+> - 🔑 **Auto-Increment happens AFTER access; Auto-Decrement happens BEFORE access** — a frequently reversed/confused detail in exams (memory aid: "increment LATER, decrement EARLIER").
+> - 🔑 Relative addressing is essential for **position-independent code** — a key reason branch instructions use it instead of absolute addressing.
+
+---
+
+## 📊 MASTER COMPARISON TABLE — ALL Addressing Modes
+
+| Mode | Definition | Effective Address (EA) Formula | Example | Use Case |
+|---|---|---|---|---|
+| 🟣 Immediate | Operand embedded directly in instruction | N/A (operand = value) | `MOV R1, #5` | Loading constants |
+| 🔵 Direct/Absolute | Address field = actual operand address | EA = Address Field | `MOV R1, 200` | Simple fixed-location variables |
+| 🟢 Indirect | Address field points to a cell holding real address | EA = Memory[Address Field] | `MOV R1, @200` | Pointers, dynamic data |
+| 🟡 Implied | Operand location fixed by opcode itself | N/A | `CLC` | Flag/accumulator-specific ops |
+| 🟠 Register | Operand resides in a CPU register | N/A (register = operand) | `MOV R1, R2` | Fast temporary computation |
+| 🔴 Register Indirect | Register holds the address of the operand | EA = Contents of Register | `MOV R1, (R2)` | Pointer-based/linked structures |
+| 🟤 Base Register | Base register + displacement | EA = [Base Register] + Displacement | `MOV R1, 20(BR)` | Relocatable code/segments |
+| ⚪ Index | Index register + displacement | EA = [Index Register] + Displacement | `MOV R1, 20(IX)` | Array/table traversal |
+| ⚫ Relative | PC + displacement | EA = [PC] + Displacement | `BEQ +8` | Branch/jump, position-independent code |
+| 🔷 Auto-Increment | Access, THEN increment register | EA = [Register]; Reg ← Reg + d | `MOV R1, (R2)+` | Sequential array/string access |
+| 🔶 Auto-Decrement | Decrement register, THEN access | Reg ← Reg − d; EA = [Register] | `MOV R1, -(R2)` | Stack PUSH, reverse traversal |
+
+### 📝 Solved Numericals/Conceptual Problems (continued)
+
+**Q6.** A register R2 contains the value 300. Using **Register Indirect** addressing (`MOV R1, (R2)`), what value is loaded into R1?
+> **Solution**: In Register Indirect mode, EA = Contents of Register = **300**, so the operand loaded is Memory[300]. If Memory[300] = 500, then **R1 = 500**.
+
+**Q7.** Using Indirect Addressing, an instruction has address field = 400. Memory[400] = 900. What is the Effective Address?
+> **Solution**: EA = Memory[Address Field] = Memory[400] = **900**
+
+**Q8.** A Base Register holds 1000. An instruction specifies a displacement of 50. Find the Effective Address.
+> **Solution**: EA = Base Register + Displacement = 1000 + 50 = **1050**
+
+**Q9.** An Index Register holds 20, and is used to traverse an array of 4-byte integers starting at base address 2000 (displacement = base address here). Find the address of the 5th element (index register incremented appropriately, 0-indexed access shown for element index 5 → offset = 5×4=20).
+> **Solution**: EA = Displacement (array base) + Index Register content = 2000 + 20 = **2020** (i.e., the 5th element, 0-indexed, assuming Index Register was incremented to 20 = 5×4 bytes)
+
+**Q10.** The PC currently holds 500 (pointing to the next instruction). A relative branch instruction has a displacement of −20. Find the target address.
+> **Solution**: EA = PC + Displacement = 500 + (−20) = **480**
+
+**Q11.** A register R1 = 100 is used in Auto-Increment mode to access a byte array (element size = 1 byte). What is the Effective Address for the CURRENT access, and what will R1 hold AFTER this instruction?
+> **Solution**: EA (current access) = **100**; After access, R1 ← R1 + 1 = **101**
+
+**Q12.** A register R1 = 100 is used in Auto-Decrement mode to access a word array (element size = 4 bytes). What is R1 BEFORE access, and what is the Effective Address used?
+> **Solution**: R1 is FIRST decremented: R1 ← 100 − 4 = 96; THEN EA = **96** (the access uses the already-decremented value)
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 Always identify EXACTLY how many memory dereferences a mode needs: Immediate/Register/Implied = 0 memory accesses for operand location; Direct/Register-Indirect/Base/Index/Relative = 1 memory access; Indirect = 2 memory accesses (address field → address → operand).
+> - 🔑 For Auto-Increment/Auto-Decrement numericals, always state clearly whether the given register value is BEFORE or AFTER the implicit update — this ordering is the most common scoring error.
+
+---
+
+## 🔑 Quick Revision Summary
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ INSTRUCTION FORMATS (by number of explicit addresses)
+   4-Address → 3-Address → 2-Address → 1-Address (Accumulator) → 0-Address (Stack)
+   Fewer address fields → shorter instructions, but MORE total instructions needed
+   0-Address REQUIRES postfix (RPN) expression conversion first
+
+ ADDRESSING MODES — EFFECTIVE ADDRESS FORMULAS
+   Immediate         → N/A (operand = value itself)
+   Direct/Absolute   → EA = Address Field
+   Indirect          → EA = Memory[Address Field]     (2 memory accesses)
+   Implied           → N/A (location fixed by opcode)
+   Register          → N/A (operand = register content)
+   Register Indirect → EA = Contents of Register
+   Base Register     → EA = [Base Register] + Displacement
+   Index             → EA = [Index Register] + Displacement
+   Relative          → EA = [PC] + Displacement
+   Auto-Increment    → EA = [Register]; THEN Register ← Register + d
+   Auto-Decrement    → Register ← Register − d; THEN EA = [Register]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### 🎯 Key Conceptual Recap
+- **Instruction Structure**: 3-address maps most directly to expressions (no destructive overwrite); 2-address is destructive; 1-address relies heavily on the Accumulator; 0-address needs postfix conversion and uses a stack.
+- **Direct vs Indirect**: count dereferences — Direct = 1 memory access, Indirect = 2.
+- **Register vs Register Indirect**: Register = operand IN register; Register Indirect = register holds an ADDRESS pointing to the operand.
+- **Base / Index / Relative**: same formula shape (`Register + Displacement`) but different registers used for different purposes — Base (relocation), Index (array traversal), Relative/PC (branching, position-independent code).
+- **Auto-Increment** happens AFTER access; **Auto-Decrement** happens BEFORE access — critical ordering distinction, frequently tested numerically.

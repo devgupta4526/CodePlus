@@ -7,7 +7,7 @@ export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
 /** Lesson frontmatter metadata */
 export interface LessonMeta {
-  course: 'java' | 'python' | 'springboot';
+  course: 'java' | 'python' | 'springboot' | 'coa';
   title: string;
   slug: string;
   chapter: number;
@@ -38,11 +38,13 @@ export interface Heading {
 
 /** Chapter grouping */
 export interface Chapter {
+  course?: 'java' | 'python' | 'springboot' | 'coa' | string;
   number: number;
   title: string;
   description: string;
   lessons: LessonMeta[];
 }
+
 
 /** User progress for a lesson */
 export interface LessonProgress {

@@ -1,0 +1,413 @@
+# 🔌 9.3 Input Output Organisation
+
+> 🎯 **Weightage: 25.9%** — Second highest weightage topic in COA. Master DMA and Disk Access Time numericals — they are GATE favorites.
+
+---
+
+## 1️⃣ Interface & Addressing
+
+### 🧩 1.1 Basics of I/O Devices and Interface
+- I/O devices (keyboard, disk, printer) operate at vastly different speeds and signal formats compared to the CPU.
+- An **I/O Interface** (I/O port/controller) acts as a **bridge/translator** between the CPU and peripheral devices — handling speed mismatch, signal conversion, and data buffering.
+- Every I/O interface typically contains: a **data register** (buffer), a **status register** (busy/ready flags), and a **control register** (commands from CPU).
+
+### 🚌 1.2 Role of Data Bus / Address Bus / Control Bus
+```
+                    ┌─────────────────────────────┐
+                    │             CPU               │
+                    └───────┬─────────┬───────┬─────┘
+                            │         │        │
+                     ADDRESS BUS  DATA BUS  CONTROL BUS
+                    (selects loc.)(carries  (R/W, timing,
+                                   data)     interrupts)
+                            │         │        │
+              ┌─────────────┼─────────┼────────┼──────────────┐
+              ▼             ▼         ▼         ▼              ▼
+         ┌────────┐   ┌────────┐ ┌────────┐ ┌────────┐  ┌────────┐
+         │ Memory │   │  I/O   │ │  I/O   │ │  I/O   │  │  ...   │
+         │        │   │ Port 1 │ │ Port 2 │ │ Port 3 │  │        │
+         └────────┘   └────────┘ └────────┘ └────────┘  └────────┘
+```
+| Bus | Direction | Function |
+|---|---|---|
+| 🔵 **Address Bus** | Unidirectional (CPU → Device/Memory) | Selects which memory location or I/O device is being accessed |
+| 🟢 **Data Bus** | Bidirectional | Carries the actual data being transferred |
+| 🔴 **Control Bus** | Bidirectional | Carries control signals — Read/Write, Interrupt Request, Clock, Ready/Busy |
+
+### 🏷️ 1.3 Memory-Mapped I/O vs Isolated (I/O-Mapped) I/O
+
+| Feature | 🟦 Memory-Mapped I/O | 🟧 Isolated (I/O-Mapped) I/O |
+|---|---|---|
+| Address space | I/O devices share the SAME address space as memory | I/O devices have a SEPARATE, dedicated address space |
+| Instructions used | Regular memory instructions (MOV, LOAD, STORE) | Special I/O instructions (`IN`, `OUT`) |
+| Address space size | Reduces usable memory address space (shared) | Full memory address space available (separate) |
+| Hardware | Needs no special control lines beyond memory R/W | Needs an extra control line (M/IO) to distinguish memory vs I/O |
+| Flexibility | More flexible — can apply all memory-referencing instructions to I/O | Less flexible — limited instruction set for I/O |
+| Speed | Slightly slower if address decoding logic is complex | Can be faster (dedicated address decoding, simpler) |
+| ✅ Pros | Rich instruction set applicability, simpler CPU design (no separate I/O instructions) | Full memory space preserved, clear separation reduces addressing bugs |
+| ❌ Cons | Consumes part of memory address space | Requires extra instructions & control signal |
+| Example | ARM processors | Intel x86 (IN/OUT instructions) |
+
+### 🖥️ 1.4 I/O Processor Role
+- An **I/O Processor (IOP)**, also called a **Channel**, is a specialized processor that handles I/O operations **independently** of the main CPU.
+- It can fetch and execute its own I/O programs (channel programs), managing multiple I/O devices, freeing the main CPU to continue other computation.
+- Found in mainframe-class systems for high-throughput I/O handling.
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 Memory-mapped I/O uses the **same instructions** as memory access; Isolated I/O needs **dedicated `IN`/`OUT`** instructions — a top MCQ distinction.
+> - 🔑 Memory-mapped I/O **shrinks** available memory address space (since I/O devices "steal" addresses); Isolated I/O does **not**.
+> - 🔑 Don't confuse "I/O Processor" with a simple "I/O controller/interface" — an IOP can execute its own instructions independently; a basic interface cannot.
+
+---
+
+## 2️⃣ Programmed I/O
+
+### ⚙️ 2.1 Working Mechanism
+In Programmed I/O, the **CPU itself** issues commands to the I/O device and then continuously **polls** (checks) the device's status register in a loop until the device signals it is ready — the CPU is fully occupied during this wait, unable to do other useful work.
+
+### 🔄 2.2 Flowchart-in-Text: CPU Polling Loop
+```
+        ┌────────────────────┐
+        │  CPU issues I/O     │
+        │  command to device  │
+        └──────────┬──────────┘
+                    ▼
+        ┌────────────────────┐
+   ┌───► │ Read Status Register│
+   │     └──────────┬──────────┘
+   │                ▼
+   │       ┌─────────────────┐
+   │       │  Is device READY? │
+   │       └───┬─────────┬────┘
+   │          NO         YES
+   │           │          │
+   └───────────┘          ▼
+        (loop/poll) ┌────────────────────┐
+                     │ Transfer data word  │
+                     │ (CPU ↔ Device)      │
+                     └──────────┬──────────┘
+                                ▼
+                     ┌────────────────────┐
+                     │ More data? → Repeat │
+                     │ else → Done         │
+                     └────────────────────┘
+```
+
+### ⚖️ 2.3 Advantages / Disadvantages
+| ✅ Advantages | ❌ Disadvantages |
+|---|---|
+| Simple to implement (no extra hardware needed) | CPU is 100% occupied during polling — wastes CPU cycles |
+| Easy to control and debug | Very poor CPU utilization for slow devices |
+| No interrupt-handling hardware required | Cannot handle multiple devices efficiently in parallel |
+
+### 📉 2.4 CPU Utilization Implications
+- Since the CPU is **busy-waiting**, it cannot execute any other program during the I/O wait — **CPU utilization collapses to near 0% (useful work)** whenever a slow device is involved.
+- This makes Programmed I/O suitable **only** for simple, dedicated, low-speed embedded systems where no multitasking is required.
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 "Busy-waiting" / "Polling" = defining keyword for Programmed I/O — if a question mentions the CPU continuously checking a status flag, it's Programmed I/O.
+> - 🔑 Programmed I/O has the **worst CPU utilization** among all 3 I/O techniques (Programmed < Interrupt-driven < DMA) — a frequently tested ranking.
+
+---
+
+## 3️⃣ Interrupt Driven I/O
+
+### 🔔 3.1 Interrupt Cycle — Step by Step
+```
+1. Device signals CPU via Interrupt Request (IRQ) line — CPU continues its current work until instruction completes.
+2. CPU checks the interrupt flag/line at the END of the current instruction cycle.
+3. CPU acknowledges the interrupt (Interrupt Acknowledge signal sent to device).
+4. CPU saves its current context (PC, registers) — typically onto the stack.
+5. CPU jumps to the Interrupt Service Routine (ISR) address (via interrupt vector).
+6. ISR executes — performs the actual I/O data transfer.
+7. On ISR completion, CPU restores saved context (PC, registers) from the stack.
+8. CPU resumes the interrupted program from where it left off.
+```
+
+### 🏷️ 3.2 Types of Interrupts
+| Category | Type | Description |
+|---|---|---|
+| By Source | 🔧 Hardware Interrupt | Triggered by external hardware devices (e.g., keyboard press, disk ready) |
+| By Source | 💻 Software Interrupt | Triggered by a program instruction (e.g., `INT` instruction, system calls) |
+| By Origin | 🌐 External Interrupt | Originates outside the CPU (I/O devices, timers) |
+| By Origin | 🏠 Internal Interrupt (Trap) | Originates inside the CPU (divide-by-zero, illegal opcode, overflow) |
+| By Priority Control | 🚫 Maskable Interrupt | Can be disabled/ignored by the CPU (via setting an interrupt mask/flag) |
+| By Priority Control | ⛔ Non-Maskable Interrupt (NMI) | CANNOT be disabled — reserved for critical events (e.g., power failure) |
+
+### 🥇 3.3 Interrupt Priority and Daisy Chaining
+- When multiple devices can interrupt simultaneously, a **priority scheme** decides which is serviced first.
+- **Daisy Chaining**: Devices are connected in series; the Interrupt Acknowledge signal passes through each device in the chain — the first device (closest to CPU) requesting an interrupt "grabs" the acknowledgment, giving it **implicit priority** based on physical position in the chain.
+```
+CPU ── INTACK ──► Device 1 ── (if not requesting, pass along) ──► Device 2 ── ► Device 3 ── ...
+        (Highest priority: Device 1, closest to CPU)
+```
+
+### 🎯 3.4 Vectored vs Non-Vectored Interrupts
+| Feature | Vectored Interrupt | Non-Vectored Interrupt |
+|---|---|---|
+| ISR Address | Device provides its own ISR address (vector) directly | Fixed/common address; CPU must poll to determine which device interrupted |
+| Speed | Faster (direct jump to correct ISR) | Slower (needs additional polling to identify source) |
+| Hardware | Needs vector-supplying hardware | Simpler hardware |
+
+### 🔁 3.5 Interrupt Initiated I/O Sequence
+```
+Device Ready → Sends IRQ → CPU finishes current instruction →
+CPU acknowledges → Saves context → Jumps to ISR (via vector) →
+ISR transfers data → Restores context → CPU resumes main program
+```
+
+### ⚖️ 3.6 Comparison: Interrupt-Driven I/O vs Programmed I/O
+| Feature | Programmed I/O | Interrupt-Driven I/O |
+|---|---|---|
+| CPU involvement | Continuous busy-waiting/polling | CPU free to do other work; only interrupted when device is ready |
+| CPU utilization | Very poor | Much better |
+| Complexity | Simple | More complex (needs interrupt hardware, ISR management) |
+| Response time | Immediate check, but wastes cycles | Slight delay (interrupt latency) but efficient overall |
+| Best suited for | Very simple/dedicated systems | General-purpose multitasking systems |
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **NMI (Non-Maskable Interrupt)** is reserved for the MOST critical events and can never be disabled — often tested with "power failure" as the classic example.
+> - 🔑 Daisy chaining priority = **position-based**, closest device to CPU = highest priority — a very common numerical/conceptual trap when multiple devices request simultaneously.
+> - 🔑 Vectored interrupts are FASTER because the device itself supplies the ISR address; Non-vectored requires the CPU to poll all devices to find the source — frequently swapped in MCQs.
+> - 🔑 Traps (internal interrupts) are triggered by the **CPU's own execution** (e.g., divide by zero) — NOT by external devices; don't confuse with hardware interrupts.
+
+---
+
+## 4️⃣ Direct Memory Access (DMA)
+
+### 🚀 4.1 Need for DMA
+- Even Interrupt-Driven I/O requires the **CPU** to execute the actual data transfer (word by word) inside the ISR — this still consumes CPU cycles for large data transfers (e.g., disk block transfers).
+- **DMA** allows data to be transferred **directly between I/O device and memory**, WITHOUT CPU involvement in the actual transfer — the CPU only initializes the transfer and is notified upon completion (via interrupt).
+
+### 🏗️ 4.2 DMA Controller Architecture
+```
+        ┌─────────┐                         ┌─────────┐
+        │   CPU    │◄──── System Bus ───────►│  Memory  │
+        └────┬─────┘                         └────┬─────┘
+             │  (initializes DMA registers)        │
+             ▼                                      │
+        ┌─────────────────────┐                     │
+        │   DMA Controller      │◄────────────────────┘
+        │  ┌─────────────────┐  │   (direct access to memory)
+        │  │ Address Register │  │
+        │  │ Word Count Reg.   │  │
+        │  │ Control Register  │  │
+        │  └─────────────────┘  │
+        └──────────┬────────────┘
+                    ▼
+             ┌─────────────┐
+             │  I/O Device  │
+             └─────────────┘
+```
+- **Address Register**: Holds the memory address for the current word transfer.
+- **Word Count Register**: Holds the number of words remaining to transfer.
+- **Control Register**: Specifies transfer direction (read/write) and mode.
+
+### 🔀 4.3 DMA Transfer Modes
+| Mode | Description |
+|---|---|
+| 🟢 **Burst/Block Mode** | DMA controller takes control of the bus and transfers an ENTIRE block of data continuously before releasing the bus back to the CPU. Fastest, but CPU is blocked for the whole block duration. |
+| 🟡 **Cycle Stealing Mode** | DMA controller transfers ONE word at a time, "stealing" individual bus cycles between CPU operations. CPU is only paused briefly per word — slower overall transfer but less CPU disruption. |
+| 🔵 **Transparent Mode (Hidden DMA)** | DMA transfer occurs ONLY when the CPU is not using the bus at all (e.g., during instruction decode phases when the bus is idle). Slowest DMA mode, but ZERO CPU delay — completely "hidden." |
+
+### ⚖️ 4.4 Three-Way Comparison: Programmed I/O vs Interrupt-Driven I/O vs DMA
+| Feature | Programmed I/O | Interrupt-Driven I/O | DMA |
+|---|---|---|---|
+| Who performs actual data transfer? | CPU (in a busy-wait loop) | CPU (inside ISR, word by word) | DMA Controller (directly, CPU uninvolved) |
+| CPU utilization | Worst | Better | Best (near-zero involvement during transfer) |
+| Speed for bulk transfer | Slow | Moderate | Fastest |
+| Hardware complexity | Lowest | Moderate | Highest (needs dedicated DMA controller) |
+| CPU intervention per word | Every word | Every word (via interrupt/ISR) | None — only at start & end of entire block |
+| Best suited for | Simple, low-speed devices | Moderate-speed devices, general multitasking | High-speed bulk transfers (disk, network) |
+
+### 📝 Solved Numericals
+
+**Q1.** A disk transfers data at 2 MB/s using DMA in burst mode. How long does it take to transfer 4 MB of data?
+> **Solution**: Time = Data / Rate = 4 MB / 2 MB/s = **2 seconds**
+
+**Q2.** A DMA controller transfers data in cycle-stealing mode, stealing 1 cycle per word transferred. If the CPU clock is 1 GHz (1 cycle = 1 ns) and 10,000 words need to be transferred, what is the total CPU time "stolen"?
+> **Solution**: Time stolen = 10,000 words × 1 cycle/word × 1 ns/cycle = **10,000 ns = 10 μs**
+
+**Q3.** A device transfers data at a rate of 50,000 bytes/second using DMA. The CPU executes instructions at 10 million instructions/second (10 MIPS), and each DMA cycle steals time equivalent to 1 instruction cycle. If 5000 bytes are transferred, how many instruction cycles does the CPU lose (assuming 1 byte transferred per DMA cycle)?
+> **Solution**: Cycles lost = 5000 bytes × 1 cycle/byte = **5000 instruction cycles lost** = 5000 / (10×10⁶) seconds = 0.5 ms of CPU time.
+
+**Q4.** A DMA transfer of a disk block of 512 bytes takes 51.2 μs at a transfer rate of X bytes/μs. Find X.
+> **Solution**: X = 512 bytes / 51.2 μs = **10 bytes/μs**
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 In **Burst Mode**, the CPU is blocked for the ENTIRE block transfer duration (higher speed, but CPU stalls longer per transfer session); in **Cycle Stealing**, delays are spread out in small increments — a very common comparison trap.
+> - 🔑 DMA still requires **brief CPU initialization** (setting up address/count/control registers) — DMA does NOT eliminate CPU involvement completely, just removes it from the actual per-word transfer.
+> - 🔑 Always match units carefully (MB/s vs bytes/μs) in transfer time numericals — the most common calculation error.
+
+---
+
+## 5️⃣ Disk Structure & Address
+
+### 💿 5.1 Physical Structure of a Disk
+```
+                 ┌───────────────────────────┐
+                 │        Platter (top view)   │
+                 │    ╭───────────────────╮    │
+                 │   ╱   Track 0            ╲   │
+                 │  │   ╭───────────────╮    │  │
+                 │  │  ╱   Track 1        ╲   │  │
+                 │  │ │  ╭─────────────╮   │  │  │
+                 │  │ │ │   ...Sectors  │   │  │  │
+                 │  │ │ ╰─────────────╯    │  │  │
+                 │  │  ╲___________________╱   │  │
+                 │   ╲_______________________╱    │
+                 └───────────────────────────┘
+   Multiple stacked platters (aligned tracks across platters) → form a CYLINDER
+```
+| Term | Description |
+|---|---|
+| **Platter** | A circular magnetic disk (a disk drive contains one or more stacked platters) |
+| **Track** | A concentric circular ring on a platter surface where data is stored |
+| **Sector** | A subdivision of a track — the smallest addressable unit on disk |
+| **Cylinder** | The set of tracks at the SAME radial position across ALL platters (accessible without moving the read/write head) |
+
+### 🗺️ 5.2 Disk Addressing Scheme
+A disk location is typically addressed using a **(Cylinder, Head/Surface, Sector)** triplet — often called **CHS addressing**:
+```
+Disk Address = (Cylinder Number, Head Number, Sector Number)
+```
+Modern systems often use **LBA (Logical Block Addressing)** — a simple linear sequential numbering of all sectors, abstracting the physical CHS structure.
+
+### 📦 5.3 Capacity Calculation Formulas
+> 📦 **Formula Box**
+> ```
+> Total Disk Capacity = Number of Surfaces × Number of Tracks per Surface
+>                        × Number of Sectors per Track × Bytes per Sector
+>
+> Number of Cylinders = Number of Tracks per Surface (since a cylinder spans all surfaces at one track position)
+> ```
+
+### 📝 Solved Numericals
+
+**Q1.** A disk has 8 surfaces, 512 tracks per surface, 64 sectors per track, and 512 bytes per sector. Find the total disk capacity.
+> **Solution**:
+> Capacity = 8 × 512 × 64 × 512 bytes = 8 × 512 × 64 × 512
+> = 8 × 512 = 4096; 4096 × 64 = 262144; 262144 × 512 = 134,217,728 bytes
+> = **128 MB** (134,217,728 / 2²⁰ = 128)
+
+**Q2.** A disk rotates at 6000 RPM, has 8 sectors per track, and each sector holds 1 KB. Find the data transfer rate assuming continuous transfer.
+> **Solution**:
+> Rotation time = 60/6000 = 0.01 sec = 10 ms per revolution
+> Data per revolution (per track) = 8 × 1 KB = 8 KB
+> Transfer rate = 8 KB / 10 ms = **800 KB/sec**
+
+**Q3.** A disk has 1000 cylinders, 10 surfaces, and 100 sectors per track, each sector = 512 bytes. Find the total capacity in GB.
+> **Solution**:
+> Capacity = 1000 × 10 × 100 × 512 bytes = 512,000,000 bytes ≈ **0.477 GB** (512×10⁶ / 2³⁰ ≈ 0.477 GB)
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **Number of Cylinders = Number of Tracks per Surface** (NOT total tracks across all surfaces) — the single most common disk-capacity mistake.
+> - 🔑 Always double-check whether the question wants capacity in **decimal (10³) or binary (2¹⁰) units** for KB/MB/GB — disk manufacturers often use decimal (1 MB = 10⁶ bytes) while OS reports use binary (1 MB = 2²⁰ bytes).
+
+---
+
+## 6️⃣ Disk Access Time & Performance
+
+### ⏱️ 6.1 Components of Disk Access Time
+```
+Total Disk Access Time = Seek Time + Rotational Latency + Transfer Time
+```
+| Component | Description |
+|---|---|
+| 🔵 **Seek Time** | Time taken to move the read/write head to the correct TRACK/cylinder |
+| 🟢 **Rotational Latency** | Time taken for the desired SECTOR to rotate under the read/write head |
+| 🟡 **Transfer Time** | Time taken to actually READ/WRITE the data once positioned correctly |
+
+> 📦 **Formula Box**
+> ```
+> Average Rotational Latency = (1/2) × (60 / RPM)   [time for half a rotation, on average]
+>
+> Transfer Time = (Bytes to transfer / Bytes per Track) × Time per Revolution
+>
+> Total Access Time = Seek Time + Rotational Latency + Transfer Time
+> ```
+
+### 📋 6.2 Disk Scheduling Context
+- Since seek time dominates access time for random accesses, disk scheduling algorithms (FCFS, SSTF, SCAN, C-SCAN, etc.) aim to **minimize total seek movement** across multiple pending requests — reducing average access time for a queue of I/O requests.
+
+### 🔀 6.3 Disk Interleaving
+- **Interleaving**: Sectors on a track are numbered/arranged NON-sequentially (with gaps) rather than in physical order, to give the controller time to process a sector before the next one arrives under the head.
+- **Interleave factor** (e.g., 1:1, 2:1, 3:1) defines the gap pattern — a 2:1 interleave means one sector is skipped between logically consecutive sector reads.
+- Reduces the chance of missing the next required sector due to controller processing delay, improving effective throughput on older/slower controllers.
+
+### 📝 Solved Numericals (GATE-style)
+
+**Q1.** A disk rotates at 3000 RPM. Find the average rotational latency.
+> **Solution**:
+> Time per revolution = 60/3000 = 0.02 sec = 20 ms
+> Average Rotational Latency = 20/2 = **10 ms**
+
+**Q2.** A disk has average seek time = 10 ms, rotates at 6000 RPM, and a track holds 50 sectors of 512 bytes each. Find the time to read one sector (assume average rotational latency).
+> **Solution**:
+> Time per revolution = 60/6000 = 10 ms → Avg rotational latency = 10/2 = 5 ms
+> Transfer time for 1 sector = (1/50) × 10 ms = 0.2 ms
+> Total Access Time = Seek Time + Rotational Latency + Transfer Time = 10 + 5 + 0.2 = **15.2 ms**
+
+**Q3. (Mirrors GATE 1993-style)** A disk pack has 19 surfaces, each with 256 tracks, and each track has 8 sectors of 512 bytes. The disk rotates at 3600 RPM, average seek time is 30 ms. Find:
+(a) Total disk capacity
+(b) Average access time to read one sector
+
+> **Solution**:
+> **(a)** Capacity = 19 × 256 × 8 × 512 bytes = 19 × 256 = 4864; 4864×8=38912; 38912×512 = 19,922,944 bytes ≈ **19 MB**
+> **(b)**
+> - Time per revolution = 60/3600 = 1/60 sec ≈ 16.67 ms
+> - Average rotational latency = 16.67/2 ≈ **8.33 ms**
+> - Transfer time for 1 sector = (1/8) × 16.67 ms ≈ **2.08 ms**
+> - Total Access Time = Seek Time + Rotational Latency + Transfer Time = 30 + 8.33 + 2.08 = **≈ 40.4 ms**
+
+**Q4.** A disk has a transfer rate of 100 MB/s. How long does it take to transfer a 4 KB block (ignore seek/rotational latency)?
+> **Solution**: Time = 4 KB / 100 MB/s = (4/1024) MB / 100 MB/s ≈ 0.0000391 sec = **≈ 39 μs**
+
+**Q5.** For a disk with seek time 8 ms, rotational speed 5400 RPM, and transfer time 2 ms for the required data, compute the total access time.
+> **Solution**:
+> Time per revolution = 60/5400 ≈ 11.11 ms → Avg rotational latency = 11.11/2 ≈ **5.56 ms**
+> Total Access Time = 8 + 5.56 + 2 = **≈ 15.56 ms**
+
+> ### ⚠️ Common Traps & Exam Tips
+> - 🔑 **Average Rotational Latency = HALF a revolution**, not a full revolution — the most frequently tested formula trap.
+> - 🔑 Seek time is usually GIVEN or averaged in problems (it depends on distance moved, which varies per request) — don't try to "derive" it unless a seek-time-per-track rate is explicitly given.
+> - 🔑 Always convert RPM to time-per-revolution FIRST (`60/RPM` seconds), before computing latency or transfer time — a very common unit-conversion trap.
+> - 🔑 Transfer Time depends on the **fraction of the track being read**, i.e., `(bytes needed / bytes per track) × time per revolution` — don't just use total revolution time as the transfer time unless the WHOLE track is being read.
+
+---
+
+## 🔑 Quick Revision Summary — All Formulas & Concepts Together
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ I/O ADDRESSING
+   Memory-Mapped I/O   → shares memory address space, uses normal LOAD/STORE
+   Isolated I/O         → separate address space, uses IN/OUT instructions
+
+ CPU UTILIZATION RANKING (Best → Worst)
+   DMA > Interrupt-Driven I/O > Programmed I/O
+
+ DMA TRANSFER MODES
+   Burst/Block Mode      → transfers entire block at once (fastest, CPU blocked longest per session)
+   Cycle Stealing Mode    → transfers 1 word at a time (small, spread-out CPU delays)
+   Transparent Mode       → transfers only when CPU is not using bus (zero CPU delay, slowest)
+
+ DISK CAPACITY
+   Total Capacity = Surfaces × Tracks/Surface × Sectors/Track × Bytes/Sector
+   Number of Cylinders = Number of Tracks per Surface
+
+ DISK ACCESS TIME
+   Time per Revolution        = 60 / RPM
+   Average Rotational Latency = (1/2) × (60 / RPM)
+   Transfer Time               = (Bytes to Transfer / Bytes per Track) × Time per Revolution
+   Total Access Time           = Seek Time + Rotational Latency + Transfer Time
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### 🎯 Key Conceptual Recap
+- **I/O Addressing**: Memory-mapped (shares address space, flexible instructions) vs Isolated (separate space, needs IN/OUT).
+- **3 I/O Techniques progression**: Programmed I/O (busy-wait, CPU-bound) → Interrupt-Driven I/O (CPU free until notified) → DMA (CPU almost entirely uninvolved in transfer).
+- **Interrupts**: Hardware vs Software; External vs Internal (Trap); Maskable vs Non-Maskable (NMI); Vectored (fast, direct ISR jump) vs Non-Vectored (needs polling).
+- **Daisy Chaining**: Priority = physical position (closest to CPU = highest priority).
+- **Disk Structure**: Platter → Track → Sector → Cylinder (same track position across all platters).
+- **Disk Access Time = Seek + Rotational Latency + Transfer Time** — Seek time dominates for random access; Rotational latency averages to HALF a revolution.
