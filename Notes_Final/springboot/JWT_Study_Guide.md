@@ -1,0 +1,1161 @@
+# 📌 JWT — JSON Web Token: Comprehensive Study Guide
+
+> [!IMPORTANT]
+> **Prerequisites:** Before reading this guide, ensure you understand:
+> - **OAuth 2.0** — authorization framework that uses JWTs as tokens
+> - **Cryptography basics** — symmetric vs. asymmetric encryption, digital signatures
+> - **RSA** — asymmetric key pair (private key signs, public key verifies)
+> - **HMAC** — symmetric key algorithm (same key signs and verifies)
+> - **Base64 encoding** — reversible encoding (NOT encryption)
+
+---
+
+## Table of Contents
+
+1. [What is JWT?](#1-what-is-jwt)
+2. [Where JWT is Used Today](#2-where-jwt-is-used-today)
+3. [JWT Authentication Flow](#3-jwt-authentication-flow)
+4. [Before JWT — Session ID (Stateful)](#4-before-jwt--session-id-stateful)
+5. [JWT vs Session ID Comparison](#5-jwt-vs-session-id-comparison)
+6. [JWT Structure — The Three Parts](#6-jwt-structure--the-three-parts)
+   - [Part 1: Header](#61-part-1-header)
+   - [Part 2: Payload & Claims](#62-part-2-payload--claims)
+   - [Part 3: Signature (JWS)](#63-part-3-signature-jws)
+7. [How the Final JWT Token is Assembled](#7-how-the-final-jwt-token-is-assembled)
+8. [JWT in HTTP Requests — Bearer Token](#8-jwt-in-http-requests--bearer-token)
+9. [JWT vs JWS vs JWE — Key Distinctions](#9-jwt-vs-jws-vs-jwe--key-distinctions)
+10. [Single Sign-On (SSO) with JWT](#10-single-sign-on-sso-with-jwt)
+11. [Advantages of JWT](#11-advantages-of-jwt)
+12. [Challenges & Security Concerns with JWT](#12-challenges--security-concerns-with-jwt)
+    - [Token Invalidation Problem](#121-challenge-1-token-invalidation)
+    - [Payload is Encoded, Not Encrypted](#122-challenge-2-payload-is-encoded-not-encrypted)
+    - [Unsecured JWT (Algorithm: None)](#123-challenge-3-unsecured-jwt--algorithm-none-attack)
+    - [JWK Injection Exploit](#124-challenge-4-jwk-injection-exploit)
+    - [Key ID (kid) and Whitelisted Keys](#125-kid-key-id--whitelisted-public-keys)
+13. [Interview Notes](#13-interview-notes)
+14. [Summary](#14-summary)
+15. [Practice Questions](#15-practice-questions)
+
+---
+
+# 1. What is JWT?
+
+## Overview
+
+JWT stands for **JSON Web Token**. It is an open standard (RFC 7519) that defines a compact, self-contained way for securely transmitting information between parties as a **JSON object**.
+
+## Definition
+
+> A JWT is a digitally signed token that encodes a set of claims (user information and metadata) as a JSON object, which can be transmitted between parties and verified for authenticity and integrity.
+
+## Why This Concept Exists
+
+Before JWT, applications relied on **session IDs** stored in databases to track authenticated users. This approach has serious problems in distributed systems (discussed in Section 4). JWT was created to solve this by making authentication **stateless** — meaning all necessary information travels inside the token itself, with no server-side storage required.
+
+## Real-World Analogy
+
+Think of a JWT like a **government-issued ID card** (Aadhaar, passport):
+
+- The card carries your information (name, photo, DOB) — this is the **payload**
+- It has a government seal/signature that proves it's authentic — this is the **signature**
+- Anyone can read the card's information, but they can verify authenticity via the seal
+- The card has an expiry date baked into it — no server needs to remember it
+
+Just as you don't need to call the government every time someone shows their ID, a server doesn't need to query a database every time a JWT is presented — it just verifies the signature.
+
+## Key Property: Stateless
+
+The most fundamental property of JWT:
+
+- The token itself **contains all the information** needed (user ID, roles, expiry time)
+- The server does **not** need to store any session state in a database
+- Any server that knows the secret/public key can validate the token independently
+
+---
+
+# 2. Where JWT is Used Today
+
+JWT was originally designed simply as a secure way to transmit information. Over time, it became the dominant standard in three major areas:
+
+| Use Case | What It Means | Example |
+|---|---|---|
+| **Authentication** | Confirming user identity ("who are you?") | After login, server issues a JWT proving "this is Shreyansh" |
+| **Authorization** | Checking permissions ("what can you do?") | JWT contains roles/scopes; server checks if user can access `/admin` |
+| **Single Sign-On (SSO)** | One login grants access to multiple applications | Log in once to Google; access Gmail, Drive, YouTube without re-login |
+
+> [!NOTE]
+> **Authentication vs Authorization**
+>
+> - **Authentication** = Identity verification. Confirming *who* you are. ("Yes, you are Shreyansh.")
+> - **Authorization** = Permission check. Confirming *what* you are allowed to do. ("Shreyansh can read user data but not delete it.")
+>
+> JWT supports **both** — the payload can carry user identity AND role/permission claims.
+
+---
+
+# 3. JWT Authentication Flow
+
+Here is the standard flow when JWT is used for authentication:
+
+```
+Client          Auth Server         Resource Server (Your App)
+  |                  |                        |
+  |-- username/pwd ->|                        |
+  |                  |-- generate JWT ------> |
+  |<-- JWT token ----|                        |
+  |                  |                        |
+  |-- GET /resource  (Header: Bearer <JWT>) ->|
+  |                  |                        |
+  |                  |<-- verify token -------|
+  |                  |-- "valid" -----------> |
+  |<-- resource data ----------------------- |
+```
+
+## Step-by-Step Execution
+
+**Step 1 — Login:**
+The client sends their username and password to the **Authentication Server** (this can be a third-party library or your own service — many production systems use providers like Auth0, Keycloak, AWS Cognito).
+
+**Step 2 — Token Generation:**
+The Auth Server validates the credentials. If valid, it **generates a JWT token** (more on structure below) and returns it to the client.
+
+**Step 3 — Client Stores Token:**
+The client stores the JWT (typically in memory or `localStorage` on the browser, or secure storage on mobile).
+
+**Step 4 — Authenticated Request:**
+When the client wants to access a protected resource, it sends the JWT in the **HTTP Authorization header** with every request.
+
+**Step 5 — Token Verification:**
+The resource server receives the request. It passes the token to the Auth Server's verify API. The Auth Server checks the token's validity (signature, expiry, etc.).
+
+**Step 6 — Access Granted:**
+If the token is valid, the Auth Server responds with "valid." The resource server then grants access and returns the requested data.
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant AS as Auth Server
+    participant RS as Resource Server
+
+    C->>AS: POST /login (username + password)
+    AS-->>C: 200 OK + JWT Token
+
+    C->>RS: GET /api/resource (Authorization: Bearer <JWT>)
+    RS->>AS: POST /verify (token)
+    AS-->>RS: 200 OK (token valid, claims: {sub, roles, exp})
+    RS-->>C: 200 OK + Resource Data
+```
+
+> [!TIP]
+> One of the major advantages of JWT is that **you don't have to build authentication logic yourself**. Many battle-tested third-party libraries and services handle token generation and validation. You just invoke their APIs.
+
+---
+
+# 4. Before JWT — Session ID (Stateful)
+
+To appreciate why JWT exists, you must understand what came before it: **Session IDs**.
+
+## How Session ID Authentication Works
+
+```
+Client          App/Auth Server        Database
+  |                   |                   |
+  |-- username/pwd -> |                   |
+  |                   |-- INSERT session ->|
+  |                   |   {session_id,     |
+  |                   |    user_id,        |
+  |                   |    roles,          |
+  |                   |    expiry}         |
+  |<-- session_id ----|                   |
+  |                   |                   |
+  |-- GET /resource   |                   |
+  |   (Cookie: session_id=xyz) ->         |
+  |                   |-- SELECT * WHERE ->|
+  |                   |   session_id=xyz   |
+  |                   |<-- {user, roles, expiry}
+  |                   |-- validate locally|
+  |<-- resource data -|                   |
+```
+
+## Problems with Session IDs
+
+### 1. Stateful — Server Must Store State
+
+When a session ID is created, **all the session information is written to a database**:
+- The session ID (random unique key)
+- User ID (who this belongs to)
+- Roles/permissions
+- Expiry time
+
+This means the server **maintains state** for every logged-in user.
+
+### 2. DB Query on Every Request
+
+Every time the client makes a request with a session ID, the server must:
+1. Receive the session ID
+2. **Query the database** to fetch user info, roles, expiry
+3. Perform validation
+4. Then serve the request
+
+This adds **latency** to every single API call.
+
+### 3. Distributed System Problem
+
+In modern microservices, you might have multiple servers, multiple DB clusters (master-slave replication). Consider this scenario:
+
+```
+Client request hits Server A → queries DB Cluster 1 ✅
+Client next request hits Server B → queries DB Cluster 2 (might be slightly behind in sync) ⚠️
+```
+
+All databases must be kept in sync. This is complex and failure-prone. If the session DB goes down, **all users are logged out**.
+
+```mermaid
+flowchart TD
+    C[Client] --> LB[Load Balancer]
+    LB --> S1[Server 1]
+    LB --> S2[Server 2]
+    LB --> S3[Server 3]
+    S1 --> DB1[(DB Cluster 1)]
+    S2 --> DB2[(DB Cluster 2)]
+    S3 --> DB3[(DB Cluster 3)]
+    DB1 <--> DB2
+    DB2 <--> DB3
+    DB1 <--> DB3
+
+    style DB1 fill:#ff9999
+    style DB2 fill:#ff9999
+    style DB3 fill:#ff9999
+```
+
+All DB clusters must sync the session table. JWT eliminates this entire problem.
+
+---
+
+# 5. JWT vs Session ID Comparison
+
+| Property | Session ID | JWT |
+|---|---|---|
+| **State** | Stateful (DB stores session) | Stateless (token is self-contained) |
+| **Storage** | Server-side DB/cache | Client-side (token itself) |
+| **DB lookup on each request** | Yes — always | No — never (for basic validation) |
+| **Distributed systems** | Complex (DB sync required) | Simple (any server validates independently) |
+| **Expiry** | Stored in DB | Baked into the token (`exp` claim) |
+| **Revocation** | Easy (delete DB row) | Hard (token is valid until expiry) |
+| **Size** | Tiny (just an ID) | Larger (encoded header + payload + sig) |
+| **Security** | Server controls everything | Token validity must be verified carefully |
+
+---
+
+# 6. JWT Structure — The Three Parts
+
+A JWT token looks like this when transmitted:
+
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCIsImVtYWlsIjoic0BleGFtcGxlLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjE2MjM5MDIyLCJleHAiOjE2MTYyNDI2MjJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+It has exactly **three parts**, separated by dots (`.`):
+
+```
+<Header>.<Payload>.<Signature>
+```
+
+```mermaid
+flowchart LR
+    T["JWT Token"] --> H["Part 1\nHEADER\n(Base64URL encoded)"]
+    T --> P["Part 2\nPAYLOAD\n(Base64URL encoded)"]
+    T --> S["Part 3\nSIGNATURE\n(Base64URL encoded)"]
+
+    style H fill:#4a90d9,color:#fff
+    style P fill:#e87722,color:#fff
+    style S fill:#2ecc71,color:#fff
+```
+
+---
+
+## 6.1 Part 1: Header
+
+### What is it?
+
+The header contains **metadata about the token itself** — specifically information about *how* it was signed.
+
+### Structure
+
+```json
+{
+  "typ": "JWT",
+  "alg": "RS256"
+}
+```
+
+### Fields Explained
+
+| Field | Full Name | Description |
+|---|---|---|
+| `typ` | Type | Always `"JWT"`. Identifies this as a JWT token. |
+| `alg` | Algorithm | The signing algorithm used. Common values: `RS256` (RSA + SHA-256), `HS256` (HMAC + SHA-256), `ES256` (ECDSA) |
+
+### Algorithm Options
+
+| Algorithm | Type | Key Used for Signing | Key Used for Verification |
+|---|---|---|---|
+| `HS256` | Symmetric (HMAC) | Secret key | Same secret key |
+| `RS256` | Asymmetric (RSA) | Private key | Public key |
+| `ES256` | Asymmetric (ECDSA) | Private key | Public key |
+| `none` | Unsecured | No key | No verification ⚠️ DANGEROUS |
+
+> [!WARNING]
+> **`alg: none` is extremely dangerous.** See Section 12.3 for the full attack explanation. Any JWT with `"alg": "none"` should be **immediately rejected**.
+
+### Additional Optional Header Fields
+
+| Field | Name | Description |
+|---|---|---|
+| `kid` | Key ID | Identifies which key was used to sign (for key rotation) |
+| `jwk` | JSON Web Key | Embeds a public key — **never use this for verification** (see Section 12.4) |
+
+---
+
+## 6.2 Part 2: Payload & Claims
+
+### What is it?
+
+The payload is the **core information section** of the JWT. It contains **claims** — statements about the user and additional metadata.
+
+> [!IMPORTANT]
+> The payload is **Base64URL encoded, NOT encrypted**. Anyone who receives a JWT can decode the payload and read its contents. **Never put passwords, credit card numbers, or sensitive secrets in the payload.**
+
+### What are Claims?
+
+Claims are simply **key-value pairs** in the JSON payload that carry information. They are divided into three categories:
+
+---
+
+### Category 1: Registered Claims
+
+These are **reserved, standardized claim names** defined by the JWT specification (RFC 7519). They have specific, well-known meanings.
+
+| Claim | Full Name | Description | Example Value |
+|---|---|---|---|
+| `iss` | Issuer | The entity that issued (created) the JWT | `"https://auth.mycompany.com"` |
+| `sub` | Subject | Identifies the user (usually user ID) | `"1234567"` |
+| `aud` | Audience | Identifies the intended recipient(s) | `"mycompany-app"` |
+| `exp` | Expiration Time | Unix timestamp after which the token is invalid | `1716239022` |
+| `nbf` | Not Before | Unix timestamp before which the token must not be accepted | `1716235422` |
+| `iat` | Issued At | Unix timestamp when the token was issued | `1716235422` |
+| `jti` | JWT ID | Unique identifier for this specific token | `"a1b2c3d4"` |
+
+**Understanding `exp` vs `nbf`:**
+- `exp`: Token is invalid **after** this time ("expires at")
+- `nbf`: Token is invalid **before** this time ("not valid before")
+- Together they define a validity window: `nbf ≤ current_time < exp`
+
+---
+
+### Category 2: Public Claims
+
+These are **custom claims** that can be shared and understood by multiple parties. They are not standardized but should use names that are universally understood or registered with IANA.
+
+```json
+{
+  "email": "shreyansh@example.com",
+  "country": "India",
+  "city": "Bengaluru",
+  "firstName": "Shreyansh",
+  "lastName": "Sharma"
+}
+```
+
+Anyone reading this payload understands what `email`, `country`, `city` mean — no special agreement needed. These are **public claims**.
+
+> [!CAUTION]
+> Even though these are "public" in name, **never put confidential data here**. The payload is only encoded (not encrypted). Email is fine. Password or SSN is not.
+
+---
+
+### Category 3: Private Claims
+
+These are **custom claims understood only by specific parties** (typically just the auth server that created the token). Other parties (resource servers) receive these claims but don't know what they mean.
+
+```json
+{
+  "iam": "resource-server-1"
+}
+```
+
+**Example:** The auth server adds an internal claim `iam` for its own processing purposes. When the token reaches Resource Server 1 or Resource Server 2, they see `iam` in the payload but have no idea what it means. Only the auth server that created the token understands it.
+
+This differs from public claims:
+- `country: "India"` → Any server reading this knows what country means → **Public claim**
+- `iam: "resource-server-1"` → Only the auth server knows what `iam` means internally → **Private claim**
+
+---
+
+### Full Payload Example
+
+```json
+{
+  "iss": "https://auth.mycompany.com",
+  "sub": "1234567",
+  "aud": "mycompany-api",
+  "exp": 1716242622,
+  "nbf": 1716239022,
+  "iat": 1716239022,
+  "jti": "a1b2c3d4-e5f6-7890",
+
+  "email": "shreyansh@example.com",
+  "country": "India",
+  "role": "ADMIN",
+
+  "iam": "internal-service-id"
+}
+```
+
+```mermaid
+mindmap
+  root((JWT Payload Claims))
+    Registered Claims
+      iss - Issuer
+      sub - Subject
+      aud - Audience
+      exp - Expiry Time
+      nbf - Not Before
+      iat - Issued At
+      jti - JWT ID
+    Public Claims
+      email
+      country
+      city
+      role
+      firstName
+    Private Claims
+      Internal server data
+      Not understood by other parties
+      Custom auth server fields
+```
+
+---
+
+## 6.3 Part 3: Signature (JWS)
+
+### What is it?
+
+The signature is the **security mechanism** that proves:
+1. The token was created by a trusted party (authenticity)
+2. The token has not been tampered with since it was issued (integrity)
+
+> [!IMPORTANT]
+> **JWT and JWS are used interchangeably in practice.**
+>
+> - **JWT** (JSON Web Token) = the overall structure concept
+> - **JWS** (JSON Web Signature) = JWT with a signature applied
+>
+> In real-world usage, you never see a JWT without a signature. That's why the terms JWT and JWS are treated as the same thing in most conversations.
+
+### How the Signature is Generated
+
+Here is the exact step-by-step process:
+
+**Step 1: Base64URL encode the header**
+```
+base64url({"alg":"RS256","typ":"JWT"})
+→ eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9
+```
+
+**Step 2: Base64URL encode the payload**
+```
+base64url({"sub":"1234567","email":"s@example.com",...})
+→ eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCJ9
+```
+
+**Step 3: Create the signing input (message)**
+Concatenate encoded header + `.` + encoded payload:
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCJ9
+```
+This entire string is your **message** to be signed.
+
+**Step 4: Apply the signing algorithm**
+
+| If using RSA (asymmetric) | If using HMAC (symmetric) |
+|---|---|
+| `sign(message, privateKey)` | `sign(message, secretKey)` |
+| Verification uses `publicKey` | Verification uses same `secretKey` |
+
+```
+signature_bytes = RSA_SHA256_Sign(message, private_key)
+```
+
+**Step 5: Base64URL encode the signature**
+```
+base64url(signature_bytes)
+→ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+### Signature Generation Flowchart
+
+```mermaid
+flowchart TD
+    H[Header JSON] --> BE1[Base64URL Encode]
+    P[Payload JSON] --> BE2[Base64URL Encode]
+    BE1 --> |encoded_header| CONCAT["Concatenate with '.'"]
+    BE2 --> |encoded_payload| CONCAT
+    CONCAT --> MSG["Message String\nencoded_header.encoded_payload"]
+    MSG --> SIGN["Sign with Algorithm\n+ Secret/Private Key"]
+    SIGN --> SIG[Raw Signature Bytes]
+    SIG --> BE3[Base64URL Encode]
+    BE3 --> FSIG[Final Encoded Signature]
+```
+
+---
+
+# 7. How the Final JWT Token is Assembled
+
+After generating all three parts, the final JWT is assembled as:
+
+```
+base64url(header) + "." + base64url(payload) + "." + base64url(signature)
+```
+
+**Visual Breakdown:**
+
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9        ← Header (blue)
+.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCIsImVtYWlsIjoic0BleGFtcGxlLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjE2MjM5MDIyLCJleHAiOjE2MTYyNDI2MjJ9   ← Payload (orange)
+.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c   ← Signature (green)
+```
+
+> [!TIP]
+> You can paste any JWT into **https://jwt.io** to visually decode the header and payload. This also demonstrates that the payload is NOT encrypted — it's just Base64URL encoded and fully readable.
+
+### How Verification Works at the Receiver
+
+When the resource server receives this JWT:
+
+1. **Split** the token by `.` → get `header`, `payload`, `signature`
+2. **Reconstruct the message** → `encoded_header + "." + encoded_payload`
+3. **Verify the signature** using the appropriate key:
+   - If RSA: `verify(message, signature, publicKey)`
+   - If HMAC: `verify(message, signature, secretKey)`
+4. If verification passes → signature is valid → payload was not tampered with
+5. **Check claims**: Is `exp` in the future? Is `iss` trusted? Is `aud` correct?
+6. If all checks pass → grant access
+
+```mermaid
+flowchart TD
+    JWT[Received JWT Token] --> SPLIT[Split by '.']
+    SPLIT --> EH[Encoded Header]
+    SPLIT --> EP[Encoded Payload]
+    SPLIT --> ES[Encoded Signature]
+
+    EH --> RMSG["Rebuild Message\nEH + '.' + EP"]
+    EP --> RMSG
+
+    ES --> DEC[Decode Signature]
+    RMSG --> VERIFY["Verify Signature\nverify(message, sig, publicKey)"]
+    DEC --> VERIFY
+
+    VERIFY --> |Signature Valid| CLAIMS[Check Claims]
+    VERIFY --> |Signature Invalid| REJECT1[❌ Reject - Tampered]
+
+    CLAIMS --> |exp not passed?| EXPCHECK{Token Expired?}
+    EXPCHECK --> |Not expired| GRANT[✅ Access Granted]
+    EXPCHECK --> |Expired| REJECT2[❌ Reject - Expired]
+```
+
+---
+
+# 8. JWT in HTTP Requests — Bearer Token
+
+## How JWT is Transmitted
+
+JWT is always passed from client to server in the **HTTP Authorization header**.
+
+### Standard Format
+
+```http
+GET /api/v1/user/profile HTTP/1.1
+Host: api.mycompany.com
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCJ9.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Content-Type: application/json
+```
+
+## Why the Authorization Header?
+
+The `Authorization` HTTP header is an **industry standard** for transmitting credentials. It's not randomly chosen — having credentials in a dedicated, known header lets servers apply specific security logic for that header.
+
+## Why `Bearer`?
+
+The word before the token value in the `Authorization` header tells the server **what kind of credential** is being sent:
+
+| Scheme | Format | What it means |
+|---|---|---|
+| `Basic` | `Basic <base64(username:password)>` | Username + password encoded in Base64. Server decodes it to get `username:password` |
+| `Bearer` | `Bearer <token>` | A token (JWT) is being passed. Server knows to treat this as a token, not a credential |
+
+```
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=   → username:password
+Authorization: Bearer eyJhbGci...                → JWT token
+```
+
+> [!IMPORTANT]
+> JWT is **always** passed with `Bearer`, never with `Basic`. The server has different logic paths:
+> - `Basic` → decode Base64, validate username/password
+> - `Bearer` → extract token, call auth server to validate JWT
+
+---
+
+# 9. JWT vs JWS vs JWE — Key Distinctions
+
+This is a nuanced but important distinction, especially for interviews.
+
+| Term | Full Name | What it means |
+|---|---|---|
+| **JWT** | JSON Web Token | The parent standard. Defines the three-part structure. Can be unsecured (no signature) or secured. |
+| **JWS** | JSON Web Signature | JWT with a cryptographic signature applied (Part 3 contains a real signature). This is what everyone actually uses. |
+| **JWE** | JSON Web Encryption | JWT where the **payload is encrypted** (not just encoded). Solves the "payload is readable" problem. |
+
+```mermaid
+classDiagram
+    class JWT {
+        header
+        payload
+        signature_or_empty
+        +Can be unsecured (alg none)
+    }
+    class JWS {
+        header (alg: RS256/HS256)
+        payload (Base64URL encoded)
+        signature (cryptographic)
+        +Payload is READABLE
+        +Signature proves integrity
+    }
+    class JWE {
+        header (alg: RSA-OAEP)
+        encrypted_key
+        IV
+        encrypted_payload
+        authentication_tag
+        +Payload is ENCRYPTED
+        +Not readable without private key
+    }
+    JWT <|-- JWS : secured with signature
+    JWT <|-- JWE : secured with encryption
+```
+
+## In Practice
+
+- **99%+ of JWT usage in the wild = JWS** (signed, but payload is readable)
+- **JWT and JWS are used interchangeably** in conversations because nobody uses JWT without a signature
+- **JWE** is used when the payload contains sensitive data that must not be readable even if intercepted
+
+> [!TIP]
+> When someone says "JWT" in an interview, they almost always mean JWS. If they ask about making the payload secure/confidential, the answer is JWE.
+
+---
+
+# 10. Single Sign-On (SSO) with JWT
+
+## What is SSO?
+
+**Single Sign-On** means: login once, access multiple applications without re-entering credentials.
+
+## How JWT Enables SSO
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant AS as Auth Server
+    participant App1 as App 1 (f1.com)
+    participant App2 as App 2 (f2.com)
+    participant App3 as App 3 (f3.com)
+
+    U->>AS: Login with username + password
+    AS-->>U: JWT Token
+
+    U->>App1: Access f1.com (Bearer: JWT)
+    App1->>AS: Verify JWT
+    AS-->>App1: Valid ✅
+    App1-->>U: Welcome to App 1!
+
+    U->>App2: Access f2.com (Bearer: same JWT)
+    App2->>AS: Verify JWT
+    AS-->>App2: Valid ✅
+    App2-->>U: Welcome to App 2!
+
+    U->>App3: Access f3.com (Bearer: same JWT)
+    App3->>AS: Verify JWT
+    AS-->>App3: Valid ✅
+    App3-->>U: Welcome to App 3!
+```
+
+**Why this works:**
+- The JWT payload contains user identity information (email, name, roles)
+- Each application (App 1, App 2, App 3) can verify the same JWT against the same Auth Server
+- The user doesn't need to log in separately to each app
+- The payload carries enough info to identify and greet the user on each app
+
+> [!NOTE]
+> **SSO Implementation Interview Answer:**
+> "To implement SSO, you need JWT. The user logs in once to the central Auth Server and receives a JWT. This same token is presented to every application in the SSO domain. Each application verifies the JWT with the Auth Server. Since the payload contains user identity, each app can authenticate the user without a separate login."
+
+---
+
+# 11. Advantages of JWT
+
+| Advantage | Explanation |
+|---|---|
+| **Compact** | The token is small enough to fit in an HTTP header. Fast to transmit. |
+| **Stateless** | No server-side session storage. No DB required per request. |
+| **Self-contained** | All information (user ID, roles, expiry) is inside the token itself. |
+| **Digitally Signed** | Signature (JWS) ensures integrity. Any tampering is detectable. |
+| **Built-in Expiry** | `exp` claim provides automatic expiration. No DB cleanup needed. |
+| **Custom Claims** | Roles, permissions, and any user data can be embedded in the payload. |
+| **Cross-domain/Distributed** | Any server with the public key can validate. Perfect for microservices. |
+| **Third-Party Support** | Many mature auth providers (Auth0, Keycloak, AWS Cognito) handle JWT natively. |
+| **Enables SSO** | One token works across multiple services/domains. |
+
+---
+
+# 12. Challenges & Security Concerns with JWT
+
+> [!IMPORTANT]
+> This section is crucial for interviews. JWT is not a silver bullet. Understanding its limitations shows deep technical maturity.
+
+---
+
+## 12.1 Challenge 1: Token Invalidation
+
+### The Problem
+
+JWT is **stateless by design**. The server never stores the token. This means once a JWT is issued, it remains valid until its `exp` time — even if:
+
+- The user's account is compromised
+- An admin wants to ban/block a user immediately
+- The user logs out
+
+**Scenario:** A fraud user has a JWT valid until April 21st. Today is April 15th. How do you invalidate that token?
+
+```mermaid
+flowchart TD
+    FRAUD[Fraud User detected on April 15] --> PROBLEM{"How to invalidate token\nvalid until April 21?"}
+    PROBLEM --> S1[Solution 1: Token Blacklist]
+    PROBLEM --> S2[Solution 2: Change Signing Key]
+    PROBLEM --> S3[Solution 3: Short-lived Tokens]
+    PROBLEM --> S4[Solution 4: One-time Use Tokens]
+```
+
+### Solutions (with Trade-offs)
+
+#### Solution 1: Token Blacklist
+
+Maintain a list of revoked token IDs (`jti` claim) in a cache (Redis) or DB.
+
+```
+Auth Server → maintains:
+  blacklisted_tokens: {
+    "a1b2c3d4": { revoked_at: "2024-04-15", reason: "fraud" }
+  }
+
+On each request: check if jti is in blacklist → reject if found
+```
+
+**Pro:** Targeted — only the specific token is invalidated  
+**Con:** Requires a cache/DB lookup on every request → **you've reintroduced the problem that JWT was meant to solve**
+
+---
+
+#### Solution 2: Change the Signing Key
+
+Rotate the RSA key pair or HMAC secret. Tokens signed with the old private key will fail verification with the new public key.
+
+**Pro:** All old tokens instantly invalid  
+**Con:** All genuine users are also logged out. They must re-authenticate. This is a nuclear option — affects everyone, not just the fraud user.
+
+---
+
+#### Solution 3: Short-lived Tokens ⭐ (Most Popular)
+
+Issue tokens with a very short expiry — 5 to 15 minutes. After expiry, the client must get a new token (using a **refresh token**, which is a longer-lived, securely stored token).
+
+**Pro:** Limits the damage window to 5 minutes  
+**Con:** The fraud window still exists for up to 5 minutes. Requires refresh token infrastructure.
+
+---
+
+#### Solution 4: One-time Use Tokens
+
+Each JWT can only be used once. The `jti` is tracked after first use.
+
+**Pro:** Even if token is stolen, it can only be used once  
+**Con:** Requires storing used `jti` values in cache — again, DB/cache lookup required
+
+**Most Production Systems Combine:** Short-lived tokens + one-time use per request, or short-lived tokens + token blacklist for critical revocations.
+
+---
+
+## 12.2 Challenge 2: Payload is Encoded, Not Encrypted
+
+### The Problem
+
+The JWT payload is **Base64URL encoded**, which is a completely reversible operation. Anyone who intercepts a JWT can decode the payload and read all the claims.
+
+```bash
+# Decode JWT payload manually:
+echo "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlNocmV5YW5zaCJ9" | base64 -d
+# Output: {"sub":"1234567890","name":"Shreyansh"}
+```
+
+**If someone intercepts your JWT, they can read:** user ID, email, roles, and any other claims.
+
+### The Solution: JWE (JSON Web Encryption)
+
+**JWE** encrypts the payload instead of just encoding it. Structure is different from JWS:
+
+```
+JWE = base64url(header) . base64url(encrypted_key) . base64url(IV) . base64url(ciphertext) . base64url(auth_tag)
+```
+
+- Payload is **encrypted** using the recipient's public key (RSA)
+- Only the auth server (holding the private key) can decrypt it
+- The payload is completely unreadable to anyone intercepting the token
+
+> [!CAUTION]
+> Even with JWS (regular JWT), **never put passwords, secrets, PII, or confidential data in the payload**. Use JWE if the payload must be confidential.
+
+---
+
+## 12.3 Challenge 3: Unsecured JWT — "Algorithm: None" Attack
+
+### The Problem
+
+The JWT spec allows a special value `"alg": "none"` in the header, meaning no signature is applied.
+
+```json
+{
+  "typ": "JWT",
+  "alg": "none"
+}
+```
+
+A token with this header has no signature (the third part is empty):
+
+```
+eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJzdWIiOiIxMjM0NSIsImFkbWluIjp0cnVlfQ.
+```
+*(Note the trailing dot with nothing after it — empty signature)*
+
+### The Attack
+
+An attacker can:
+1. Take a legitimate JWT
+2. Decode the payload
+3. Modify claims (e.g., change `"role": "USER"` to `"role": "ADMIN"`)
+4. Re-encode with `"alg": "none"` and no signature
+5. Submit this modified token
+
+If the server accepts `alg: none`, it will accept the forged token without any signature verification — a complete authentication bypass.
+
+### The Fix
+
+**Any JWT with `"alg": "none"` must be immediately rejected.** The server should explicitly whitelist allowed algorithms and reject anything else.
+
+```java
+// Example: Spring Security JWT validation
+@Bean
+public JwtDecoder jwtDecoder() {
+    return NimbusJwtDecoder.withPublicKey(rsaPublicKey())
+        .signatureAlgorithm(SignatureAlgorithm.RS256)  // Only allow RS256
+        .build();
+}
+```
+
+> [!WARNING]
+> This is known as the **"Algorithm Confusion Attack"** or **"alg: none attack"**. It is a real CVE-class vulnerability. Any JWT library that accepts `alg: none` tokens without explicit configuration is insecure.
+
+---
+
+## 12.4 Challenge 4: JWK Injection Exploit
+
+### Background: What is JWK?
+
+**JWK** (JSON Web Key) is a standard format for representing cryptographic keys as JSON. Sometimes a JWT header includes a `jwk` field containing the **public key** to use for verification:
+
+```json
+{
+  "typ": "JWT",
+  "alg": "RS256",
+  "jwk": {
+    "kty": "RSA",
+    "n": "...",   ← Modulus (part of public key)
+    "e": "AQAB"  ← Exponent (part of public key)
+  }
+}
+```
+
+### The Attack
+
+An attacker can:
+1. Generate their own RSA key pair (attacker's private key + attacker's public key)
+2. Modify the JWT payload (e.g., elevate privileges)
+3. Sign the token with **their own private key**
+4. Embed **their own public key** in the JWT header's `jwk` field
+5. Submit this token
+
+If the server naively uses the public key from the `jwk` header field to verify the token:
+- Signature verification **succeeds** (it was signed with the attacker's private key, verified with the attacker's public key)
+- But the payload has been **tampered** with by the attacker
+
+```mermaid
+sequenceDiagram
+    participant A as Attacker
+    participant RS as Resource Server
+    participant AS as Auth Server
+
+    A->>A: Generate own RSA key pair
+    A->>A: Modify payload (admin: true)
+    A->>A: Sign with own private key
+    A->>A: Embed own public key in 'jwk' header
+
+    A->>RS: Send forged JWT (with jwk in header)
+    RS->>RS: Read jwk from header ← WRONG!
+    RS->>RS: Verify signature using jwk's public key
+    RS->>RS: Verification succeeds 😱
+    RS-->>A: Access granted to protected resource!
+```
+
+### The Fix: Use Kid + Whitelisted Keys
+
+**Never use the public key provided in the JWT header's `jwk` field for verification.**
+
+Instead, use the **`kid` (Key ID)** claim combined with a **pre-established, server-controlled list of trusted public keys**.
+
+```mermaid
+flowchart TD
+    JWT[Incoming JWT] --> HEADER[Read Header]
+    HEADER --> KID[Extract kid claim]
+    KID --> WLIST["Lookup kid in\nWhitelisted Keys\n(JWKS endpoint)"]
+    WLIST --> KEY[Get trusted public key]
+    KEY --> VERIFY[Verify signature]
+    VERIFY --> |Valid| GRANT[✅ Access Granted]
+    VERIFY --> |Invalid| DENY[❌ Rejected]
+
+    WJWK[❌ NEVER use public key\nfrom JWT's jwk header field]
+    style WJWK fill:#ff4444,color:#fff
+```
+
+---
+
+## 12.5 `kid` (Key ID) & Whitelisted Public Keys
+
+### How Key ID Works
+
+Every reputable auth server maintains a **JWKS (JSON Web Key Set) endpoint** — a publicly accessible URL that lists all valid public keys:
+
+```
+https://auth.mycompany.com/.well-known/jwks.json
+```
+
+This returns something like:
+
+```json
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "kid": "key-id-001",
+      "n": "...",
+      "e": "AQAB"
+    },
+    {
+      "kty": "RSA",
+      "kid": "key-id-002",
+      "n": "...",
+      "e": "AQAB"
+    }
+  ]
+}
+```
+
+When the auth server issues a JWT, it includes the `kid` in the header:
+
+```json
+{
+  "typ": "JWT",
+  "alg": "RS256",
+  "kid": "key-id-001"
+}
+```
+
+When a resource server receives this JWT, it:
+1. Reads the `kid` from the header
+2. Looks up `kid: "key-id-001"` in the **auth server's JWKS endpoint**
+3. Gets the corresponding trusted public key
+4. Verifies the JWT signature with that key
+
+### Security Properties
+
+- The JWKS endpoint is **controlled by the auth server** — not the attacker
+- Public keys listed there are **whitelisted** by the auth server
+- An attacker cannot inject their public key into the auth server's JWKS without compromising the auth server itself
+- This is why **choosing a reputable, security-hardened auth provider** (Auth0, Keycloak, AWS Cognito) is important
+
+> [!WARNING]
+> **Residual Risk with `kid`:** If an attacker can somehow inject their own `kid` and corresponding key into the auth server's JWKS endpoint (e.g., through a vulnerability in the auth server), they could forge tokens. This is why auth servers must be hardened and regularly updated.
+
+---
+
+# 13. Interview Notes
+
+## Common Interview Questions on JWT
+
+### Basics
+
+| Question | Key Points to Cover |
+|---|---|
+| What is JWT? | Self-contained, stateless token. Header + Payload + Signature. JSON-based. |
+| What are the three parts of a JWT? | Header (metadata/algo), Payload (claims), Signature (integrity proof) |
+| What is the difference between authentication and authorization? | Authentication = who you are, Authorization = what you can do |
+| Why is JWT called stateless? | Token carries all info; server doesn't store any session state |
+
+### JWT vs Session
+
+| Question | Key Points |
+|---|---|
+| JWT vs Session ID? | Session: stateful, DB-dependent, complex in distributed systems. JWT: stateless, self-contained, distributed-friendly |
+| When would you choose session over JWT? | When you need instant revocation, for simpler single-server apps |
+
+### Structure & Security
+
+| Question | Key Points |
+|---|---|
+| What are registered claims in JWT? | `iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti` — standardized, predefined meaning |
+| Is JWT encrypted? | No — it's Base64URL encoded (readable). Use JWE for encryption |
+| What is JWS? | JWT with cryptographic signature. JWT and JWS are used interchangeably |
+| What is JWE? | JWT with encrypted payload |
+| What is the `alg: none` attack? | Attacker forges token with no signature + no algorithm. Must reject these tokens |
+| What is the JWK injection attack? | Attacker embeds own public key in JWT header. Never verify using key from JWT's own header |
+
+### Advanced / Tricky
+
+| Question | Key Points |
+|---|---|
+| How do you implement SSO using JWT? | One auth server issues JWT. Multiple apps verify same token. User logs in once. |
+| How do you invalidate a JWT before expiry? | Blacklist (`jti` in cache), change signing key, use short-lived tokens, use one-time tokens |
+| What is the biggest challenge with JWT? | Token invalidation — no way to revoke a valid token without additional infrastructure |
+| What is the `kid` claim? | Key ID — tells the verifier which public key to use from the auth server's JWKS endpoint |
+| Why are short-lived JWT tokens recommended? | Limits the damage window if a token is compromised. Typically 5–15 minutes. |
+| What is JWKS? | JSON Web Key Set — auth server's public list of trusted public keys, accessible at `/.well-known/jwks.json` |
+
+---
+
+# 14. Summary
+
+```mermaid
+mindmap
+  root((JWT))
+    Structure
+      Header
+        typ: JWT
+        alg: RS256/HS256
+        kid: Key ID
+      Payload
+        Registered Claims
+          iss sub aud exp nbf iat jti
+        Public Claims
+          email country role
+        Private Claims
+          Internal server fields
+      Signature
+        Base64url(header.payload) signed with key
+    Properties
+      Stateless
+      Self-contained
+      Digitally signed
+      Compact
+      Built-in expiry
+    Flow
+      Login → Auth Server
+      Get JWT
+      Pass JWT in Authorization Bearer header
+      Resource Server validates via Auth Server
+    vs Session ID
+      No DB needed
+      Better for distributed systems
+      Hard to revoke
+    Challenges
+      Token invalidation
+      Payload readable base64
+      alg-none attack
+      JWK injection exploit
+    Solutions
+      JWE for encryption
+      Short-lived tokens
+      Token blacklist
+      Kid + JWKS for key management
+    JWT vs JWS vs JWE
+      JWT = structure spec
+      JWS = with signature
+      JWE = with encryption
+```
+
+## Quick Revision Bullets
+
+- **JWT** = JSON Web Token. Compact, self-contained, stateless token for transmitting information securely
+- **Three parts:** `Header.Payload.Signature` (separated by dots)
+- **Header:** metadata — token type (`JWT`) and signing algorithm (`RS256`, `HS256`)
+- **Payload:** claims — user info, expiry, roles. Divided into Registered, Public, and Private claims
+- **Signature:** cryptographic proof of integrity. Generated by signing `base64url(header).base64url(payload)` with a key
+- **JWS:** JWT with a real signature. Used interchangeably with JWT in practice
+- **JWE:** JWT with encrypted payload. Use when payload confidentiality is needed
+- **Stateless:** no server-side session. All info in the token. No DB required for validation
+- **Session ID** was the predecessor — stateful, DB-dependent, problematic in distributed systems
+- **Bearer token:** JWT always passed in `Authorization: Bearer <token>` header
+- **SSO:** One JWT from one auth server works across multiple applications
+- **Challenge 1 — Invalidation:** JWT cannot be revoked before expiry without extra infrastructure
+  - Solutions: Token blacklist (jti in cache/DB), change signing key, short-lived tokens, one-time use
+- **Challenge 2 — Payload readable:** Base64 is reversible. Never put secrets in payload
+- **Challenge 3 — alg:none attack:** Forged tokens with no signature. Always reject `alg: none`
+- **Challenge 4 — JWK injection:** Never verify using public key from JWT's own `jwk` header
+- **kid + JWKS:** Secure key management. Auth server maintains whitelisted public keys at `/.well-known/jwks.json`. Resource server looks up the correct key using `kid`
+
+---
+
+# 15. Practice Questions
+
+### Easy
+
+1. What does JWT stand for? What does each letter mean?
+2. List the three parts of a JWT token and what each part contains.
+3. What is the difference between `exp` and `nbf` claims?
+4. What HTTP header is JWT always passed in? What keyword precedes the token?
+5. What does "stateless" mean in the context of JWT?
+6. Name three registered claims in JWT.
+7. What is the difference between a public claim and a private claim?
+
+### Medium
+
+8. Explain why JWT is better than Session IDs in a distributed/microservices architecture.
+9. What is the step-by-step process of generating a JWT signature?
+10. How does Single Sign-On (SSO) work using JWT?
+11. You are designing an API. A user logs in and receives a JWT. Draw the complete request-response flow for them to access a protected resource.
+12. Explain the `alg: none` attack. How do you defend against it?
+13. What is JWE? When would you use it over standard JWS?
+14. What is the difference between JWT, JWS, and JWE?
+
+### Hard
+
+15. A fraud user is detected. Their JWT is valid for 6 more days. What are your options to invalidate their token? Discuss the trade-offs of each approach.
+16. Explain the JWK injection exploit in detail. How does an attacker exploit it? What is the correct defence using `kid` and JWKS?
+17. An interviewer asks: "JWT is stateless, which means you can't invalidate tokens. But token blacklisting uses a cache, which is stateful. Isn't that contradicting the purpose of JWT?" — How do you respond?
+18. Your system uses RSA for JWT signing. You decide to rotate the signing keys. What is the impact on existing tokens? How do you handle a smooth key rotation without logging everyone out?
+19. Design a JWT-based authentication system for a banking application. Consider: security requirements, token lifetime, key management, invalidation strategy, and whether to use JWS or JWE for different token types.
+20. Compare and contrast JWT token invalidation strategies for: (a) a fraud case requiring immediate ban, (b) a normal user logout, (c) a compromised secret key scenario.
+
+---
+
+> [!NOTE]
+> **Study Tip:** To truly understand JWT internals, go to [jwt.io](https://jwt.io) and paste a real JWT. Observe how Base64URL decoding reveals the full header and payload. Try generating tokens with different algorithms and claims. This hands-on exploration will make these concepts concrete.
