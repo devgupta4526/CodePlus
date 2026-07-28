@@ -14,13 +14,19 @@ import {
   ChevronUp,
   PanelLeftClose,
   PanelLeftOpen,
+  Lock,
+  LogIn,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { getChaptersWithLessons, getCourseStats } from '@/data/course';
 import { useProgress } from '@/hooks/useProgress';
+import { useEnrollment } from '@/hooks/useEnrollment';
 import { useState } from 'react';
 import { type Difficulty } from '@/types';
+
+// Which courses require enrollment to track progress
+const PREMIUM_COURSES = new Set(['springboot', 'python']);
 
 // ── Difficulty badge colours ──────────────────────────────────────────────────
 
@@ -81,6 +87,53 @@ const COURSES: CourseEntry[] = [
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// Premium course enrollment CTA shown inside lesson list when not enrolled
+function EnrollBanner({ courseId, courseName, onEnroll, user }: {
+  courseId: string;
+  courseName: string;
+  onEnroll: () => void;
+  user: { id: string } | null;
+}) {
+  const [enrolling, setEnrolling] = useState(false);
+  const isPremium = PREMIUM_COURSES.has(courseId);
+
+  if (!user) {
+    return (
+      <div className="mb-6 p-5 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/5 flex items-center gap-4">
+        <LogIn className="w-5 h-5 text-[var(--accent)] shrink-0" />
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-[var(--text-primary)]">Sign in to track your progress</p>
+          <p className="text-xs text-[var(--text-muted)]">Create a free account to save completions, bookmarks & streaks.</p>
+        </div>
+        <Link href="/login" className="shrink-0 px-4 py-1.5 rounded-xl text-sm font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors">
+          Sign In
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mb-6 p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] flex items-center gap-4">
+      {isPremium ? <Lock className="w-5 h-5 text-[var(--accent-secondary)] shrink-0" /> : <BookOpen className="w-5 h-5 text-[var(--success)] shrink-0" />}
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-[var(--text-primary)]">
+          {isPremium ? `Enroll to unlock all ${courseName} lessons` : `Enroll in ${courseName}`}
+        </p>
+        <p className="text-xs text-[var(--text-muted)]">
+          {isPremium ? 'First 3 lessons are free. Enroll to get full access.' : 'Free course — enroll to track your progress.'}
+        </p>
+      </div>
+      <button
+        onClick={async () => { setEnrolling(true); await onEnroll(); setEnrolling(false); }}
+        disabled={enrolling}
+        className="shrink-0 px-4 py-1.5 rounded-xl text-sm font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors disabled:opacity-60 cursor-pointer"
+      >
+        {enrolling ? 'Enrolling…' : 'Enroll Free'}
+      </button>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const [activeCourse, setActiveCourse] = useState<CourseId>('java');
   const [filter, setFilter] = useState<'all' | 'bookmarked' | 'incomplete'>('all');
@@ -90,8 +143,10 @@ export default function DashboardPage() {
   const chapters = getChaptersWithLessons(activeCourse);
   const courseStats = getCourseStats(activeCourse);
   const { isCompleted, isBookmarked, toggleComplete, toggleBookmark } = useProgress();
+  const { user, isEnrolled, enroll, loading: enrollLoading } = useEnrollment();
 
   const activeMeta = COURSES.find((c) => c.id === activeCourse)!;
+  const enrolled = isEnrolled(activeCourse);
 
   const courseCompletedCount = chapters.reduce(
     (total, ch) => total + ch.lessons.filter((l) => isCompleted(l.slug)).length,
@@ -209,6 +264,16 @@ export default function DashboardPage() {
 
         {/* ── Main content ─────────────────────────────────────────────── */}
         <main className="flex-1 min-w-0 px-4 sm:px-8 py-8">
+
+          {/* Enrollment banner — shown when not yet enrolled (and not loading) */}
+          {!enrollLoading && !enrolled && (
+            <EnrollBanner
+              courseId={activeCourse}
+              courseName={activeMeta.label}
+              onEnroll={() => enroll(activeCourse)}
+              user={user}
+            />
+          )}
 
           {/* Course header */}
           <motion.div

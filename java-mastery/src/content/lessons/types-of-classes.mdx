@@ -55,27 +55,25 @@ Java supports many different flavors of class, each serving a distinct design pu
 | Wrapper Class | Part 2 |
 
 ```mermaid
-flowchart TD
-    ClassTypes((Java Class Types))
-    ClassTypes --> Concrete["Concrete Class"]
-    ClassTypes --> Abstract["Abstract Class"]
-    ClassTypes --> SuperSub["Super / Sub Class"]
-    ClassTypes --> Object["Object Class"]
-    
-    ClassTypes --> Nested["Nested Classes"]
-    Nested --> Static["Static Nested Class"]
-    Nested --> Inner["Non-Static / Inner Class"]
-    Inner --> Member["Member Inner Class"]
-    Inner --> Local["Local Inner Class"]
-    Inner --> Anonymous["Anonymous Inner Class"]
-    
-    ClassTypes --> Generic["Generic Class"]
-    ClassTypes --> POJO
-    ClassTypes --> Enum
-    ClassTypes --> Final["Final Class"]
-    ClassTypes --> Singleton["Singleton Class"]
-    ClassTypes --> Immutable["Immutable Class"]
-    ClassTypes --> Wrapper["Wrapper Class"]
+mindmap
+  root((Java Class Types))
+    Concrete Class
+    Abstract Class
+    Super / Sub Class
+    Object Class
+    Nested Classes
+      Static Nested Class
+      Non-Static / Inner Class
+        Member Inner Class
+        Local Inner Class
+        Anonymous Inner Class
+    Generic Class
+    POJO
+    Enum
+    Final Class
+    Singleton Class
+    Immutable Class
+    Wrapper Class
 ```
 
 ---
@@ -325,13 +323,13 @@ Luxury brake applied.
 classDiagram
     class Car {
         <<abstract>>
-        +pressBrake()
-        +pressClutch()
+        +pressBrake() *
+        +pressClutch() *
         +getNumberOfWheels()
     }
     class LuxuryCar {
         <<abstract>>
-        +pressDualBrakeSystem()
+        +pressDualBrakeSystem() *
         +pressBrake()
     }
     class Audi {
@@ -549,12 +547,12 @@ Use a nested class when a class is logically useful to **only one other class** 
 ## Full Taxonomy of Nested Classes
 
 ```mermaid
-flowchart TD
-    N["Nested Class"] --> SN["Static Nested Class"]
-    N --> IN["Non-Static Nested Class\nalso called Inner Class"]
-    IN --> MI["Member Inner Class"]
-    IN --> LI["Local Inner Class"]
-    IN --> AI["Anonymous Inner Class"]
+graph TD
+    N[Nested Class] --> SN[Static Nested Class]
+    N --> IN[Non-Static Nested Class\nalso called Inner Class]
+    IN --> MI[Member Inner Class]
+    IN --> LI[Local Inner Class]
+    IN --> AI[Anonymous Inner Class]
 ```
 
 There are **5 distinct kinds** of nested classes. Each has different rules for access, instantiation, and scope.

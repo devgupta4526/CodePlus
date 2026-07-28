@@ -1,18 +1,72 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Code2, BookOpen, Menu, X, Search } from 'lucide-react';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Code2, BookOpen, Menu, X, Search, LogOut, User, LayoutDashboard } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
 import { SearchDialog } from '@/components/shared/SearchDialog';
 import { getCourseStats } from '@/data/course';
 
+// Lazy Supabase — only imported when env vars are present to keep SSR safe.
+const SUPABASE_CONFIGURED =
+  typeof process !== 'undefined' &&
+  process.env.NEXT_PUBLIC_SUPABASE_URL &&
+  process.env.NEXT_PUBLIC_SUPABASE_URL !== 'your_supabase_project_url';
+
+function useAuthUser() {
+  const [user, setUser] = useState<{ email?: string | null; id: string } | null>(null);
+
+  useEffect(() => {
+    if (!SUPABASE_CONFIGURED) return;
+    // Dynamic import so build doesn't fail when env vars are missing
+    import('@/lib/supabase/client').then(({ createClient }) => {
+      const supabase = createClient();
+      supabase.auth.getUser().then(({ data }) => setUser(data.user));
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+        setUser(session?.user ?? null);
+      });
+      return () => subscription.unsubscribe();
+    });
+  }, []);
+
+  return user;
+}
+
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const courseStats = getCourseStats();
+  const user = useAuthUser();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close user menu on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  async function handleSignOut() {
+    if (!SUPABASE_CONFIGURED) return;
+    const { createClient } = await import('@/lib/supabase/client');
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    setUserMenuOpen(false);
+    router.push('/');
+    router.refresh();
+  }
+
+  const initials = user?.email
+    ? user.email.slice(0, 2).toUpperCase()
+    : '';
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -83,6 +137,56 @@ export function Navbar() {
 
               <ThemeToggle />
 
+              {/* Auth: Sign In button or User avatar menu */}
+              {user ? (
+                <div className="relative" ref={menuRef}>
+                  <button
+                    onClick={() => setUserMenuOpen((v) => !v)}
+                    className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] flex items-center justify-center text-white text-xs font-bold cursor-pointer shadow-md hover:shadow-[var(--accent)]/30 transition-shadow"
+                    aria-label="User menu"
+                  >
+                    {initials}
+                  </button>
+                  {userMenuOpen && (
+                    <div className="absolute right-0 top-10 w-48 rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] shadow-xl z-50 overflow-hidden">
+                      <div className="px-3 py-2.5 border-b border-[var(--border-color)]">
+                        <p className="text-xs text-[var(--text-muted)] truncate">{user.email}</p>
+                      </div>
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)] transition-colors"
+                      >
+                        <LayoutDashboard className="w-4 h-4" />
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/profile"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)] transition-colors"
+                      >
+                        <User className="w-4 h-4" />
+                        Profile
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-[#FF5F57] hover:bg-[#FF5F57]/10 transition-colors cursor-pointer"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] text-sm font-semibold text-white bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] shadow-md shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/30 transition-shadow"
+                >
+                  Sign In
+                </Link>
+              )}
+
               {/* Mobile menu button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -127,6 +231,24 @@ export function Navbar() {
                 <Search className="w-4 h-4" />
                 Search lessons
               </button>
+              {!user && (
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2.5 rounded-[10px] text-sm font-semibold text-[var(--accent)] hover:bg-[var(--surface)] transition-colors"
+                >
+                  Sign In
+                </Link>
+              )}
+              {user && (
+                <button
+                  onClick={() => { setMobileMenuOpen(false); handleSignOut(); }}
+                  className="w-full flex items-center gap-2 px-3 py-2.5 rounded-[10px] text-sm text-[#FF5F57] hover:bg-[var(--surface)] cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              )}
             </div>
           </div>
         )}

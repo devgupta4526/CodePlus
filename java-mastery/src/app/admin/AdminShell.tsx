@@ -422,19 +422,120 @@ function parseMdxFile(raw: string) {
   return { meta, content };
 }
 
+
+// ── LessonRow — single reusable row used in both flat and grouped views ────────
+
+function LessonRow({
+  l, expanded, toggleExpand, diffColor, openEdit, setConfirmDelete,
+}: {
+  l: AdminLesson;
+  expanded: Set<string>;
+  toggleExpand: (slug: string) => void;
+  diffColor: (d: string) => 'green' | 'amber' | 'red';
+  openEdit: (l: AdminLesson) => void;
+  setConfirmDelete: (slug: string) => void;
+}) {
+  const isExpanded = expanded.has(l.slug);
+  return (
+    <div key={l.slug}>
+      <div className="grid grid-cols-[1fr_120px_80px_80px_100px] gap-4 px-4 py-3 items-center hover:bg-[var(--surface)] transition-colors">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <button onClick={() => toggleExpand(l.slug)} className="cursor-pointer text-[var(--text-disabled)] hover:text-[var(--accent)] transition-colors shrink-0">
+              {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+            <span className="text-sm font-medium text-[var(--text-primary)] truncate">{l.title}</span>
+            {l._custom && <Badge color="blue">custom</Badge>}
+          </div>
+          <span className="text-[10px] text-[var(--text-disabled)] font-mono ml-5">{l.slug}</span>
+        </div>
+        <span className="text-xs text-[var(--text-muted)] truncate">{l.chapterTitle}</span>
+        <Badge color={diffColor(l.difficulty)}>{l.difficulty}</Badge>
+        <span className="text-xs text-[var(--text-muted)]">{l.estimatedMinutes}m</span>
+        <div className="flex items-center gap-1">
+          <a
+            href={`/admin/editor/${l.slug}`}
+            title="Edit lesson content (inline editor)"
+            className="p-1.5 rounded-lg hover:bg-[var(--success)]/10 cursor-pointer text-[var(--text-muted)] hover:text-[var(--success)] transition-colors"
+          >
+            <FileCode className="w-3.5 h-3.5" />
+          </a>
+          <a
+            href={`/admin/studio/${l.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Teach Lesson (Slides & Whiteboard)"
+            className="p-1.5 rounded-lg hover:bg-[var(--accent)]/10 cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
+          >
+            <Tv className="w-3.5 h-3.5" />
+          </a>
+          <button onClick={() => openEdit(l)} title="Edit metadata" className="p-1.5 rounded-lg hover:bg-[var(--surface-elevated)] cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <button onClick={() => setConfirmDelete(l.slug)} className="p-1.5 rounded-lg hover:bg-[#FF5F57]/10 cursor-pointer text-[var(--text-muted)] hover:text-[#FF5F57] transition-colors">
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+      {isExpanded && (
+        <div className="px-4 py-3 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Description</span>
+            <p className="text-[var(--text-secondary)] mt-0.5 leading-relaxed">{l.description}</p>
+          </div>
+          <div>
+            <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Tags</span>
+            <div className="flex flex-wrap gap-1 mt-0.5">
+              {l.tags.map((t) => <Badge key={t}>{t}</Badge>)}
+            </div>
+          </div>
+          <div>
+            <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Objectives ({l.objectives.length})</span>
+            <ul className="mt-0.5 space-y-0.5 text-[var(--text-secondary)]">
+              {l.objectives.slice(0, 3).map((o, i) => <li key={i}>• {o}</li>)}
+              {l.objectives.length > 3 && <li className="text-[var(--text-disabled)]">+{l.objectives.length - 3} more</li>}
+            </ul>
+          </div>
+          <div>
+            <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Prerequisites</span>
+            <div className="flex flex-wrap gap-1 mt-0.5">
+              {l.prerequisites.length === 0
+                ? <span className="text-[var(--text-disabled)]">None</span>
+                : l.prerequisites.map((p) => <Badge key={p}>{p}</Badge>)
+              }
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 // ── Lessons Manager ───────────────────────────────────────────────────────────
+
+type CourseTab = 'all' | 'java' | 'springboot' | 'coa' | 'python';
+const COURSE_TABS: { id: CourseTab; label: string }[] = [
+  { id: 'all',        label: 'All' },
+  { id: 'java',       label: 'Java' },
+  { id: 'springboot', label: 'Spring Boot' },
+  { id: 'coa',        label: 'COA' },
+  { id: 'python',     label: 'Python' },
+];
 
 function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
   lessons: AdminLesson[]; onSaveLesson: (l: AdminLesson, content: string) => Promise<boolean>;
   onDeleteLesson: (slug: string) => Promise<boolean>; showToast: (msg: string, ok?: boolean) => void;
 }) {
   const [search, setSearch] = useState('');
+  const [courseTab, setCourseTab] = useState<CourseTab>('all');
   const [editing, setEditing] = useState<AdminLesson | null>(null);
   const [lessonMdxContent, setLessonMdxContent] = useState('');
   const [modalTab, setModalTab] = useState<'meta' | 'content'>('meta');
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [isNew, setIsNew] = useState(false);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [collapsedChapters, setCollapsedChapters] = useState<Set<string>>(new Set());
   const [uploadingVideo, setUploadingVideo] = useState(false);
 
   const handleVideoFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -479,12 +580,43 @@ function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
     setModalTab('meta');
   }, [editing, isNew]);
 
-  const filtered = lessons.filter(
+  // Apply course tab filter first, then search
+  const afterCourseFilter = courseTab === 'all'
+    ? lessons
+    : lessons.filter((l) => l.course === courseTab);
+
+  const filtered = afterCourseFilter.filter(
     (l) =>
       l.title.toLowerCase().includes(search.toLowerCase()) ||
       l.slug.toLowerCase().includes(search.toLowerCase()) ||
       l.chapterTitle?.toLowerCase().includes(search.toLowerCase()),
   );
+
+  // Group by chapter when there is no active search
+  const isSearching = search.trim().length > 0;
+
+  type ChapterGroup = { chapterTitle: string; chapterNum: number; lessons: AdminLesson[] };
+
+  const chapterGroups: ChapterGroup[] = [];
+  if (!isSearching) {
+    const groupMap = new Map<string, ChapterGroup>();
+    for (const l of filtered) {
+      const key = `${l.chapter}:${l.chapterTitle || 'Uncategorised'}`;
+      if (!groupMap.has(key)) {
+        groupMap.set(key, { chapterTitle: l.chapterTitle || 'Uncategorised', chapterNum: l.chapter, lessons: [] });
+      }
+      groupMap.get(key)!.lessons.push(l);
+    }
+    chapterGroups.push(...Array.from(groupMap.values()).sort((a, b) => a.chapterNum - b.chapterNum));
+  }
+
+  function toggleChapter(key: string) {
+    setCollapsedChapters((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+  }
 
   function openNew() {
     setIsNew(true);
@@ -582,6 +714,26 @@ function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
         </div>
       </div>
 
+      {/* Course filter tabs */}
+      <div className="flex gap-1 flex-wrap">
+        {COURSE_TABS.map((tab) => {
+          const count = tab.id === 'all' ? lessons.length : lessons.filter((l) => l.course === tab.id).length;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => { setCourseTab(tab.id); setCollapsedChapters(new Set()); }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer border ${
+                courseTab === tab.id
+                  ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/30'
+                  : 'border-[var(--border-color)] text-[var(--text-muted)] hover:border-[var(--accent)]/20 hover:text-[var(--text-primary)]'
+              }`}
+            >
+              {tab.label} <span className="opacity-60">({count})</span>
+            </button>
+          );
+        })}
+      </div>
+
       <input
         type="text" value={search} onChange={(e) => setSearch(e.target.value)}
         placeholder="Search by title, slug, or chapter..."
@@ -590,7 +742,7 @@ function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
 
       <div className="rounded-2xl border border-[var(--border-color)] overflow-hidden">
         {/* Table header */}
-        <div className="grid grid-cols-[1fr_120px_80px_80px_80px] gap-4 px-4 py-2 bg-[var(--surface-elevated)] text-[10px] font-bold uppercase tracking-wider text-[var(--text-disabled)] border-b border-[var(--border-color)]">
+        <div className="grid grid-cols-[1fr_120px_80px_80px_100px] gap-4 px-4 py-2 bg-[var(--surface-elevated)] text-[10px] font-bold uppercase tracking-wider text-[var(--text-disabled)] border-b border-[var(--border-color)]">
           <span>Title / Slug</span>
           <span>Chapter</span>
           <span>Difficulty</span>
@@ -598,79 +750,41 @@ function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
           <span>Actions</span>
         </div>
 
+        {/* Lesson rows — flat when searching, grouped by chapter otherwise */}
         <div className="divide-y divide-[var(--border-color)]">
           {filtered.length === 0 && (
             <div className="px-4 py-8 text-center text-sm text-[var(--text-disabled)]">No lessons match your search.</div>
           )}
-          {filtered.map((l) => {
-            const isExpanded = expanded.has(l.slug);
-            return (
-              <div key={l.slug}>
-                <div className="grid grid-cols-[1fr_120px_80px_80px_80px] gap-4 px-4 py-3 items-center hover:bg-[var(--surface)] transition-colors">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => toggleExpand(l.slug)} className="cursor-pointer text-[var(--text-disabled)] hover:text-[var(--accent)] transition-colors shrink-0">
-                        {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-                      </button>
-                      <span className="text-sm font-medium text-[var(--text-primary)] truncate">{l.title}</span>
-                      {l._custom && <Badge color="blue">custom</Badge>}
-                    </div>
-                    <span className="text-[10px] text-[var(--text-disabled)] font-mono ml-5">{l.slug}</span>
-                  </div>
-                  <span className="text-xs text-[var(--text-muted)] truncate">{l.chapterTitle}</span>
-                  <Badge color={diffColor(l.difficulty)}>{l.difficulty}</Badge>
-                  <span className="text-xs text-[var(--text-muted)]">{l.estimatedMinutes}m</span>
-                  <div className="flex items-center gap-1">
-                    <a
-                      href={`/admin/studio/${l.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Teach Lesson (Slides & Whiteboard)"
-                      className="p-1.5 rounded-lg hover:bg-[var(--accent)]/10 cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
-                    >
-                      <Tv className="w-3.5 h-3.5" />
-                    </a>
-                    <button onClick={() => openEdit(l)} className="p-1.5 rounded-lg hover:bg-[var(--surface-elevated)] cursor-pointer text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
-                      <Pencil className="w-3.5 h-3.5" />
-                    </button>
-                    <button onClick={() => setConfirmDelete(l.slug)} className="p-1.5 rounded-lg hover:bg-[#FF5F57]/10 cursor-pointer text-[var(--text-muted)] hover:text-[#FF5F57] transition-colors">
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+
+          {isSearching ? (
+            /* ── Flat view when searching ── */
+            filtered.map((l) => <LessonRow key={l.slug} l={l} expanded={expanded} toggleExpand={toggleExpand} diffColor={diffColor} openEdit={openEdit} setConfirmDelete={setConfirmDelete} />)
+          ) : (
+            /* ── Grouped by chapter ── */
+            chapterGroups.map((group) => {
+              const groupKey = `${group.chapterNum}:${group.chapterTitle}`;
+              const isCollapsed = collapsedChapters.has(groupKey);
+              return (
+                <div key={groupKey}>
+                  {/* Chapter header row */}
+                  <button
+                    onClick={() => toggleChapter(groupKey)}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 bg-[var(--surface-elevated)] hover:bg-[var(--surface)] transition-colors cursor-pointer text-left border-b border-[var(--border-color)]"
+                  >
+                    {isCollapsed ? <ChevronRight className="w-3.5 h-3.5 text-[var(--text-disabled)] shrink-0" /> : <ChevronDown className="w-3.5 h-3.5 text-[var(--text-disabled)] shrink-0" />}
+                    <span className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">
+                      Ch {group.chapterNum} — {group.chapterTitle}
+                    </span>
+                    <span className="ml-auto text-[10px] text-[var(--text-disabled)]">{group.lessons.length} lesson{group.lessons.length !== 1 ? 's' : ''}</span>
+                  </button>
+                  {/* Lesson rows for this chapter */}
+                  {!isCollapsed && group.lessons.map((l) => (
+                    <LessonRow key={l.slug} l={l} expanded={expanded} toggleExpand={toggleExpand} diffColor={diffColor} openEdit={openEdit} setConfirmDelete={setConfirmDelete} />
+                  ))}
                 </div>
-                {isExpanded && (
-                  <div className="px-4 py-3 bg-[var(--bg-secondary)] border-t border-[var(--border-color)] grid grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Description</span>
-                      <p className="text-[var(--text-secondary)] mt-0.5 leading-relaxed">{l.description}</p>
-                    </div>
-                    <div>
-                      <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Tags</span>
-                      <div className="flex flex-wrap gap-1 mt-0.5">
-                        {l.tags.map((t) => <Badge key={t}>{t}</Badge>)}
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Objectives ({l.objectives.length})</span>
-                      <ul className="mt-0.5 space-y-0.5 text-[var(--text-secondary)]">
-                        {l.objectives.slice(0, 3).map((o, i) => <li key={i}>• {o}</li>)}
-                        {l.objectives.length > 3 && <li className="text-[var(--text-disabled)]">+{l.objectives.length - 3} more</li>}
-                      </ul>
-                    </div>
-                    <div>
-                      <span className="text-[var(--text-disabled)] font-semibold uppercase tracking-wider">Prerequisites</span>
-                      <div className="flex flex-wrap gap-1 mt-0.5">
-                        {l.prerequisites.length === 0
-                          ? <span className="text-[var(--text-disabled)]">None</span>
-                          : l.prerequisites.map((p) => <Badge key={p}>{p}</Badge>)
-                        }
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
 

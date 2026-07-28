@@ -31,6 +31,66 @@
       "course": "java"
     },
     {
+      "number": 6,
+      "title": "Collections Deep Dive",
+      "description": "Master the full Java Collections Framework — Sets, Maps, Deques, sorting, and internals of HashMap, LinkedHashMap, and TreeMap.",
+      "course": "java"
+    },
+    {
+      "number": 7,
+      "title": "Multithreading & Concurrency",
+      "description": "From threads and locks to ExecutorService, ForkJoinPool, CompletableFuture, atomic variables, and virtual threads.",
+      "course": "java"
+    },
+    {
+      "number": 8,
+      "title": "Java New Features",
+      "description": "Text Blocks, Records, Switch Expressions, Pattern Matching, Sealed Classes, Sequenced Collections and more from Java 14–21.",
+      "course": "java"
+    },
+    {
+      "course": "springboot",
+      "number": 1,
+      "title": "Getting Started",
+      "description": "Maven build tool, Spring Boot introduction, project setup, layered architecture and the full request-response cycle."
+    },
+    {
+      "course": "springboot",
+      "number": 2,
+      "title": "Spring Core: Beans & DI",
+      "description": "IoC container, beans, bean scopes, dependency injection, @Value, @Profile, @ConditionalOnProperty and Spring annotations."
+    },
+    {
+      "course": "springboot",
+      "number": 3,
+      "title": "REST API Essentials",
+      "description": "HTTP status codes, global exception handling, HATEOAS, filters, interceptors, async processing, and AOP."
+    },
+    {
+      "course": "springboot",
+      "number": 4,
+      "title": "JPA & Database",
+      "description": "JDBC, JPA entity mapping, associations, custom queries, Specification API, L1/L2 caching, transactions and isolation levels."
+    },
+    {
+      "course": "springboot",
+      "number": 5,
+      "title": "Spring Security",
+      "description": "Security architecture, basic auth, form login, user creation, annotation-based authorization, JWT, OAuth2, and OIDC."
+    },
+    {
+      "course": "springboot",
+      "number": 6,
+      "title": "Microservices",
+      "description": "Inter-service communication, RestClient, FeignClient, Eureka service discovery, load balancing, API Gateway, and config server."
+    },
+    {
+      "course": "springboot",
+      "number": 7,
+      "title": "Fault Tolerance & Resilience",
+      "description": "Circuit breaker, bulkhead, rate limiter, retry patterns with Resilience4j and common web security attack mitigations."
+    },
+    {
       "course": "coa",
       "number": 1,
       "title": "Foundations & Architecture",
@@ -860,6 +920,1394 @@
         "subroutines",
         "coa"
       ]
+    },
+    {
+      "course": "java",
+      "title": "Set Collections",
+      "slug": "set-collections",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 23,
+      "description": "HashSet, LinkedHashSet, TreeSet internals — hashing, ordering, and iteration",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["collection-framework"],
+      "objectives": [
+        "Understand how HashSet achieves O(1) add/contains via HashMap",
+        "Compare HashSet vs LinkedHashSet vs TreeSet ordering guarantees",
+        "Use Set for deduplication problems in production code"
+      ],
+      "tags": ["set", "hashset", "treeset", "collections"]
+    },
+    {
+      "course": "java",
+      "title": "HashMap Internals",
+      "slug": "map-hashmap-internals",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 24,
+      "description": "HashMap internals: hashing, buckets, load factor, resizing, collision handling and treeification",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": ["collection-framework"],
+      "objectives": [
+        "Trace how HashMap stores and retrieves a key-value pair step by step",
+        "Understand load factor, capacity, and rehashing thresholds",
+        "Explain treeification (linked list → red-black tree at threshold 8)"
+      ],
+      "tags": ["map", "hashmap", "hashing", "internals", "collections"]
+    },
+    {
+      "course": "java",
+      "title": "LinkedHashMap & TreeMap",
+      "slug": "linkedhashmap-treemap",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 25,
+      "description": "LinkedHashMap insertion/access order, TreeMap sorted navigation, ceiling/floor APIs",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["map-hashmap-internals"],
+      "objectives": [
+        "Implement a simple LRU Cache using LinkedHashMap",
+        "Use TreeMap for range queries with floorKey / ceilingKey",
+        "Choose the right Map implementation for a given problem"
+      ],
+      "tags": ["linkedhashmap", "treemap", "sorted-map", "collections"]
+    },
+    {
+      "course": "java",
+      "title": "Deque & List Implementations",
+      "slug": "deque-list-implementations",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 26,
+      "description": "ArrayList vs LinkedList, ArrayDeque, Stack replacement, and performance trade-offs",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["collection-framework"],
+      "objectives": [
+        "Compare ArrayList random access O(1) vs LinkedList node traversal O(n)",
+        "Use ArrayDeque as a stack and queue replacement",
+        "Identify when to choose each List and Deque implementation"
+      ],
+      "tags": ["arraylist", "linkedlist", "deque", "arraydeque", "collections"]
+    },
+    {
+      "course": "java",
+      "title": "Set & Map Sorting",
+      "slug": "set-map-sorting",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 27,
+      "description": "Custom sorting with Comparable and Comparator applied to Sets and Maps",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["set-collections", "map-hashmap-internals"],
+      "objectives": [
+        "Sort objects stored in TreeSet and TreeMap using Comparable and Comparator",
+        "Chain Comparator predicates for multi-field sorting",
+        "Understand natural ordering vs imposed ordering"
+      ],
+      "tags": ["sorting", "comparable", "comparator", "treeset", "treemap"]
+    },
+    {
+      "course": "java",
+      "title": "Java Streams",
+      "slug": "streams",
+      "chapter": 6,
+      "chapterTitle": "Collections Deep Dive",
+      "lesson": 28,
+      "description": "Stream pipeline: source, intermediate operations, terminal operations, lazy evaluation, and parallel streams",
+      "difficulty": "advanced",
+      "estimatedMinutes": 50,
+      "prerequisites": ["functional-interfaces-lambdas", "collection-framework"],
+      "objectives": [
+        "Build complex data pipelines with filter, map, flatMap, reduce, collect",
+        "Understand lazy evaluation and short-circuit operations",
+        "Use Collectors for groupingBy, partitioning, joining, and custom reductions",
+        "Decide when to use parallel streams safely"
+      ],
+      "tags": ["streams", "lambda", "pipeline", "collect", "parallel-streams"]
+    },
+    {
+      "course": "java",
+      "title": "Multithreading Part 1 — Threads & JVM",
+      "slug": "multithreading-part1",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 29,
+      "description": "Processes vs threads, JVM memory architecture, context switching, creating threads",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 45,
+      "prerequisites": ["memory-management"],
+      "objectives": [
+        "Differentiate processes and threads in the JVM",
+        "Understand shared vs per-thread memory areas",
+        "Create threads via Thread subclass and Runnable interface",
+        "Explain context switching and its performance cost"
+      ],
+      "tags": ["threads", "multithreading", "runnable", "jvm", "concurrency"]
+    },
+    {
+      "course": "java",
+      "title": "Multithreading Part 2 — Synchronization",
+      "slug": "multithreading-part2",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 30,
+      "description": "Race conditions, synchronized keyword, wait/notify, thread lifecycle states",
+      "difficulty": "advanced",
+      "estimatedMinutes": 50,
+      "prerequisites": ["multithreading-part1"],
+      "objectives": [
+        "Identify and fix race conditions using synchronized",
+        "Use wait(), notify(), and notifyAll() for thread coordination",
+        "Map and trace all six thread lifecycle states"
+      ],
+      "tags": ["synchronized", "race-condition", "wait-notify", "thread-lifecycle"]
+    },
+    {
+      "course": "java",
+      "title": "Multithreading Part 3 — Advanced Patterns",
+      "slug": "multithreading-part3",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 31,
+      "description": "Deadlock, livelock, starvation, daemon threads, thread interruption",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["multithreading-part2"],
+      "objectives": [
+        "Detect and prevent deadlocks using lock ordering",
+        "Distinguish deadlock, livelock, and starvation",
+        "Use interrupt() and isInterrupted() for cooperative cancellation"
+      ],
+      "tags": ["deadlock", "livelock", "starvation", "daemon-threads", "interrupt"]
+    },
+    {
+      "course": "java",
+      "title": "Locks — ReentrantLock & ReadWriteLock",
+      "slug": "multithreading-locks",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 32,
+      "description": "java.util.concurrent locks: ReentrantLock, ReadWriteLock, Condition API",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["multithreading-part2"],
+      "objectives": [
+        "Use ReentrantLock with tryLock() and timed locking",
+        "Implement reader-writer concurrency with ReadWriteLock",
+        "Replace wait/notify with the Condition API"
+      ],
+      "tags": ["reentrantlock", "readwritelock", "condition", "locks", "concurrency"]
+    },
+    {
+      "course": "java",
+      "title": "Advanced Locks — StampedLock & Semaphore",
+      "slug": "multithreading-advanced-locks",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 33,
+      "description": "StampedLock optimistic reads, Semaphore, CountDownLatch, CyclicBarrier, Phaser",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["multithreading-locks"],
+      "objectives": [
+        "Apply StampedLock for high-throughput read-heavy scenarios",
+        "Use Semaphore to limit concurrent access to a resource",
+        "Coordinate threads with CountDownLatch and CyclicBarrier"
+      ],
+      "tags": ["stampedlock", "semaphore", "countdownlatch", "cyclicbarrier", "concurrency"]
+    },
+    {
+      "course": "java",
+      "title": "Atomic Variables & Concurrent Collections",
+      "slug": "atomic-volatile-concurrent",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 34,
+      "description": "volatile, AtomicInteger/Long/Reference, ConcurrentHashMap, CopyOnWriteArrayList, BlockingQueue",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["multithreading-part2"],
+      "objectives": [
+        "Understand the Java Memory Model and the volatile guarantee",
+        "Use Atomic classes for lock-free thread-safe counters",
+        "Choose the right concurrent collection for producer-consumer patterns"
+      ],
+      "tags": ["volatile", "atomic", "concurrenthashmap", "copyonwrite", "blockingqueue"]
+    },
+    {
+      "course": "java",
+      "title": "Thread Pool & ExecutorService",
+      "slug": "thread-pool",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 35,
+      "description": "Thread pool concepts, fixed/cached/single/scheduled thread pools, rejection policies",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["multithreading-part1"],
+      "objectives": [
+        "Explain why thread pools outperform creating raw threads",
+        "Configure ThreadPoolExecutor parameters: corePoolSize, maxPoolSize, queue, policy",
+        "Choose between fixed, cached, single, and scheduled executors"
+      ],
+      "tags": ["thread-pool", "executor", "executorservice", "threadpoolexecutor"]
+    },
+    {
+      "course": "java",
+      "title": "ExecutorService Deep Dive",
+      "slug": "executor-service-advanced",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 36,
+      "description": "shutdown vs shutdownNow vs awaitTermination, ScheduledThreadPoolExecutor patterns",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["thread-pool"],
+      "objectives": [
+        "Correctly shut down an ExecutorService without losing tasks",
+        "Schedule periodic and delayed tasks with ScheduledThreadPoolExecutor",
+        "Handle RejectedExecutionException gracefully"
+      ],
+      "tags": ["executorservice", "shutdown", "scheduled", "threadpool"]
+    },
+    {
+      "course": "java",
+      "title": "Executors & ForkJoinPool",
+      "slug": "executors-fork-join",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 37,
+      "description": "ForkJoinPool, RecursiveTask, work-stealing algorithm, parallel array operations",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["thread-pool"],
+      "objectives": [
+        "Implement divide-and-conquer algorithms with RecursiveTask",
+        "Understand ForkJoinPool work-stealing for CPU-bound tasks",
+        "Compare ForkJoinPool with standard ExecutorService"
+      ],
+      "tags": ["forkjoin", "forkjoinpool", "recursivetask", "work-stealing", "parallel"]
+    },
+    {
+      "course": "java",
+      "title": "Future, Callable & CompletableFuture",
+      "slug": "future-callable-completablefuture",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 38,
+      "description": "Callable, Future, CompletableFuture async pipelines, thenApply/thenCompose/allOf",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": ["thread-pool"],
+      "objectives": [
+        "Use Callable to return values from async tasks",
+        "Build non-blocking pipelines with CompletableFuture",
+        "Combine multiple futures with allOf, anyOf, thenCombine"
+      ],
+      "tags": ["callable", "future", "completablefuture", "async", "thenApply"]
+    },
+    {
+      "course": "java",
+      "title": "ThreadLocal & Virtual Threads",
+      "slug": "threadlocal-virtual-threads",
+      "chapter": 7,
+      "chapterTitle": "Multithreading & Concurrency",
+      "lesson": 39,
+      "description": "ThreadLocal for per-thread state, Project Loom virtual threads (Java 21)",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["multithreading-part1"],
+      "objectives": [
+        "Use ThreadLocal to avoid shared state in web request contexts",
+        "Create and launch virtual threads with Thread.ofVirtual()",
+        "Understand when virtual threads outperform platform threads"
+      ],
+      "tags": ["threadlocal", "virtual-threads", "loom", "java21", "concurrency"]
+    },
+    {
+      "course": "java",
+      "title": "Lombok",
+      "slug": "lombok",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 40,
+      "description": "Reduce boilerplate with @Getter, @Setter, @Builder, @Data, @Slf4j and more",
+      "difficulty": "beginner",
+      "estimatedMinutes": 25,
+      "prerequisites": ["constructors"],
+      "objectives": [
+        "Eliminate boilerplate getters, setters, and constructors with Lombok annotations",
+        "Build fluent APIs using @Builder and @SuperBuilder",
+        "Understand which Lombok annotations are safe in production"
+      ],
+      "tags": ["lombok", "boilerplate", "builder", "data", "annotations"]
+    },
+    {
+      "course": "java",
+      "title": "Text Blocks (Java 13–15)",
+      "slug": "text-blocks",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 41,
+      "description": "Multi-line string literals, incidental whitespace stripping, formatted() method",
+      "difficulty": "beginner",
+      "estimatedMinutes": 20,
+      "prerequisites": ["variables-primitive-types"],
+      "objectives": [
+        "Write readable multi-line JSON, SQL and HTML with text blocks",
+        "Understand incidental vs essential whitespace rules",
+        "Apply .formatted() for inline substitution"
+      ],
+      "tags": ["text-blocks", "strings", "java13", "java15", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Switch Expressions (Java 14)",
+      "slug": "java14-switch-expressions",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 42,
+      "description": "Arrow-style switch, switch as expression, yield keyword, exhaustiveness",
+      "difficulty": "beginner",
+      "estimatedMinutes": 20,
+      "prerequisites": ["control-flow-statements"],
+      "objectives": [
+        "Write concise switch expressions with arrow syntax",
+        "Use switch as an expression (assign to variable, return value)",
+        "Apply yield in multi-statement arms"
+      ],
+      "tags": ["switch", "switch-expression", "yield", "java14", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Records (Java 16)",
+      "slug": "java16-records",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 43,
+      "description": "Immutable data carriers: compact canonical constructor, with-ers pattern, record limitations",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["pojo-enum-final"],
+      "objectives": [
+        "Replace verbose POJOs with a single-line record declaration",
+        "Customise canonical constructors for validation",
+        "Understand the restrictions of records vs regular classes"
+      ],
+      "tags": ["records", "immutable", "java16", "pojo", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Pattern Matching — instanceof (Java 16)",
+      "slug": "pattern-matching-instanceof",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 44,
+      "description": "Type test patterns, scoped binding variables, guarded patterns",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 20,
+      "prerequisites": ["types-of-classes"],
+      "objectives": [
+        "Eliminate explicit casts with instanceof pattern binding",
+        "Combine instanceof patterns with boolean guards",
+        "Understand scope rules of pattern variables"
+      ],
+      "tags": ["pattern-matching", "instanceof", "java16", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Sealed Classes & Interfaces (Java 17)",
+      "slug": "sealed-classes",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 45,
+      "description": "sealed/permits hierarchy, sealed vs final vs non-sealed, algebraic data types in Java",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["interfaces-fundamentals", "types-of-classes"],
+      "objectives": [
+        "Define a closed hierarchy with sealed and permits",
+        "Combine sealed classes with records for algebraic data types",
+        "Use sealed classes as the basis for exhaustive switch"
+      ],
+      "tags": ["sealed", "permits", "java17", "algebraic-data-types", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Pattern Matching — Switch (Java 21)",
+      "slug": "java21-pattern-matching-switch",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 46,
+      "description": "Type patterns in switch, guarded patterns, null handling, exhaustiveness with sealed types",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sealed-classes", "pattern-matching-instanceof"],
+      "objectives": [
+        "Write type-safe, exhaustive switch expressions over sealed hierarchies",
+        "Add guards to switch arms with when clauses",
+        "Safely handle null in switch without NullPointerException"
+      ],
+      "tags": ["pattern-matching", "switch", "java21", "sealed", "modern-java"]
+    },
+    {
+      "course": "java",
+      "title": "Sequenced Collections (Java 21)",
+      "slug": "java21-sequenced-collections",
+      "chapter": 8,
+      "chapterTitle": "Java New Features",
+      "lesson": 47,
+      "description": "SequencedCollection, SequencedSet, SequencedMap interfaces and reverse views",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 20,
+      "prerequisites": ["collection-framework"],
+      "objectives": [
+        "Use getFirst/getLast/addFirst/addLast on any sequenced collection",
+        "Obtain a reversed view of a list or map without copying",
+        "Identify which existing types implement the new interfaces"
+      ],
+      "tags": ["sequenced-collections", "java21", "collections", "modern-java"]
+    },
+    {
+      "course": "springboot",
+      "title": "Maven",
+      "slug": "sb-maven",
+      "chapter": 1,
+      "chapterTitle": "Getting Started",
+      "lesson": 1,
+      "description": "Build lifecycle, POM, dependency management, plugins, and the Maven repository structure",
+      "difficulty": "beginner",
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "objectives": [
+        "Understand the Maven build lifecycle phases",
+        "Configure project dependencies in pom.xml",
+        "Use plugins to compile, test, and package Spring Boot applications"
+      ],
+      "tags": ["maven", "pom", "build-tool", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Introduction to Spring Boot",
+      "slug": "sb-introduction",
+      "chapter": 1,
+      "chapterTitle": "Getting Started",
+      "lesson": 2,
+      "description": "Servlet containers, Spring MVC, IoC, Dispatcher Servlet, and Spring Boot's three core advantages",
+      "difficulty": "beginner",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-maven"],
+      "objectives": [
+        "Trace the evolution from Servlets to Spring MVC to Spring Boot",
+        "Explain embedded server, auto-configuration, and opinionated defaults",
+        "Understand the Dispatcher Servlet request flow"
+      ],
+      "tags": ["spring-boot", "servlet", "spring-mvc", "ioc", "dispatcher-servlet"]
+    },
+    {
+      "course": "springboot",
+      "title": "Project Setup & Layered Architecture",
+      "slug": "sb-setup-layered-architecture",
+      "chapter": 1,
+      "chapterTitle": "Getting Started",
+      "lesson": 3,
+      "description": "Spring Initializr, JAR vs WAR, Controller/Service/Repository layers, DTOs and request flow",
+      "difficulty": "beginner",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-introduction"],
+      "objectives": [
+        "Bootstrap a Spring Boot project from Spring Initializr",
+        "Apply the 3-layer architecture pattern",
+        "Trace a complete HTTP request through Controller → Service → Repository"
+      ],
+      "tags": ["spring-boot", "layered-architecture", "dto", "controller", "service", "repository"]
+    },
+    {
+      "course": "springboot",
+      "title": "Spring Beans",
+      "slug": "sb-beans",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 4,
+      "description": "IoC container, bean lifecycle, @Component, @Bean, @Configuration, component scanning",
+      "difficulty": "beginner",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-setup-layered-architecture"],
+      "objectives": [
+        "Understand how the IoC container creates and manages beans",
+        "Register beans via @Component scanning and @Bean factory methods",
+        "Trace the full bean lifecycle: instantiation → injection → init → destroy"
+      ],
+      "tags": ["beans", "ioc", "component", "configuration", "spring-core"]
+    },
+    {
+      "course": "springboot",
+      "title": "Bean Scopes",
+      "slug": "sb-bean-scopes",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 5,
+      "description": "Singleton, Prototype, Request, Session, Application scopes and scoped proxies",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Configure bean scopes with @Scope",
+        "Inject a prototype-scoped bean into a singleton using scoped proxy",
+        "Know which scope is appropriate for stateful vs stateless beans"
+      ],
+      "tags": ["bean-scopes", "singleton", "prototype", "request-scope", "spring-core"]
+    },
+    {
+      "course": "springboot",
+      "title": "Dependency Injection",
+      "slug": "sb-dependency-injection",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 6,
+      "description": "Constructor, setter, and field injection — best practices, circular dependency, @Qualifier, @Primary",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Apply constructor injection for mandatory dependencies",
+        "Resolve ambiguity with @Qualifier and @Primary",
+        "Detect and fix circular dependency issues"
+      ],
+      "tags": ["dependency-injection", "autowired", "qualifier", "primary", "spring-core"]
+    },
+    {
+      "course": "springboot",
+      "title": "@Value & Dynamic Beans",
+      "slug": "sb-value-dynamic-bean",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 7,
+      "description": "Injecting config values with @Value, SpEL, @ConfigurationProperties, dynamic bean registration",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-dependency-injection"],
+      "objectives": [
+        "Inject application.properties values with @Value",
+        "Use SpEL for conditional and computed injections",
+        "Bind hierarchical config to a @ConfigurationProperties POJO"
+      ],
+      "tags": ["value", "spel", "configurationproperties", "spring-core"]
+    },
+    {
+      "course": "springboot",
+      "title": "@ConditionalOnProperty",
+      "slug": "sb-conditional-on-property",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 8,
+      "description": "Conditional bean creation, @Conditional variants, feature-flag patterns",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 20,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Toggle beans on/off with @ConditionalOnProperty",
+        "Write custom @Conditional conditions",
+        "Implement feature flags via conditional beans"
+      ],
+      "tags": ["conditional", "feature-flags", "conditional-on-property", "spring-core"]
+    },
+    {
+      "course": "springboot",
+      "title": "Spring Boot Annotations",
+      "slug": "sb-annotations",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 9,
+      "description": "Comprehensive reference for all key Spring Boot annotations: web, data, security, testing",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Identify the purpose of every common Spring Boot annotation",
+        "Apply @RestController, @RequestMapping, @PathVariable, @RequestBody correctly",
+        "Use Spring's stereotype annotations: @Component, @Service, @Repository"
+      ],
+      "tags": ["annotations", "restcontroller", "requestmapping", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Profiles",
+      "slug": "sb-profiles",
+      "chapter": 2,
+      "chapterTitle": "Spring Core: Beans & DI",
+      "lesson": 10,
+      "description": "@Profile annotation, application-{profile}.properties, activating profiles at runtime",
+      "difficulty": "beginner",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Create environment-specific configs (dev, staging, prod) with profiles",
+        "Activate profiles via command-line, environment variable, or programmatically",
+        "Use @Profile to conditionally register beans"
+      ],
+      "tags": ["profiles", "environment", "spring-boot", "configuration"]
+    },
+    {
+      "course": "springboot",
+      "title": "HTTP Status Codes",
+      "slug": "sb-http-status-codes",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 11,
+      "description": "Complete reference: 1xx, 2xx, 3xx, 4xx, 5xx status codes and when to use each",
+      "difficulty": "beginner",
+      "estimatedMinutes": 20,
+      "prerequisites": ["sb-setup-layered-architecture"],
+      "objectives": [
+        "Choose the correct HTTP status code for every REST scenario",
+        "Return proper response codes with ResponseEntity",
+        "Understand idempotency and its relation to status codes"
+      ],
+      "tags": ["http", "status-codes", "rest", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Exception Handling",
+      "slug": "sb-exception-handling",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 12,
+      "description": "@ControllerAdvice, @ExceptionHandler, ProblemDetail (RFC 7807), custom error responses",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-http-status-codes"],
+      "objectives": [
+        "Centralise all exception handling with @ControllerAdvice",
+        "Map domain exceptions to structured JSON error responses",
+        "Implement RFC 7807 ProblemDetail responses"
+      ],
+      "tags": ["exception-handling", "controller-advice", "problem-detail", "rest"]
+    },
+    {
+      "course": "springboot",
+      "title": "HATEOAS",
+      "slug": "sb-hateoas",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 13,
+      "description": "Hypermedia-driven REST, EntityModel, CollectionModel, link relations, RepresentationModel",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-setup-layered-architecture"],
+      "objectives": [
+        "Add self and action links to REST responses using Spring HATEOAS",
+        "Wrap collections with CollectionModel and PagedModel",
+        "Understand HAL format and why clients benefit from hypermedia"
+      ],
+      "tags": ["hateoas", "hal", "links", "rest", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Filters & Interceptors",
+      "slug": "sb-filters-vs-interceptors",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 14,
+      "description": "Filter vs HandlerInterceptor — lifecycle differences, use cases, request/response manipulation",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-introduction"],
+      "objectives": [
+        "Implement a Servlet Filter for cross-cutting concerns (logging, CORS)",
+        "Write a HandlerInterceptor with preHandle/postHandle/afterCompletion",
+        "Choose between Filter and Interceptor for a given requirement"
+      ],
+      "tags": ["filters", "interceptors", "servlet", "spring-mvc"]
+    },
+    {
+      "course": "springboot",
+      "title": "Custom Interceptors",
+      "slug": "sb-custom-interceptors",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 15,
+      "description": "Building and registering custom HandlerInterceptors with WebMvcConfigurer",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-filters-vs-interceptors"],
+      "objectives": [
+        "Register multiple interceptors with addPathPatterns and excludePathPatterns",
+        "Build an auth token interceptor using preHandle",
+        "Attach request metadata for logging with afterCompletion"
+      ],
+      "tags": ["interceptors", "webmvcconfigurer", "spring-mvc"]
+    },
+    {
+      "course": "springboot",
+      "title": "Async Processing",
+      "slug": "sb-async",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 16,
+      "description": "@Async, TaskExecutor configuration, CompletableFuture returns, async error handling",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-beans", "future-callable-completablefuture"],
+      "objectives": [
+        "Offload long-running work to a thread pool with @Async",
+        "Configure a custom ThreadPoolTaskExecutor",
+        "Handle exceptions thrown by @Async methods"
+      ],
+      "tags": ["async", "thread-pool", "completablefuture", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Spring AOP",
+      "slug": "sb-aop",
+      "chapter": 3,
+      "chapterTitle": "REST API Essentials",
+      "lesson": 17,
+      "description": "Aspect-oriented programming: @Aspect, pointcut expressions, @Before/@After/@Around advice",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-beans"],
+      "objectives": [
+        "Define aspects, join points, and pointcut expressions",
+        "Implement @Around advice for method-level logging and timing",
+        "Apply AOP for cross-cutting concerns: auditing, security, transactions"
+      ],
+      "tags": ["aop", "aspect", "pointcut", "advice", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Part 1 — JDBC Foundation",
+      "slug": "sb-jpa-jdbc",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 18,
+      "description": "JDBC fundamentals, Spring JdbcTemplate, connection pooling with HikariCP",
+      "difficulty": "beginner",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-setup-layered-architecture"],
+      "objectives": [
+        "Understand the JDBC driver and connection lifecycle",
+        "Use JdbcTemplate to execute queries without boilerplate",
+        "Configure HikariCP connection pooling properties"
+      ],
+      "tags": ["jpa", "jdbc", "jdbctemplate", "hikaricp", "database"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Entity Mapping",
+      "slug": "sb-jpa-entity-mapping",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 19,
+      "description": "@Entity, @Table, @Column, @Id, @GeneratedValue strategies, entity lifecycle",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-jpa-jdbc"],
+      "objectives": [
+        "Map a Java class to a database table with JPA annotations",
+        "Choose the right @GeneratedValue strategy for your database",
+        "Understand the JPA entity lifecycle states"
+      ],
+      "tags": ["jpa", "entity", "column", "generated-value", "orm"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Part 2 — Repositories",
+      "slug": "sb-jpa-part2",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 20,
+      "description": "JpaRepository, CrudRepository, PagingAndSortingRepository, query derivation and Pageable",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-jpa-entity-mapping"],
+      "objectives": [
+        "Perform CRUD operations with JpaRepository",
+        "Derive queries from method names (findByNameAndEmail)",
+        "Paginate and sort results with Pageable and Sort"
+      ],
+      "tags": ["jpa", "jparepository", "pagination", "sorting", "spring-data"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Part 3 — Relationships",
+      "slug": "sb-jpa-part3-mappings",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 21,
+      "description": "@OneToOne, @OneToMany, @ManyToOne, @ManyToMany, cascade types, fetch strategies",
+      "difficulty": "advanced",
+      "estimatedMinutes": 50,
+      "prerequisites": ["sb-jpa-part2"],
+      "objectives": [
+        "Map all four JPA relationship types with correct owning side",
+        "Choose between EAGER and LAZY fetching strategies",
+        "Configure cascade types to manage child entities automatically"
+      ],
+      "tags": ["jpa", "onetomany", "manytoone", "manytomany", "cascade", "fetch"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Associations",
+      "slug": "sb-jpa-associations",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 22,
+      "description": "Bidirectional associations, mappedBy, join table configuration, orphan removal",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-jpa-part3-mappings"],
+      "objectives": [
+        "Configure bidirectional relationships with mappedBy",
+        "Control join table name and columns with @JoinTable",
+        "Enable orphan removal for dependent entities"
+      ],
+      "tags": ["jpa", "associations", "mappedby", "jointable", "bidirectional"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Custom Queries",
+      "slug": "sb-jpa-custom-queries",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 23,
+      "description": "@Query with JPQL and native SQL, named parameters, @Modifying, projections",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-jpa-part2"],
+      "objectives": [
+        "Write JPQL queries with @Query annotation",
+        "Execute UPDATE and DELETE with @Modifying",
+        "Use interface-based projections to fetch partial data"
+      ],
+      "tags": ["jpql", "query", "modifying", "native-sql", "spring-data"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Part 4 — Native Queries & Criteria API",
+      "slug": "sb-jpa-native-queries-criteria",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 24,
+      "description": "Native SQL queries, stored procedures, Criteria API, dynamic queries with CriteriaBuilder",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-jpa-custom-queries"],
+      "objectives": [
+        "Use native queries for database-specific SQL",
+        "Build type-safe dynamic queries with the Criteria API",
+        "Compare JPQL, native SQL, and Criteria API trade-offs"
+      ],
+      "tags": ["criteria-api", "native-query", "jpql", "criteriabuilder", "jpa"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA Specification API",
+      "slug": "sb-jpa-specification",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 25,
+      "description": "Specification pattern for composable, reusable dynamic queries with JpaSpecificationExecutor",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-jpa-native-queries-criteria"],
+      "objectives": [
+        "Define reusable query predicates as Specification classes",
+        "Combine specifications with and(), or(), not()",
+        "Apply specifications with pagination and sorting"
+      ],
+      "tags": ["specification", "jpaspecificationexecutor", "dynamic-queries", "jpa"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA L1 Caching",
+      "slug": "sb-jpa-l1-cache",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 26,
+      "description": "First-level (persistence context) cache — how Hibernate avoids duplicate DB hits within a session",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-jpa-entity-mapping"],
+      "objectives": [
+        "Explain how the persistence context acts as an L1 cache",
+        "Demonstrate repeated entity.find() returning cached instance",
+        "Clear the context with EntityManager.clear() to force a re-read"
+      ],
+      "tags": ["jpa", "l1-cache", "persistence-context", "hibernate"]
+    },
+    {
+      "course": "springboot",
+      "title": "JPA L2 Caching",
+      "slug": "sb-jpa-l2-cache",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 27,
+      "description": "Second-level cache with Ehcache/Caffeine, @Cache, eviction strategies, cache regions",
+      "difficulty": "advanced",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-jpa-l1-cache"],
+      "objectives": [
+        "Enable and configure L2 cache with a provider (Ehcache/Caffeine)",
+        "Annotate entities and collections with @Cache",
+        "Monitor cache hit/miss ratios and tune eviction policies"
+      ],
+      "tags": ["jpa", "l2-cache", "ehcache", "caffeine", "hibernate"]
+    },
+    {
+      "course": "springboot",
+      "title": "@Transactional",
+      "slug": "sb-transactional",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 28,
+      "description": "@Transactional propagation, rollback rules, readOnly flag, and common pitfalls",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-jpa-part2"],
+      "objectives": [
+        "Apply @Transactional and understand when a new transaction is created",
+        "Configure rollbackFor and noRollbackFor rules",
+        "Avoid the self-invocation proxy bypass pitfall"
+      ],
+      "tags": ["transactional", "propagation", "rollback", "jpa", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "Transaction Management Part 2",
+      "slug": "sb-transaction-management-part2",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 29,
+      "description": "Nested transactions, programmatic transaction management, TransactionTemplate",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-transactional"],
+      "objectives": [
+        "Use REQUIRES_NEW and NESTED propagation levels",
+        "Control transactions programmatically with TransactionTemplate",
+        "Handle partial rollbacks with savepoints"
+      ],
+      "tags": ["transaction", "nested", "transaction-template", "spring-data"]
+    },
+    {
+      "course": "springboot",
+      "title": "Transaction Isolation Levels",
+      "slug": "sb-transaction-isolation",
+      "chapter": 4,
+      "chapterTitle": "JPA & Database",
+      "lesson": 30,
+      "description": "Read uncommitted, Read committed, Repeatable read, Serializable — phenomena and trade-offs",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-transactional"],
+      "objectives": [
+        "Describe dirty read, non-repeatable read, and phantom read anomalies",
+        "Map each isolation level to the anomalies it prevents",
+        "Choose the right isolation level for a given use case"
+      ],
+      "tags": ["isolation-levels", "dirty-read", "phantom-read", "transaction", "database"]
+    },
+    {
+      "course": "springboot",
+      "title": "Security Architecture",
+      "slug": "sb-security-architecture",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 31,
+      "description": "Spring Security filter chain, AuthenticationManager, AuthenticationProvider, UserDetailsService",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-filters-vs-interceptors"],
+      "objectives": [
+        "Trace a login request through the entire Spring Security filter chain",
+        "Understand the role of AuthenticationManager and ProviderManager",
+        "Implement a custom UserDetailsService backed by the database"
+      ],
+      "tags": ["spring-security", "filter-chain", "authentication", "userdetailsservice"]
+    },
+    {
+      "course": "springboot",
+      "title": "Basic Authentication",
+      "slug": "sb-security-basic-auth",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 32,
+      "description": "HTTP Basic Auth, SecurityFilterChain DSL, PasswordEncoder, BCryptPasswordEncoder",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-security-architecture"],
+      "objectives": [
+        "Secure endpoints with HTTP Basic Authentication",
+        "Configure a SecurityFilterChain with permitAll and authenticated rules",
+        "Hash passwords with BCryptPasswordEncoder"
+      ],
+      "tags": ["basic-auth", "security-filter-chain", "bcrypt", "spring-security"]
+    },
+    {
+      "course": "springboot",
+      "title": "User Creation & In-Memory Auth",
+      "slug": "sb-security-user-creation",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 33,
+      "description": "InMemoryUserDetailsManager, database-backed UserDetails, JDBC authentication",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-security-basic-auth"],
+      "objectives": [
+        "Create users programmatically with InMemoryUserDetailsManager",
+        "Persist users to a database and load them via JpaUserDetailsService",
+        "Map roles to authorities and apply method-level security"
+      ],
+      "tags": ["user-creation", "in-memory-auth", "userdetails", "roles", "spring-security"]
+    },
+    {
+      "course": "springboot",
+      "title": "Form Login Authentication",
+      "slug": "sb-form-login",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 34,
+      "description": "Form-based login, custom login pages, session management, remember-me, CSRF",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-security-user-creation"],
+      "objectives": [
+        "Configure form login with custom login and logout URLs",
+        "Enable remember-me authentication with a persistent token repository",
+        "Understand CSRF protection and when to disable it for APIs"
+      ],
+      "tags": ["form-login", "session", "csrf", "remember-me", "spring-security"]
+    },
+    {
+      "course": "springboot",
+      "title": "Annotation-Based Authorization",
+      "slug": "sb-annotation-authorization",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 35,
+      "description": "@PreAuthorize, @PostAuthorize, @Secured, @RolesAllowed, SpEL-based rules",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-security-user-creation"],
+      "objectives": [
+        "Protect service methods with @PreAuthorize expressions",
+        "Filter return values with @PostFilter",
+        "Understand the difference between @Secured and @PreAuthorize"
+      ],
+      "tags": ["preauthorize", "secured", "authorization", "rbac", "spring-security"]
+    },
+    {
+      "course": "springboot",
+      "title": "JWT Fundamentals",
+      "slug": "sb-jwt-fundamentals",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 36,
+      "description": "JWT structure, header/payload/signature, signing algorithms, token expiry, claims",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-security-architecture"],
+      "objectives": [
+        "Decode and interpret a JWT token structure",
+        "Understand HMAC-SHA256 vs RSA signing trade-offs",
+        "Handle token expiry and refresh token patterns"
+      ],
+      "tags": ["jwt", "token", "claims", "signing", "security"]
+    },
+    {
+      "course": "springboot",
+      "title": "JWT in Spring Boot",
+      "slug": "sb-jwt-springboot",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 37,
+      "description": "Implementing JWT authentication filter, JwtService, issuing and validating tokens end-to-end",
+      "difficulty": "advanced",
+      "estimatedMinutes": 50,
+      "prerequisites": ["sb-jwt-fundamentals", "sb-security-architecture"],
+      "objectives": [
+        "Build a JwtAuthenticationFilter that validates tokens on every request",
+        "Issue signed tokens on successful login",
+        "Integrate JWT with SecurityContextHolder"
+      ],
+      "tags": ["jwt", "authentication-filter", "spring-security", "stateless"]
+    },
+    {
+      "course": "springboot",
+      "title": "OAuth 2.0 Complete Guide",
+      "slug": "sb-oauth2",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 38,
+      "description": "OAuth 2.0 roles, flows (Authorization Code, Client Credentials, PKCE), access tokens, refresh tokens",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": ["sb-jwt-fundamentals"],
+      "objectives": [
+        "Explain the OAuth 2.0 authorization code flow step by step",
+        "Choose the correct OAuth 2.0 flow for your application type",
+        "Understand access token vs refresh token usage"
+      ],
+      "tags": ["oauth2", "authorization-code", "pkce", "access-token", "security"]
+    },
+    {
+      "course": "springboot",
+      "title": "OAuth2 & OIDC in Spring Boot",
+      "slug": "sb-oauth2-oidc-springboot",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 39,
+      "description": "Spring Security OAuth2 client, Resource Server configuration, OIDC login, JWT decoder",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": ["sb-oauth2"],
+      "objectives": [
+        "Configure Spring Boot as an OAuth2 Resource Server with JWT",
+        "Implement OIDC login with Google/GitHub via spring-security-oauth2-client",
+        "Map ID token claims to Spring Security authorities"
+      ],
+      "tags": ["oauth2", "oidc", "resource-server", "spring-security", "jwt"]
+    },
+    {
+      "course": "springboot",
+      "title": "Web Security Attacks",
+      "slug": "sb-web-security-attacks",
+      "chapter": 5,
+      "chapterTitle": "Spring Security",
+      "lesson": 40,
+      "description": "CSRF, XSS, SQL Injection, CORS, clickjacking — attack mechanics and Spring Boot mitigations",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-security-basic-auth"],
+      "objectives": [
+        "Explain how each attack works with a concrete exploit example",
+        "Apply Spring Security headers (CSP, X-Frame-Options, HSTS)",
+        "Configure CORS correctly to prevent unauthorised cross-origin requests"
+      ],
+      "tags": ["csrf", "xss", "sql-injection", "cors", "security"]
+    },
+    {
+      "course": "springboot",
+      "title": "Microservices Communication",
+      "slug": "sb-microservices-communication",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 41,
+      "description": "Synchronous vs async communication, RestTemplate, RestClient, inter-service HTTP patterns",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-setup-layered-architecture"],
+      "objectives": [
+        "Compare synchronous and asynchronous inter-service communication",
+        "Use RestTemplate and RestClient to call downstream services",
+        "Handle errors and timeouts in service-to-service calls"
+      ],
+      "tags": ["microservices", "resttemplate", "restclient", "http", "spring-boot"]
+    },
+    {
+      "course": "springboot",
+      "title": "RestClient",
+      "slug": "sb-rest-client",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 42,
+      "description": "Spring 6.1 RestClient — fluent API, exchange, retrieve, error handling, interceptors",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-microservices-communication"],
+      "objectives": [
+        "Build HTTP requests with the RestClient fluent builder",
+        "Handle 4xx/5xx errors with onStatus handlers",
+        "Add request interceptors for auth headers and logging"
+      ],
+      "tags": ["restclient", "http-client", "spring6", "microservices"]
+    },
+    {
+      "course": "springboot",
+      "title": "FeignClient",
+      "slug": "sb-feign-client",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 43,
+      "description": "Declarative HTTP clients with OpenFeign, @FeignClient, ErrorDecoder, fallbacks",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-microservices-communication"],
+      "objectives": [
+        "Define a typed HTTP client with @FeignClient and interface methods",
+        "Implement a FeignClient ErrorDecoder for domain-specific error handling",
+        "Add fallback behavior with FeignClient fallback classes"
+      ],
+      "tags": ["feign", "feignclient", "openfeign", "microservices", "declarative-http"]
+    },
+    {
+      "course": "springboot",
+      "title": "Service Discovery — Eureka",
+      "slug": "sb-eureka-service-discovery",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 44,
+      "description": "Eureka Server and Client setup, self-registration, heartbeat, service registry",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": ["sb-microservices-communication"],
+      "objectives": [
+        "Stand up a Eureka Server and register multiple service instances",
+        "Configure Eureka Client heartbeat and lease expiry",
+        "Fetch service instances from the registry for dynamic routing"
+      ],
+      "tags": ["eureka", "service-discovery", "cloud", "microservices"]
+    },
+    {
+      "course": "springboot",
+      "title": "Load Balancing",
+      "slug": "sb-load-balancer",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 45,
+      "description": "Spring Cloud LoadBalancer, client-side load balancing, round-robin, custom strategy",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-eureka-service-discovery"],
+      "objectives": [
+        "Enable client-side load balancing with @LoadBalanced RestTemplate",
+        "Configure Spring Cloud LoadBalancer with a custom strategy",
+        "Understand the difference between client-side and server-side load balancing"
+      ],
+      "tags": ["load-balancer", "spring-cloud", "client-side-lb", "microservices"]
+    },
+    {
+      "course": "springboot",
+      "title": "API Gateway",
+      "slug": "sb-api-gateway",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 46,
+      "description": "Spring Cloud Gateway setup, routing, predicates, global filters, rate limiting",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-eureka-service-discovery"],
+      "objectives": [
+        "Configure routes, predicates and filters in application.yml",
+        "Apply path rewriting and header manipulation with built-in filters",
+        "Implement rate limiting with Redis and the RequestRateLimiter filter"
+      ],
+      "tags": ["api-gateway", "spring-cloud-gateway", "routing", "microservices"]
+    },
+    {
+      "course": "springboot",
+      "title": "Gateway Filters",
+      "slug": "sb-gateway-filters",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 47,
+      "description": "Custom GlobalFilter and GatewayFilter, pre/post logic, ordered filter chains",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-api-gateway"],
+      "objectives": [
+        "Write a custom GlobalFilter for cross-cutting auth token validation",
+        "Chain filters with Ordered to control execution order",
+        "Apply route-scoped GatewayFilter factories"
+      ],
+      "tags": ["gateway-filters", "globalfilter", "spring-cloud-gateway", "microservices"]
+    },
+    {
+      "course": "springboot",
+      "title": "Centralized Configuration",
+      "slug": "sb-centralized-config",
+      "chapter": 6,
+      "chapterTitle": "Microservices",
+      "lesson": 48,
+      "description": "Spring Cloud Config Server, Git-backed properties, encryption, refresh scope",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-eureka-service-discovery"],
+      "objectives": [
+        "Set up a Spring Cloud Config Server backed by a Git repository",
+        "Consume remote config in a client application",
+        "Refresh config at runtime with @RefreshScope and /actuator/refresh"
+      ],
+      "tags": ["config-server", "spring-cloud", "centralized-config", "refresh-scope"]
+    },
+    {
+      "course": "springboot",
+      "title": "Circuit Breaker",
+      "slug": "sb-circuit-breaker",
+      "chapter": 7,
+      "chapterTitle": "Fault Tolerance & Resilience",
+      "lesson": 49,
+      "description": "Resilience4j CircuitBreaker — states, thresholds, fallback, health indicators",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": ["sb-microservices-communication"],
+      "objectives": [
+        "Configure Resilience4j CircuitBreaker with failure rate thresholds",
+        "Implement a fallback method for graceful degradation",
+        "Monitor circuit breaker state transitions with Actuator health"
+      ],
+      "tags": ["circuit-breaker", "resilience4j", "fault-tolerance", "fallback"]
+    },
+    {
+      "course": "springboot",
+      "title": "Bulkhead Pattern",
+      "slug": "sb-bulkhead",
+      "chapter": 7,
+      "chapterTitle": "Fault Tolerance & Resilience",
+      "lesson": 50,
+      "description": "Thread-pool and semaphore bulkheads with Resilience4j, isolating service failures",
+      "difficulty": "advanced",
+      "estimatedMinutes": 30,
+      "prerequisites": ["sb-circuit-breaker"],
+      "objectives": [
+        "Apply a semaphore bulkhead to limit concurrent calls to a service",
+        "Configure a thread-pool bulkhead for full isolation",
+        "Combine bulkhead with circuit breaker for layered resilience"
+      ],
+      "tags": ["bulkhead", "resilience4j", "fault-tolerance", "concurrency"]
+    },
+    {
+      "course": "springboot",
+      "title": "Rate Limiter",
+      "slug": "sb-rate-limiter",
+      "chapter": 7,
+      "chapterTitle": "Fault Tolerance & Resilience",
+      "lesson": 51,
+      "description": "Resilience4j RateLimiter — token bucket, limit-for-period, drain interval configuration",
+      "difficulty": "advanced",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-circuit-breaker"],
+      "objectives": [
+        "Configure RateLimiter with limitForPeriod and limitRefreshPeriod",
+        "Handle RequestNotPermitted exceptions with a fallback",
+        "Combine rate limiting with circuit breaker and retry"
+      ],
+      "tags": ["rate-limiter", "resilience4j", "token-bucket", "fault-tolerance"]
+    },
+    {
+      "course": "springboot",
+      "title": "Retry Pattern",
+      "slug": "sb-retry",
+      "chapter": 7,
+      "chapterTitle": "Fault Tolerance & Resilience",
+      "lesson": 52,
+      "description": "Resilience4j Retry — max attempts, wait duration, exponential backoff, retry on exceptions",
+      "difficulty": "advanced",
+      "estimatedMinutes": 25,
+      "prerequisites": ["sb-circuit-breaker"],
+      "objectives": [
+        "Automatically retry failed calls with @Retry and Retry.executeCallable()",
+        "Configure exponential backoff with jitter to avoid retry storms",
+        "Limit retries to specific exception types"
+      ],
+      "tags": ["retry", "resilience4j", "exponential-backoff", "fault-tolerance"]
     }
   ]
 }

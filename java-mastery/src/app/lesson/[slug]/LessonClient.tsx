@@ -14,7 +14,8 @@ import {
   GraduationCap,
   List,
   Play,
-  Tv
+  Tv,
+  Lock,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -22,8 +23,90 @@ import { TableOfContents } from '@/components/layout/TableOfContents';
 import { MDXRenderer } from '@/components/mdx/MDXRenderer';
 import { useReadingProgress } from '@/hooks/useReadingProgress';
 import { useProgress } from '@/hooks/useProgress';
+import { useEnrollment } from '@/hooks/useEnrollment';
 import { WatermarkOverlay } from '@/components/shared/WatermarkOverlay';
 import { type LessonMeta, type Heading, type Difficulty } from '@/types';
+import { ReadingModeToggle, type ReadingMode } from '@/components/reader/ReadingModeToggle';
+import { SlideReader } from '@/components/reader/SlideReader';
+
+// ── Freemium config ────────────────────────────────────────────────────────────
+// Courses that are premium: first FREE_PREVIEW_COUNT lessons are always accessible.
+const PREMIUM_COURSES = new Set<string>(['springboot', 'python']);
+const FREE_PREVIEW_COUNT = 3;
+
+function isLessonLocked(meta: LessonMeta, isEnrolled: boolean): boolean {
+  if (!PREMIUM_COURSES.has(meta.course)) return false;
+  if (isEnrolled) return false;
+  // First FREE_PREVIEW_COUNT lessons (by lesson number) are always free
+  return meta.lesson > FREE_PREVIEW_COUNT;
+}
+
+// ── Paywall overlay ────────────────────────────────────────────────────────────
+
+function PaywallOverlay({ course, user, onEnroll }: {
+  course: string;
+  user: { id: string } | null;
+  onEnroll: () => Promise<void>;
+}) {
+  const [enrolling, setEnrolling] = useState(false);
+  const [enrolled, setEnrolled] = useState(false);
+
+  const courseLabel = course === 'springboot' ? 'Spring Boot' : 'Python & Django';
+
+  async function handleEnroll() {
+    setEnrolling(true);
+    await onEnroll();
+    setEnrolled(true);
+    setEnrolling(false);
+  }
+
+  if (enrolled) return null;
+
+  return (
+    <div className="relative my-8">
+      {/* Blurred ghost of content */}
+      <div className="h-48 rounded-2xl bg-gradient-to-b from-[var(--surface)] to-[var(--bg)] blur-sm opacity-60 pointer-events-none select-none" aria-hidden="true">
+        <div className="p-6 space-y-3">
+          <div className="h-4 bg-[var(--border-color)] rounded w-3/4" />
+          <div className="h-4 bg-[var(--border-color)] rounded w-full" />
+          <div className="h-4 bg-[var(--border-color)] rounded w-5/6" />
+          <div className="h-4 bg-[var(--border-color)] rounded w-2/3" />
+        </div>
+      </div>
+
+      {/* Overlay card */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-[var(--surface-elevated)] border border-[var(--border-color)] rounded-2xl px-8 py-7 shadow-2xl text-center max-w-sm mx-4">
+          <div className="w-12 h-12 rounded-full bg-[var(--accent-secondary)]/10 flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-6 h-6 text-[var(--accent-secondary)]" />
+          </div>
+          <h3 className="text-base font-heading font-bold text-[var(--text-primary)] mb-1">
+            Premium Content
+          </h3>
+          <p className="text-sm text-[var(--text-muted)] mb-5">
+            Enroll in <span className="font-semibold text-[var(--text-secondary)]">{courseLabel}</span> to unlock all lessons.
+          </p>
+          {user ? (
+            <button
+              onClick={handleEnroll}
+              disabled={enrolling}
+              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white text-sm font-semibold shadow-lg shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/30 transition-all disabled:opacity-60 cursor-pointer"
+            >
+              {enrolling ? 'Enrolling…' : 'Enroll Free'}
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="block w-full py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white text-sm font-semibold shadow-lg shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/30 transition-all text-center"
+            >
+              Sign In to Enroll
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const difficultyColors: Record<Difficulty, string> = {
   beginner: 'bg-[var(--success)]/10 text-[var(--success)] border-[var(--success)]/20',
@@ -54,9 +137,11 @@ function getEmbedUrl(url?: string): string | null {
 export function LessonClient({ meta, content, headings, prev, next }: LessonClientProps) {
   const readingProgress = useReadingProgress();
   const { isCompleted, isBookmarked, toggleComplete, toggleBookmark } = useProgress();
+  const { user, isEnrolled, enroll } = useEnrollment();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tocExpanded, setTocExpanded] = useState(false);
-  
+  const [readingMode, setReadingMode] = useState<ReadingMode>('continuous');
+
   // Interactive split states
   const [studyMode, setStudyMode] = useState<'notes' | 'interactive'>('notes');
   const [descWidthPct, setDescWidthPct] = useState(50);
@@ -87,6 +172,7 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
   const completed = isCompleted(meta.slug);
   const bookmarked = isBookmarked(meta.slug);
   const embedUrl = getEmbedUrl(meta.videoUrl);
+  const locked = isLessonLocked(meta, isEnrolled(meta.course));
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -131,6 +217,19 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
         {studyMode === 'notes' ? (
           /* Main content area - Notes Only Mode */
           <main className="flex-1 min-w-0 overflow-y-auto">
+
+            {/* ── SLIDE MODE: full-viewport slide reader ─────────────────── */}
+            {readingMode === 'slides' ? (
+              <SlideReader
+                title={meta.title}
+                content={content}
+                modeToggle={
+                  <ReadingModeToggle mode={readingMode} onChange={setReadingMode} />
+                }
+              />
+            ) : (
+
+            /* ── CONTINUOUS MODE ─────────────────────────────────────────── */
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {/* Mobile sidebar toggle + Breadcrumb + Mode Toggle */}
               <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
@@ -157,20 +256,23 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                   </nav>
                 </div>
 
-                {/* Mode Selector */}
-                <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-color)]">
-                  <button
-                    onClick={() => setStudyMode('notes')}
-                    className="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-[var(--accent)] text-white shadow-sm"
-                  >
-                    Notes Only
-                  </button>
-                  <button
-                    onClick={() => setStudyMode('interactive')}
-                    className="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer text-[var(--text-muted)] hover:text-[var(--text-primary)] flex items-center gap-1"
-                  >
-                    <Play className="w-3.5 h-3.5" /> Interactive Split
-                  </button>
+                {/* Study Mode Selector + Reading Mode Toggle */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <ReadingModeToggle mode={readingMode} onChange={setReadingMode} />
+                  <div className="flex items-center gap-1.5 p-1 rounded-xl bg-[var(--surface-elevated)] border border-[var(--border-color)]">
+                    <button
+                      onClick={() => setStudyMode('notes')}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-[var(--accent)] text-white shadow-sm"
+                    >
+                      Notes Only
+                    </button>
+                    <button
+                      onClick={() => setStudyMode('interactive')}
+                      className="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer text-[var(--text-muted)] hover:text-[var(--text-primary)] flex items-center gap-1"
+                    >
+                      <Play className="w-3.5 h-3.5" /> Interactive Split
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -266,13 +368,21 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                 </div>
               )}
 
-              {/* Content */}
-              <div className="min-w-0">
-                <MDXRenderer content={content} />
-              </div>
+              {/* Content — hidden behind paywall if lesson is locked */}
+              {locked ? (
+                <PaywallOverlay
+                  course={meta.course}
+                  user={user}
+                  onEnroll={async () => { await enroll(meta.course); }}
+                />
+              ) : (
+                <div className="min-w-0">
+                  <MDXRenderer content={content} />
+                </div>
+              )}
 
-              {/* Completion CTA */}
-              <div className="mt-12 p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] text-center">
+              {/* Completion CTA — only when unlocked */}
+              {!locked && <div className="mt-12 p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] text-center">
                 <p className="text-sm text-[var(--text-muted)] mb-3">
                   Finished this lesson?
                 </p>
@@ -287,7 +397,7 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                   <CheckCircle2 className="w-4 h-4" />
                   {completed ? 'Completed ✓' : 'Mark as Complete'}
                 </button>
-              </div>
+              </div>}
 
               {/* Prev/Next Navigation */}
               <nav className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4" aria-label="Lesson navigation">
@@ -325,6 +435,7 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                 )}
               </nav>
             </div>
+            )}
           </main>
         ) : (
           /* Main content area - Resizable Split interactive Mode */

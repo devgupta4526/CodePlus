@@ -192,6 +192,31 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true });
       }
 
+      case 'save_content_only': {
+        // Lightweight action from the inline editor — only updates the MDX file,
+        // leaves course.json metadata completely untouched.
+        const { slug, content } = params;
+        if (!slug) {
+          return NextResponse.json({ success: false, error: 'Slug is required' }, { status: 400 });
+        }
+        const mdxPath = path.join(LESSONS_DIR, `${slug}.mdx`);
+        if (!fs.existsSync(LESSONS_DIR)) {
+          fs.mkdirSync(LESSONS_DIR, { recursive: true });
+        }
+        // Preserve existing frontmatter if the file already exists
+        let finalContent = content as string;
+        if (fs.existsSync(mdxPath)) {
+          const existing = fs.readFileSync(mdxPath, 'utf-8');
+          const fmMatch = existing.match(/^---[\s\S]*?---\n/);
+          const newHasFm = finalContent.trimStart().startsWith('---');
+          if (fmMatch && !newHasFm) {
+            finalContent = fmMatch[0] + '\n' + finalContent;
+          }
+        }
+        fs.writeFileSync(mdxPath, finalContent, 'utf-8');
+        return NextResponse.json({ success: true });
+      }
+
       default:
         return NextResponse.json({ success: false, error: 'Unknown action' }, { status: 400 });
     }

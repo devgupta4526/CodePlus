@@ -1,0 +1,1035 @@
+---
+title: sb-oauth2-oidc-springboot
+---
+
+# 📌 OAuth 2.0 & OpenID Connect (OIDC) — Complete Spring Boot Study Guide
+
+> A comprehensive reference covering OAuth2 concepts, OIDC differences, Spring Boot implementation, stateful vs stateless flows, and internal Spring Security filter mechanics.
+
+---
+
+## Table of Contents
+
+1. [What is OAuth 2.0?](#1-what-is-oauth-20)
+2. [OAuth 2.0 Grant Types](#2-oauth-20-grant-types)
+3. [Authorization Code Grant Flow — Deep Dive](#3-authorization-code-grant-flow--deep-dive)
+4. [OAuth 2.0 vs OpenID Connect (OIDC)](#4-oauth-20-vs-openid-connect-oidc)
+5. [Tokens: Opaque vs JWT vs ID Token](#5-tokens-opaque-vs-jwt-vs-id-token)
+6. [Spring Boot OAuth2 Implementation — Step by Step](#6-spring-boot-oauth2-implementation--step-by-step)
+7. [How Spring Security Handles OAuth2 Internally](#7-how-spring-security-handles-oauth2-internally)
+8. [Stateful vs Stateless OAuth2 in Spring Boot](#8-stateful-vs-stateless-oauth2-in-spring-boot)
+9. [Making OAuth2 Stateless — Custom Success Handler & Validation Filter](#9-making-oauth2-stateless--custom-success-handler--validation-filter)
+10. [Complete Internal Flow Diagram](#10-complete-internal-flow-diagram)
+11. [Key Observations & Best Practices](#11-key-observations--best-practices)
+12. [Common Mistakes](#12-common-mistakes)
+13. [Interview Notes](#13-interview-notes)
+14. [Summary — Revision Bullets](#14-summary--revision-bullets)
+
+---
+
+## 1. What is OAuth 2.0?
+
+### Overview
+
+**OAuth 2.0** stands for **Open Authorization Framework**. It is an industry-standard protocol that enables a third-party application to obtain **limited, secure access to a user's protected data** on another service — without the user ever sharing their password with that third-party app.
+
+### Why This Concept Exists
+
+Before OAuth, if you wanted a third-party app (say, Instagram) to access your Gmail contacts, you would have to give Instagram your Gmail username and password directly. This is dangerous because:
+
+- The third-party stores your credentials.
+- It has **full access** to your account, not just what you intended to share.
+- You cannot revoke access without changing your password.
+
+OAuth 2.0 solves this by introducing a **token-based delegation model**.
+
+### Real-World Analogy
+
+> Think of OAuth like a **hotel key card**. When you check in, the hotel (Authorization Server) gives you a key card (access token) that only opens your room (specific resource). You don't get a master key. The hotel can deactivate the key at any time, and you never needed to give anyone else your home key.
+
+### Core Participants
+
+| Role | Description | Example |
+|---|---|---|
+| **Resource Owner** | The actual user who owns the data | You / Me |
+| **Resource Server** | The server hosting protected data | Gmail API, GitHub API |
+| **Authorization Server** | Issues tokens after authenticating the user | Gmail Auth Server, Auth0, GitLab |
+| **Client (Third-Party App)** | Application requesting access on behalf of the user | Instagram, your Spring Boot app |
+
+---
+
+## 2. OAuth 2.0 Grant Types
+
+OAuth 2.0 defines multiple "grant types" — different flows for obtaining tokens depending on the use case:
+
+| Grant Type | Use Case |
+|---|---|
+| **Authorization Code Grant** | Web/mobile apps with a backend server (most secure, most common) |
+| **Implicit Grant** | Single-page apps (deprecated; less secure) |
+| **Client Credentials** | Machine-to-machine (no user involved) |
+| **Resource Owner Password Credentials** | Highly trusted apps (user provides credentials directly to client) |
+| **Refresh Token** | Obtaining new access tokens without re-authentication |
+
+> [!IMPORTANT]
+> This guide focuses on the **Authorization Code Grant Flow**, which is the most commonly used and most secure flow for web applications.
+
+---
+
+## 3. Authorization Code Grant Flow — Deep Dive
+
+### Overview
+
+In the Authorization Code Grant flow, the client never sees the user's credentials. Instead, it receives a short-lived **authorization code** which it then exchanges for an **access token**.
+
+### Step-by-Step Flow
+
+#### Step 1 — Client Registration
+
+Before the flow begins, the **third-party app must register itself** with the Authorization Server (e.g., GitLab, Auth0, Google).
+
+During registration, you provide:
+- **Application Name**
+- **Redirect URI** — the URL the Authorization Server will call back with the authorization code
+- **Scopes** — what data/permissions you need (e.g., `openid`, `read`, `write`)
+
+In return, the Authorization Server gives you:
+- **Client ID** — a public identifier for your app
+- **Client Secret** — a private secret known only to your app and the Authorization Server
+
+> [!WARNING]
+> Never expose your **Client Secret** in frontend code or public repositories. It must be stored securely on your backend.
+
+#### Step 2 — User Initiates Login
+
+The user visits the third-party app (your Spring Boot app) and clicks "Sign in with Gmail" (or GitLab, Auth0, etc.).
+
+#### Step 3 — Redirect to Authorization Server
+
+The third-party app redirects the user's browser to the Authorization Server's **authorization endpoint**, including:
+- `client_id`
+- `redirect_uri`
+- `scope`
+- `response_type=code`
+- `state` (CSRF protection token)
+
+#### Step 4 — User Authenticates & Grants Consent
+
+The Authorization Server (e.g., GitLab) shows the user a login page. The user:
+1. Enters their credentials (username/password for GitLab/Auth0).
+2. Reviews what data the third-party app is requesting.
+3. Grants consent.
+
+#### Step 5 — Authorization Code Returned
+
+After successful authentication and consent, the Authorization Server calls the **redirect URI** with an **authorization code** appended as a query parameter:
+
+```
+https://your-spring-app.com/login/oauth2/code/gitlab?code=AUTH_CODE_HERE&state=STATE_VALUE
+```
+
+#### Step 6 — Exchange Code for Token
+
+The third-party app (Spring Boot backend) sends a **POST request** to the Authorization Server's **token endpoint**, including:
+- `code` — the authorization code received
+- `client_id`
+- `client_secret`
+- `redirect_uri`
+- `grant_type=authorization_code`
+
+#### Step 7 — Token Response
+
+The Authorization Server validates everything and responds with:
+- **Access Token** — used to call protected APIs
+- **Refresh Token** — used to get new access tokens
+- **ID Token** (if using OIDC scope) — contains user identity information
+
+#### Step 8 — Access Protected Resources
+
+The third-party app uses the access token to call the Resource Server's APIs (e.g., Gmail API) to fetch user data.
+
+### Authorization Code Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant User as Resource Owner (User)
+    participant Client as Third-Party App (Spring Boot)
+    participant AuthServer as Authorization Server (GitLab/Auth0)
+    participant ResServer as Resource Server (Gmail API)
+
+    User->>Client: Click "Sign in with GitLab"
+    Client->>AuthServer: Redirect with client_id, redirect_uri, scope
+    AuthServer->>User: Show login/consent page
+    User->>AuthServer: Provide credentials + grant consent
+    AuthServer->>Client: Redirect to redirect_uri with authorization_code
+    Client->>AuthServer: POST /token (code + client_id + client_secret)
+    AuthServer->>Client: Return access_token + refresh_token + id_token
+    Client->>ResServer: GET /api/userinfo (Bearer access_token)
+    ResServer->>AuthServer: Validate token
+    AuthServer->>ResServer: Token valid ✓
+    ResServer->>Client: Return protected user data
+    Client->>User: Login successful!
+```
+
+---
+
+## 4. OAuth 2.0 vs OpenID Connect (OIDC)
+
+This is one of the most commonly confused distinctions in the auth space.
+
+### Comparison Table
+
+| Feature | OAuth 2.0 | OpenID Connect (OIDC) |
+|---|---|---|
+| **Full Name** | Open Authorization | OpenID Connect |
+| **Purpose** | **Authorization** — granting access to resources | **Authentication** — verifying user identity |
+| **Built On** | Base protocol | Built on top of OAuth 2.0 |
+| **Token Received** | Access Token (opaque or JWT) | ID Token (JWT) + Access Token |
+| **Token Used For** | Calling resource server APIs to fetch data | Authenticating the user within the client app |
+| **Token Sent to Resource Server?** | Yes | ID Token: NO. Access Token: Yes (if needed) |
+| **Scope** | `read`, `write`, etc. | `openid` (mandatory), plus optional `profile`, `email` |
+| **User Info in Token?** | Not necessarily | Yes — ID Token contains user identity claims |
+
+### The Key Difference — Explained
+
+**OAuth 2.0 (Authorization):**
+- The access token can be used to call APIs on the resource server.
+- Example: Instagram gets an access token and calls `GET /gmail/emails` to read your emails.
+- The token can be opaque (only the auth server understands it) or JWT.
+
+**OIDC (Authentication):**
+- The ID token is a **JWT** containing minimal user information (e.g., `sub`, `name`, `email`, `picture`).
+- This ID token is **only for the client app** — it tells the app "this user is who they say they are."
+- The ID token is **never sent to the resource server**.
+- Since OIDC is built on top of OAuth 2.0, you also get an access token if you need to call APIs.
+
+### Visual Distinction
+
+```mermaid
+flowchart LR
+    A[User authenticates] --> B[Authorization Server issues tokens]
+    B --> C{Which scope?}
+    C -- "read/write (OAuth2)" --> D[Access Token]
+    C -- "openid (OIDC)" --> E[ID Token JWT + Access Token]
+    D --> F[Call Resource Server APIs\nto fetch protected data]
+    E --> G[Read user identity from ID Token\nfor authentication]
+    E --> H[Optionally also call Resource Server\nwith Access Token]
+```
+
+> [!NOTE]
+> When you choose `scope=openid` during app registration (as done in GitLab/Auth0 in this lecture), you are telling the Authorization Server: "I only need to authenticate the user, not access their protected data."
+
+---
+
+## 5. Tokens: Opaque vs JWT vs ID Token
+
+### Opaque Token
+
+- A random string with no human-readable content.
+- Only the **Authorization Server** can understand/validate it (by looking it up in its database).
+- Example: What GitLab returns as an access token.
+- The third-party app cannot decode it directly.
+
+```
+access_token: "sl.BDd9jkX3nM5Qf7YzVx2pW..."
+```
+
+### JWT Token (JSON Web Token)
+
+- Has **three parts** separated by dots: `header.payload.signature`
+- The client can **decode** the payload (base64) to read claims.
+- **Verified** using the Authorization Server's public key.
+- Used for stateless token validation.
+
+```
+eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzIiwibmFtZSI6IkpvaG4ifQ.SIGNATURE
+```
+
+### ID Token (OIDC-specific)
+
+- Always a **JWT** (never opaque).
+- Contains minimal claims about the authenticated user:
+  - `sub` — unique user identifier
+  - `name`, `email`, `picture`
+  - `iss` — issuer (who created the token)
+  - `aud` — audience (who this token is for)
+  - `exp` — expiration time
+- **Meant for the client app only**, not for resource servers.
+- Used to authenticate the user without any additional API calls.
+
+### Token Comparison Table
+
+| Feature | Opaque Token | JWT Access Token | ID Token |
+|---|---|---|---|
+| **Format** | Random string | `header.payload.signature` | JWT (always) |
+| **Decodable** | No (only auth server) | Yes (base64) | Yes (base64) |
+| **Purpose** | Access resources | Access resources | Authenticate user |
+| **Sent to Resource Server?** | Yes | Yes | No |
+| **Signature Algorithm** | N/A | HS256 / RS256 | RS256 (typical for OIDC) |
+
+---
+
+## 6. Spring Boot OAuth2 Implementation — Step by Step
+
+### Prerequisites
+
+This implementation assumes:
+- Java 17+ and Spring Boot 3.x
+- Maven project
+- An account on GitLab and/or Auth0 for client registration
+
+---
+
+### Step 1 — Register Your App with the Authorization Server
+
+#### GitLab Registration
+
+1. Go to your GitLab profile → **Settings** → **Applications**
+2. Click **Add new application**
+3. Fill in:
+   - **Name:** `MySpringBootApp` (or any name)
+   - **Redirect URI:** `http://localhost:8080/login/oauth2/code/gitlab`
+   - **Scopes:** Select `openid` (for authentication only)
+4. Click **Save application**
+5. Copy the **Application ID** (Client ID) and **Secret**
+
+> [!CAUTION]
+> The secret is shown only once after creation. Copy it immediately — after navigating away, you can only regenerate it (which invalidates the old one).
+
+#### Auth0 Registration
+
+1. Log in to [auth0.com](https://auth0.com) → Applications → Create Application
+2. Choose **Regular Web Applications**
+3. Set **Allowed Callback URLs:** `http://localhost:8080/login/oauth2/code/auth0`
+4. Under settings, configure:
+   - **OIDC Conformant:** ON
+   - **Token Endpoint Auth Method:** Post
+   - **JWT Signing Algorithm:** RS256
+5. Copy **Client ID** and **Client Secret**
+
+---
+
+### Step 2 — Add Maven Dependency
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-client</artifactId>
+</dependency>
+```
+
+> [!IMPORTANT]
+> This single dependency brings in all the OAuth2 client libraries, filters, and auto-configuration that Spring Boot needs to handle the entire OAuth2 flow automatically.
+
+---
+
+### Step 3 — Configure `application.properties`
+
+```properties
+# ===================== GitLab Configuration =====================
+spring.security.oauth2.client.registration.gitlab.client-id=YOUR_GITLAB_CLIENT_ID
+spring.security.oauth2.client.registration.gitlab.client-secret=YOUR_GITLAB_CLIENT_SECRET
+spring.security.oauth2.client.registration.gitlab.scope=openid
+spring.security.oauth2.client.registration.gitlab.authorization-grant-type=authorization_code
+spring.security.oauth2.client.registration.gitlab.redirect-uri=http://localhost:8080/login/oauth2/code/gitlab
+
+spring.security.oauth2.client.provider.gitlab.authorization-uri=https://gitlab.com/oauth/authorize
+spring.security.oauth2.client.provider.gitlab.token-uri=https://gitlab.com/oauth/token
+spring.security.oauth2.client.provider.gitlab.user-info-uri=https://gitlab.com/oauth/userinfo
+spring.security.oauth2.client.provider.gitlab.jwk-set-uri=https://gitlab.com/oauth/discovery/keys
+spring.security.oauth2.client.provider.gitlab.issuer-uri=https://gitlab.com
+
+# ===================== Auth0 Configuration =====================
+spring.security.oauth2.client.registration.auth0.client-id=YOUR_AUTH0_CLIENT_ID
+spring.security.oauth2.client.registration.auth0.client-secret=YOUR_AUTH0_CLIENT_SECRET
+spring.security.oauth2.client.registration.auth0.scope=openid
+spring.security.oauth2.client.registration.auth0.authorization-grant-type=authorization_code
+spring.security.oauth2.client.registration.auth0.redirect-uri=http://localhost:8080/login/oauth2/code/auth0
+
+spring.security.oauth2.client.provider.auth0.issuer-uri=https://YOUR_AUTH0_DOMAIN.auth0.com/
+```
+
+#### Configuration Properties Explained
+
+| Property | Purpose |
+|---|---|
+| `client-id` | Your app's public identifier from the auth server |
+| `client-secret` | Your app's private secret |
+| `scope` | What permissions to request (`openid` = authentication only) |
+| `authorization-grant-type` | Which OAuth2 flow to use |
+| `redirect-uri` | Where the auth server sends the authorization code back |
+| `authorization-uri` | The auth server endpoint to initiate login |
+| `token-uri` | Where Spring exchanges the code for a token |
+| `user-info-uri` | Endpoint to fetch user profile info |
+| `jwk-set-uri` | URL of the public key used to verify JWT signatures |
+| `issuer-uri` | Identity of the authorization server |
+
+> [!NOTE]
+> The **registration ID** is the key after `registration.` and `provider.` — in this case `gitlab` and `auth0`. Spring uses these IDs to match configuration and build the login page links automatically.
+
+---
+
+### Step 4 — Security Configuration
+
+```java
+// SecurityConfig.java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .withDefaults()  // Use Spring's default OAuth2 login page
+            );
+        return http.build();
+    }
+}
+```
+
+#### Line-by-Line Explanation
+
+- `anyRequest().authenticated()` — every endpoint requires a logged-in user.
+- `.oauth2Login(oauth2 -> oauth2.withDefaults())` — enables the default OAuth2 login page at `/login`, which Spring auto-generates showing all configured authorization servers.
+
+---
+
+### Step 5 — Basic Controller
+
+```java
+// HomeController.java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HomeController {
+
+    @GetMapping("/")
+    public String home() {
+        return "Hello, you are logged in!";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "Fetch the details successfully!";
+    }
+}
+```
+
+---
+
+### What Works Out of the Box
+
+With just these three changes — `pom.xml`, `application.properties`, and `SecurityConfig` — Spring Boot handles the **entire OAuth2 authorization code flow automatically**:
+
+1. Auto-generates the login page at `/login` showing all configured auth servers.
+2. Handles the redirect to the authorization server.
+3. Handles the redirect URI callback with the authorization code.
+4. Exchanges the code for tokens behind the scenes.
+5. Creates an HTTP session for the authenticated user.
+6. Protects all endpoints.
+
+> [!TIP]
+> No user records need to exist in your Spring Boot database. User identities live entirely in GitLab or Auth0.
+
+---
+
+## 7. How Spring Security Handles OAuth2 Internally
+
+This section explains the internal filter chain that Spring Security executes during OAuth2 login — the "behind the scenes" mechanics.
+
+### Phase 1 — Generating the Login Page
+
+**Filter:** `DefaultLoginPageGeneratingFilter`
+
+When the user hits any protected URL (e.g., `localhost:8080`), Spring redirects them to `/login`. The `DefaultLoginPageGeneratingFilter` generates the HTML login page.
+
+It reads from the OAuth2 client registration configuration (loaded from `application.properties`) and generates a list of authorization servers the user can choose from.
+
+Internally, it iterates over `OAuth2AuthorizationRequestRedirectFilter`'s URL map and renders a link for each registration ID.
+
+---
+
+### Phase 2 — User Clicks an Authorization Server Link
+
+**Endpoint invoked:** `/oauth2/authorization/{registrationId}`
+
+For example, if the user clicks "GitLab":
+```
+GET /oauth2/authorization/gitlab
+```
+
+**Filter:** `OAuth2AuthorizationRequestRedirectFilter`
+
+This filter intercepts the above URL pattern. It:
+1. Builds the full authorization URL for the selected auth server (using the `authorization-uri` from properties).
+2. Appends `client_id`, `redirect_uri`, `scope`, `response_type=code`, and a random `state` value.
+3. Redirects the user's browser to the Authorization Server.
+
+The flow then leaves your Spring Boot app. The user is now on GitLab's or Auth0's login page.
+
+---
+
+### Phase 3 — User Authenticates on the Authorization Server
+
+This happens entirely on the external server (GitLab, Auth0). The user:
+- Enters their credentials.
+- Approves the consent screen.
+
+The authorization server then calls your **redirect URI**:
+```
+GET http://localhost:8080/login/oauth2/code/gitlab?code=AUTH_CODE&state=STATE
+```
+
+---
+
+### Phase 4 — Spring Receives the Authorization Code
+
+**Filter:** `OAuth2LoginAuthenticationFilter`
+
+This filter is configured to intercept the redirect URI pattern `/login/oauth2/code/*`.
+
+It:
+1. Extracts the `code` and `state` from the request.
+2. Creates an `OAuth2LoginAuthenticationToken` object containing the authorization code.
+3. Passes this token to the `AuthenticationManager`.
+
+---
+
+### Phase 5 — Authentication Provider Processes the Token
+
+**Authentication Manager** delegates to the appropriate **Authentication Provider**.
+
+Since we are using `scope=openid` (OIDC), the provider is:
+
+**`OidcAuthorizationCodeAuthenticationProvider`**
+
+This provider:
+1. Takes the `OAuth2LoginAuthenticationToken`.
+2. Calls the Authorization Server's **token endpoint** (`token-uri` from config) with:
+   - `code`
+   - `client_id`
+   - `client_secret`
+   - `grant_type=authorization_code`
+3. Receives the response containing `access_token`, `refresh_token`, and `id_token`.
+4. Parses and validates the **ID token** (JWT).
+5. Returns the authentication result back to the filter.
+
+---
+
+### Phase 6 — Session Creation and Storage
+
+Back in `OAuth2LoginAuthenticationFilter`, after successful authentication:
+
+1. **Stores tokens:** The access token, refresh token, and ID token are stored in an in-memory `OAuth2AuthorizedClientService`.
+
+   > [!TIP]
+   > You can override `OAuth2AuthorizedClientService` to store tokens in a database instead of in-memory.
+
+2. **Creates HTTP session:** A `SecurityContext` is created containing the authentication object. This is stored via `HttpSessionSecurityContextRepository`, creating a session cookie.
+
+3. **Redirects** the user to the originally requested URL (e.g., `localhost:8080/`).
+
+---
+
+### Phase 7 — Subsequent Requests
+
+**Filter:** `SecurityContextHolderFilter` → `HttpSessionSecurityContextRepository`
+
+For every subsequent request:
+1. The filter reads the session ID from the cookie.
+2. Looks up the session in memory.
+3. If the session is active, the request is considered authenticated — **without re-validating the token**.
+
+> [!WARNING]
+> This means if the ID token expires (e.g., after 1 hour), but the HTTP session is still active, the user can still access APIs. The token is NOT re-validated with each request in stateful mode.
+
+---
+
+### Internal Flow Diagram
+
+```mermaid
+flowchart TD
+    A[User hits localhost:8080] --> B[Spring redirects to /login]
+    B --> C[DefaultLoginPageGeneratingFilter\nGenerates login page with auth server list]
+    C --> D[User clicks GitLab]
+    D --> E[GET /oauth2/authorization/gitlab]
+    E --> F[OAuth2AuthorizationRequestRedirectFilter\nBuilds auth URL and redirects browser]
+    F --> G[User is on GitLab login page]
+    G --> H[User enters credentials + grants consent]
+    H --> I[GitLab calls redirect URI with authorization code]
+    I --> J[OAuth2LoginAuthenticationFilter\nCaptures code, creates Auth Token object]
+    J --> K[AuthenticationManager → AuthenticationProvider]
+    K --> L[OidcAuthorizationCodeAuthenticationProvider\nCalls token endpoint with code + client_id + secret]
+    L --> M[Authorization Server returns\naccess_token + refresh_token + id_token]
+    M --> N[ID Token JWT parsed and validated]
+    N --> O[Tokens stored in OAuth2AuthorizedClientService in-memory]
+    O --> P[HTTP Session created\nAuth stored in SecurityContextHolder]
+    P --> Q[User redirected to /]
+    Q --> R[Login Successful!]
+```
+
+---
+
+## 8. Stateful vs Stateless OAuth2 in Spring Boot
+
+### The Default: Stateful
+
+By default, Spring Boot's OAuth2 login creates an **HTTP session**. This means:
+
+- Session is stored **server-side**.
+- A session cookie is sent to the browser.
+- Every request checks the session — not the token.
+- Works perfectly in a browser.
+
+**Problem:** When a REST client like Postman tries to access the API, it does not carry the session cookie, so it gets a redirect to the login page even after authentication.
+
+### Why This is a Problem for APIs
+
+Modern applications (especially mobile apps, SPAs, microservices) are **stateless** — they don't maintain sessions. They expect to:
+1. Login → receive a token.
+2. Include the token in every subsequent request.
+3. The server validates the token each time.
+
+### The Solution: Stateless OAuth2
+
+To make OAuth2 stateless in Spring Boot:
+
+1. **Return the ID token in the login response** (via a custom success handler).
+2. **Validate the token on every request** (via a custom filter).
+3. **Disable session creation** in the security config.
+
+---
+
+## 9. Making OAuth2 Stateless — Custom Success Handler & Validation Filter
+
+### Step 1 — Custom Authentication Success Handler
+
+```java
+// CustomOAuth2SuccessHandler.java
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
+@Component
+public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws IOException {
+
+        // Cast the authenticated principal to OidcUser to access OIDC-specific data
+        OidcUser oidcUser = (OidcUser) authentication.getPrincipal();
+
+        // Extract the ID Token value (JWT string)
+        String idToken = oidcUser.getIdToken().getTokenValue();
+
+        // Write the ID token into the HTTP response body
+        response.setContentType("application/json");
+        response.getWriter().write("{\"id_token\": \"" + idToken + "\"}");
+        response.getWriter().flush();
+    }
+}
+```
+
+#### Line-by-Line Explanation
+
+- `AuthenticationSuccessHandler` — Spring Security interface; its `onAuthenticationSuccess` method is called after successful authentication.
+- `OidcUser` — the authenticated principal when using OIDC; contains the ID token and user claims.
+- `oidcUser.getIdToken().getTokenValue()` — extracts the raw JWT string of the ID token.
+- The ID token is written into the HTTP response so the client (browser/Postman/mobile app) can capture and store it.
+
+---
+
+### Step 2 — Updated Security Config (Stateless)
+
+```java
+// SecurityConfig.java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+public class SecurityConfig {
+
+    @Autowired
+    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+
+    @Autowired
+    private OAuthValidationFilter oAuthValidationFilter;
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No session
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .successHandler(customOAuth2SuccessHandler) // Use our custom handler
+            )
+            .addFilterBefore(oAuthValidationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+}
+```
+
+#### Key Changes from Stateful Version
+
+| Change | Stateful | Stateless |
+|---|---|---|
+| Session Policy | Default (`IF_REQUIRED`) | `STATELESS` |
+| Success Handler | `withDefaults()` | `customOAuth2SuccessHandler` |
+| Token Validation Filter | None | `OAuthValidationFilter` added |
+
+---
+
+### Step 3 — JWT Validation Filter
+
+```java
+// OAuthValidationFilter.java
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoders;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.Collections;
+
+@Component
+public class OAuthValidationFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
+        // Step 1: Extract JWT from Authorization header
+        String token = extractToken(request);
+
+        if (token != null && isTokenValid(token)) {
+            // Step 2: Set authentication in security context
+            UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(
+                    "authenticated-user", null, Collections.emptyList()
+                );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }
+
+        // Step 3: Continue filter chain
+        filterChain.doFilter(request, response);
+    }
+
+    private String extractToken(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7); // Remove "Bearer " prefix
+        }
+        return null;
+    }
+
+    private boolean isTokenValid(String token) {
+        try {
+            // Step 1: Parse the token to find the issuer
+            // (Without full verification — just to find which auth server issued it)
+            String[] parts = token.split("\\.");
+            String payload = new String(
+                java.util.Base64.getUrlDecoder().decode(parts[1])
+            );
+
+            // Extract issuer from payload JSON
+            // Simple extraction — in production use a JSON library
+            String issuer = extractIssuer(payload);
+
+            // Step 2: Use Spring's JwtDecoder — it fetches the public key from jwk-set-uri
+            // based on the issuer, then verifies the token's signature
+            JwtDecoder decoder = JwtDecoders.fromIssuerLocation(issuer);
+            Jwt jwt = decoder.decode(token);
+
+            // If decode succeeds without exception, the token is valid
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String extractIssuer(String payloadJson) {
+        // Simple JSON parsing for "iss" field
+        // In production, use Jackson or Gson
+        int issStart = payloadJson.indexOf("\"iss\":\"") + 7;
+        int issEnd = payloadJson.indexOf("\"", issStart);
+        return payloadJson.substring(issStart, issEnd);
+    }
+}
+```
+
+#### How Token Validation Works Internally
+
+1. **Extract token** from the `Authorization: Bearer <token>` header.
+2. **Parse issuer** from the JWT payload (without verifying signature yet).
+3. **`JwtDecoders.fromIssuerLocation(issuer)`** — Spring's built-in utility that:
+   - Takes the issuer URL (e.g., `https://gitlab.com`).
+   - Looks up the matching `jwk-set-uri` from `application.properties`.
+   - Fetches the **public key** from that JWK endpoint.
+   - Uses the public key to **verify the JWT signature** (asymmetric encryption — auth server signs with private key, we verify with public key).
+4. If `decoder.decode(token)` succeeds, the token is valid.
+5. **Store authentication** in `SecurityContextHolder` so Spring Security treats the request as authenticated.
+
+```mermaid
+flowchart TD
+    A[Incoming Request with Bearer Token] --> B[OAuthValidationFilter.doFilterInternal]
+    B --> C{Authorization header present?}
+    C -- No --> D[Pass to filter chain unauthenticated]
+    C -- Yes --> E[Extract JWT token]
+    E --> F[Decode JWT payload to find issuer]
+    F --> G[JwtDecoders.fromIssuerLocation issuer]
+    G --> H[Spring fetches public key from jwk-set-uri]
+    H --> I[Verify JWT signature with public key]
+    I --> J{Signature valid?}
+    J -- No --> K[Token invalid → 401 Unauthorized]
+    J -- Yes --> L[Set auth in SecurityContextHolder]
+    L --> M[Continue filter chain → API access granted]
+```
+
+---
+
+### Step 4 — Client Usage (Postman / Frontend)
+
+**Login:**
+1. Open browser: `http://localhost:8080/login`
+2. Click an authorization server (GitLab / Auth0)
+3. Authenticate on the external server
+4. After redirect, Spring returns the ID token in the response body:
+   ```json
+   {
+     "id_token": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzIi..."
+   }
+   ```
+
+**Using the Token in Postman:**
+- Set header: `Authorization: Bearer eyJhbGciOiJSUzI1NiJ9...`
+- Call any API: `GET http://localhost:8080/user`
+- Response: `Fetch the details successfully!`
+
+---
+
+## 10. Complete Internal Flow Diagram
+
+### Stateless OAuth2 Flow (End-to-End)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant SpringBoot as Spring Boot App
+    participant GitLab as GitLab Auth Server
+    participant JWK as JWK Public Key Endpoint
+
+    User->>Browser: Navigate to localhost:8080
+    Browser->>SpringBoot: GET /
+    SpringBoot->>Browser: Redirect to /login (401)
+    Browser->>SpringBoot: GET /login
+    SpringBoot->>Browser: Login page with GitLab / Auth0 links
+
+    User->>Browser: Click "Login with GitLab"
+    Browser->>SpringBoot: GET /oauth2/authorization/gitlab
+    Note over SpringBoot: OAuth2AuthorizationRequestRedirectFilter
+    SpringBoot->>Browser: Redirect to GitLab authorize URL
+
+    Browser->>GitLab: GET /oauth/authorize?client_id=...&redirect_uri=...
+    GitLab->>Browser: Show login/consent page
+    User->>GitLab: Enter credentials + consent
+    GitLab->>Browser: Redirect to /login/oauth2/code/gitlab?code=ABC
+
+    Browser->>SpringBoot: GET /login/oauth2/code/gitlab?code=ABC
+    Note over SpringBoot: OAuth2LoginAuthenticationFilter catches this
+    SpringBoot->>GitLab: POST /oauth/token (code + client_id + secret)
+    GitLab->>SpringBoot: access_token + id_token (JWT)
+
+    Note over SpringBoot: OidcAuthorizationCodeAuthenticationProvider validates ID Token
+    Note over SpringBoot: CustomOAuth2SuccessHandler.onAuthenticationSuccess fires
+    SpringBoot->>Browser: HTTP 200 { "id_token": "eyJ..." }
+
+    User->>Browser: Store token (localStorage / variable)
+
+    User->>Browser: Call GET /user with Bearer token
+    Browser->>SpringBoot: GET /user, Authorization: Bearer eyJ...
+    Note over SpringBoot: OAuthValidationFilter intercepts
+    SpringBoot->>JWK: Fetch public key from jwk-set-uri
+    JWK->>SpringBoot: Public key
+    SpringBoot->>SpringBoot: Verify JWT signature
+    SpringBoot->>Browser: 200 "Fetch the details successfully!"
+```
+
+---
+
+## 11. Key Observations & Best Practices
+
+### Key Observations
+
+1. **No user table needed** — user identity is entirely managed by the Authorization Server (GitLab/Auth0). Your Spring Boot app never stores passwords.
+
+2. **Registration ID matters** — the key you use in `application.properties` (e.g., `gitlab`, `auth0`) becomes the registration ID. Spring uses it to build URLs like `/oauth2/authorization/gitlab`.
+
+3. **Asymmetric signing** — OIDC ID tokens are signed with the Authorization Server's **private key** and verified with its **public key** (fetched from `jwk-set-uri`). This is **RS256** (RSA + SHA-256), not HMAC.
+
+4. **JwtDecoders handles complexity** — Spring's `JwtDecoders.fromIssuerLocation()` automatically discovers the JWK endpoint, fetches the key, and validates the token. You don't need to implement this manually.
+
+5. **Session vs token** — in stateful mode, after login, every request only checks the HTTP session. The token is not re-validated. In stateless mode, the token is validated on every request.
+
+6. **ID token scope** — the `openid` scope triggers OIDC mode. Other scopes like `profile` and `email` add more claims to the ID token.
+
+### Best Practices
+
+- Store **Client Secret** in environment variables or a secrets manager, never in code.
+- Use **RS256** (asymmetric) over HS256 (symmetric) for ID tokens in distributed systems.
+- Implement **token refresh** logic for long-lived sessions using the refresh token.
+- Store tokens in **`OAuth2AuthorizedClientService`** backed by a database for production.
+- Validate **`iss`**, **`aud`**, and **`exp`** claims in your JWT validation.
+- Use `OncePerRequestFilter` for custom token filters to ensure they run exactly once per request.
+
+---
+
+## 12. Common Mistakes
+
+### Mistake 1 — Forgetting `scope=openid`
+
+```properties
+# WRONG - missing openid scope
+spring.security.oauth2.client.registration.gitlab.scope=read_user
+
+# CORRECT - use openid for OIDC authentication
+spring.security.oauth2.client.registration.gitlab.scope=openid
+```
+
+Without `openid`, the auth server won't return an ID token.
+
+---
+
+### Mistake 2 — Using Form Login Instead of OAuth2 Login
+
+```java
+// WRONG
+http.formLogin(withDefaults());
+
+// CORRECT
+http.oauth2Login(oauth2 -> oauth2.withDefaults());
+```
+
+---
+
+### Mistake 3 — Sending ID Token to Resource Server
+
+The ID token is meant for the **client app only**. It proves user identity to your app. Don't send it to external resource servers — use the access token for that.
+
+---
+
+### Mistake 4 — Not Handling Session vs Stateless Mismatch
+
+If you configure `SessionCreationPolicy.STATELESS` but don't add a token validation filter, every request will fail with 401 because there is no session to fall back on.
+
+---
+
+### Mistake 5 — Hardcoding the JWK URI Instead of Using `issuer-uri`
+
+```properties
+# Less flexible — hardcoded JWK URI
+spring.security.oauth2.client.provider.gitlab.jwk-set-uri=https://gitlab.com/oauth/discovery/keys
+
+# Better — Spring auto-discovers all endpoints from the issuer
+spring.security.oauth2.client.provider.gitlab.issuer-uri=https://gitlab.com
+```
+
+Using `issuer-uri` lets Spring auto-discover the token, authorization, and JWK endpoints via the OIDC discovery document (`/.well-known/openid-configuration`).
+
+---
+
+## 13. Interview Notes
+
+### Commonly Asked Questions
+
+**Q: What is the difference between OAuth2 and OIDC?**
+> OAuth2 is for **authorization** (granting access to resources). OIDC is for **authentication** (verifying identity). OIDC is built on top of OAuth2 and adds the ID token — a JWT containing user identity claims.
+
+**Q: What is the Authorization Code Grant flow?**
+> A two-step flow where the client first gets an authorization code, then exchanges it for a token. The code is short-lived and one-time-use. This adds security by keeping the access token out of the browser URL.
+
+**Q: Why is the Authorization Code flow more secure than Implicit Grant?**
+> In Authorization Code flow, the token is returned to the **backend server** (via a POST to the token endpoint), not in the browser URL. Implicit Grant puts the token directly in the URL fragment — visible in browser history, logs, and referrer headers.
+
+**Q: What is an opaque token?**
+> A token that is not self-contained — it's just a random string. Only the Authorization Server can validate it (by looking it up in its own database). Unlike JWT, the client cannot decode it.
+
+**Q: What is the JWK Set URI used for?**
+> It's the endpoint where the Authorization Server publishes its **public keys**. Clients use these keys to verify the signature on JWT tokens without contacting the auth server for each request.
+
+**Q: How does Spring Boot know which filter to use for OAuth2?**
+> When you add `spring-boot-starter-oauth2-client` and call `.oauth2Login()`, Spring auto-configures a chain of filters including `OAuth2AuthorizationRequestRedirectFilter` and `OAuth2LoginAuthenticationFilter`.
+
+**Q: What is the difference between stateful and stateless OAuth2 in Spring Boot?**
+> **Stateful:** Login creates an HTTP session. Subsequent requests check the session. Token not re-validated each time. Default behavior.
+> **Stateless:** Login returns a token. Client sends token with every request. Server validates token each time. No session created.
+
+**Q: How do you customize behavior after successful OAuth2 login?**
+> Implement `AuthenticationSuccessHandler` and register it via `.oauth2Login(oauth2 -> oauth2.successHandler(myHandler))`.
+
+**Q: Where does Spring store OAuth2 tokens by default?**
+> In memory, via `InMemoryOAuth2AuthorizedClientService`. Can be overridden with a database-backed implementation.
+
+---
+
+## 14. Summary — Revision Bullets
+
+- **OAuth 2.0** = Open Authorization Framework — enables third-party access to user protected data without sharing passwords.
+- **Authorization Code Grant** = most secure OAuth2 flow; uses a short-lived code exchanged for tokens by the backend.
+- **OIDC** = OpenID Connect — built on OAuth2; adds the **ID token** (JWT) for authentication.
+- **OAuth2** purpose = **Authorization** (access to resources); **OIDC** purpose = **Authentication** (identity verification).
+- **ID Token** = JWT meant for the client app only; contains minimal identity claims; never sent to resource server.
+- **Access Token** = used to call resource server APIs; can be opaque or JWT.
+- **Opaque Token** = random string; only the authorization server can validate it.
+- **JWK Set URI** = endpoint hosting the public key used to verify JWT signatures.
+- **Three files** needed for basic Spring Boot OAuth2: `pom.xml` (dependency), `application.properties` (config), `SecurityConfig.java` (enable oauth2Login).
+- **Key filters in Spring Security OAuth2:**
+  - `DefaultLoginPageGeneratingFilter` — renders the login page
+  - `OAuth2AuthorizationRequestRedirectFilter` — redirects to auth server
+  - `OAuth2LoginAuthenticationFilter` — handles the redirect URI callback
+  - `OidcAuthorizationCodeAuthenticationProvider` — exchanges code for token
+- **Stateful default** — Spring creates an HTTP session after login; token not re-validated per request.
+- **Making it stateless** — set `SessionCreationPolicy.STATELESS`, add a custom success handler to return the token, add a `OncePerRequestFilter` to validate the token on each request.
+- `JwtDecoders.fromIssuerLocation(issuer)` — Spring utility that auto-discovers and fetches the JWK public key and validates JWT signatures.
+- Registration IDs in `application.properties` drive the login page URLs: `/oauth2/authorization/{registrationId}`.
+
+---
+
+*End of Study Guide*
