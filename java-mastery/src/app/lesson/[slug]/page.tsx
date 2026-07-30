@@ -43,6 +43,7 @@ export default async function LessonPage({ params }: Props) {
       meta={lessonData.meta}
       content={lessonData.content}
       headings={lessonData.headings}
+      imageNotes={lessonData.imageNotes}
       prev={prev}
       next={next}
     />

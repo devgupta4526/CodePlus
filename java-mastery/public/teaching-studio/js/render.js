@@ -60,6 +60,11 @@ function renderDom(s, target, z, animate) {
     '3d-carousel': render3DCarouselDom,
     'custom-html': renderCustomHtmlDom,
     'cinematic-parallax': renderCinematicParallaxDom,
+    'cold-open': renderColdOpenDom,
+    'interview-hook': renderInterviewHookDom,
+    'two-candidates-split': renderTwoCandidatesSplitDom,
+    'roadmap-graphic': renderRoadmapGraphicDom,
+    'whiteboard-intro': renderWhiteboardIntroDom,
   }[s.layout];
 
   // Add animated SVG background - default if not specified to avoid dull empty space!

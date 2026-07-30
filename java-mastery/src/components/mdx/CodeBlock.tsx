@@ -98,20 +98,26 @@ export function CodeBlock({
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
               <pre className="p-4 text-[13px] leading-relaxed bg-[var(--code-bg)]" style={{ ...style, backgroundColor: 'transparent' }}>
                 <code className="font-mono">
-                  {tokens.map((line, i) => (
-                    <div key={i} {...getLineProps({ line, key: i, className: "flex hover:bg-white/5 transition-colors" })}>
-                      {showLineNumbers && (
-                        <span className="inline-block w-8 shrink-0 text-right mr-4 text-[var(--text-disabled)] select-none text-[11px] leading-relaxed">
-                          {i + 1}
+                  {tokens.map((line, i) => {
+                    const { key: _, ...lineProps } = getLineProps({ line, className: "flex hover:bg-white/5 transition-colors" });
+                    return (
+                      <div key={i} {...lineProps}>
+                        {showLineNumbers && (
+                          <span className="inline-block w-8 shrink-0 text-right mr-4 text-[var(--text-disabled)] select-none text-[11px] leading-relaxed">
+                            {i + 1}
+                          </span>
+                        )}
+                        <span className="flex-1">
+                          {line.map((token, key) => {
+                            const { key: __, ...tokenProps } = getTokenProps({ token });
+                            return (
+                              <span key={key} {...tokenProps} />
+                            );
+                          })}
                         </span>
-                      )}
-                      <span className="flex-1">
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({ token, key })} />
-                        ))}
-                      </span>
-                    </div>
-                  ))}
+                      </div>
+                    );
+                  })}
                 </code>
               </pre>
             )}

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cinematic Lesson Sequencer — Graded OOP Studio Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700;800&family=Poppins:wght@700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05070a;
+    --ink: #eef3f8;
+    --ink-dim: #7c8a9a;
+    --green: #00ff9d;
+    --blue: #4fd1ff;
+    --red: #ff4d5e;
+    --yellow: #ffd23f;
+    --violet: #b28dff;
+    --border: #1d2733;
+    --ease-cine: cubic-bezier(.22,1,.36,1);
+    --ease-snap: cubic-bezier(.68,-0.4,.27,1.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  h1 { font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 6px; }
+  h1 span { color: var(--green); text-shadow: 0 0 16px rgba(0, 255, 157, 0.5); }
+  p.sub { color: var(--ink-dim); font-size: 13px; max-width: 820px; line-height: 1.55; margin-bottom: 18px; }
+
+  /* 16:9 Video Stage Container */
+  #stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #05070a;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    perspective: 1000px;
+    box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity 0.5s var(--ease-cine);
+  }
+
+  .scene.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Placeholder Styling */
+  .obj {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-dim);
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    text-align: center;
+    padding: 10px;
+    user-select: none;
+  }
+
+  .obj:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  /* ==========================================================================
+     SCENE 1 — COLD OPEN (TYPEWRITER + WHITE FLASH LOGO)
+     ========================================================================== */
+  #scene-1 .bg-plate {
+    position: absolute; inset: -15%;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.12), transparent 60%);
+    animation: kenBurns1 6s linear infinite alternate;
+  }
+  @keyframes kenBurns1 { 0% { transform: scale(1); } 100% { transform: scale(1.15) translate(-1%, -1%); } }
+
+  #scene-1 .terminal-card {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(0.3); opacity: 0;
+    width: 72%; max-width: 680px; background: rgba(9, 13, 19, 0.94);
+    border: 1px solid var(--green); border-radius: 14px; padding: 32px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 255, 157, 0.25);
+  }
+  #scene-1.is-active .terminal-card {
+    animation: elasticIn1 0.8s var(--ease-snap) 0.2s forwards;
+  }
+  @keyframes elasticIn1 {
+    0% { transform: translate(-50%, -50%) scale(0.3) rotate(-3deg); opacity: 0; }
+    60% { transform: translate(-50%, -50%) scale(1.05) rotate(1deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1) rotate(0); opacity: 1; }
+  }
+
+  #scene-1 .typed-line-1 {
+    font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 800; color: #fff;
+    white-space: nowrap; overflow: hidden; border-right: 4px solid var(--green); width: 0;
+  }
+  #scene-1.is-active .typed-line-1 {
+    animation: typeS1 2.2s steps(38) 0.6s forwards, blinkCursor 0.75s infinite;
+  }
+  @keyframes typeS1 { from { width: 0; } to { width: 100%; } }
+  @keyframes blinkCursor { 0%, 100% { border-color: var(--green); } 50% { border-color: transparent; } }
+
+  #scene-1 .sub-caption {
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--ink-dim);
+    margin-top: 14px; opacity: 0; transform: translateY(10px);
+  }
+  #scene-1.is-active .sub-caption {
+    animation: dropInSub 0.6s var(--ease-cine) 2.4s forwards;
+  }
+  @keyframes dropInSub { to { opacity: 1; transform: translateY(0); } }
+
+  #scene-1 .flash-overlay {
+    position: absolute; inset: 0; background: #ffffff;
+    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; z-index: 50;
+  }
+  #scene-1.is-active .flash-overlay {
+    animation: flashTrigger 1s ease 4.2s forwards;
+  }
+  @keyframes flashTrigger {
+    0% { opacity: 0; }
+    15% { opacity: 1; pointer-events: auto; }
+    80% { opacity: 1; pointer-events: auto; }
+    100% { opacity: 1; pointer-events: auto; }
+  }
+
+  #scene-1 .logo-box {
+    width: 260px; height: 260px; border: 3px dashed rgba(0, 0, 0, 0.3);
+    border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #1a1a1a; font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 15px;
+    transform: scale(0.5); opacity: 0;
+  }
+  #scene-1.is-active .logo-box {
+    animation: logoPop 0.6s var(--ease-snap) 4.35s forwards;
+  }
+  @keyframes logoPop { to { transform: scale(1); opacity: 1; } }
+
+  /* ==========================================================================
+     SCENE 2 — INTERVIEW HOOK MONTAGE (STAMP, GLITCH & KINETIC BANNER)
+     ========================================================================== */
+  #scene-2 .bg-plate {
+    position: absolute; inset: -15%;
+    background: radial-gradient(circle at 40% 40%, rgba(255, 77, 94, 0.16), transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(79, 209, 255, 0.12), transparent 60%);
+    animation: kenBurns2 6s linear infinite alternate;
+  }
+  @keyframes kenBurns2 { 0% { transform: scale(1.05); } 100% { transform: scale(1.2) translate(2%, -2%); } }
+
+  #scene-2 .table-strip {
+    position: absolute; top: 60%; left: 0; width: 100%; height: 40%;
+    background: linear-gradient(180deg, #1c2128 0%, #161b22 100%);
+    border-top: 3px solid var(--border); box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6); z-index: 5;
+  }
+
+  #scene-2 .interviewer {
+    left: 8%; top: calc(60% - 340px); width: 260px; height: 340px; opacity: 0; transform: translateX(-60px); z-index: 10;
+  }
+  #scene-2.is-active .interviewer {
+    animation: slideLeft 0.8s var(--ease-cine) 0.2s forwards;
+  }
+  @keyframes slideLeft { to { opacity: 1; transform: translateX(0); } }
+
+  #scene-2 .fresher {
+    right: 8%; top: calc(60% - 340px); width: 260px; height: 340px; opacity: 0; transform: translateX(60px); z-index: 10;
+  }
+  #scene-2.is-active .fresher {
+    animation: slideRight 0.8s var(--ease-cine) 0.3s forwards;
+  }
+  @keyframes slideRight { to { opacity: 1; transform: translateX(0); } }
+
+  #scene-2 .paper {
+    left: 50%; top: calc(60% - 40px); transform: translateX(-180px) rotate(-10deg); width: 150px; height: 100px;
+    background: #ffffff; border: 1px solid #d0d7de; border-radius: 4px; opacity: 0; z-index: 15;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center;
+  }
+  #scene-2.is-active .paper {
+    animation: slidePaper 2.4s var(--ease-cine) 0.5s infinite;
+  }
+  @keyframes slidePaper {
+    0% { transform: translateX(-160px) rotate(-10deg); opacity: 0; }
+    30% { transform: translateX(-50%) rotate(-15deg); opacity: 1; }
+    75% { transform: translateX(-50%) rotate(-15deg); opacity: 1; }
+    100% { transform: translateX(60px) rotate(5deg); opacity: 0; }
+  }
+
+  #scene-2 .stamp-text {
+    color: var(--red); font-weight: 900; font-size: 16px; font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase; border: 3px solid var(--red); padding: 4px 10px; border-radius: 4px;
+    white-space: nowrap; text-shadow: 0 0 4px rgba(255, 77, 94, 0.4);
+  }
+
+  #scene-2 .brain-glitch {
+    right: calc(8% + 70px); top: calc(60% - 460px); width: 110px; height: 110px; border-radius: 50%;
+    border-color: rgba(255, 77, 94, 0.5); color: var(--red); z-index: 20; opacity: 0;
+  }
+  #scene-2.is-active .brain-glitch {
+    animation: glitchBurst 0.4s infinite alternate 1.1s;
+  }
+  @keyframes glitchBurst {
+    0% { opacity: 0.3; transform: scale(0.85) rotate(-6deg); filter: drop-shadow(0 0 10px var(--blue)); }
+    100% { opacity: 1; transform: scale(1.25) rotate(6deg); filter: drop-shadow(0 0 25px var(--green)) drop-shadow(0 0 35px var(--red)); }
+  }
+
+  #scene-2 .caption {
+    position: absolute; bottom: 6%; left: 0; right: 0; text-align: center;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 24px; z-index: 25;
+  }
+  #scene-2 .caption span {
+    display: inline-block; opacity: 0; filter: blur(8px); transform: translateY(20px) scale(1.3);
+  }
+  #scene-2.is-active .caption span { animation: kineticWord 0.6s var(--ease-cine) forwards; }
+  #scene-2.is-active .caption span:nth-child(1) { animation-delay: 1.0s; }
+  #scene-2.is-active .caption span:nth-child(2) { animation-delay: 1.1s; }
+  #scene-2.is-active .caption span:nth-child(3) { animation-delay: 1.2s; color: var(--red); }
+  #scene-2.is-active .caption span:nth-child(4) { animation-delay: 1.3s; color: var(--yellow); }
+  @keyframes kineticWord { to { opacity: 1; filter: blur(0); transform: translateY(0) scale(1); } }
+
+  /* ==========================================================================
+     SCENE 3 — TWO CANDIDATES SPLIT SCREEN (ROBOTIC VS CONFIDENT)
+     ========================================================================== */
+  #scene-3 { display: flex; }
+  #scene-3 .panel { flex: 1; position: relative; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; z-index: 5; }
+  #scene-3 .panel-left { background: radial-gradient(circle at 30% 50%, rgba(255, 77, 94, 0.15), transparent 70%), #0c1017; border-right: 2px solid var(--border); }
+  #scene-3 .panel-right { background: radial-gradient(circle at 70% 50%, rgba(0, 255, 157, 0.15), transparent 70%), #081c15; }
+
+  #scene-3 .divider-glow {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--blue);
+    box-shadow: 0 0 20px var(--blue), 0 0 40px var(--blue); z-index: 15; transform: translateX(-50%);
+  }
+
+  #scene-3 .vs-emblem {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+    width: 68px; height: 68px; background: #05070a; border: 3px solid var(--blue); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; color: var(--green);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 24px;
+    box-shadow: 0 0 30px var(--blue), 0 0 50px var(--green); z-index: 30; opacity: 0;
+  }
+  #scene-3.is-active .vs-emblem {
+    animation: vsPop 0.6s var(--ease-snap) 0.3s forwards, vsPulse 1.6s ease-in-out 0.9s infinite alternate;
+  }
+  @keyframes vsPop { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+  @keyframes vsPulse {
+    0% { transform: translate(-50%, -50%) scale(0.95); box-shadow: 0 0 15px var(--blue); }
+    100% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 35px var(--green), 0 0 55px var(--blue); }
+  }
+
+  #scene-3 .label-chip {
+    font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 20px; letter-spacing: 0.06em;
+  }
+  #scene-3 .chip-red { color: var(--red); background: rgba(255, 77, 94, 0.12); border: 2px solid var(--red); }
+  #scene-3 .chip-green { color: var(--green); background: rgba(0, 255, 157, 0.12); border: 2px solid var(--green); }
+
+  #scene-3 .robot-box {
+    width: 240px; height: 320px; border-color: rgba(255, 77, 94, 0.3); opacity: 0; transform: translateY(20px);
+  }
+  #scene-3.is-active .robot-box {
+    animation: dropIn 0.6s var(--ease-cine) 0.4s forwards, robotJitter 0.15s infinite alternate 1.0s;
+  }
+  @keyframes robotJitter { 0% { transform: translate(0, 0); } 100% { transform: translate(-3px, 2px); } }
+
+  #scene-3 .arch-box {
+    width: 200px; height: 320px; opacity: 0; transform: translateY(20px);
+  }
+  #scene-3.is-active .arch-box {
+    animation: dropIn 0.6s var(--ease-cine) 0.5s forwards, archSway 2s ease-in-out 1.1s infinite alternate;
+  }
+  @keyframes archSway { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
+
+  #scene-3 .diagram-box {
+    width: 200px; height: 250px; border-color: rgba(0, 255, 157, 0.4); background: rgba(0, 255, 157, 0.03); opacity: 0; transform: scale(0.6);
+  }
+  #scene-3.is-active .diagram-box {
+    animation: elasticIn1 0.7s var(--ease-snap) 0.8s forwards, boardGlow 2s ease-in-out 1.5s infinite alternate;
+  }
+  @keyframes boardGlow {
+    0% { border-color: var(--green); box-shadow: 0 0 15px rgba(0, 255, 157, 0.2); }
+    100% { border-color: var(--blue); box-shadow: 0 0 35px rgba(79, 209, 255, 0.5); }
+  }
+
+  /* ==========================================================================
+     SCENE 4 — ROADMAP GRAPHIC (WINDING ROAD + 9 POPPING SIGNPOSTS)
+     ========================================================================== */
+  #scene-4 .bg-plate {
+    position: absolute; inset: -15%;
+    background: radial-gradient(circle at 50% 30%, rgba(97, 218, 251, 0.12), transparent 60%);
+    animation: kenBurns1 6s linear infinite alternate;
+  }
+
+  #scene-4 .road-box {
+    width: 84%; height: 75%; border: 2px dashed rgba(255, 255, 255, 0.25); border-radius: 24px;
+    background: rgba(255, 255, 255, 0.015); color: rgba(255, 255, 255, 0.3); font-size: 18px; font-weight: 700;
+    opacity: 0; transform: scale(0.9);
+  }
+  #scene-4.is-active .road-box {
+    animation: elasticIn1 0.8s var(--ease-cine) 0.2s forwards;
+  }
+
+  #scene-4 .signpost-item {
+    position: absolute; z-index: 10; display: flex; align-items: center; gap: 10px;
+    background: rgba(13, 17, 23, 0.88); padding: 6px 14px; border-radius: 10px;
+    border: 1px solid rgba(97, 218, 251, 0.3); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px); opacity: 0; transform: scale(0.4) translateY(20px);
+  }
+  #scene-4.is-active .signpost-item {
+    animation: popSign 0.6s var(--ease-snap) forwards;
+  }
+  @keyframes popSign { to { opacity: 1; transform: scale(1) translateY(0); } }
+
+  #scene-4 .p1 { top: 78%; left: 6%; animation-delay: 0.4s !important; }
+  #scene-4 .p2 { top: 62%; left: 14%; animation-delay: 0.55s !important; }
+  #scene-4 .p3 { top: 44%; left: 22%; animation-delay: 0.7s !important; }
+  #scene-4 .p4 { top: 26%; left: 32%; animation-delay: 0.85s !important; }
+  #scene-4 .p5 { top: 16%; left: 50%; transform: translateX(-50%) scale(0.4) translateY(20px); animation-delay: 1.0s !important; }
+  #scene-4 .p6 { top: 26%; right: 32%; animation-delay: 1.15s !important; }
+  #scene-4 .p7 { top: 44%; right: 22%; animation-delay: 1.3s !important; }
+  #scene-4 .p8 { top: 62%; right: 14%; animation-delay: 1.45s !important; }
+  #scene-4 .p9 { top: 78%; right: 6%; animation-delay: 1.6s !important; }
+
+  /* ==========================================================================
+     SCENE 5 — WHITEBOARD HAND DRAWING INTRO (PATH DRAW-ON STROKE)
+     ========================================================================== */
+  #scene-5 { background: #f5f5f0; background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+
+  #scene-5 .hand-box {
+    left: 12%; top: 45%; transform: translateY(-50%) translateX(-80px); width: 280px; height: 340px;
+    border: 3px dashed rgba(0,0,0,0.25); color: #555; background: rgba(0,0,0,0.02); opacity: 0; z-index: 20;
+  }
+  #scene-5.is-active .hand-box {
+    animation: dropIn 0.8s var(--ease-cine) 0.2s forwards;
+  }
+
+  #scene-5 .whiteboard-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
+  #scene-5 #whiteboard-stroke {
+    fill: none; stroke: #1a1a1a; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1000; stroke-dashoffset: 1000;
+  }
+  #scene-5.is-active #whiteboard-stroke {
+    animation: strokeDraw 2.2s var(--ease-cine) 0.6s forwards;
+  }
+  @keyframes strokeDraw { to { stroke-dashoffset: 0; } }
+
+  #scene-5 .part2-title {
+    position: absolute; top: 22%; left: 50%; transform: translateX(-50%);
+    font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 26px; color: #1a1a1a; opacity: 0; z-index: 25;
+  }
+  #scene-5.is-active .part2-title {
+    animation: dropInSub 0.6s var(--ease-cine) 1.8s forwards;
+  }
+
+  /* Control Panel & Timeline */
+  .controls { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+  .controls button {
+    background: var(--green); color: #04160f; border: none; font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 800; padding: 12px 22px; border-radius: 100px; cursor: pointer; letter-spacing: 0.04em;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.4); transition: all 0.2s ease;
+  }
+  .controls button:hover { transform: scale(1.04); }
+  .controls button.secondary { background: transparent; color: var(--ink-dim); border: 1px solid var(--border); box-shadow: none; }
+  
+  .timeline { flex: 1; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; position: relative; }
+  .timeline-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--blue)); }
+
+  .now { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-dim); margin-top: 12px; }
+  .now b { color: var(--blue); }
+
+  footer { margin-top: 24px; color: var(--ink-dim); font-size: 12px; line-height: 1.6; border-top: 1px solid var(--border); padding-top: 16px; }
+  footer code { color: var(--green); background: rgba(0, 255, 157, 0.08); padding: 2px 6px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Cinematic Sequencer — <span>Graded Lesson Playback</span></h1>
+  <p class="sub">Five fully graded cinematic scenes layered with After Effects level animation techniques (Ken Burns radial drift, elastic snap entrances, kinetic typography, white flashes, chromatic glitches & SVG stroke draw-ons).</p>
+
+  <!-- 16:9 Video Stage -->
+  <div id="stage">
+
+    <!-- SCENE 1 — COLD OPEN -->
+    <div class="scene" id="scene-1">
+      <div class="bg-plate"></div>
+      <div class="terminal-card">
+        <div class="typed-line-1">What is Object-Oriented Programming?</div>
+        <div class="sub-caption">— Asked in literally every Java interview. Ever.</div>
+      </div>
+      <div class="flash-overlay">
+        <div class="logo-box" id="channel_logo_svg">
+          <div style="font-size: 38px; margin-bottom: 8px;">📺</div>
+          <div>Upload: Channel Logo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 2 — INTERVIEW HOOK MONTAGE -->
+    <div class="scene" id="scene-2">
+      <div class="bg-plate"></div>
+      <div class="obj interviewer" id="interviewer_svg">
+        <div style="font-size: 34px; margin-bottom: 8px;">👔</div>
+        <div>Upload: Interviewer</div>
+      </div>
+      <div class="obj fresher" id="fresher_svg">
+        <div style="font-size: 34px; margin-bottom: 8px;">🧑‍💻</div>
+        <div>Upload: Fresher</div>
+      </div>
+      <div class="paper" id="question_paper_svg">
+        <div class="stamp-text">Explain OOP</div>
+      </div>
+      <div class="obj brain-glitch" id="brain_glitch_fx_svg">
+        <div style="font-size: 24px;">⚡</div>
+        <div style="font-size: 10px;">Glitch FX</div>
+      </div>
+      <div class="table-strip" id="table_svg"></div>
+      <div class="caption">
+        <span>THE</span> <span>INTERVIEW</span> <span>PANIC:</span> <span>OOP!</span>
+      </div>
+    </div>
+
+    <!-- SCENE 3 — TWO CANDIDATES SPLIT SCREEN -->
+    <div class="scene" id="scene-3">
+      <div class="divider-glow"></div>
+      <div class="vs-emblem">VS</div>
+      <div class="panel panel-left">
+        <div class="label-chip chip-red">Memorized</div>
+        <div class="obj robot-box" id="robotic_candidate_svg">
+          <div style="font-size: 36px; margin-bottom: 8px;">🤖</div>
+          <div>Upload: Robotic Candidate</div>
+        </div>
+      </div>
+      <div class="panel panel-right">
+        <div class="label-chip chip-green">Understood</div>
+        <div style="display: flex; gap: 14px; align-items: center;">
+          <div class="obj arch-box" id="confident_candidate_svg">
+            <div style="font-size: 36px; margin-bottom: 8px;">💡</div>
+            <div>Upload: Confident Candidate</div>
+          </div>
+          <div class="obj diagram-box" id="diagram_sketch_svg">
+            <div style="font-size: 36px; margin-bottom: 8px;">📐</div>
+            <div>Upload: Diagram Sketch</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 4 — ROADMAP GRAPHIC -->
+    <div class="scene" id="scene-4">
+      <div class="bg-plate"></div>
+      <div class="obj road-box" id="road_graphic_svg">
+        🛣️ Upload: Winding Road Graphic Path SVG (~1400x600px)
+      </div>
+
+      <div class="signpost-item p1"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>1. What is OOP & why it exists</div></div>
+      <div class="signpost-item p2"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>2. Classes and Objects</div></div>
+      <div class="signpost-item p3"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>3. Pillar 1 — Abstraction</div></div>
+      <div class="signpost-item p4"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>4. Pillar 2 — Encapsulation</div></div>
+      <div class="signpost-item p5"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>5. Pillar 3 — Inheritance</div></div>
+      <div class="signpost-item p6"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>6. Pillar 4 — Polymorphism</div></div>
+      <div class="signpost-item p7"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>7. OOP Relationships</div></div>
+      <div class="signpost-item p8"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>8. Aggregation vs Composition</div></div>
+      <div class="signpost-item p9"><div class="obj" style="width:30px;height:30px;padding:0;">🚩</div><div>9. Interview Rapid Fire</div></div>
+    </div>
+
+    <!-- SCENE 5 — WHITEBOARD HAND DRAWING INTRO -->
+    <div class="scene" id="scene-5">
+      <div class="part2-title">PART 2: WHAT IS OBJECT-ORIENTED PROGRAMMING?</div>
+      <div class="obj hand-box" id="hand_marker_svg">
+        <div style="font-size: 42px; margin-bottom: 8px;">✍️</div>
+        <div>Upload: Hand + Marker</div>
+      </div>
+      <svg class="whiteboard-canvas" viewBox="0 0 1920 1080">
+        <path id="whiteboard-stroke" d="M 400 540 Q 750 360 1050 540 T 1550 540" />
+      </svg>
+    </div>
+
+  </div>
+
+  <!-- Playback Control Bar -->
+  <div class="controls">
+    <button onclick="playSequence()">▶ Play Graded Cinematic Sequence</button>
+    <button class="secondary" onclick="stopSequence()">Stop</button>
+    <div class="timeline"><div class="timeline-fill" id="fill"></div></div>
+  </div>
+  <div class="now">Now playing: <b id="nowPlaying">—</b></div>
+
+  <footer>
+    Each <code>.scene</code> here stacks 3–5 After Effects motion graphic layers — Ken Burns background drift, elastic spring entrances, glowing accents, vignette overlays, and kinetic word reveals offset by staggered <code>animation-delay</code> timing.
+  </footer>
+</div>
+
+<script>
+const scenes = ['scene-1', 'scene-2', 'scene-3', 'scene-4', 'scene-5'];
+const durations = [6000, 5500, 5000, 5500, 4500];
+const labels = [
+  'Scene 1 — Cold Open (kenburns + elastic + typewriter + hard white flash logo reveal)',
+  'Scene 2 — Interview Hook Montage (slide-in + sliding paper + glitch burst + kinetic banner)',
+  'Scene 3 — Two Candidates Split Screen (glowing divider + pulsing VS emblem + jitter + arch sway)',
+  'Scene 4 — Roadmap Graphic (scale elastic road + 9 staggered popping signposts)',
+  'Scene 5 — Whiteboard Intro (hand slide-in + SVG stroke-dashoffset path draw-on)'
+];
+let timers = [];
+
+function clearAll(){ scenes.forEach(id=>document.getElementById(id).classList.remove('is-active')); }
+
+function stopSequence(){
+  timers.forEach(t=>clearTimeout(t)); timers=[];
+  clearAll();
+  document.getElementById('nowPlaying').textContent='—';
+  const fill = document.getElementById('fill');
+  fill.style.transition='none'; fill.style.width='0%';
+}
+
+function playSequence(){
+  stopSequence();
+  let elapsed = 0;
+  const total = durations.reduce((a,b)=>a+b,0);
+  scenes.forEach((id,i)=>{
+    const t = setTimeout(()=>{
+      clearAll();
+      document.getElementById(id).classList.add('is-active');
+      document.getElementById('nowPlaying').textContent = labels[i];
+    }, elapsed);
+    timers.push(t);
+    elapsed += durations[i];
+  });
+  const fill = document.getElementById('fill');
+  fill.style.transition='none'; fill.style.width='0%';
+  requestAnimationFrame(()=>{
+    fill.style.transition = `width ${total}ms linear`;
+    fill.style.width='100%';
+  });
+  timers.push(setTimeout(()=>{ document.getElementById('nowPlaying').textContent='Sequence complete'; }, total));
+}
+
+// Auto play sequence on initial load
+window.addEventListener('load', () => {
+  playSequence();
+});
+</script>
+</body>
+</html>

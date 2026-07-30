@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 5 — Whiteboard Hand Drawing Intro</title>
+  <style>
+    :root {
+      --bg-whiteboard: #f5f5f0;
+      --border-dashed: rgba(0, 0, 0, 0.25);
+      --marker-black: #1a1a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #05070a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* 1920x1080 Stage with Whiteboard Grid Background */
+    .slide-stage {
+      position: relative;
+      width: 100vw;
+      max-width: 1920px;
+      height: 56.25vw;
+      max-height: 1080px;
+      background-color: var(--bg-whiteboard);
+      /* Faint subtle grid pattern */
+      background-image: 
+        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Center-Left Placement of Hand + Marker Slot (~350px) */
+    #hand_marker_svg {
+      position: absolute;
+      left: 15%;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 320px;
+      height: 380px;
+      border: 3px dashed var(--border-dashed);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.02);
+      color: #555555;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 20;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    #hand_marker_svg:hover {
+      border-color: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    #hand_marker_svg .icon {
+      font-size: 44px;
+      margin-bottom: 10px;
+      opacity: 0.7;
+    }
+
+    /* SVG Canvas for Whiteboard Path Drawing */
+    .whiteboard-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Long Empty SVG Path Prepared for Draw-On Animation */
+    #whiteboard-stroke {
+      fill: none;
+      stroke: var(--marker-black);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      transition: stroke-dashoffset 2s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1920x1080 Stage -->
+  <div class="slide-stage">
+
+    /* Center-Left Hand + Marker Placeholder Slot */
+    <div id="hand_marker_svg">
+      <div class="icon">✍️</div>
+      <div>Upload: Hand + Marker</div>
+    </div>
+
+    <!-- SVG Path Element Prepared for Draw-On Animation -->
+    <svg class="whiteboard-canvas" viewBox="0 0 1920 1080">
+      <path id="whiteboard-stroke" d="M 450 500 Q 700 350 950 500 T 1450 500" />
+    </svg>
+
+  </div>
+
+  <!-- Asset Configuration JS -->
+  <script>
+    const assets = {
+      handMarker: "UPLOAD_SVG_HERE"
+    };
+
+    console.log("Scene 5 Asset Config Loaded:", assets);
+  </script>
+</body>
+</html>

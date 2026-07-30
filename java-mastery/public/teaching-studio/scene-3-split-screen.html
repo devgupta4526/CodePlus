@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 3 — Two Candidates Split Screen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --divider-glow: #7c8cf8;
+      --red-accent: #ff4444;
+      --green-accent: #00ff88;
+      --border-dashed: rgba(255, 255, 255, 0.25);
+      --label-color: #8b949e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #05070a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* 1920x1080 Responsive Stage Container */
+    .slide-stage {
+      position: relative;
+      width: 100vw;
+      max-width: 1920px;
+      height: 56.25vw;
+      max-height: 1080px;
+      background-color: var(--bg-dark);
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Center Vertical 2px Glowing Divider Line */
+    .divider-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background-color: var(--divider-glow);
+      box-shadow: 0 0 15px var(--divider-glow), 0 0 30px var(--divider-glow);
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+
+    /* 50/50 Panels */
+    .panel {
+      flex: 1;
+      height: 100%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Label Chips at Top */
+    .label-chip {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 24px;
+      border-radius: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .panel-left .label-chip {
+      color: var(--red-accent);
+      background: rgba(255, 68, 68, 0.12);
+      border: 2px solid var(--red-accent);
+    }
+
+    .panel-right .label-chip {
+      color: var(--green-accent);
+      background: rgba(0, 255, 136, 0.12);
+      border: 2px solid var(--green-accent);
+    }
+
+    /* Main Container Content */
+    .panel-content {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    .panel-right .panel-content {
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+
+    /* Placeholder Slots */
+    .placeholder-box {
+      border: 2px dashed var(--border-dashed);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.3s ease;
+      color: var(--label-color);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .placeholder-box:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .placeholder-box .icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+
+    /* Left Panel: Robotic Candidate Slot (~500px) */
+    #robotic_candidate_svg {
+      width: 320px;
+      height: 480px;
+    }
+
+    /* Left Panel: Repeating Speech Bubble Placeholder Slot */
+    .speech-bubble-slot {
+      width: 280px;
+      height: 90px;
+      border: 2px dashed rgba(255, 68, 68, 0.4);
+      border-radius: 16px;
+      background: rgba(255, 68, 68, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff8888;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      padding: 10px;
+    }
+
+    /* Right Panel: Confident Candidate Slot (~500px) */
+    #confident_candidate_svg {
+      width: 300px;
+      height: 480px;
+    }
+
+    /* Right Panel: Diagram Sketch Slot (~300px) */
+    #diagram_sketch_svg {
+      width: 280px;
+      height: 340px;
+      border-color: rgba(0, 255, 136, 0.4);
+      background: rgba(0, 255, 136, 0.03);
+    }
+
+    /* Conceptual Animation Classes (No JS logic) */
+    @keyframes jitterLoop {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-2px) rotate(-0.5deg); }
+      50% { transform: translateY(1px) rotate(0.5deg); }
+      75% { transform: translateY(-1px) rotate(-0.2deg); }
+    }
+
+    .jitter-loop {
+      animation: jitterLoop 0.4s infinite ease-in-out;
+    }
+
+    @keyframes smoothBuild {
+      0% { opacity: 0.4; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .smooth-build {
+      animation: smoothBuild 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1920x1080 Stage -->
+  <div class="slide-stage">
+
+    <!-- Center Glowing Vertical Divider -->
+    <div class="divider-line"></div>
+
+    <!-- Left Panel: Memorized -->
+    <div class="panel panel-left">
+      <div class="label-chip">Memorized</div>
+      <div class="panel-content">
+        <div id="robotic_candidate_svg" class="placeholder-box jitter-loop">
+          <div class="icon">🤖</div>
+          <div>Upload: Robotic Candidate</div>
+        </div>
+        <div class="speech-bubble-slot">
+          💬 "OOP is a paradigm featuring classes, objects, inheritance..." (Looping)
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel: Understood -->
+    <div class="panel panel-right">
+      <div class="label-chip">Understood</div>
+      <div class="panel-content">
+        <div id="confident_candidate_svg" class="placeholder-box">
+          <div class="icon">💡</div>
+          <div>Upload: Confident Candidate</div>
+        </div>
+        <div id="diagram_sketch_svg" class="placeholder-box smooth-build">
+          <div class="icon">📐</div>
+          <div>Upload: Diagram Sketch</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Asset Configuration JS -->
+  <script>
+    const assets = {
+      roboticCandidate: "UPLOAD_SVG_HERE",
+      confidentCandidate: "UPLOAD_SVG_HERE",
+      diagramSketch: "UPLOAD_SVG_HERE"
+    };
+
+    console.log("Scene 3 Asset Config Loaded:", assets);
+  </script>
+</body>
+</html>

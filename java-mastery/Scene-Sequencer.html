@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OOP Scene Sequencer — Timed Playback Demo</title>
+<style>
+  :root{
+    --bg:#0d1117; --ink:#e6edf3; --ink-dim:#93a1b0;
+    --green:#00ff88; --blue:#61dafb; --red:#ff4d5e; --yellow:#ffd60a;
+    --border:#263241;
+    --ease-out: cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;}
+
+  .wrap{max-width:900px;margin:0 auto;padding:24px;}
+  h1{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);}
+  h1 span{color:var(--green);}
+
+  /* ===== the video stage ===== */
+  #stage{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/9;
+    background: radial-gradient(ellipse at 50% 110%, rgba(0,255,136,.06), transparent 60%), #0a0e14;
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+  }
+
+  .scene{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0;
+    pointer-events:none;
+  }
+  .scene.is-active{
+    opacity:1;
+    pointer-events:auto;
+  }
+  /* cross-fade between scenes */
+  .scene{ transition: opacity .5s ease; }
+
+  .placeholder-asset{
+    border:1px dashed var(--border);
+    border-radius:8px;
+    color:var(--ink-dim);
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    text-align:center;
+    padding:6px;
+  }
+
+  /* Scene 1: candidate + interviewer */
+  #scene-1 .candidate{
+    position:absolute; left:22%; bottom:18%;
+    width:110px;height:150px;
+    opacity:0; transform:translateX(-60px);
+  }
+  #scene-1.is-active .candidate{
+    animation: charIn .8s var(--ease-out) forwards;
+  }
+  #scene-1 .interviewer{
+    position:absolute; right:22%; bottom:18%;
+    width:110px;height:150px;
+    opacity:0; transform:translateX(60px);
+  }
+  #scene-1.is-active .interviewer{
+    animation: charIn .8s var(--ease-out) .2s forwards;
+  }
+  @keyframes charIn{ to{ opacity:1; transform:translateX(0); } }
+  #scene-1 .glitch-overlay{
+    position:absolute; left:22%; bottom:18%;
+    width:110px;height:150px;
+    opacity:0;
+  }
+  #scene-1.is-active .glitch-overlay{
+    animation: glitchAppear .5s steps(2) 1.4s forwards;
+  }
+  @keyframes glitchAppear{
+    0%{opacity:0;}
+    30%{opacity:1; filter:hue-rotate(40deg) contrast(1.5); transform:translate(-3px,0);}
+    60%{opacity:1; filter:hue-rotate(-20deg); transform:translate(3px,0);}
+    100%{opacity:1; filter:none; transform:translate(0,0);}
+  }
+
+  /* Scene 2: dog properties/behavior boxes */
+  #scene-2 .dog{
+    position:absolute; left:50%; top:55%; transform:translate(-50%,-50%);
+    width:120px;height:120px;
+    opacity:0;
+  }
+  #scene-2.is-active .dog{
+    animation: popScene2 .5s var(--ease-out) forwards;
+  }
+  @keyframes popScene2{ to{ opacity:1; } }
+  #scene-2 .box-props, #scene-2 .box-behavior{
+    position:absolute; width:150px; height:70px;
+    opacity:0; transform:scale(.5);
+    border-radius:8px;
+  }
+  #scene-2 .box-props{ left:8%; top:20%; border-color:var(--blue); color:var(--blue); }
+  #scene-2 .box-behavior{ right:8%; top:20%; border-color:var(--green); color:var(--green); }
+  #scene-2.is-active .box-props{ animation: popIn2 .4s var(--ease-out) .6s forwards; }
+  #scene-2.is-active .box-behavior{ animation: popIn2 .4s var(--ease-out) .9s forwards; }
+  @keyframes popIn2{ to{ opacity:1; transform:scale(1); } }
+
+  /* Scene 3: blueprint -> houses */
+  #scene-3 .blueprint{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:130px;height:100px;
+    opacity:1;
+  }
+  #scene-3.is-active .blueprint{
+    animation: shrinkFade 1.5s var(--ease-out) 1s forwards;
+  }
+  @keyframes shrinkFade{ to{ opacity:0; transform:translate(-50%,-50%) scale(.3);} }
+  #scene-3 .house{
+    position:absolute; top:50%; width:80px;height:80px;
+    opacity:0;
+  }
+  #scene-3 .house-1{ left:20%; transform:translateY(-50%) scale(.4); }
+  #scene-3 .house-2{ left:44%; transform:translateY(-50%) scale(.4); }
+  #scene-3 .house-3{ left:68%; transform:translateY(-50%) scale(.4); }
+  #scene-3.is-active .house-1{ animation:houseIn .6s var(--ease-out) 2s forwards; }
+  #scene-3.is-active .house-2{ animation:houseIn .6s var(--ease-out) 2.2s forwards; }
+  #scene-3.is-active .house-3{ animation:houseIn .6s var(--ease-out) 2.4s forwards; }
+  @keyframes houseIn{ to{ opacity:1; transform:translateY(-50%) scale(1);} }
+
+  /* Scene 4: dynamic dispatch magic moment */
+  #scene-4 .ref{
+    position:absolute; top:16%; width:140px; height:40px;
+    opacity:0; border-color:var(--ink-dim); color:var(--ink-dim);
+  }
+  #scene-4 .ref-1{ left:15%; }
+  #scene-4 .ref-2{ left:38%; }
+  #scene-4 .ref-3{ left:61%; }
+  #scene-4.is-active .ref{ animation: fadeUp .5s var(--ease-out) forwards; }
+  #scene-4.is-active .ref-2{ animation-delay:.15s; }
+  #scene-4.is-active .ref-3{ animation-delay:.3s; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  #scene-4 .qmark{
+    position:absolute; left:50%; top:44%; transform:translate(-50%,-50%) scale(0);
+    font-size:40px; color:var(--yellow);
+    opacity:0;
+  }
+  #scene-4.is-active .qmark{
+    animation: qPulse 1.6s var(--ease-out) .6s forwards;
+  }
+  @keyframes qPulse{
+    0%{opacity:0; transform:translate(-50%,-50%) scale(0);}
+    40%{opacity:1; transform:translate(-50%,-50%) scale(1.2);}
+    70%{opacity:1; transform:translate(-50%,-50%) scale(1);}
+    100%{opacity:0; transform:translate(-50%,-50%) scale(1.4);}
+  }
+
+  #scene-4 .animal{
+    position:absolute; bottom:14%; width:90px;height:90px;
+    opacity:0; transform:scale(.3);
+  }
+  #scene-4 .animal-1{ left:14%; border-color:var(--green); color:var(--green); }
+  #scene-4 .animal-2{ left:38%; border-color:var(--blue); color:var(--blue); }
+  #scene-4 .animal-3{ left:62%; border-color:var(--red); color:var(--red); }
+  #scene-4.is-active .animal{ animation: animalPop .5s var(--ease-out) 2.2s forwards; }
+  #scene-4.is-active .animal-2{ animation-delay:2.4s; }
+  #scene-4.is-active .animal-3{ animation-delay:2.6s; }
+  @keyframes animalPop{ to{ opacity:1; transform:scale(1);} }
+
+  /* ===== progress + controls ===== */
+  .controls{
+    display:flex; align-items:center; gap:12px; margin-top:16px;
+  }
+  .controls button{
+    background:var(--green); color:#04140c; border:none;
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
+    padding:9px 18px; border-radius:100px; cursor:pointer;
+    letter-spacing:.04em;
+  }
+  .controls button.secondary{
+    background:transparent; color:var(--ink-dim); border:1px solid var(--border);
+  }
+  .timeline{
+    flex:1; height:6px; background:var(--border); border-radius:100px; overflow:hidden;
+  }
+  .timeline-fill{ height:100%; width:0%; background:var(--green); }
+
+  .scene-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-dim);
+    margin-top:10px;
+  }
+  .scene-label b{ color:var(--blue); }
+
+  footer{ margin-top:30px; color:var(--ink-dim); font-size:12px; line-height:1.6; border-top:1px solid var(--border); padding-top:16px;}
+  footer code{ color:var(--green); background:rgba(0,255,136,.08); padding:1px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OOP Scene Sequencer — <span>Timed Playback Demo</span></h1>
+
+  <div id="stage">
+
+    <div class="scene" id="scene-1">
+      <div class="placeholder-asset candidate" style="border-color:var(--blue);">candidate_neutral.png</div>
+      <div class="placeholder-asset interviewer" style="border-color:var(--ink-dim);">interviewer_neutral.png</div>
+      <div class="placeholder-asset glitch-overlay" style="border-color:var(--red);">candidate_panic_glitch.png</div>
+    </div>
+
+    <div class="scene" id="scene-2">
+      <div class="placeholder-asset dog" style="border-color:var(--yellow);">dog_sitting.png</div>
+      <div class="placeholder-asset box-props">PROPERTIES<br>color, breed, age</div>
+      <div class="placeholder-asset box-behavior">BEHAVIOR<br>bark(), eat(), sleep()</div>
+    </div>
+
+    <div class="scene" id="scene-3">
+      <div class="placeholder-asset blueprint" style="border-color:var(--blue);">blueprint_sheet.png</div>
+      <div class="placeholder-asset house house-1" style="border-color:var(--red);">house_red_door.png</div>
+      <div class="placeholder-asset house house-2" style="border-color:var(--blue);">house_blue_door.png</div>
+      <div class="placeholder-asset house house-3" style="border-color:var(--yellow);">house_solar.png</div>
+    </div>
+
+    <div class="scene" id="scene-4">
+      <div class="placeholder-asset ref ref-1">Animal ref</div>
+      <div class="placeholder-asset ref ref-2">Animal ref</div>
+      <div class="placeholder-asset ref ref-3">Animal ref</div>
+      <div class="qmark">?</div>
+      <div class="placeholder-asset animal animal-1">dog_barking.png</div>
+      <div class="placeholder-asset animal animal-2">cat_meowing.png</div>
+      <div class="placeholder-asset animal animal-3">duck_quacking.png</div>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button onclick="playSequence()">▶ Play full sequence</button>
+    <button class="secondary" onclick="stopSequence()">Stop</button>
+    <div class="timeline"><div class="timeline-fill" id="timelineFill"></div></div>
+  </div>
+  <div class="scene-label">Now playing: <b id="nowPlaying">—</b></div>
+
+  <footer>
+    This page demonstrates how individual CSS-animated scenes are chained on a single timeline using JavaScript <code>setTimeout</code> calls — one <code>&lt;div class="scene"&gt;</code> per shot, toggled with <code>.is-active</code>, each internally animated with the patterns from <code>CSS-Animation-Patterns.html</code>. Duplicate the <code>.scene</code> block pattern for every shot in the script, replace <code>.placeholder-asset</code> divs with real <code>&lt;img&gt;</code> tags, and extend the <code>sequence</code> array below with your own timings pulled straight from the script's timestamps.
+  </footer>
+</div>
+
+<script>
+const scenes = ['scene-1','scene-2','scene-3','scene-4'];
+const durations = [4000, 3500, 4500, 5500]; // ms per scene — match to your narration timestamps
+const labels = [
+  'Scene 1 — Interview candidate glitch (00:15–01:45)',
+  'Scene 2 — Dog properties & behavior (01:45–04:00)',
+  'Scene 3 — Blueprint duplicates into houses (07:00–10:00)',
+  'Scene 4 — Dynamic dispatch magic moment (38:00–50:00)'
+];
+
+let timers = [];
+
+function clearAllScenes(){
+  scenes.forEach(id => document.getElementById(id).classList.remove('is-active'));
+}
+
+function stopSequence(){
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
+  clearAllScenes();
+  document.getElementById('nowPlaying').textContent = '—';
+  document.getElementById('timelineFill').style.transition = 'none';
+  document.getElementById('timelineFill').style.width = '0%';
+}
+
+function playSequence(){
+  stopSequence();
+  let elapsed = 0;
+  const total = durations.reduce((a,b)=>a+b,0);
+
+  scenes.forEach((id, i) => {
+    const t = setTimeout(() => {
+      clearAllScenes();
+      document.getElementById(id).classList.add('is-active');
+      document.getElementById('nowPlaying').textContent = labels[i];
+    }, elapsed);
+    timers.push(t);
+    elapsed += durations[i];
+  });
+
+  // timeline fill animates across total duration
+  const fill = document.getElementById('timelineFill');
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  requestAnimationFrame(()=>{
+    fill.style.transition = `width ${total}ms linear`;
+    fill.style.width = '100%';
+  });
+
+  const endTimer = setTimeout(()=>{
+    document.getElementById('nowPlaying').textContent = 'Sequence complete';
+  }, total);
+  timers.push(endTimer);
+}
+</script>
+</body>
+</html>

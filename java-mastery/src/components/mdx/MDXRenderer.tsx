@@ -72,18 +72,17 @@ function parseContent(content: string): React.ReactNode[] {
           lines[lookAhead].trim().startsWith('**Output'))
       ) {
         i = lookAhead + 1;
-        // Skip to the next code block which contains the output
         while (i < lines.length && !lines[i].trim().startsWith('```')) {
           i++;
         }
         if (i < lines.length) {
-          i++; // skip opening ```
+          i++;
           const outputLines: string[] = [];
           while (i < lines.length && !lines[i].trim().startsWith('```')) {
             outputLines.push(lines[i]);
             i++;
           }
-          i++; // skip closing ```
+          i++;
           output = outputLines.join('\n');
         }
       }
@@ -101,11 +100,9 @@ function parseContent(content: string): React.ReactNode[] {
       const typeMatch = line.match(/\[!(NOTE|TIP|WARNING|IMPORTANT|CAUTION)\]/i);
       const type = (typeMatch?.[1]?.toLowerCase() ?? 'note') as CalloutType;
       const calloutLines: string[] = [];
-      // Gather all lines that start with >
       i++;
       while (i < lines.length && lines[i].trim().startsWith('>')) {
-        const cleanLine = lines[i].replace(/^>\s?/, '');
-        calloutLines.push(cleanLine);
+        calloutLines.push(lines[i].replace(/^>\s?/, ''));
         i++;
       }
       elements.push(
@@ -116,7 +113,7 @@ function parseContent(content: string): React.ReactNode[] {
       continue;
     }
 
-    // ── Definition blockquote (> **Term** ...) ───────────────────────
+    // ── Definition blockquote ────────────────────────────────────────
     if (line.trim().match(/^>\s*\*\*[^*]+\*\*/)) {
       const defLines: string[] = [];
       while (i < lines.length && lines[i].trim().startsWith('>')) {
@@ -263,24 +260,16 @@ function skipEmpty(lines: string[], start: number): number {
   return i;
 }
 
-/** Convert inline markdown to HTML */
 function inlineMarkdown(text: string): string {
   return text
-    // Bold
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    // Italic
     .replace(/\*([^*]+)\*/g, '<em>$1</em>')
-    // Inline code
     .replace(/`([^`]+)`/g, '<code>$1</code>')
-    // Links
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-    // Strikethrough
     .replace(/~~([^~]+)~~/g, '<del>$1</del>')
-    // Emoji shortcodes left as-is (they're UTF-8)
     ;
 }
 
-/** Render a markdown table */
 function renderTable(lines: string[], key: string): React.ReactNode {
   const parseRow = (line: string) =>
     line
@@ -289,7 +278,6 @@ function renderTable(lines: string[], key: string): React.ReactNode {
       .filter(Boolean);
 
   const headers = parseRow(lines[0]);
-  // Skip separator line (index 1)
   const rows = lines.slice(2).map(parseRow);
 
   return (

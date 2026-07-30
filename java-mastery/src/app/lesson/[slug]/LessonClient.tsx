@@ -16,6 +16,7 @@ import {
   Play,
   Tv,
   Lock,
+  Sparkles,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -25,9 +26,11 @@ import { useReadingProgress } from '@/hooks/useReadingProgress';
 import { useProgress } from '@/hooks/useProgress';
 import { useEnrollment } from '@/hooks/useEnrollment';
 import { WatermarkOverlay } from '@/components/shared/WatermarkOverlay';
-import { type LessonMeta, type Heading, type Difficulty } from '@/types';
+import { type LessonMeta, type Heading, type Difficulty, type ImageNote } from '@/types';
 import { ReadingModeToggle, type ReadingMode } from '@/components/reader/ReadingModeToggle';
 import { SlideReader } from '@/components/reader/SlideReader';
+import { ImageNotesSlider } from '@/components/notes/ImageNotesSlider';
+import { FullSizeSlideshowModal } from '@/components/notes/FullSizeSlideshowModal';
 
 // ── Freemium config ────────────────────────────────────────────────────────────
 // Courses that are premium: first FREE_PREVIEW_COUNT lessons are always accessible.
@@ -118,6 +121,7 @@ interface LessonClientProps {
   meta: LessonMeta;
   content: string;
   headings: Heading[];
+  imageNotes?: ImageNote[];
   prev: LessonMeta | null;
   next: LessonMeta | null;
 }
@@ -134,13 +138,29 @@ function getEmbedUrl(url?: string): string | null {
 }
 
 
-export function LessonClient({ meta, content, headings, prev, next }: LessonClientProps) {
+export function LessonClient({ meta, content, headings, imageNotes = [], prev, next }: LessonClientProps) {
   const readingProgress = useReadingProgress();
   const { isCompleted, isBookmarked, toggleComplete, toggleBookmark } = useProgress();
   const { user, isEnrolled, enroll } = useEnrollment();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tocExpanded, setTocExpanded] = useState(false);
   const [readingMode, setReadingMode] = useState<ReadingMode>('continuous');
+  const [slideshowOpen, setSlideshowOpen] = useState(false);
+
+  const [sideVisualizer, setSideVisualizer] = useState<{
+    sectionTitle: string;
+    notes: ImageNote[];
+  } | null>(null);
+
+  const handleVisualizeSection = useCallback(
+    (headingId: string, headingText: string, matchedNotes: ImageNote[]) => {
+      setSideVisualizer({
+        sectionTitle: headingText,
+        notes: matchedNotes,
+      });
+    },
+    []
+  );
 
   // Interactive split states
   const [studyMode, setStudyMode] = useState<'notes' | 'interactive'>('notes');
@@ -210,13 +230,13 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
 
       <Navbar />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         {/* Sidebar */}
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} course={meta.course} />
 
         {studyMode === 'notes' ? (
           /* Main content area - Notes Only Mode */
-          <main className="flex-1 min-w-0 overflow-y-auto">
+          <main className="flex-1 min-w-0">
 
             {/* ── SLIDE MODE: full-viewport slide reader ─────────────────── */}
             {readingMode === 'slides' ? (
@@ -321,6 +341,17 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     {completed ? 'Completed' : 'Mark complete'}
                   </button>
+
+                  {imageNotes.length > 0 && (
+                    <button
+                      onClick={() => setSlideshowOpen(true)}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[var(--accent)]/10 text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white border border-[var(--accent)]/20 transition-all cursor-pointer shadow-xs"
+                      title="Open full-size visual image notes slideshow"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Visual Slideshow ({imageNotes.length})</span>
+                    </button>
+                  )}
                 </div>
               </header>
 
@@ -344,6 +375,11 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
                 </div>
               )}
               
+              {/* All Visual Image Notes Deck at Top */}
+              {imageNotes.length > 0 && (
+                <ImageNotesSlider notes={imageNotes} />
+              )}
+
               {/* Table of Contents - Top */}
               {headings.length > 0 && (
                 <div className="mb-10 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] overflow-hidden">
@@ -706,6 +742,13 @@ export function LessonClient({ meta, content, headings, prev, next }: LessonClie
           </main>
         )}
       </div>
+
+      {slideshowOpen && (
+        <FullSizeSlideshowModal
+          notes={imageNotes}
+          onClose={() => setSlideshowOpen(false)}
+        />
+      )}
     </div>
   );
 }

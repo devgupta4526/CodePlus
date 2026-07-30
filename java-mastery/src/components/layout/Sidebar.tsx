@@ -35,7 +35,7 @@ export function Sidebar({ open, onClose, course = 'java' }: SidebarProps) {
   };
 
   const sidebarContent = (
-    <div className="h-full flex flex-col w-72">
+    <div className="flex flex-col w-72">
       {/* Header */}
       <div className="px-4 py-3 border-b border-[var(--border-color)] flex items-center justify-between shrink-0">
         <span className="text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
@@ -62,7 +62,7 @@ export function Sidebar({ open, onClose, course = 'java' }: SidebarProps) {
       </div>
 
       {/* Chapters */}
-      <div className="flex-1 overflow-y-auto py-2">
+      <div className="py-2">
         {chapters.map((chapter) => (
           <div key={chapter.number} className="mb-1">
             {/* Chapter header */}
@@ -122,14 +122,14 @@ export function Sidebar({ open, onClose, course = 'java' }: SidebarProps) {
     <>
       {/* Desktop sidebar */}
       <aside 
-        className={`hidden lg:block shrink-0 border-r border-[var(--border-color)] bg-[var(--sidebar-bg)] h-[calc(100vh-4rem)] sticky top-16 transition-all duration-300 overflow-hidden ${isMinimized ? 'w-12' : 'w-72'}`}
+        className={`hidden lg:block shrink-0 border-r border-[var(--border-color)] bg-[var(--sidebar-bg)] sticky top-16 transition-all duration-300 self-start overflow-hidden ${isMinimized ? 'w-12' : 'w-72'}`}
       >
-        <div className="w-72 h-full relative">
+        <div className="w-72 relative">
           {sidebarContent}
           
           {/* Minimized view overlay */}
           {isMinimized && (
-            <div className="absolute inset-0 w-12 bg-[var(--sidebar-bg)] border-r border-[var(--border-color)] flex flex-col items-center pt-3 z-10">
+            <div className="absolute inset-0 w-12 bg-[var(--sidebar-bg)] border-r border-[var(--border-color)] flex flex-col items-center pt-3 z-10 min-h-[300px]">
               <button
                 onClick={() => setIsMinimized(false)}
                 className="w-8 h-8 rounded-md hover:bg-[var(--surface-elevated)] flex items-center justify-center cursor-pointer"
@@ -146,7 +146,7 @@ export function Sidebar({ open, onClose, course = 'java' }: SidebarProps) {
       {open && (
         <div className="lg:hidden fixed inset-0 z-50">
           <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-          <aside className="absolute left-0 top-0 h-full w-72 bg-[var(--sidebar-bg)] border-r border-[var(--border-color)] shadow-2xl animate-slide-in overflow-hidden">
+          <aside className="absolute left-0 top-0 h-full w-72 bg-[var(--sidebar-bg)] border-r border-[var(--border-color)] shadow-2xl animate-slide-in overflow-y-auto">
             {sidebarContent}
           </aside>
         </div>

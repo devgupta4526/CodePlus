@@ -45,6 +45,7 @@ function mkSlide(o) {
     _ann: null
   }, o);
 }
+window.mkSlide = mkSlide;
 
 // ═══ DEFAULT DECK ═════════════════════════════════════════════════════════
 function buildDefaultSlides() {

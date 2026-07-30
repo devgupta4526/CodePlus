@@ -23,10 +23,23 @@ export interface LessonMeta {
   videoUrl?: string;
 }
 
+/** Image note item for visual learning */
+export interface ImageNote {
+  id: string;
+  filename: string;
+  url: string;
+  type: 'image' | 'video';
+  title: string;
+  order: number;
+  sectionNumber?: number;
+  keywords: string[];
+}
+
 /** Full lesson data including content */
 export interface Lesson extends LessonMeta {
   content: string;
   headings: Heading[];
+  imageNotes?: ImageNote[];
 }
 
 /** Heading extracted from content for TOC */

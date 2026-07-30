@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>OOP Lesson 1 — Animated Scene Sequencer</title>
+<style>
+  :root{
+    --bg:#0d1117; --ink:#e6edf3; --ink-dim:#93a1b0;
+    --green:#00ff88; --blue:#61dafb; --red:#ff4d5e; --yellow:#ffd60a;
+    --border:#263241;
+    --ease-out: cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,sans-serif;}
+
+  .wrap{max-width:1100px;margin:0 auto;padding:24px;}
+  h1{font-family:'JetBrains Mono',monospace;font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:12px;}
+  h1 span{color:var(--green);}
+
+  /* ===== 16:9 Video Stage ===== */
+  #stage{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/9;
+    background: radial-gradient(ellipse at 50% 110%, rgba(0,255,136,.08), transparent 70%), #080c10;
+    border:2px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+  }
+
+  .scene{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .6s ease;
+  }
+  .scene.is-active{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  /* =========================================================
+     SCENE 1.1 — COLD OPEN TYPING TEXT
+     ========================================================= */
+  #scene-1-1 .terminal-bg {
+    position:absolute; width:75%; max-width:700px; height:auto;
+    object-fit:contain; filter:drop-shadow(0 15px 35px rgba(0,0,0,0.8));
+  }
+  #scene-1-1 .terminal-content {
+    position:relative; z-index:5; width:65%; max-width:600px;
+    background:rgba(13,17,23,0.92); border:1px solid var(--green);
+    padding:28px 36px; border-radius:12px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.8), 0 0 25px rgba(0,255,136,0.2);
+  }
+  #scene-1-1.is-active .typed-text {
+    font-family:'JetBrains Mono',monospace; font-size:28px; font-weight:700; color:#fff;
+    white-space:nowrap; overflow:hidden; border-right:4px solid var(--green); width:0;
+    animation: typeS1 3s steps(38) .4s forwards, blinkCursor .75s infinite;
+  }
+  @keyframes typeS1 { from{width:0;} to{width:100%;} }
+  @keyframes blinkCursor { 0%,100%{border-color:var(--green);} 50%{border-color:transparent;} }
+
+  /* =========================================================
+     SCENE 1.2 — NERVOUS CANDIDATE MONTAGE (PNG PUPPET SWAP)
+     ========================================================= */
+  #scene-1-2 .interviewer {
+    position:absolute; left:6%; bottom:6%; height:380px; width:auto;
+    object-fit:contain; filter:drop-shadow(0 10px 25px rgba(0,0,0,0.8));
+  }
+  #scene-1-2 .paper-card {
+    position:absolute; bottom:20%; left:30%; width:140px; height:85px;
+    z-index:8; filter:drop-shadow(0 8px 20px rgba(0,0,0,0.8));
+    transform:translateX(-100px) rotate(-6deg); opacity:0;
+  }
+  #scene-1-2.is-active .paper-card {
+    animation: slidePaperS2 3s cubic-bezier(.16,1,.3,1) .5s infinite;
+  }
+  @keyframes slidePaperS2 {
+    0% { transform:translateX(-100px) rotate(-6deg); opacity:0; }
+    30% { transform:translateX(100px) rotate(0deg); opacity:1; }
+    75% { transform:translateX(100px) rotate(0deg); opacity:1; }
+    100% { transform:translateX(180px) rotate(6deg); opacity:0; }
+  }
+
+  #scene-1-2 .candidate-puppet {
+    position:absolute; right:8%; bottom:6%; width:320px; height:380px; z-index:5;
+  }
+  #scene-1-2 .candidate-pose {
+    position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0;
+  }
+  #scene-1-2.is-active .pose-1 { animation: swapPose 10s infinite 0s; }
+  #scene-1-2.is-active .pose-2 { animation: swapPose 10s infinite 2s; }
+  #scene-1-2.is-active .pose-3 { animation: swapPose 10s infinite 4s; }
+  #scene-1-2.is-active .pose-4 { animation: swapPose 10s infinite 6s; }
+  #scene-1-2.is-active .pose-5 { animation: swapPose 10s infinite 8s; }
+
+  @keyframes swapPose {
+    0%,20%{ opacity:1; transform:scale(1); }
+    22%,100%{ opacity:0; transform:scale(.97); }
+  }
+
+  #scene-1-2 .glitch-bolts {
+    position:absolute; top:8%; right:18%; font-size:42px; z-index:12; opacity:0;
+  }
+  #scene-1-2.is-active .glitch-bolts {
+    animation: flashBoltsS2 0.35s infinite alternate;
+  }
+  @keyframes flashBoltsS2 {
+    0%{ opacity:0.3; transform:scale(.9) rotate(-5deg); filter:hue-rotate(0deg); }
+    100%{ opacity:1; transform:scale(1.2) rotate(5deg); filter:hue-rotate(90deg); }
+  }
+
+  /* =========================================================
+     SCENE 1.3 — SPLIT SCREEN: ROBOTIC vs CONFIDENT
+     ========================================================= */
+  #scene-1-3 .panel-left, #scene-1-3 .panel-right {
+    position:absolute; top:0; bottom:0; width:50%; padding:24px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  #scene-1-3 .panel-left { left:0; background:#111720; border-right:2px solid var(--border); }
+  #scene-1-3 .panel-right { right:0; background:#0b1d16; }
+
+  #scene-1-3 .vs-emblem {
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:70px; height:70px; background:#0d1117; border:3px solid var(--blue);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    color:var(--green); font-family:'Space Grotesk',sans-serif; font-weight:900; font-size:24px;
+    box-shadow:0 0 25px var(--blue), 0 0 45px var(--green); z-index:30;
+  }
+  #scene-1-3.is-active .vs-emblem {
+    animation: pulseVSS3 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes pulseVSS3 {
+    0%{ transform:translate(-50%,-50%) scale(.95); box-shadow:0 0 15px var(--blue); }
+    100%{ transform:translate(-50%,-50%) scale(1.15); box-shadow:0 0 35px var(--green), 0 0 50px var(--blue); }
+  }
+
+  #scene-1-3 .robot-img {
+    position:absolute; bottom:10%; left:12%; height:260px; width:auto; object-fit:contain;
+  }
+  #scene-1-3.is-active .robot-img {
+    animation: robotJitterS3 0.12s infinite alternate;
+  }
+  @keyframes robotJitterS3 { 0%{transform:translate(0,0);} 100%{transform:translate(-3px,2px);} }
+
+  #scene-1-3 .architect-img {
+    position:absolute; bottom:10%; left:10%; height:280px; width:auto; object-fit:contain;
+  }
+  #scene-1-3.is-active .architect-img {
+    animation: archSway 2s infinite alternate ease-in-out;
+  }
+  @keyframes archSway { 0%{transform:translateY(0);} 100%{transform:translateY(-6px);} }
+
+  #scene-1-3 .blueprint-img {
+    position:absolute; top:15%; right:8%; width:240px; height:180px; object-fit:contain;
+    border:2px dashed var(--green); border-radius:10px;
+  }
+  #scene-1-3.is-active .blueprint-img {
+    animation: boardGlowS3 2s infinite alternate;
+  }
+  @keyframes boardGlowS3 {
+    0%{ border-color:var(--green); box-shadow:0 0 15px rgba(0,255,136,.2); }
+    100%{ border-color:var(--blue); box-shadow:0 0 35px rgba(97,218,251,.5); }
+  }
+
+  .badge-tag {
+    display:inline-block; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:800; font-family:'Space Grotesk',sans-serif;
+  }
+  .b-red { background:rgba(255,77,94,.2); color:var(--red); border:1px solid var(--red); }
+  .b-green { background:rgba(0,255,136,.2); color:var(--green); border:1px solid var(--green); }
+
+  /* ===== Controls & Timeline ===== */
+  .controls{ display:flex; align-items:center; gap:14px; margin-top:18px; }
+  .controls button{
+    background:var(--green); color:#04140c; border:none;
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700;
+    padding:10px 22px; border-radius:100px; cursor:pointer; letter-spacing:.04em;
+    box-shadow:0 0 15px rgba(0,255,136,.4); transition:all .2s;
+  }
+  .controls button:hover{ transform:scale(1.04); background:#33ff9e; }
+  .controls button.secondary{ background:transparent; color:var(--ink-dim); border:1px solid var(--border); box-shadow:none; }
+  .timeline{ flex:1; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .timeline-fill{ height:100%; width:0%; background:linear-gradient(90deg, var(--green), var(--blue)); }
+
+  .scene-label{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-dim); margin-top:12px; }
+  .scene-label b{ color:var(--blue); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OOP Masterclass — <span>Lesson 1 Animated Scene Sequencer</span></h1>
+
+  <!-- 16:9 Video Stage -->
+  <div id="stage">
+
+    <!-- Scene 1.1 -->
+    <div class="scene" id="scene-1-1">
+      <img class="terminal-bg" src="/teaching-studio/assets/35_vintage_green-phosphor_CR.png" alt="Terminal" />
+      <div class="terminal-content">
+        <div style="font-size:12px; color:#8b949e; margin-bottom:10px;">bash — cold_open_typing.sh [00:00–00:15]</div>
+        <div class="typed-line">Why Most Freshers Fail to Explain <span style="color:var(--blue)">OOP</span></div>
+      </div>
+    </div>
+
+    <!-- Scene 1.2 -->
+    <div class="scene" id="scene-1-2">
+      <img class="interviewer" src="/teaching-studio/assets/06_interviewer_character_sit.png" alt="Interviewer" />
+      <img class="paper-card" src="/teaching-studio/assets/57_flat_UI_card_labeled_with.png" alt="Paper Card" />
+
+      <div class="candidate-puppet">
+        <img class="candidate-pose pose-1" src="/teaching-studio/assets/01_young_job_candidate_sitti.png" alt="Candidate 1" />
+        <img class="candidate-pose pose-2" src="/teaching-studio/assets/02_same_candidate_character_.png" alt="Candidate 2" />
+        <img class="candidate-pose pose-3" src="/teaching-studio/assets/03_same_candidate_character_.png" alt="Candidate 3" />
+        <img class="candidate-pose pose-4" src="/teaching-studio/assets/04_same_candidate_character_.png" alt="Candidate 4" />
+        <img class="candidate-pose pose-5" src="/teaching-studio/assets/05_same_candidate_character_.png" alt="Candidate 5" />
+      </div>
+
+      <img class="thought-bubble" style="position:absolute; top:8%; right:14%; width:220px; z-index:10;" src="/teaching-studio/assets/54_glowing_thought-bubble_cl.png" alt="Thought Bubble" />
+      <div class="glitch-bolts">⚡🧠⚡</div>
+    </div>
+
+    <!-- Scene 1.3 -->
+    <div class="scene" id="scene-1-3">
+      <div class="vs-emblem">VS</div>
+      <div class="panel-left">
+        <div class="badge-tag b-red">❌ ROBOTIC DEFINITION RECITER</div>
+        <img class="robot-img" src="/teaching-studio/assets/39_sleek_humanoid_robot_char.png" alt="Robot Candidate" />
+      </div>
+      <div class="panel-right">
+        <div class="badge-tag b-green">✅ CONFIDENT VISUAL EXPLAINER</div>
+        <img class="architect-img" src="/teaching-studio/assets/09_architect_character_seate.png" alt="Confident Engineer" />
+        <img class="blueprint-img" src="/teaching-studio/assets/25_architectural_blueprint_p.png" alt="Whiteboard Blueprint" />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="controls">
+    <button onclick="playSequence()">▶ Play Full Sequence</button>
+    <button class="secondary" onclick="stopSequence()">Stop</button>
+    <div class="timeline"><div class="timeline-fill" id="timelineFill"></div></div>
+  </div>
+  <div class="scene-label">Now Playing: <b id="nowPlaying">—</b></div>
+</div>
+
+<script>
+const scenes = ['scene-1-1','scene-1-2','scene-1-3'];
+const durations = [4500, 7000, 6500]; // ms per scene
+const labels = [
+  'Scene 1.1 — Cold Open Monospace Typewriter Animation [00:00–00:15]',
+  'Scene 1.2 — Candidate Montage & PNG Expression Swap Puppet Assembly [00:15–01:45]',
+  'Scene 1.3 — Split Screen: Robotic Reciter vs Confident Visual Explainer [00:15–01:45]'
+];
+
+let timers = [];
+
+function clearAllScenes(){
+  scenes.forEach(id => document.getElementById(id).classList.remove('is-active'));
+}
+
+function stopSequence(){
+  timers.forEach(t => clearTimeout(t));
+  timers = [];
+  clearAllScenes();
+  document.getElementById('nowPlaying').textContent = '—';
+  document.getElementById('timelineFill').style.transition = 'none';
+  document.getElementById('timelineFill').style.width = '0%';
+}
+
+function playSequence(){
+  stopSequence();
+  let elapsed = 0;
+  const total = durations.reduce((a,b)=>a+b,0);
+
+  scenes.forEach((id, i) => {
+    const t = setTimeout(() => {
+      clearAllScenes();
+      document.getElementById(id).classList.add('is-active');
+      document.getElementById('nowPlaying').textContent = labels[i];
+    }, elapsed);
+    timers.push(t);
+    elapsed += durations[i];
+  });
+
+  const fill = document.getElementById('timelineFill');
+  fill.style.transition = 'none';
+  fill.style.width = '0%';
+  requestAnimationFrame(()=>{
+    fill.style.transition = `width ${total}ms linear`;
+    fill.style.width = '100%';
+  });
+
+  const endTimer = setTimeout(()=>{
+    document.getElementById('nowPlaying').textContent = 'Sequence complete — click Play to loop';
+  }, total);
+  timers.push(endTimer);
+}
+
+// Auto play on load
+window.addEventListener('load', playSequence);
+</script>
+</body>
+</html>

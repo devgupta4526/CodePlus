@@ -430,3 +430,166 @@ function render3DCarouselDom(s, acc, anim, t, z) {
   w.appendChild(scene);
   t.appendChild(w);
 }
+
+/* ── COLD OPEN ───────────────────────────────────────────────────────────── */
+function renderColdOpenDom(s, acc, anim, t, z) {
+  const stage = el('div', `width:100%;height:100%;background:#000000;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center`);
+  
+  const textScene = el('div', `position:absolute;inset:0;background:#000000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 5%;z-index:10`, '', 'scene-text');
+  const line1 = el('div', `font-family:'JetBrains Mono',monospace;font-size:${px(36,z)};font-weight:700;color:#e6edf3;line-height:1.8;white-space:nowrap`, `What is Object-Oriented Programming?<span style="display:inline-block;width:${px(12,z)};height:1em;background:#00ff88;margin-left:6px;vertical-align:middle;animation:blink 0.8s infinite;"></span>`);
+  const line2 = el('div', `font-family:'JetBrains Mono',monospace;font-size:${px(24,z)};font-weight:500;color:#8b949e;margin-top:${px(16,z)}`, `— Asked in literally every Java interview. Ever.`);
+  textScene.appendChild(line1);
+  textScene.appendChild(line2);
+
+  const flashScene = el('div', `position:absolute;inset:0;background:#ffffff;display:flex;align-items:center;justify-content:center;z-index:20;display:none`, '', 'scene-flash');
+  const logoBox = el('div', `width:${px(300,z)};height:${px(300,z)};border:3px dashed rgba(0,0,0,0.3);border-radius:${px(16,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.03);color:#333;font-weight:700;font-size:${px(16,z)};text-transform:uppercase;font-family:'JetBrains Mono',monospace`);
+  logoBox.id = "channel_logo_svg";
+  logoBox.innerHTML = `<div style="font-size:${px(42,z)};margin-bottom:${px(12,z)}">📺</div><div>Upload: Channel Logo</div>`;
+  flashScene.appendChild(logoBox);
+
+  stage.appendChild(textScene);
+  stage.appendChild(flashScene);
+  t.appendChild(stage);
+}
+
+/* ── INTERVIEW HOOK ────────────────────────────────────────────────────────── */
+function renderInterviewHookDom(s, acc, anim, t, z) {
+  const stage = el('div', `width:100%;height:100%;background:linear-gradient(180deg,#0d1117 0%,#161b22 100%);position:relative;overflow:hidden`);
+  
+  const glitch = el('div', `position:absolute;right:calc(10% + ${px(90,z)});top:calc(60% - ${px(540,z)});width:${px(120,z)};height:${px(120,z)};border-radius:50%;border:2px dashed rgba(255,68,68,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ff4444;font-size:${px(13,z)};font-weight:600;z-index:12;animation:flicker 1.8s infinite ease-in-out`, '', 'placeholder-box flicker');
+  glitch.id = 'brain_glitch_fx_svg';
+  glitch.innerHTML = `<div style="font-size:${px(24,z)};margin-bottom:${px(4,z)}">⚡</div><div>Upload: Glitch FX</div>`;
+
+  const interviewer = el('div', `position:absolute;left:10%;top:calc(60% - ${px(400,z)});width:${px(300,z)};height:${px(400,z)};border:2px dashed rgba(255,255,255,0.25);border-radius:${px(8,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8b949e;font-size:${px(13,z)};font-weight:600;z-index:10;animation:slideInLeft 0.8s ease forwards`, '', 'placeholder-box slide-in-left');
+  interviewer.id = 'interviewer_svg';
+  interviewer.innerHTML = `<div style="font-size:${px(32,z)};margin-bottom:${px(8,z)}">👔</div><div>Upload: Interviewer</div>`;
+
+  const fresher = el('div', `position:absolute;right:10%;top:calc(60% - ${px(400,z)});width:${px(300,z)};height:${px(400,z)};border:2px dashed rgba(255,255,255,0.25);border-radius:${px(8,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8b949e;font-size:${px(13,z)};font-weight:600;z-index:10;animation:slideInRight 0.8s ease forwards`, '', 'placeholder-box slide-in-right');
+  fresher.id = 'fresher_svg';
+  fresher.innerHTML = `<div style="font-size:${px(32,z)};margin-bottom:${px(8,z)}">🧑‍💻</div><div>Upload: Fresher</div>`;
+
+  const paper = el('div', `position:absolute;left:50%;top:calc(60% - ${px(45,z)});transform:translateX(-50%);width:${px(160,z)};height:${px(110,z)};background:#fff;border:1px solid #d0d7de;border-radius:${px(4,z)};box-shadow:0 8px 20px rgba(0,0,0,0.4);z-index:15;display:flex;align-items:center;justify-content:center`);
+  paper.id = 'question_paper_svg';
+  paper.innerHTML = `<div style="color:#ff4444;font-weight:900;font-size:${px(18,z)};text-transform:uppercase;border:3px solid #ff4444;padding:${px(4,z)} ${px(10,z)};border-radius:${px(4,z)};transform:rotate(-15deg);white-space:nowrap">Explain OOP</div>`;
+
+  const table = el('div', `position:absolute;top:60%;left:0;width:100%;height:40%;background:linear-gradient(180deg,#1c2128 0%,#161b22 100%);border-top:3px solid #30363d;z-index:5`);
+  table.id = 'table_svg';
+
+  stage.appendChild(glitch);
+  stage.appendChild(interviewer);
+  stage.appendChild(fresher);
+  stage.appendChild(paper);
+  stage.appendChild(table);
+  t.appendChild(stage);
+}
+
+/* ── TWO CANDIDATES SPLIT ───────────────────────────────────────────────── */
+function renderTwoCandidatesSplitDom(s, acc, anim, t, z) {
+  const stage = el('div', `width:100%;height:100%;background:#0d1117;position:relative;display:flex;overflow:hidden`);
+  
+  const divider = el('div', `position:absolute;top:0;bottom:0;left:50%;width:2px;background:#7c8cf8;box-shadow:0 0 15px #7c8cf8;z-index:10;transform:translateX(-50%)`);
+  
+  const leftPanel = el('div', `flex:1;height:100%;padding:${px(30,z)};display:flex;flex-direction:column;align-items:center;justify-content:space-between;z-index:5`);
+  leftPanel.innerHTML = `
+    <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:${px(20,z)};color:#ff4444;background:rgba(255,68,68,0.12);border:2px solid #ff4444;padding:${px(6,z)} ${px(20,z)};border-radius:${px(20,z)}">Memorized</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:${px(16,z)}">
+      <div id="robotic_candidate_svg" class="jitter-loop" style="width:${px(280,z)};height:${px(380,z)};border:2px dashed rgba(255,255,255,0.25);border-radius:${px(12,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8b949e">
+        <div style="font-size:${px(32,z)};margin-bottom:${px(8,z)}">🤖</div>
+        <div style="font-size:${px(12,z)};font-weight:600">Upload: Robotic Candidate</div>
+      </div>
+      <div style="width:${px(260,z)};padding:${px(8,z)};border:2px dashed rgba(255,68,68,0.4);border-radius:${px(12,z)};background:rgba(255,68,68,0.05);color:#ff8888;font-size:${px(11,z)};text-align:center;font-weight:600">
+        💬 "OOP is a paradigm featuring classes..." (Looping)
+      </div>
+    </div>
+  `;
+
+  const rightPanel = el('div', `flex:1;height:100%;padding:${px(30,z)};display:flex;flex-direction:column;align-items:center;justify-content:space-between;z-index:5`);
+  rightPanel.innerHTML = `
+    <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:${px(20,z)};color:#00ff88;background:rgba(0,255,136,0.12);border:2px solid #00ff88;padding:${px(6,z)} ${px(20,z)};border-radius:${px(20,z)}">Understood</div>
+    <div style="display:flex;align-items:center;gap:${px(16,z)}">
+      <div id="confident_candidate_svg" style="width:${px(240,z)};height:${px(380,z)};border:2px dashed rgba(255,255,255,0.25);border-radius:${px(12,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8b949e">
+        <div style="font-size:${px(32,z)};margin-bottom:${px(8,z)}">💡</div>
+        <div style="font-size:${px(12,z)};font-weight:600">Upload: Confident Candidate</div>
+      </div>
+      <div id="diagram_sketch_svg" class="smooth-build" style="width:${px(220,z)};height:${px(280,z)};border:2px dashed rgba(0,255,136,0.4);border-radius:${px(12,z)};background:rgba(0,255,136,0.03);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#8b949e">
+        <div style="font-size:${px(32,z)};margin-bottom:${px(8,z)}">📐</div>
+        <div style="font-size:${px(12,z)};font-weight:600">Upload: Diagram Sketch</div>
+      </div>
+    </div>
+  `;
+
+  stage.appendChild(divider);
+  stage.appendChild(leftPanel);
+  stage.appendChild(rightPanel);
+  t.appendChild(stage);
+}
+
+/* ── ROADMAP GRAPHIC ─────────────────────────────────────────────────────── */
+function renderRoadmapGraphicDom(s, acc, anim, t, z) {
+  const stage = el('div', `width:100%;height:100%;background:linear-gradient(180deg,#0d1117 0%,#161b22 100%);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden`);
+  
+  const road = el('div', `width:82%;height:75%;border:2px dashed rgba(255,255,255,0.25);border-radius:${px(24,z)};background:rgba(255,255,255,0.015);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:${px(18,z)};font-weight:700;text-transform:uppercase`);
+  road.id = 'road_graphic_svg';
+  road.innerHTML = '🛣️ Upload: Road Graphic Path SVG (~1400x600px)';
+  stage.appendChild(road);
+
+  const topics = [
+    "1. What is OOP & why it exists",
+    "2. Classes and Objects",
+    "3. Pillar 1 — Abstraction",
+    "4. Pillar 2 — Encapsulation",
+    "5. Pillar 3 — Inheritance + Diamond Problem",
+    "6. Pillar 4 — Polymorphism",
+    "7. OOP Relationships — IS-A and HAS-A",
+    "8. Aggregation vs Composition",
+    "9. Full Interview Q&A Rapid Fire"
+  ];
+
+  const coords = [
+    `top:78%;left:8%`, `top:62%;left:16%`, `top:44%;left:24%`,
+    `top:26%;left:34%`, `top:16%;left:50%;transform:translateX(-50%)`, `top:26%;right:34%`,
+    `top:44%;right:24%`, `top:62%;right:16%`, `top:78%;right:8%`
+  ];
+
+  topics.forEach((tpc, i) => {
+    const item = el('div', `position:absolute;z-index:10;display:flex;align-items:center;gap:${px(10,z)};background:rgba(13,17,23,0.85);padding:${px(6,z)} ${px(14,z)};border-radius:${px(10,z)};border:1px solid rgba(97,218,251,0.3);${coords[i]}`, '', 'signpost-item pop-in-sequential');
+    item.innerHTML = `
+      <div style="width:${px(36,z)};height:${px(36,z)};border:1.5px dashed rgba(255,255,255,0.25);border-radius:${px(6,z)};display:flex;align-items:center;justify-content:center;color:#61dafb;font-size:${px(14,z)}" class="signpost">🚩</div>
+      <div style="color:#e6edf3;font-size:${px(13,z)};font-weight:600;font-family:'Poppins',sans-serif;white-space:nowrap;display:flex;align-items:center;gap:${px(6,z)}">
+        <span style="width:${px(6,z)};height:${px(6,z)};border-radius:50%;background:#61dafb;display:inline-block"></span>
+        ${tpc}
+      </div>
+    `;
+    stage.appendChild(item);
+  });
+
+  t.appendChild(stage);
+}
+
+/* ── WHITEBOARD INTRO ────────────────────────────────────────────────────── */
+function renderWhiteboardIntroDom(s, acc, anim, t, z) {
+  const stage = el('div', `width:100%;height:100%;background:#f5f5f0;background-image:linear-gradient(to right,rgba(0,0,0,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,0.03) 1px,transparent 1px);background-size:40px 40px;position:relative;overflow:hidden`);
+  
+  const hand = el('div', `position:absolute;left:15%;top:45%;transform:translateY(-50%);width:${px(300,z)};height:${px(360,z)};border:3px dashed rgba(0,0,0,0.25);border-radius:${px(16,z)};display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.02);color:#555;font-weight:700;font-size:${px(14,z)};text-transform:uppercase;z-index:20`);
+  hand.id = 'hand_marker_svg';
+  hand.innerHTML = `<div style="font-size:${px(40,z)};margin-bottom:${px(8,z)}">✍️</div><div>Upload: Hand + Marker</div>`;
+  
+  const svgCanvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgCanvas.setAttribute('style', 'position:absolute;inset:0;width:100%;height:100%;z-index:10;pointer-events:none');
+  svgCanvas.setAttribute('viewBox', '0 0 1920 1080');
+  
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.id = 'whiteboard-stroke';
+  path.setAttribute('d', 'M 450 500 Q 700 350 950 500 T 1450 500');
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', '#1a1a1a');
+  path.setAttribute('stroke-width', '6');
+  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('stroke-dasharray', '1000');
+  path.setAttribute('stroke-dashoffset', '1000');
+  svgCanvas.appendChild(path);
+
+  stage.appendChild(hand);
+  stage.appendChild(svgCanvas);
+  t.appendChild(stage);
+}

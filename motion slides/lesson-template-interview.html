@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Teaching Studio - Interview Glitch Slide Template</title>
+  <style>
+    :root {
+      --bg-start: #0d1117;
+      --bg-end: #161b22;
+      --accent-red: #ff4444;
+      --border-dashed: rgba(255, 255, 255, 0.25);
+      --label-color: #8b949e;
+      --table-border: #30363d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #05070a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+    }
+
+    /* 1920x1080 Stage Container (16:9 Responsive) */
+    .slide-stage {
+      position: relative;
+      width: 100vw;
+      max-width: 1920px;
+      height: 56.25vw;
+      max-height: 1080px;
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Horizontal Table Strip at 60% Height Dividing Top from Bottom Surface */
+    .table-strip {
+      position: absolute;
+      top: 60%;
+      left: 0;
+      width: 100%;
+      height: 40%;
+      background: linear-gradient(180deg, #1c2128 0%, #161b22 100%);
+      border-top: 3px solid var(--table-border);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+
+    /* Placeholder Slot Common Styling */
+    .placeholder-box {
+      position: absolute;
+      border: 2px dashed var(--border-dashed);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.3s ease;
+      color: var(--label-color);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .placeholder-box:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .placeholder-box .icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      opacity: 0.6;
+    }
+
+    /* Left Side: Interviewer Placeholder Container (~400px height) */
+    #interviewer_svg {
+      left: 10%;
+      top: calc(60% - 400px);
+      width: 300px;
+      height: 400px;
+      z-index: 10;
+    }
+
+    /* Right Side: Fresher Placeholder Container (~400px height) */
+    #fresher_svg {
+      right: 10%;
+      top: calc(60% - 400px);
+      width: 300px;
+      height: 400px;
+      z-index: 10;
+    }
+
+    /* Empty Placeholder Div Above Fresher's Head (~120px) */
+    #brain_glitch_fx_svg {
+      right: calc(10% + 90px);
+      top: calc(60% - 540px);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      z-index: 12;
+      border-color: rgba(255, 68, 68, 0.4);
+    }
+
+    /* Placeholder Question Paper (~150x100px) on Table Between Them */
+    #question_paper_svg {
+      left: 50%;
+      top: calc(60% - 45px);
+      transform: translateX(-50%);
+      width: 160px;
+      height: 110px;
+      background: #ffffff;
+      border: 1px solid #d0d7de;
+      border-radius: 4px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      z-index: 15;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+    }
+
+    /* Diagonally Stamped Bold Red Overlay Text */
+    .stamp-text {
+      position: absolute;
+      color: var(--accent-red);
+      font-weight: 900;
+      font-size: 18px;
+      font-family: system-ui, -apple-system, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 3px solid var(--accent-red);
+      padding: 4px 10px;
+      border-radius: 4px;
+      transform: rotate(-15deg);
+      white-space: nowrap;
+      text-shadow: 0 0 2px rgba(255, 68, 68, 0.3);
+      box-shadow: 0 0 8px rgba(255, 68, 68, 0.2);
+    }
+
+    /* CSS Keyframes */
+    @keyframes slideInLeft {
+      0% {
+        transform: translateX(-80px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInRight {
+      0% {
+        transform: translateX(80px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes flicker {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: drop-shadow(0 0 10px rgba(255, 68, 68, 0.7));
+      }
+      15% {
+        opacity: 0.2;
+        transform: scale(0.96) translate(-2px, 1px);
+        filter: drop-shadow(0 0 2px rgba(255, 68, 68, 0.2));
+      }
+      30% {
+        opacity: 0.95;
+        transform: scale(1.02) translate(1px, -1px);
+        filter: drop-shadow(0 0 12px rgba(255, 68, 68, 0.8));
+      }
+      45% {
+        opacity: 0.3;
+        transform: scale(0.98) translate(-1px, 2px);
+      }
+      60% {
+        opacity: 0.85;
+        transform: scale(1.01) translate(2px, -1px);
+      }
+      75% {
+        opacity: 0.4;
+        transform: scale(0.97) translate(1px, 1px);
+      }
+    }
+
+    /* Specified Animation Class Names */
+    .slide-in-left {
+      animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide-in-right {
+      animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .flicker {
+      animation: flicker 1.8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1920x1080 Responsive Slide Stage -->
+  <div class="slide-stage">
+
+    <!-- Brain Glitch FX Slot (Above Fresher's Head) -->
+    <div id="brain_glitch_fx_svg" class="placeholder-box flicker">
+      <div class="icon">⚡</div>
+      <div>Upload: Brain Glitch FX</div>
+    </div>
+
+    <!-- Left Side: Interviewer Container -->
+    <div id="interviewer_svg" class="placeholder-box slide-in-left">
+      <div class="icon">👔</div>
+      <div>Upload: Interviewer</div>
+    </div>
+
+    <!-- Right Side: Fresher Container -->
+    <div id="fresher_svg" class="placeholder-box slide-in-right">
+      <div class="icon">🧑‍💻</div>
+      <div>Upload: Fresher</div>
+    </div>
+
+    <!-- Question Paper on Table Surface -->
+    <div id="question_paper_svg">
+      <div class="stamp-text">Explain OOP</div>
+    </div>
+
+    <!-- 60% Height Horizontal Table Strip -->
+    <div class="table-strip" id="table_svg"></div>
+
+  </div>
+
+  <!-- JS Asset Config -->
+  <script>
+    const assets = {
+      interviewer: "UPLOAD_SVG_HERE",
+      fresher: "UPLOAD_SVG_HERE",
+      table: "UPLOAD_SVG_HERE",
+      paper: "UPLOAD_SVG_HERE",
+      glitchFx: "UPLOAD_SVG_HERE"
+    };
+
+    console.log("Teaching Studio Slide Asset Configuration:", assets);
+  </script>
+</body>
+</html>

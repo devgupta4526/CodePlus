@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 1 — Cold Open</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #000000;
+      --bg-white: #ffffff;
+      --text-color: #e6edf3;
+      --accent-color: #00ff88;
+      --border-dashed: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #05070a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'JetBrains Mono', monospace;
+      overflow: hidden;
+    }
+
+    /* 1920x1080 Stage */
+    .slide-stage {
+      position: relative;
+      width: 100vw;
+      max-width: 1920px;
+      height: 56.25vw;
+      max-height: 1080px;
+      background: var(--bg-black);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+    }
+
+    /* State 1: Cold Open Text */
+    .scene-text {
+      position: absolute;
+      inset: 0;
+      background-color: var(--bg-black);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 5%;
+      z-index: 10;
+      transition: opacity 0.1s ease;
+    }
+
+    .scene-text.hidden {
+      display: none;
+    }
+
+    .typewriter-line {
+      font-size: clamp(24px, 2.5vw, 42px);
+      font-weight: 700;
+      color: var(--text-color);
+      line-height: 1.8;
+      white-space: nowrap;
+    }
+
+    .typewriter-line.sub {
+      font-size: clamp(18px, 1.8vw, 30px);
+      font-weight: 500;
+      color: #8b949e;
+      margin-top: 16px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 1.1em;
+      background-color: var(--accent-color);
+      margin-left: 6px;
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* State 2: White Flash Logo Reveal */
+    .scene-flash {
+      position: absolute;
+      inset: 0;
+      background-color: var(--bg-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .scene-flash.hidden {
+      display: none;
+    }
+
+    #channel_logo_svg {
+      width: 320px;
+      height: 320px;
+      border: 3px dashed var(--border-dashed);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.03);
+      color: #333333;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    #channel_logo_svg:hover {
+      background: rgba(0, 0, 0, 0.06);
+      border-color: rgba(0, 0, 0, 0.6);
+    }
+
+    #channel_logo_svg .icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    /* Quick State Toggle Controls for Studio Testing */
+    .state-toggle-bar {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: flex;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .state-toggle-btn {
+      background: #21262d;
+      color: #ffffff;
+      border: 1px solid #30363d;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .state-toggle-btn.active {
+      background: #00ff88;
+      color: #000000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1920x1080 Stage -->
+  <div class="slide-stage">
+
+    <!-- State 1: Typewriter Text Scene -->
+    <div class="scene-text" id="sceneText">
+      <div class="typewriter-line">
+        What is Object-Oriented Programming?<span class="cursor"></span>
+      </div>
+      <div class="typewriter-line sub">
+        — Asked in literally every Java interview. Ever.
+      </div>
+    </div>
+
+    <!-- State 2: White Flash Logo Reveal Scene -->
+    <div class="scene-flash hidden" id="sceneFlash">
+      <div id="channel_logo_svg">
+        <div class="icon">📺</div>
+        <div>Upload: Channel Logo</div>
+      </div>
+    </div>
+
+    <!-- State Toggle Bar for Studio Previewing -->
+    <div class="state-toggle-bar">
+      <button class="state-toggle-btn active" onclick="showState('text')">State 1: Typewriter Text</button>
+      <button class="state-toggle-btn" onclick="showState('flash')">State 2: White Flash Logo</button>
+    </div>
+
+  </div>
+
+  <!-- Asset Configuration JS -->
+  <script>
+    const assets = {
+      channelLogo: "UPLOAD_SVG_HERE"
+    };
+
+    function showState(state) {
+      const textScene = document.getElementById('sceneText');
+      const flashScene = document.getElementById('sceneFlash');
+      const btns = document.querySelectorAll('.state-toggle-btn');
+
+      if (state === 'text') {
+        textScene.classList.remove('hidden');
+        flashScene.classList.add('hidden');
+        btns[0].classList.add('active');
+        btns[1].classList.remove('active');
+      } else {
+        textScene.classList.add('hidden');
+        flashScene.classList.remove('hidden');
+        btns[0].classList.remove('active');
+        btns[1].classList.add('active');
+      }
+    }
+
+    console.log("Scene 1 Asset Config Loaded:", assets);
+  </script>
+</body>
+</html>

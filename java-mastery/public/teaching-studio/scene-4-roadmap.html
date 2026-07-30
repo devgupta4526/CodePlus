@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene 4 — Roadmap Graphic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-start: #0d1117;
+      --bg-end: #161b22;
+      --accent-blue: #61dafb;
+      --text-offwhite: #e6edf3;
+      --border-dashed: rgba(255, 255, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #05070a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    /* 1920x1080 Stage */
+    .slide-stage {
+      position: relative;
+      width: 100vw;
+      max-width: 1920px;
+      height: 56.25vw;
+      max-height: 1080px;
+      background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Road Graphic Container (~1400x600px) */
+    #road_graphic_svg {
+      position: absolute;
+      width: 82%;
+      height: 75%;
+      border: 2px dashed var(--border-dashed);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.015);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    /* 9 Staggered Signpost Items */
+    .signpost-item {
+      position: absolute;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(13, 17, 23, 0.85);
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(97, 218, 251, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .signpost-item:hover {
+      border-color: var(--accent-blue);
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(97, 218, 251, 0.25);
+    }
+
+    /* Signpost SVG Slot (~120px) */
+    .signpost {
+      width: 44px;
+      height: 44px;
+      border: 1.5px dashed var(--border-dashed);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--accent-blue);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .signpost-label {
+      color: var(--text-offwhite);
+      font-size: clamp(12px, 1.1vw, 16px);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .bullet-icon {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-blue);
+      flex-shrink: 0;
+    }
+
+    /* Signpost Coordinates Staggered Along Winding Path */
+    .pos-1 { top: 78%; left: 8%; }
+    .pos-2 { top: 62%; left: 16%; }
+    .pos-3 { top: 44%; left: 24%; }
+    .pos-4 { top: 26%; left: 34%; }
+    .pos-5 { top: 16%; left: 50%; transform: translateX(-50%); }
+    .pos-6 { top: 26%; right: 34%; }
+    .pos-7 { top: 44%; right: 24%; }
+    .pos-8 { top: 62%; right: 16%; }
+    .pos-9 { top: 78%; right: 8%; }
+
+    /* Conceptual Animation Hook Class */
+    @keyframes popInSequential {
+      0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .pop-in-sequential {
+      animation: popInSequential 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1920x1080 Stage -->
+  <div class="slide-stage">
+
+    <!-- Center Winding Road Placeholder (~1400x600px) -->
+    <div id="road_graphic_svg">
+      🛣️ Upload: Road Graphic Path SVG (~1400x600px)
+    </div>
+
+    <!-- 9 Signpost Items Staggered Along Road -->
+    <div class="signpost-item pos-1 pop-in-sequential" style="animation-delay: 0.1s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        1. What is OOP & why it exists
+      </div>
+    </div>
+
+    <div class="signpost-item pos-2 pop-in-sequential" style="animation-delay: 0.2s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        2. Classes and Objects
+      </div>
+    </div>
+
+    <div class="signpost-item pos-3 pop-in-sequential" style="animation-delay: 0.3s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        3. Pillar 1 — Abstraction
+      </div>
+    </div>
+
+    <div class="signpost-item pos-4 pop-in-sequential" style="animation-delay: 0.4s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        4. Pillar 2 — Encapsulation
+      </div>
+    </div>
+
+    <div class="signpost-item pos-5 pop-in-sequential" style="animation-delay: 0.5s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        5. Pillar 3 — Inheritance + Diamond Problem
+      </div>
+    </div>
+
+    <div class="signpost-item pos-6 pop-in-sequential" style="animation-delay: 0.6s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        6. Pillar 4 — Polymorphism
+      </div>
+    </div>
+
+    <div class="signpost-item pos-7 pop-in-sequential" style="animation-delay: 0.7s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        7. OOP Relationships — IS-A and HAS-A
+      </div>
+    </div>
+
+    <div class="signpost-item pos-8 pop-in-sequential" style="animation-delay: 0.8s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        8. Aggregation vs Composition
+      </div>
+    </div>
+
+    <div class="signpost-item pos-9 pop-in-sequential" style="animation-delay: 0.9s;">
+      <div class="signpost">🚩</div>
+      <div class="signpost-label">
+        <span class="bullet-icon"></span>
+        9. Full Interview Q&A Rapid Fire
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Asset Configuration JS -->
+  <script>
+    const assets = {
+      road: "UPLOAD_SVG_HERE",
+      signpost: "UPLOAD_SVG_HERE"
+    };
+
+    console.log("Scene 4 Asset Config Loaded:", assets);
+  </script>
+</body>
+</html>

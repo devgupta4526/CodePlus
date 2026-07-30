@@ -5,8 +5,9 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { type LessonMeta, type Heading } from '@/types';
+import { type LessonMeta, type Heading, type ImageNote } from '@/types';
 import { ALL_LESSONS } from '@/data/course';
+import { getImageNotesForLesson } from './imageNotesServer';
 
 const CONTENT_DIR = path.join(process.cwd(), 'src', 'content', 'lessons');
 
@@ -15,6 +16,7 @@ export function getLessonContent(slug: string): {
   meta: LessonMeta;
   content: string;
   headings: Heading[];
+  imageNotes: ImageNote[];
 } | null {
   const filePath = path.join(CONTENT_DIR, `${slug}.mdx`);
 
@@ -31,8 +33,10 @@ export function getLessonContent(slug: string): {
 
   // Extract headings for TOC
   const headings = extractHeadings(content);
+  // Get image notes for this lesson
+  const imageNotes = getImageNotesForLesson(slug);
 
-  return { meta, content, headings };
+  return { meta, content, headings, imageNotes };
 }
 
 /** Extract headings from markdown content for Table of Contents */
