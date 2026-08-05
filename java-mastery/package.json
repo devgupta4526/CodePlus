@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "remotion:preview": "remotion preview src/remotion/index.ts",
+    "remotion:render": "remotion render src/remotion/index.ts out/slides.mp4"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "@remotion/cli": "^4.0.503",
+    "@remotion/player": "^4.0.503",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.9",
     "framer-motion": "^12.42.2",
@@ -24,6 +28,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "recharts": "^3.10.0",
+    "remotion": "^4.0.503",
     "shiki": "^4.3.1"
   },
   "devDependencies": {

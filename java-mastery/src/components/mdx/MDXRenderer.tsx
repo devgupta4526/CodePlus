@@ -10,16 +10,31 @@ import { type CalloutType } from '@/types';
 
 interface MDXRendererProps {
   content: string;
+  animated?: boolean;
 }
 
 /**
  * Transforms raw markdown content into rich React components.
  * Handles: code blocks, mermaid, callouts, tables, headings, etc.
  */
-export function MDXRenderer({ content }: MDXRendererProps) {
+export function MDXRenderer({ content, animated = false }: MDXRendererProps) {
   const elements = useMemo(() => parseContent(content), [content]);
 
-  return <div className="prose">{elements}</div>;
+  return (
+    <div className={`prose ${animated ? 'slide-reveal-group' : ''}`}>
+      {animated
+        ? elements.map((element, index) => (
+            <div
+              key={`reveal-${index}`}
+              className="slide-reveal"
+              style={{ '--reveal-index': index } as React.CSSProperties}
+            >
+              {element}
+            </div>
+          ))
+        : elements}
+    </div>
+  );
 }
 
 // ── Parsing Engine ──────────────────────────────────────────────────────────
@@ -126,7 +141,7 @@ function parseContent(content: string): React.ReactNode[] {
       const body = text.replace(/\*\*[^*]+\*\*\s*/, '');
       elements.push(
         <DefinitionCard key={nextKey()} term={term}>
-          <p>{body}</p>
+          <p dangerouslySetInnerHTML={{ __html: inlineMarkdown(body) }} />
         </DefinitionCard>
       );
       continue;

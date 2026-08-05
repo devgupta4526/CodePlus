@@ -45,12 +45,15 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
   }, [lightbox, prev, next]);
 
   const onTouchStart = (e: React.TouchEvent) => {
+    e.stopPropagation();
     touchStartX.current = e.touches[0].clientX;
   };
   const onTouchMove = (e: React.TouchEvent) => {
+    e.stopPropagation();
     touchEndX.current = e.touches[0].clientX;
   };
-  const onTouchEnd = () => {
+  const onTouchEnd = (e: React.TouchEvent) => {
+    e.stopPropagation();
     if (touchStartX.current === null || touchEndX.current === null) return;
     const diff = touchStartX.current - touchEndX.current;
     if (Math.abs(diff) > 40) diff > 0 ? next() : prev();
@@ -137,6 +140,7 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
           aria-modal="true"
           aria-label="Full size image"
           onClick={() => setLightbox(false)}
+          data-carousel-lightbox="true"
         >
           <button
             className="carousel-lightbox-close"

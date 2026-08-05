@@ -6,7 +6,7 @@ const pDc = document.getElementById('present-draw-canvas');
 const pDom = document.getElementById('present-dom');
 const pSCtx = pSc.getContext('2d');
 const pDCtx = pDc.getContext('2d', { willReadFrequently: true });
-let pZoom = 1, pActive = false, pTool = 'pen', pColor = '#7c8cf8', pStroke = 3;
+let pZoom = 1, pTool = 'pen', pColor = '#7c8cf8', pStroke = 3;
 let pDrawHistory = [], pRedoStack = [], pHudTimer = null;
 
 function enterPresent() {
@@ -15,9 +15,12 @@ function enterPresent() {
   pFitCanvas();
   pRenderSlide(true);
   // sync step visibility
-  if (['bullets', 'code', 'split', 'compare', 'timeline', 'callout', 'two-col', 'image-text', 'concept-map', 'problem', 'prediction', 'wrong-assumption', 'story', 'journey', 'mystery', 'myth-vs-reality', 'common-mistake', 'quiz', 'memory-trick', 'character', 'summary', 'bar-chart', 'venn', 'stack-visual', 'process-loop', 'icon-grid', 'bento-grid', 'glass-fan', '3d-carousel', 'pipeline', 'hero-split', 'terminal', 'orbit-diagram', 'glitch-title'].includes(slides[cur].layout)) {
-    setTimeout(() => { hideAllSteps(sd); pSyncVisible(); }, 20);
-  }
+  setTimeout(() => {
+    if (getRevealItems(sd).length > 0) {
+      hideAllSteps(sd);
+    }
+    pSyncVisible();
+  }, 20);
   pOverlay.requestFullscreen().catch(() => { });
   showHud();
 }
@@ -80,14 +83,17 @@ function pRenderSlide(animate) {
 }
 function pGoSlide(animate) {
   pRenderSlide(animate);
-  if (['bullets', 'code', 'split', 'compare', 'timeline', 'callout', 'two-col', 'image-text', 'concept-map', 'problem', 'prediction', 'wrong-assumption', 'story', 'journey', 'mystery', 'myth-vs-reality', 'common-mistake', 'quiz', 'memory-trick', 'character', 'summary', 'bar-chart', 'venn', 'stack-visual', 'process-loop', 'icon-grid'].includes(slides[cur].layout)) {
-    setTimeout(() => { hideAllSteps(pDom); pUpdateNav(); }, 20);
-  }
+  setTimeout(() => {
+    if (getRevealItems(pDom).length > 0) {
+      hideAllSteps(pDom);
+    }
+    pUpdateNav();
+  }, 20);
 }
 function pSyncVisible() {
   // mirror visibility from main sd to pDom
-  const mi = [...sd.querySelectorAll('.bullet-item,.code-line')];
-  const pi = [...pDom.querySelectorAll('.bullet-item,.code-line')];
+  const mi = getRevealItems(sd);
+  const pi = getRevealItems(pDom);
   pi.forEach((e, i) => { if (mi[i] && mi[i].classList.contains('visible')) e.classList.add('visible'); else e.classList.remove('visible'); });
   pUpdateNav();
 }
@@ -142,49 +148,6 @@ function pSetTool(t) {
     pDCtx.clearRect(0, 0, CW, CH);
     if (pDrawHistory.length) pDCtx.putImageData(pDrawHistory[pDrawHistory.length - 1], 0, 0);
   }
-}
-function pUndo() {
-  if (!pDrawHistory.length) return;
-  pRedoStack.push(pDrawHistory.pop());
-  pDCtx.clearRect(0, 0, CW, CH);
-  if (pDrawHistory.length) pDCtx.putImageData(pDrawHistory[pDrawHistory.length - 1], 0, 0);
-}
-function pClear() { pDCtx.clearRect(0, 0, CW, CH); pDrawHistory = []; pRedoStack = []; }
-
-document.getElementById('present-exit').onclick = exitPresent;
-document.getElementById('present-next').onclick = () => { showHud(); advance(); };
-document.getElementById('present-prev').onclick = () => { showHud(); retreat(); };
-document.getElementById('pt-undo').onclick = pUndo;
-document.getElementById('pt-clear').onclick = pClear;
-document.getElementById('p-stroke-range').oninput = e => pStroke = +e.target.value;
-
-document.querySelectorAll('.pt-btn[data-ptool]').forEach(b => b.onclick = () => pSetTool(b.dataset.ptool));
-document.querySelectorAll('.pt-swatch').forEach(d => d.onclick = () => {
-  pColor = d.dataset.pcolor;
-  document.querySelectorAll('.pt-swatch').forEach(x => x.classList.remove('active')); d.classList.add('active');
-});
-
-document.addEventListener('fullscreenchange', () => {
-  if (!document.fullscreenElement && pActive) exitPresent();
-});
-window.addEventListener('resize', () => {
-  if (pActive) { pFitCanvas(); pRenderSlide(false); pSyncVisible(); }
-});
-if (cs.drawing) {
-  cs.drawing = false;
-  ctx_resetState(pDCtx);
-  const img = pDCtx.getImageData(0, 0, CW, CH);
-  pDrawHistory.push(img); pRedoStack = [];
-}
-pTool = t;
-document.querySelectorAll('.pt-btn[data-ptool]').forEach(b => b.classList.toggle('active', b.dataset.ptool === t));
-pDc.style.cursor = t === 'eraser' ? 'cell' : t === 'text' ? 'text' : 'crosshair';
-// Only clear the laser dot when switching away from laser — never wipe real annotations
-clearTimeout(pLaserTimer2);
-if (pPrevTool === 'laser' && t !== 'laser') {
-  pDCtx.clearRect(0, 0, CW, CH);
-  if (pDrawHistory.length) pDCtx.putImageData(pDrawHistory[pDrawHistory.length - 1], 0, 0);
-}
 }
 function pUndo() {
   if (!pDrawHistory.length) return;

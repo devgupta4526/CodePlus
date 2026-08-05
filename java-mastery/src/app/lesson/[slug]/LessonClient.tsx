@@ -221,7 +221,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
   }, []);
 
   return (
-    <div className={`flex flex-col overflow-hidden ${studyMode === 'interactive' ? 'h-screen' : 'min-h-screen'}`}>
+    <div className={`flex flex-col overflow-hidden ${studyMode === 'interactive' ? 'h-[100dvh] max-h-[100dvh]' : 'min-h-screen'}`}>
       {/* Reading Progress Bar */}
       <div
         className="reading-progress"
@@ -230,7 +230,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
 
       <Navbar />
 
-      <div className="flex flex-1">
+      <div className={`flex flex-1 min-w-0 ${studyMode === 'interactive' ? 'min-h-0 h-[calc(100dvh-64px)] max-h-[calc(100dvh-64px)] overflow-hidden' : ''}`}>
         {/* Sidebar */}
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} course={meta.course} />
 
@@ -475,9 +475,9 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
           </main>
         ) : (
           /* Main content area - Resizable Split interactive Mode */
-          <main ref={containerRef} className="flex-1 flex min-w-0 overflow-hidden bg-[var(--bg)]">
+          <main ref={containerRef} className="flex-1 flex min-w-0 min-h-0 h-full max-h-full overflow-hidden bg-[var(--bg)]">
             {/* Left Column: Sticky/Fixed Video Frame (width controlled by descWidthPct) */}
-            <div className="overflow-hidden p-6 bg-[var(--bg-secondary)] flex flex-col gap-4 border-r border-[var(--border-color)]" style={{ width: `${descWidthPct}%` }}>
+            <div className="overflow-y-auto overflow-x-hidden min-h-0 h-full p-6 bg-[var(--bg-secondary)] flex flex-col gap-4 border-r border-[var(--border-color)]" style={{ width: `${descWidthPct}%` }}>
               {embedUrl ? (
                 embedUrl.includes('youtube.com') || embedUrl.includes('youtu.be') ? (
                   <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[var(--border-color)] shadow-lg bg-black shrink-0 relative">
@@ -538,7 +538,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                   </div>
                   <h3 className="text-sm font-semibold text-[var(--text-primary)]">No Video Available</h3>
                   <p className="text-xs text-[var(--text-muted)] max-w-xs mx-auto mt-1">
-                    There is no video URL defined for this lesson. You can add one in the Admin dashboard under "Lessons".
+                    There is no video URL defined for this lesson. You can add one in the Admin dashboard under &quot;Lessons&quot;.
                   </p>
                 </div>
               )}
@@ -549,7 +549,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                   <li>Drag the splitter line to change column widths.</li>
                   <li>Watch and code along inside your local IDE or playground.</li>
                   <li>For YouTube videos, use the settings cog inside the player for speed adjustments, and right-click twice on the video to open Picture-in-Picture.</li>
-                  <li>Toggle back to "Notes Only" at any time for regular full-width reading.</li>
+                  <li>Toggle back to &quot;Notes Only&quot; at any time for regular full-width reading.</li>
                 </ul>
               </div>
             </div>
@@ -566,7 +566,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
             </div>
 
             {/* Right Column: Notes details (flex-1) */}
-            <div className="flex-1 overflow-y-auto h-full">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden min-w-0 min-h-0 h-full">
               <div className="p-6 max-w-4xl mx-auto space-y-6">
                 
                 {/* Mobile sidebar toggle + Breadcrumb + Mode Toggle */}

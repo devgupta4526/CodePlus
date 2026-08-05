@@ -120,15 +120,19 @@ function renderSlide(animate) {
 
 // ═══ STEP REVEAL ══════════════════════════════════════════════════════════
 function getRevealItems(target) {
-  target = target || sd;
-  return [...target.querySelectorAll('.bullet-item'), ...target.querySelectorAll('.code-line')];
+  target = target || (typeof pActive !== 'undefined' && pActive ? pDom : sd);
+  if (!target) return [];
+  const items = [...target.querySelectorAll('.bullet-item'), ...target.querySelectorAll('.code-line'), ...target.querySelectorAll('.step-item'), ...target.querySelectorAll('[data-step]')];
+  items.sort((a, b) => parseInt(a.dataset.idx || '0') - parseInt(b.dataset.idx || '0'));
+  return items;
 }
 function revealAll(target) {
+  target = target || (typeof pActive !== 'undefined' && pActive ? pDom : sd);
   getRevealItems(target).forEach(e => e.classList.add('visible'));
   curStep = getRevealItems(target).length; updateStepCounter();
 }
 function hideAllSteps(target) {
-  target = target || sd;
+  target = target || (typeof pActive !== 'undefined' && pActive ? pDom : sd);
   getRevealItems(target).forEach(e => e.classList.remove('visible'));
   curStep = 0; updateStepCounter();
 }
@@ -146,28 +150,32 @@ function goSlide(n) {
   drawHistory = []; redoStack = [];
   cur = n;
   renderSlide(true);
-  if (['bullets', 'code', 'split', 'compare', 'timeline', 'callout', 'two-col', 'image-text', 'concept-map', 'problem', 'prediction', 'wrong-assumption', 'story', 'journey', 'mystery', 'myth-vs-reality', 'common-mistake', 'quiz', 'memory-trick', 'character', 'summary', 'bar-chart', 'venn', 'stack-visual', 'process-loop', 'icon-grid', 'bento-grid', 'glass-fan', '3d-carousel', 'pipeline', 'hero-split', 'terminal', 'orbit-diagram', 'glitch-title'].includes(slides[cur].layout)) {
-    setTimeout(() => hideAllSteps(sd), 20);
-  }
+  setTimeout(() => {
+    if (getRevealItems(sd).length > 0) {
+      hideAllSteps(sd);
+    }
+  }, 20);
   updateSidebar();
   if (pActive) pGoSlide(true);
 }
 function advance() {
-  const hidden = getRevealItems().filter(e => !e.classList.contains('visible'));
+  const target = (typeof pActive !== 'undefined' && pActive) ? pDom : sd;
+  const hidden = getRevealItems(target).filter(e => !e.classList.contains('visible'));
   if (hidden.length) {
     hidden[0].classList.add('visible'); curStep++; updateStepCounter();
-    if (pActive) pSyncVisible(); return;
+    return;
   }
   if (cur < slides.length - 1) goSlide(cur + 1);
 }
 function retreat() {
-  const visible = getRevealItems().filter(e => e.classList.contains('visible'));
+  const target = (typeof pActive !== 'undefined' && pActive) ? pDom : sd;
+  const visible = getRevealItems(target).filter(e => e.classList.contains('visible'));
   if (visible.length) {
     visible[visible.length - 1].classList.remove('visible'); curStep--; updateStepCounter();
-    if (pActive) pSyncVisible(); return;
+    return;
   }
   if (cur > 0) {
     goSlide(cur - 1);
-    setTimeout(() => { revealAll(sd); if (pActive) pSyncVisible(); }, 80);
+    setTimeout(() => { revealAll(target); }, 80);
   }
 }

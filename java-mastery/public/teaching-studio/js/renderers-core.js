@@ -1,4 +1,4 @@
-﻿// ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
 // renderers-core.js  —  Core and text-heavy layouts
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -101,11 +101,24 @@ function renderCompareDom(s, acc, anim, t, z) {
   c.appendChild(hdr);
   
   const cols = el('div', `display:flex;gap:${px(16, z)};flex:1;min-height:0`);
-  [[s.leftLabel || 'Before', s.leftCode, '#EF4444'], [s.rightLabel || 'After', s.rightCode, '#22C55E']].forEach(([label, code, lcolor], ci) => {
+  [
+    [s.leftLabel || 'Before', s.leftCode, s.leftBullets, '#10b981'], 
+    [s.rightLabel || 'After', s.rightCode, s.rightBullets, '#8b5cf6']
+  ].forEach(([label, code, bullets, lcolor], ci) => {
     const col = el('div', `flex:1;display:flex;flex-direction:column;min-width:0;${as(anim, ci * 120, z)}`);
     col.appendChild(el('div', `font-size:${px(12, z)};font-weight:700;color:${lcolor};font-family:'Space Grotesk',sans-serif;margin-bottom:${px(7, z)};padding:${px(5, z)} ${px(10, z)};background:${lcolor}12;border-radius:${px(5, z)};border:1px solid ${lcolor}30`, escHtml(label)));
-    const inner = el('div', `flex:1;min-height:0;`);
-    inner.appendChild(codeCard(label, code, lcolor, z));
+    const inner = el('div', `flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:${px(8, z)}`);
+    if (bullets && bullets.length) {
+      bullets.forEach((b, bi) => {
+        const row = el('div', `padding:${px(10, z)} ${px(14, z)};border-radius:${px(8, z)};border:1px solid ${lcolor}30;border-left:4px solid ${lcolor};background:${lcolor}0a;display:flex;gap:${px(10, z)};align-items:flex-start`, '', 'bullet-item');
+        row.dataset.idx = (ci * bullets.length) + bi;
+        row.appendChild(el('span', `color:${lcolor};font-weight:bold`, '✓'));
+        row.appendChild(el('span', `font-size:${px(14, z)};color:#CFCFC8;font-family:'Inter',sans-serif;line-height:1.4`, escHtml(b)));
+        inner.appendChild(row);
+      });
+    } else {
+      inner.appendChild(codeCard(label, code, lcolor, z));
+    }
     col.appendChild(inner);
     cols.appendChild(col);
   });
@@ -248,8 +261,17 @@ function renderCustomHtmlDom(s, acc, anim, t, z) {
     }
   }
 
-  const customContainer = el('div', `flex:1;position:relative;width:100%;min-height:0;overflow:auto`);
-  customContainer.innerHTML = s.customHtml || '';
+  const customContainer = el('div', `flex:1;position:relative;width:100%;min-height:0;overflow:auto;display:flex;flex-direction:column`);
+  if (s.customHtml) {
+    const htmlDiv = el('div', `width:100%;flex:1`);
+    htmlDiv.innerHTML = s.customHtml;
+    customContainer.appendChild(htmlDiv);
+  }
+  if (s.customSvg) {
+    const svgWrap = el('div', `width:100%;flex:1;display:flex;align-items:center;justify-content:center;padding:${px(12, z)};overflow:hidden`);
+    svgWrap.innerHTML = s.customSvg;
+    customContainer.appendChild(svgWrap);
+  }
 
   if (s.customCss) {
     const style = document.createElement('style');

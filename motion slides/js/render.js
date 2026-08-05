@@ -58,21 +58,37 @@ function renderDom(s, target, z, animate) {
     'bento-grid': renderBentoGridDom,
     'glass-fan': renderGlassFanDom,
     '3d-carousel': render3DCarouselDom,
+        'object-breakdown': renderObjectBreakdownDom,
+    'object-grid': renderObjectGridDom,
+    'assembly-line': renderAssemblyLineDom,
+    'domino-effect': renderDominoEffectDom,
+    'blueprint-houses': renderBlueprintHousesDom,
+    'pillars-rising': renderPillarsRisingDom,
+    'access-circles': renderAccessCirclesDom,
+    'solid-summary': renderSolidSummaryDom,
+    'matrix-compare': renderMatrixCompareDom,
     'custom-html': renderCustomHtmlDom,
+    'svg': renderCustomHtmlDom,
     'cinematic-parallax': renderCinematicParallaxDom,
+    'cold-open': renderColdOpenDom,
+    'interview-hook': renderInterviewHookDom,
+    'two-candidates-split': renderTwoCandidatesSplitDom,
+    'roadmap-graphic': renderRoadmapGraphicDom,
+    'whiteboard-intro': renderWhiteboardIntroDom,
   }[s.layout];
 
-  // Add animated SVG background if specified
-  if (s.bgType) {
+  // Add animated SVG background - default if not specified to avoid dull empty space!
+  const bgType = s.bgType || (['code', 'split', 'terminal'].includes(s.layout) ? 'code' : ['diagram', 'bar-chart', 'stats'].includes(s.layout) ? 'geo' : 'space');
+  if (bgType) {
     const bgContainer = document.createElement('div');
     bgContainer.className = 'slide-bg-svg';
-    bgContainer.dataset.bgType = s.bgType;
+    bgContainer.dataset.bgType = bgType;
     let bgSvg = '';
-    if (s.bgType === 'space' && typeof svgSpaceBackground === 'function') bgSvg = svgSpaceBackground(acc);
-    else if (s.bgType === 'geo' && typeof svgGeometricBackground === 'function') bgSvg = svgGeometricBackground(acc);
-    else if (s.bgType === 'data' && typeof svgDataStreamBackground === 'function') bgSvg = svgDataStreamBackground(acc);
-    else if (s.bgType === 'code' && typeof svgCodeParticleBackground === 'function') bgSvg = svgCodeParticleBackground(acc);
-    else if (s.bgType === 'blob' && typeof svgBlobBackground === 'function') bgSvg = svgBlobBackground(acc);
+    if (bgType === 'space' && typeof svgSpaceBackground === 'function') bgSvg = svgSpaceBackground(acc);
+    else if (bgType === 'geo' && typeof svgGeometricBackground === 'function') bgSvg = svgGeometricBackground(acc);
+    else if (bgType === 'data' && typeof svgDataStreamBackground === 'function') bgSvg = svgDataStreamBackground(acc);
+    else if (bgType === 'code' && typeof svgCodeParticleBackground === 'function') bgSvg = svgCodeParticleBackground(acc);
+    else if (bgType === 'blob' && typeof svgBlobBackground === 'function') bgSvg = svgBlobBackground(acc);
 
     if (bgSvg) {
       bgContainer.innerHTML = bgSvg;

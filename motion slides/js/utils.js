@@ -196,10 +196,10 @@ function codeCard(title, code, acc, z) {
   return card;
 }
 
-// Helper to get step-reveal items (bullets, code lines)
+// Helper to get step-reveal items (bullets, code lines, step items)
 function getRevealItems(target) {
   target = target || document.getElementById('slide-dom');
-  const all = [...target.querySelectorAll('.bullet-item'), ...target.querySelectorAll('.code-line')];
+  const all = [...target.querySelectorAll('.bullet-item'), ...target.querySelectorAll('.code-line'), ...target.querySelectorAll('.step-item'), ...target.querySelectorAll('[data-step]')];
   all.sort((a, b) => parseInt(a.dataset.idx || '0') - parseInt(b.dataset.idx || '0'));
   return all;
 }

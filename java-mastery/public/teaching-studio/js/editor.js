@@ -414,293 +414,203 @@ function renderContentTab(s,body){
     bw.appendChild(ab);
     body.appendChild(mkRow('Points',bw));
   }
-  if(s.layout==='custom-html'){
-    const htmlLbl=document.createElement('div');htmlLbl.style.cssText='font-size:10.5px;color:var(--text3);margin:5px 0 3px';htmlLbl.textContent='Custom HTML';
-    const hta=document.createElement('textarea');hta.className='einput';hta.rows=7;hta.style.cssText='width:100%;font-size:11px;line-height:1.4;font-family:"JetBrains Mono",monospace;white-space:pre;overflow:auto';
-    hta.value=s.customHtml||'<div style="color:#e8eaf6; text-align:center; padding: 40px;">\n  <h1>My Custom Slide</h1>\n  <p>Write your HTML here!</p>\n</div>';
-    if(!s.customHtml) s.customHtml = hta.value;
-    hta.oninput=e=>{s.customHtml=e.target.value;renderSlide(false);};
-    const cssLbl=document.createElement('div');cssLbl.style.cssText='font-size:10.5px;color:var(--text3);margin:8px 0 3px';cssLbl.textContent='Custom CSS';
-    const cta=document.createElement('textarea');cta.className='einput';cta.rows=5;cta.style.cssText='width:100%;font-size:11px;line-height:1.4;font-family:"JetBrains Mono",monospace;white-space:pre;overflow:auto';
-    cta.value=s.customCss||'';
-    cta.oninput=e=>{s.customCss=e.target.value;renderSlide(false);};
-    body.append(htmlLbl,hta,cssLbl,cta);
-  }
-}
-function renderCodeTab(s,body){
-  const lbl=document.createElement('div');lbl.style.cssText='font-size:10.5px;color:var(--text3);margin-bottom:5px';
-  if(s.layout==='compare') lbl.textContent='Left code panel';else lbl.textContent='Code (code / split layouts)';
-  const ta=document.createElement('textarea');ta.className='einput';ta.rows=5;ta.style.cssText='width:100%;font-size:11px;line-height:1.5';
-  ta.value=(s.layout==='compare'?s.leftCode:s.code)||'';
-  ta.oninput=e=>{if(s.layout==='compare')s.leftCode=e.target.value;else s.code=e.target.value;renderSlide(false);updateSidebar();};
-  body.append(lbl,ta);
-  if(s.layout==='compare'){
-    const lbl2=document.createElement('div');lbl2.style.cssText='font-size:10.5px;color:var(--text3);margin:7px 0 5px';lbl2.textContent='Right code panel';
-    const ta2=document.createElement('textarea');ta2.className='einput';ta2.rows=5;ta2.style.cssText='width:100%;font-size:11px;line-height:1.5';
-    ta2.value=s.rightCode||'';
-    ta2.oninput=e=>{s.rightCode=e.target.value;renderSlide(false);updateSidebar();};
-    body.append(lbl2,ta2);
-  }
-}
-function renderAnimTab(s,body){
-  const lbl=document.createElement('div');lbl.style.cssText='font-size:10.5px;color:var(--text3)';lbl.textContent='Slide entrance animation';
-  const btns=document.createElement('div');btns.style.cssText='display:flex;gap:5px;flex-wrap:wrap;margin-top:6px';
-  ANIMS.forEach(a=>{
-    const b=document.createElement('button');b.className='lay-btn'+(s.anim===a?' active':'');b.textContent=a;
-    b.onclick=()=>{s.anim=a;renderEditor();renderSlide(true);};btns.appendChild(b);
-  });
-  const hint=document.createElement('div');hint.style.cssText='font-size:10.5px;color:var(--text3);margin-top:8px';
-  hint.textContent='Bullets/code reveal one by one with → or Space during presentation.';
-  body.append(lbl,btns,hint);
-}
-function renderManageTab(s,body){
-  const dup=document.createElement('button');dup.className='tb-btn';dup.textContent='⧉ Duplicate slide';
-  dup.onclick=()=>{const c2=JSON.parse(JSON.stringify(s));c2._ann=null;slides.splice(cur+1,0,c2);goSlide(cur+1);updateSidebar();renderEditor();};
-  const del=document.createElement('button');del.className='tb-btn danger';del.textContent='✕ Delete slide';
-  del.onclick=()=>{if(slides.length===1){alert('Cannot delete the last slide.');return;}slides.splice(cur,1);goSlide(Math.max(0,cur-1));updateSidebar();renderEditor();};
-  const up=document.createElement('button');up.className='tb-btn';up.textContent='↑ Move up';
-  up.onclick=()=>{if(cur>0){const t=[slides[cur],slides[cur-1]];slides[cur]=t[1];slides[cur-1]=t[0];goSlide(cur-1);updateSidebar();}};
-  const dn=document.createElement('button');dn.className='tb-btn';dn.textContent='↓ Move down';
-  dn.onclick=()=>{if(cur<slides.length-1){const t=[slides[cur],slides[cur+1]];slides[cur]=t[1];slides[cur+1]=t[0];goSlide(cur+1);updateSidebar();}};
-  const bgRow=document.createElement('div');bgRow.style.cssText='display:flex;gap:7px;align-items:center;margin-top:4px';
-  bgRow.innerHTML='<span style="font-size:10.5px;color:var(--text3)">Bg color</span>';
-  const bgInp=document.createElement('input');bgInp.type='color';bgInp.value=s.bg||'#0b0d14';
-  bgInp.style.cssText='width:34px;height:24px;border-radius:4px;border:1px solid var(--border);background:transparent;cursor:pointer';
-  bgInp.oninput=e=>{s.bg=e.target.value;renderSlide(false);updateSidebar();};
-  bgRow.appendChild(bgInp);
-  body.append(dup,up,dn,del,bgRow);
-}
 
-// ═══ JSON IMPORT / EXPORT ═════════════════════════════════════════════════
-function slidesToJson(){
-  return slides.map(s=>{
-    const o={layout:s.layout,title:s.title||'',subtitle:s.subtitle||'',accent:s.accent||'#7c8cf8',bg:s.bg||'#0b0d14',anim:s.anim||'fade-up'};
-    if(s.bullets&&s.bullets.length) o.bullets=[...s.bullets];
-    if(s.code) o.code=s.code;
-    if(s.diagramType) o.diagramType=s.diagramType;
-    if(s.diagramStyle) o.diagramStyle=s.diagramStyle;
-    if(s.titleStyle) o.titleStyle=s.titleStyle;
-    if(s.diagramNodes&&s.diagramNodes.length) o.diagramNodes=s.diagramNodes;
-    if(s.leftLabel) o.leftLabel=s.leftLabel;
-    if(s.leftCode) o.leftCode=s.leftCode;
-    if(s.rightLabel) o.rightLabel=s.rightLabel;
-    if(s.rightCode) o.rightCode=s.rightCode;
-    if(s.quote) o.quote=s.quote;
-    if(s.author) o.author=s.author;
-    if(s.stats&&s.stats.length) o.stats=s.stats;
-    if(s.callout) o.callout=s.callout;
-    if(s.calloutIcon) o.calloutIcon=s.calloutIcon;
-    if(s.note) o.note=s.note;
-    if(s.leftBullets&&s.leftBullets.length) o.leftBullets=s.leftBullets;
-    if(s.rightBullets&&s.rightBullets.length) o.rightBullets=s.rightBullets;
-    if(s.imageUrl) o.imageUrl=s.imageUrl;
-    if(s.imagePosition) o.imagePosition=s.imagePosition;
-    if(s.imageCaption) o.imageCaption=s.imageCaption;
-    if(s.role) o.role=s.role;
-    if(s.question) o.question=s.question;
-    if(s.answer) o.answer=s.answer;
-    if(s.options&&s.options.length){o.options=s.options;o.correctIndex=s.correctIndex||0;}
-    if(s.wrongSteps&&s.wrongSteps.length) o.wrongSteps=s.wrongSteps;
-    if(s.correctSteps&&s.correctSteps.length) o.correctSteps=s.correctSteps;
-    if(s.layout==='analogy'){o.leftIcon=s.leftIcon;o.rightIcon=s.rightIcon;o.leftDesc=s.leftDesc;o.rightDesc=s.rightDesc;}
-    if(s.myth) o.myth=s.myth;
-    if(s.characters&&s.characters.length) o.characters=s.characters;
-    if(s.fact) o.fact=s.fact;
-    if(s.nextTopic) o.nextTopic=s.nextTopic;
-    if(s.chartData&&s.chartData.length){o.chartData=s.chartData;if(s.chartUnit)o.chartUnit=s.chartUnit;}
-    if(s.layout==='spectrum'){o.spectrumPos=s.spectrumPos;if(s.spectrumLabel)o.spectrumLabel=s.spectrumLabel;}
-    if(s.customHtml) o.customHtml=s.customHtml;
-    if(s.customCss) o.customCss=s.customCss;
-    return o;
-  });
-}
-
-// ═══ PROJECT MANAGEMENT (LocalStorage) ════════════════════════════════════
-const STORAGE_KEY = 'motion_slides_projects';
-
-function getProjects() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : {};
-  } catch (e) {
-    return {};
-  }
-}
-
-function saveProjects(projects) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-}
-
-function renderProjectList() {
-  const list = document.getElementById('projects-list');
-  list.innerHTML = '';
-  const projects = getProjects();
-  const keys = Object.keys(projects).sort((a,b) => projects[b].updatedAt - projects[a].updatedAt);
   
-  if (keys.length === 0) {
-    list.innerHTML = '<div style="color:var(--text3);font-size:11.5px;padding:10px 0;">No saved projects yet.</div>';
-    return;
+  // ─── STANDARD MOTION GRAPHIC LAYOUT EDITORS ───
+  if(s.layout==='object-breakdown'){
+    body.appendChild(mkRow('Icon', mkInput(s.icon||'dog', v=>{s.icon=v;renderSlide(false);})));
+    
+    // Properties list
+    const pw = document.createElement('div'); pw.style.cssText='flex:1;display:flex;flex-direction:column;gap:4px';
+    const plbl = document.createElement('div'); plbl.style.cssText='font-size:10.5px;color:var(--text3);margin-bottom:2px'; plbl.textContent='State / Properties (key = val)';
+    pw.appendChild(plbl);
+    (s.properties||[]).forEach((p, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const ki = document.createElement('input'); ki.className='bullet-inp'; ki.value=p.key||''; ki.placeholder='key'; ki.style.width='90px';
+      ki.oninput = e => { p.key = e.target.value; renderSlide(false); };
+      const vi = document.createElement('input'); vi.className='bullet-inp'; vi.value=p.val||''; vi.placeholder='value';
+      vi.oninput = e => { p.val = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.properties.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(ki, vi, del); pw.appendChild(row);
+    });
+    const addProp = document.createElement('button'); addProp.className='add-bullet-btn'; addProp.textContent='+ Property';
+    addProp.onclick = () => { s.properties = s.properties || []; s.properties.push({key:'key', val:'"val"'}); renderEditor(); renderSlide(false); };
+    pw.appendChild(addProp);
+    body.appendChild(mkRow('Properties', pw));
+
+    // Behaviors list
+    const bw = document.createElement('div'); bw.style.cssText='flex:1;display:flex;flex-direction:column;gap:4px;margin-top:6px';
+    const blbl = document.createElement('div'); blbl.style.cssText='font-size:10.5px;color:var(--text3);margin-bottom:2px'; blbl.textContent='Methods / Behaviors (method -> result)';
+    bw.appendChild(blbl);
+    (s.behaviors||[]).forEach((b, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const mi = document.createElement('input'); mi.className='bullet-inp'; mi.value=b.method||''; mi.placeholder='method()'; mi.style.width='110px';
+      mi.oninput = e => { b.method = e.target.value; renderSlide(false); };
+      const ri = document.createElement('input'); ri.className='bullet-inp'; ri.value=b.result||''; ri.placeholder='result';
+      ri.oninput = e => { b.result = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.behaviors.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(mi, ri, del); bw.appendChild(row);
+    });
+    const addBeh = document.createElement('button'); addBeh.className='add-bullet-btn'; addBeh.textContent='+ Behavior';
+    addBeh.onclick = () => { s.behaviors = s.behaviors || []; s.behaviors.push({method:'bark()', result:'"Woof!"'}); renderEditor(); renderSlide(false); };
+    bw.appendChild(addBeh);
+    body.appendChild(mkRow('Behaviors', bw));
   }
-  
-  keys.forEach(name => {
-    const p = projects[name];
-    const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;';
-    
-    const info = document.createElement('div');
-    const title = document.createElement('div');
-    title.style.cssText = 'font-weight:600;font-size:13px;color:var(--text);margin-bottom:3px;';
-    title.textContent = name;
-    
-    const meta = document.createElement('div');
-    meta.style.cssText = 'font-size:10px;color:var(--text3);';
-    const date = new Date(p.updatedAt).toLocaleString();
-    meta.textContent = `${p.slideCount} slides • Last saved: ${date}`;
-    
-    info.append(title, meta);
-    
-    const actions = document.createElement('div');
-    actions.style.cssText = 'display:flex;gap:5px;';
-    
-    const loadBtn = document.createElement('button');
-    loadBtn.className = 'tb-btn primary';
-    loadBtn.textContent = 'Load';
-    loadBtn.onclick = () => {
-      if(confirm(`Load project "${name}"? Your current unsaved changes will be lost.`)) {
-        try {
-          slides = parseSlides(JSON.stringify(p.data));
-          cur = 0;
-          renderSlide(true);
-          updateSidebar();
-          renderEditor();
-          document.getElementById('projects-modal').classList.remove('open');
-        } catch(e) {
-          alert('Failed to load project: ' + e.message);
-        }
-      }
-    };
-    
-    const delBtn = document.createElement('button');
-    delBtn.className = 'tb-btn danger';
-    delBtn.textContent = '✕';
-    delBtn.onclick = () => {
-      if(confirm(`Delete project "${name}" permanently?`)) {
-        const projs = getProjects();
-        delete projs[name];
-        saveProjects(projs);
-        renderProjectList();
-      }
-    };
-    
-    actions.append(loadBtn, delBtn);
-    row.append(info, actions);
-    list.appendChild(row);
-  });
-}
 
-document.getElementById('projects-btn').onclick = () => {
-  renderProjectList();
-  document.getElementById('project-name-input').value = slides[0].title || 'Untitled Presentation';
-  document.getElementById('projects-modal').classList.add('open');
-};
-
-document.getElementById('projects-close').onclick = () => {
-  document.getElementById('projects-modal').classList.remove('open');
-};
-
-document.getElementById('projects-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('projects-modal')) {
-    document.getElementById('projects-modal').classList.remove('open');
+  if(s.layout==='object-grid'){
+    const cw = document.createElement('div'); cw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.cards||[]).forEach((card, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const ti = document.createElement('input'); ti.className='bullet-inp'; ti.value=card.title||''; ti.placeholder='Card Title'; ti.style.width='110px';
+      ti.oninput = e => { card.title = e.target.value; renderSlide(false); };
+      const ii = document.createElement('input'); ii.className='bullet-inp'; ii.value=card.icon||''; ii.placeholder='icon (car/atm/dog)'; ii.style.width='70px';
+      ii.oninput = e => { card.icon = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.cards.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(ti, ii, del); cw.appendChild(row);
+    });
+    const addCard = document.createElement('button'); addCard.className='add-bullet-btn'; addCard.textContent='+ Card';
+    addCard.onclick = () => { s.cards = s.cards || []; s.cards.push({title:'Object Card', icon:'car', color:s.accent, props:[{key:'field', val:'value'}]}); renderEditor(); renderSlide(false); };
+    cw.appendChild(addCard);
+    body.appendChild(mkRow('Cards', cw));
   }
-});
 
-document.getElementById('save-project-btn').onclick = () => {
-  const name = document.getElementById('project-name-input').value.trim();
-  if (!name) return alert('Please enter a project name.');
-  
-  const projects = getProjects();
-  if (projects[name] && !confirm(`Overwrite existing project "${name}"?`)) {
-    return;
+  if(s.layout==='assembly-line'){
+    body.appendChild(mkRow('Callout', mkInput(s.callout||'', v=>{s.callout=v;renderSlide(false);})));
+    const sw = document.createElement('div'); sw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.stations||[]).forEach((st, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const li = document.createElement('input'); li.className='bullet-inp'; li.value=st.label||''; li.placeholder='Label'; ti.style.width='110px';
+      li.oninput = e => { st.label = e.target.value; renderSlide(false); };
+      const ai = document.createElement('input'); ai.className='bullet-inp'; ai.value=st.action||''; ai.placeholder='action()';
+      ai.oninput = e => { st.action = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.stations.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(li, ai, del); sw.appendChild(row);
+    });
+    const addSt = document.createElement('button'); addSt.className='add-bullet-btn'; addSt.textContent='+ Station';
+    addSt.onclick = () => { s.stations = s.stations || []; s.stations.push({label:'Step X', icon:'gear', action:'process()', color:s.accent}); renderEditor(); renderSlide(false); };
+    sw.appendChild(addSt);
+    body.appendChild(mkRow('Stations', sw));
   }
-  
-  projects[name] = {
-    updatedAt: Date.now(),
-    slideCount: slides.length,
-    data: slidesToJson()
-  };
-  
-  saveProjects(projects);
-  renderProjectList();
-  
-  const btn = document.getElementById('save-project-btn');
-  const old = btn.textContent;
-  btn.textContent = '✓ Saved!';
-  setTimeout(() => btn.textContent = old, 1500);
-};
 
-function parseSlides(raw){
-  let parsed;
-  try{parsed=JSON.parse(raw);}catch(e){throw new Error('Invalid JSON: '+e.message);}
-  if(!Array.isArray(parsed)) throw new Error('Expected a JSON array [ ... ]');
-  if(!parsed.length) throw new Error('Array is empty');
-  const valid=new Set(LAYOUTS);
-  parsed.forEach((s,i)=>{
-    if(typeof s!=='object'||!s) throw new Error(`Slide ${i+1} must be an object`);
-    if(!s.layout) throw new Error(`Slide ${i+1} missing "layout"`);
-    if(!valid.has(s.layout)) throw new Error(`Slide ${i+1}: unknown layout "${s.layout}"`);
-  });
-  return parsed.map(s=>mkSlide(s));
+  if(s.layout==='domino-effect'){
+    const dw = document.createElement('div'); dw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.dominoes||[]).forEach((d, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const fi = document.createElement('input'); fi.className='bullet-inp'; fi.value=d.fnName||''; fi.placeholder='fnName()'; fi.style.width='100px';
+      fi.oninput = e => { d.fnName = e.target.value; renderSlide(false); };
+      const ti = document.createElement('input'); ti.className='bullet-inp'; ti.value=d.text||''; ti.placeholder='Description';
+      ti.oninput = e => { d.text = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.dominoes.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(fi, ti, del); dw.appendChild(row);
+    });
+    const addDom = document.createElement('button'); addDom.className='add-bullet-btn'; addDom.textContent='+ Domino';
+    addDom.onclick = () => { s.dominoes = s.dominoes || []; s.dominoes.push({fnName:'fn()', text:'Description', isBroken:false}); renderEditor(); renderSlide(false); };
+    dw.appendChild(addDom);
+    body.appendChild(mkRow('Dominoes', dw));
+  }
+
+  if(s.layout==='blueprint-houses'){
+    body.appendChild(mkRow('Blueprint', mkInput(s.blueprintTitle||'', v=>{s.blueprintTitle=v;renderSlide(false);})));
+    const iw = document.createElement('div'); iw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.instances||[]).forEach((inst, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const ni = document.createElement('input'); ni.className='bullet-inp'; ni.value=inst.name||''; ni.placeholder='House Name'; ni.style.width='90px';
+      ni.oninput = e => { inst.name = e.target.value; renderSlide(false); };
+      const ai = document.createElement('input'); ai.className='bullet-inp'; ai.value=inst.address||''; ai.placeholder='@0x101';
+      ai.oninput = e => { inst.address = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.instances.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(ni, ai, del); iw.appendChild(row);
+    });
+    const addInst = document.createElement('button'); addInst.className='add-bullet-btn'; addInst.textContent='+ Instance';
+    addInst.onclick = () => { s.instances = s.instances || []; s.instances.push({name:'houseX', address:'@0x100', color:s.accent}); renderEditor(); renderSlide(false); };
+    iw.appendChild(addInst);
+    body.appendChild(mkRow('Instances', iw));
+  }
+
+  if(s.layout==='pillars-rising'){
+    const pw = document.createElement('div'); pw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.pillars||[]).forEach((p, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const ni = document.createElement('input'); ni.className='bullet-inp'; ni.value=p.name||''; ni.placeholder='Pillar Name'; ni.style.width='110px';
+      ni.oninput = e => { p.name = e.target.value; renderSlide(false); };
+      const ii = document.createElement('input'); ii.className='bullet-inp'; ii.value=p.icon||''; ii.placeholder='icon (mask/capsule/tree/chameleon)'; ii.style.width='70px';
+      ii.oninput = e => { p.icon = e.target.value; renderSlide(false); };
+      const di = document.createElement('input'); di.className='bullet-inp'; di.value=p.desc||''; di.placeholder='Description';
+      di.oninput = e => { p.desc = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.pillars.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(ni, ii, di, del); pw.appendChild(row);
+    });
+    const addPillar = document.createElement('button'); addPillar.className='add-bullet-btn'; addPillar.textContent='+ Pillar';
+    addPillar.onclick = () => { s.pillars = s.pillars || []; s.pillars.push({name:'Pillar', icon:'mask', desc:'Description', color:s.accent}); renderEditor(); renderSlide(false); };
+    pw.appendChild(addPillar);
+    body.appendChild(mkRow('Pillars', pw));
+  }
+
+  if(s.layout==='access-circles'){
+    const lw = document.createElement('div'); lw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.levels||[]).forEach((lvl, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const li = document.createElement('input'); li.className='bullet-inp'; li.value=lvl.level||''; li.placeholder='public'; li.style.width='90px';
+      li.oninput = e => { lvl.level = e.target.value; renderSlide(false); };
+      const di = document.createElement('input'); di.className='bullet-inp'; di.value=lvl.desc||''; di.placeholder='Description';
+      di.oninput = e => { lvl.desc = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.levels.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(li, di, del); lw.appendChild(row);
+    });
+    const addLvl = document.createElement('button'); addLvl.className='add-bullet-btn'; addLvl.textContent='+ Level';
+    addLvl.onclick = () => { s.levels = s.levels || []; s.levels.push({level:'private', desc:'Description', color:s.accent}); renderEditor(); renderSlide(false); };
+    lw.appendChild(addLvl);
+    body.appendChild(mkRow('Privacy Scopes', lw));
+  }
+
+  if(s.layout==='matrix-compare'){
+    body.appendChild(mkRow('Col 1 Header', mkInput(s.col1Header||'', v=>{s.col1Header=v;renderSlide(false);})));
+    body.appendChild(mkRow('Col 2 Header', mkInput(s.col2Header||'', v=>{s.col2Header=v;renderSlide(false);})));
+    const rw = document.createElement('div'); rw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.rows||[]).forEach((r, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const fi = document.createElement('input'); fi.className='bullet-inp'; fi.value=r.feature||''; fi.placeholder='Feature'; fi.style.width='90px';
+      fi.oninput = e => { r.feature = e.target.value; renderSlide(false); };
+      const v1 = document.createElement('input'); v1.className='bullet-inp'; v1.value=r.val1||''; v1.placeholder='Value 1';
+      v1.oninput = e => { r.val1 = e.target.value; renderSlide(false); };
+      const v2 = document.createElement('input'); v2.className='bullet-inp'; v2.value=r.val2||''; v2.placeholder='Value 2';
+      v2.oninput = e => { r.val2 = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.rows.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(fi, v1, v2, del); rw.appendChild(row);
+    });
+    const addRow = document.createElement('button'); addRow.className='add-bullet-btn'; addRow.textContent='+ Feature Row';
+    addRow.onclick = () => { s.rows = s.rows || []; s.rows.push({feature:'Feature', val1:'Val A', val2:'Val B'}); renderEditor(); renderSlide(false); };
+    rw.appendChild(addRow);
+    body.appendChild(mkRow('Rows', rw));
+  }
+
+  if(s.layout==='solid-summary'){
+    const pw = document.createElement('div'); pw.style.cssText='flex:1;display:flex;flex-direction:column;gap:6px';
+    (s.principles||[]).forEach((p, i)=>{
+      const row = document.createElement('div'); row.style.cssText='display:flex;gap:4px;align-items:center';
+      const li = document.createElement('input'); li.className='bullet-inp'; li.value=p.letter||''; li.placeholder='S'; li.style.width='36px';
+      li.oninput = e => { p.letter = e.target.value; renderSlide(false); };
+      const ni = document.createElement('input'); ni.className='bullet-inp'; ni.value=p.name||''; ni.placeholder='Principle Name'; ni.style.width='140px';
+      ni.oninput = e => { p.name = e.target.value; renderSlide(false); };
+      const di = document.createElement('input'); di.className='bullet-inp'; di.value=p.desc||''; di.placeholder='Description';
+      di.oninput = e => { p.desc = e.target.value; renderSlide(false); };
+      const del = document.createElement('button'); del.className='bullet-del'; del.textContent='×';
+      del.onclick = () => { s.principles.splice(i, 1); renderEditor(); renderSlide(false); };
+      row.append(li, ni, di, del); pw.appendChild(row);
+    });
+    const addPrinc = document.createElement('button'); addPrinc.className='add-bullet-btn'; addPrinc.textContent='+ Principle';
+    addPrinc.onclick = () => { s.principles = s.principles || []; s.principles.push({letter:'S', name:'Single Responsibility', desc:'A class should have one reason to change', color:s.accent}); renderEditor(); renderSlide(false); };
+    pw.appendChild(addPrinc);
+    body.appendChild(mkRow('Principles', pw));
+  }
+
 }
-function showJsonErr(msg){const e=document.getElementById('json-error');e.textContent=msg;e.classList.add('show');}
-function clearJsonErr(){const e=document.getElementById('json-error');e.textContent='';e.classList.remove('show');}
-function openJsonModal(tab){document.getElementById('json-modal').classList.add('open');switchJTab(tab||'import');clearJsonErr();}
-function closeJsonModal(){document.getElementById('json-modal').classList.remove('open');}
-function switchJTab(name){
-  document.querySelectorAll('.jtab').forEach(t=>t.classList.toggle('active',t.dataset.jtab===name));
-  document.querySelectorAll('.json-pane').forEach(p=>p.classList.toggle('active',p.id==='jpane-'+name));
-  if(name==='export') document.getElementById('json-export-area').value=JSON.stringify(slidesToJson(),null,2);
-}
-document.querySelectorAll('.jtab').forEach(t=>t.onclick=()=>switchJTab(t.dataset.jtab));
-document.getElementById('json-close').onclick=closeJsonModal;
-document.getElementById('json-modal').addEventListener('click',e=>{if(e.target===document.getElementById('json-modal'))closeJsonModal();});
-document.getElementById('json-import-btn').onclick=()=>openJsonModal('import');
-document.getElementById('json-export-btn').onclick=()=>openJsonModal('export');
-document.getElementById('json-replace-btn').onclick=()=>{
-  clearJsonErr();const raw=document.getElementById('json-textarea').value.trim();
-  if(!raw){showJsonErr('Paste JSON first.');return;}
-  try{slides=parseSlides(raw);cur=0;renderSlide(true);updateSidebar();renderEditor();closeJsonModal();}
-  catch(e){showJsonErr(e.message);}
-};
-document.getElementById('json-append-btn').onclick=()=>{
-  clearJsonErr();const raw=document.getElementById('json-textarea').value.trim();
-  if(!raw){showJsonErr('Paste JSON first.');return;}
-  try{const ns=parseSlides(raw);const from=slides.length;slides=[...slides,...ns];updateSidebar();renderEditor();closeJsonModal();setTimeout(()=>goSlide(from),50);}
-  catch(e){showJsonErr(e.message);}
-};
-document.getElementById('json-file-btn').onclick=()=>document.getElementById('json-file-input').click();
-document.getElementById('json-file-input').onchange=e=>{
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();r.onload=ev=>{document.getElementById('json-textarea').value=ev.target.result;clearJsonErr();};
-  r.readAsText(f);e.target.value='';
-};
-document.getElementById('json-clear-ta').onclick=()=>{document.getElementById('json-textarea').value='';clearJsonErr();};
-document.getElementById('copy-export-btn').onclick=()=>{
-  navigator.clipboard.writeText(document.getElementById('json-export-area').value).then(()=>{
-    const b=document.getElementById('copy-export-btn');const o=b.textContent;b.textContent='✓ Copied!';setTimeout(()=>b.textContent=o,1800);
-  });
-};
-document.getElementById('download-json-btn').onclick=()=>{
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([document.getElementById('json-export-area').value],{type:'application/json'}));a.download='slides.json';a.click();
-};
-document.getElementById('copy-prompt-btn').onclick=()=>{
-  navigator.clipboard.writeText(document.getElementById('ai-prompt-text').textContent).then(()=>{
-    const b=document.getElementById('copy-prompt-btn');const o=b.textContent;b.textContent='✓ Copied!';setTimeout(()=>b.textContent=o,1800);
-  });
-};
-document.getElementById('copy-prompt-topic-btn').onclick=()=>{
-  const topic=prompt('Enter your topic:','');if(!topic)return;
-  const filled=document.getElementById('ai-prompt-text').textContent.replace('[REPLACE WITH YOUR TOPIC]',topic);
-  navigator.clipboard.writeText(filled).then(()=>{
-    const b=document.getElementById('copy-prompt-topic-btn');const o=b.textContent;b.textContent='✓ Copied!';setTimeout(()=>b.textContent=o,1800);
-  });
-};

@@ -22,6 +22,10 @@ const LAYOUTS = [
   'image-full',
   // premium (vector art)
   'pipeline','hero-split',
+    // motion graphics premium standard layouts
+  'object-breakdown','object-grid','assembly-line','domino-effect',
+  'blueprint-houses','pillars-rising','access-circles','solid-summary',
+  'matrix-compare','svg',
   // motion graphics premium
   'terminal','orbit-diagram','glitch-title',
   'bento-grid','glass-fan','3d-carousel',

@@ -15,9 +15,12 @@ function enterPresent() {
   pFitCanvas();
   pRenderSlide(true);
   // sync step visibility
-  if (['bullets', 'code', 'split', 'compare', 'timeline', 'callout', 'two-col', 'image-text', 'concept-map', 'problem', 'prediction', 'wrong-assumption', 'story', 'journey', 'mystery', 'myth-vs-reality', 'common-mistake', 'quiz', 'memory-trick', 'character', 'summary', 'bar-chart', 'venn', 'stack-visual', 'process-loop', 'icon-grid', 'bento-grid', 'glass-fan', '3d-carousel', 'pipeline', 'hero-split', 'terminal', 'orbit-diagram', 'glitch-title'].includes(slides[cur].layout)) {
-    setTimeout(() => { hideAllSteps(sd); pSyncVisible(); }, 20);
-  }
+  setTimeout(() => {
+    if (getRevealItems(sd).length > 0) {
+      hideAllSteps(sd);
+    }
+    pSyncVisible();
+  }, 20);
   pOverlay.requestFullscreen().catch(() => { });
   showHud();
 }
@@ -80,14 +83,17 @@ function pRenderSlide(animate) {
 }
 function pGoSlide(animate) {
   pRenderSlide(animate);
-  if (['bullets', 'code', 'split', 'compare', 'timeline', 'callout', 'two-col', 'image-text', 'concept-map', 'problem', 'prediction', 'wrong-assumption', 'story', 'journey', 'mystery', 'myth-vs-reality', 'common-mistake', 'quiz', 'memory-trick', 'character', 'summary', 'bar-chart', 'venn', 'stack-visual', 'process-loop', 'icon-grid'].includes(slides[cur].layout)) {
-    setTimeout(() => { hideAllSteps(pDom); pUpdateNav(); }, 20);
-  }
+  setTimeout(() => {
+    if (getRevealItems(pDom).length > 0) {
+      hideAllSteps(pDom);
+    }
+    pUpdateNav();
+  }, 20);
 }
 function pSyncVisible() {
   // mirror visibility from main sd to pDom
-  const mi = [...sd.querySelectorAll('.bullet-item,.code-line')];
-  const pi = [...pDom.querySelectorAll('.bullet-item,.code-line')];
+  const mi = getRevealItems(sd);
+  const pi = getRevealItems(pDom);
   pi.forEach((e, i) => { if (mi[i] && mi[i].classList.contains('visible')) e.classList.add('visible'); else e.classList.remove('visible'); });
   pUpdateNav();
 }
