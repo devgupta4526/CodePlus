@@ -1,0 +1,39 @@
+# Synonyms and Antonyms
+
+> [!NOTE]
+> **Synonyms** are words with identical or very similar meanings. **Antonyms** are words with opposite meanings.
+
+## High-Frequency Pairs
+
+| Word | Synonym (Similar) | Antonym (Opposite) |
+|---|---|---|
+| **Abundant** | Plentiful, Copious, Ample | Scarce, Rare, Deficient |
+| **Brave** | Courageous, Bold, Fearless | Cowardly, Timid, Fearful |
+| **Candid** | Honest, Frank, Outspoken | Deceitful, Dishonest, Tricky |
+| **Diligent** | Hard-working, Assiduous | Lazy, Idle, Lethargic |
+| **Enormous** | Huge, Colossal, Immense | Tiny, Miniature, Minute |
+| **Fictitious** | Imaginary, Fake, False | Real, Factual, Genuine |
+| **Genuine** | Authentic, Real, Original | Fake, Counterfeit, Spurious |
+| **Hazardous** | Dangerous, Risky, Perilous | Safe, Secure, Harmless |
+| **Industrious**| Diligent, Hard-working | Lazy, Indolent, Sluggish |
+| **Jovial** | Cheerful, Merry, Joyous | Gloomy, Sad, Sullen |
+
+> [!IMPORTANT]
+> **Context is Key!** Some words have different synonyms depending on the context. For example, the synonym of *fast* could be *quick* (speed) or *starve* (not eating).
+
+<Quiz>
+  <Question text="What is the antonym of 'Genuine'?">
+    <Option isCorrect={false}>Authentic</Option>
+    <Option isCorrect={false}>Real</Option>
+    <Option isCorrect={true}>Counterfeit</Option>
+    <Option isCorrect={false}>Original</Option>
+    <Explanation>Counterfeit means fake or forged, which is the direct opposite of Genuine.</Explanation>
+  </Question>
+  <Question text="Which of the following is a synonym for 'Diligent'?">
+    <Option isCorrect={false}>Lazy</Option>
+    <Option isCorrect={true}>Assiduous</Option>
+    <Option isCorrect={false}>Lethargic</Option>
+    <Option isCorrect={false}>Idle</Option>
+    <Explanation>Assiduous and Diligent both describe someone who is hard-working and shows great care.</Explanation>
+  </Question>
+</Quiz>

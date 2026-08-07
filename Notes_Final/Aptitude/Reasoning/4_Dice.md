@@ -1,0 +1,124 @@
+# 4. Dice & Cubes
+
+---
+
+## 1. Basics of a Dice
+
+A dice is a three-dimensional cube featuring **6 flat faces**, **8 corner vertices**, and **12 edges**. In reasoning problems, numbers (1-6), letters, or symbols are inscribed on these faces. 
+
+At any given angle, a maximum of **3 faces** can be visible simultaneously.
+
+---
+
+## 2. Classification of Dice
+
+### A. Standard Dice (Ludo Dice)
+A dice is considered **standard** if the sum of any two **opposite** faces is exactly **7**.
+- $1$ is always opposite to $6$ ($1+6=7$)
+- $2$ is always opposite to $5$ ($2+5=7$)
+- $3$ is always opposite to $4$ ($3+4=7$)
+- **Rule**: In a standard dice, the sum of any two *adjacent* (visible) faces can **never** be 7.
+
+### B. Ordinary / General Dice
+A dice is **ordinary** if it doesn't follow the sum-of-7 rule for opposite faces. In an ordinary dice, the sum of any two *adjacent* faces can be 7.
+
+---
+
+## 3. Rules to Find Opposite Faces (Closed Dice)
+
+When multiple positions of the same dice are shown:
+
+### Rule 1: One Common Face (The Clockwise Rule)
+If only **one face is common** in two different positions of the dice:
+1. Start from the common face.
+2. Write the numbers in a **clockwise direction** for both positions.
+3. The numbers appearing in the same vertical column are opposite to each other.
+- *Example*: Dice A shows (2, 3, 5). Dice B shows (2, 4, 6).
+  - Write clockwise from 2 for A: **2 $ightarrow$ 3 $ightarrow$ 5**
+  - Write clockwise from 2 for B: **2 $ightarrow$ 4 $ightarrow$ 6**
+  - Result: 3 is opposite 4, 5 is opposite 6, and the unseen number (1) is opposite the common number (2).
+
+### Rule 2: Two Common Faces
+If **two faces are common** in two different positions of the dice:
+1. Cancel out the common faces.
+2. The remaining unmatched faces are directly **opposite** to each other.
+- *Example*: Dice A shows (1, 4, 5). Dice B shows (1, 4, 6).
+  - Common faces (1, 4) cancel out.
+  - Result: 5 is perfectly opposite to 6.
+
+---
+
+## 4. Unfolded / Open Dice
+
+When a 3D cube is unfolded into a 2D 2D cross or 'T' shape pattern, identifying opposite faces relies on the **Alternate Face Rule**:
+- **Rule**: Faces lying in a straight horizontal or vertical line at a gap of one block are opposite to each other. (i.e., every alternate square in a straight line is opposite).
+- The remaining two outer 'flaps' that do not fit the straight line rule are opposite to each other.
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 401,
+    "question": "Which of the following is true for a Standard Dice?",
+    "options": [
+      "Sum of any two adjacent faces is always 7",
+      "Sum of any two opposite faces is always 7",
+      "Sum of all faces is 20",
+      "Numbers 1 and 2 are always opposite"
+    ],
+    "correctIndex": 1,
+    "explanation": "By definition, a Standard Dice is one where the sum of numbers on opposite faces is strictly 7 (e.g., 1-6, 2-5, 3-4)."
+  },
+  {
+    "id": 402,
+    "question": "Two positions of a dice are given. Position 1 shows faces (3, 4, 5). Position 2 shows faces (3, 1, 2). What number is opposite to 5?",
+    "options": [
+      "1",
+      "2",
+      "4",
+      "6"
+    ],
+    "correctIndex": 1,
+    "explanation": "Applying the One Common Face (Clockwise) Rule starting from 3: Pos 1 gives 3 -> 4 -> 5. Pos 2 gives 3 -> 1 -> 2. Comparing them vertically, 5 is aligned with 2. So 5 is opposite 2."
+  },
+  {
+    "id": 403,
+    "question": "Two positions of a dice show faces (A, B, C) and (A, B, D). Which alphabet is definitely opposite to C?",
+    "options": [
+      "A",
+      "B",
+      "D",
+      "Cannot be determined"
+    ],
+    "correctIndex": 2,
+    "explanation": "Applying the Two Common Faces rule: The faces A and B are common in both positions. Canceling them out leaves C in the first and D in the second. Thus, C is opposite to D."
+  },
+  {
+    "id": 404,
+    "question": "In an unfolded straight line of 4 squares numbered 1-2-3-4 vertically, which number is opposite to 2?",
+    "options": [
+      "1",
+      "3",
+      "4",
+      "Cannot be determined"
+    ],
+    "correctIndex": 2,
+    "explanation": "Using the Alternate Face Rule for an open dice, every alternate face in a straight line is opposite. Thus, 1 is opposite 3, and 2 is opposite 4."
+  },
+  {
+    "id": 405,
+    "question": "A dice has faces numbered 1 to 6. If it is an ordinary dice, can adjacent faces 3 and 4 be visible together?",
+    "options": [
+      "Yes",
+      "No",
+      "Only if 6 is also visible",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Yes. In an ordinary dice, adjacent faces can sum to 7. Only in a standard dice is this impossible because 3 and 4 would be strictly opposite."
+  }
+]
+```

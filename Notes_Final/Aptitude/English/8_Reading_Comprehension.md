@@ -1,0 +1,44 @@
+# Reading Comprehension
+
+> [!NOTE]
+> Reading Comprehension (RC) tests your ability to read a passage, understand its core theme, and answer questions logically.
+
+## 5 Steps to Master RC
+
+### 1. Skim First
+Do not read word-for-word initially. Skim the passage quickly to understand the central theme, tone, and structure.
+
+### 2. Read the Questions Next
+Before diving deep into the text, glance at the questions. This primes your brain to look for specific keywords, dates, names, or arguments.
+
+### 3. Scan for Keywords
+Use the keywords from the questions to scan the text. Find the exact sentence or paragraph that contains the keyword.
+
+### 4. Understand the Tone
+Is the author being critical, objective, sarcastic, or optimistic? Identifying the tone helps answer inference-based questions.
+* **Objective:** Presenting facts without emotion (News articles).
+* **Critical:** Finding faults or pointing out issues.
+* **Nostalgic:** Looking back at the past fondly.
+
+### 5. Beware of Extreme Words
+In multiple-choice options, answers containing extreme words like *always, never, all, none, entirely* are usually incorrect unless explicitly stated in the passage.
+
+> [!TIP]
+> **Vocabulary in Context:** If asked for a synonym of a word in the passage, go back and read the sentence containing the word. The context will often reveal the meaning even if you don't know the exact definition.
+
+<Quiz>
+  <Question text="What should you do BEFORE reading the passage deeply?">
+    <Option isCorrect={false}>Memorize every word</Option>
+    <Option isCorrect={false}>Write a summary</Option>
+    <Option isCorrect={true}>Skim the passage and glance at questions</Option>
+    <Option isCorrect={false}>Guess the answers</Option>
+    <Explanation>Skimming and reading questions first primes your brain to find specific information faster.</Explanation>
+  </Question>
+  <Question text="Which type of option is usually incorrect in RC unless explicitly stated?">
+    <Option isCorrect={false}>Moderate options</Option>
+    <Option isCorrect={true}>Options with extreme words like 'always' or 'never'</Option>
+    <Option isCorrect={false}>Options related to the main theme</Option>
+    <Option isCorrect={false}>Options with direct quotes</Option>
+    <Explanation>Extreme statements are usually traps because most passages discuss nuanced subjects.</Explanation>
+  </Question>
+</Quiz>

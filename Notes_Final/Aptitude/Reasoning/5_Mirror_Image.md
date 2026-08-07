@@ -1,0 +1,111 @@
+# 5. Mirror & Water Images
+
+---
+
+## 1. Concept of Mirror Image
+
+A **Mirror Image** is the reflection of an object in a vertical mirror placed to its left or right. 
+- **Rule of Lateral Inversion**: The **Left** side of the object becomes the **Right** side in the reflection, and the **Right** side becomes the **Left** side.
+- **Top and Bottom** remain completely unchanged.
+
+### Alphabetic Mirror Image Characteristics
+Some capital letters possess vertical symmetry and look identical in a mirror.
+- **Symmetric Letters (11)**: A, H, I, M, O, T, U, V, W, X, Y
+- **Asymmetric Letters**: B, C, D, E, F, G, J, K, L, N, P, Q, R, S, Z
+
+### Numbers Mirror Image
+- Symmetrical numbers: **0, 8**
+- Asymmetrical numbers: 1, 2, 3, 4, 5, 6, 7, 9
+
+---
+
+## 2. Concept of Water Image
+
+A **Water Image** is the reflection of an object in water, essentially acting as a horizontal mirror placed exactly below the object.
+- **Rule of Vertical Inversion**: The **Top** side of the object becomes the **Bottom** side, and the **Bottom** side becomes the **Top** side.
+- **Left and Right** remain completely unchanged.
+
+### Alphabetic Water Image Characteristics
+Some capital letters possess horizontal symmetry and look identical in water.
+- **Symmetric Letters (9)**: B, C, D, E, H, I, K, O, X
+- **Note**: H, I, O, X are the only letters that look identical in BOTH a mirror and in water.
+
+---
+
+## 3. Tricks to Solve Image Questions
+
+1. **Check the Placement**: Pay close attention to the position of the mirror (indicated by a shaded line $MN$). If placed vertically to the right/left, apply Mirror Image rules. If placed horizontally below, apply Water Image rules.
+2. **First and Last Rule**: In a mirror image of a word (e.g., $APPLE$), the last letter ($E$) becomes the very first letter in the reflected image, but horizontally inverted.
+3. **Elimination Strategy**: 
+   - Rule out options that change Top/Bottom (for mirror images).
+   - Rule out options that change Left/Right (for water images).
+   - Look at asymmetric letters to quickly eliminate false reflections.
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 501,
+    "question": "Which of the following capital letters looks identical in its vertical mirror image?",
+    "options": [
+      "N",
+      "S",
+      "M",
+      "Z"
+    ],
+    "correctIndex": 2,
+    "explanation": "The letter M is vertically symmetrical. Its left and right halves are identical, so it appears unchanged in a mirror. N, S, and Z are asymmetric."
+  },
+  {
+    "id": 502,
+    "question": "What happens to an object when its water image is formed?",
+    "options": [
+      "Left becomes Right",
+      "Top becomes Bottom",
+      "Both Left-Right and Top-Bottom invert",
+      "No change occurs"
+    ],
+    "correctIndex": 1,
+    "explanation": "A water image acts as a horizontal mirror below the object. Therefore, the Top and Bottom invert, while the Left and Right sides remain exactly the same."
+  },
+  {
+    "id": 503,
+    "question": "Which sequence of letters looks exactly the same in BOTH a vertical mirror and water reflection?",
+    "options": [
+      "H, I, O, X",
+      "A, M, T, U",
+      "B, C, D, E",
+      "O, S, Z, H"
+    ],
+    "correctIndex": 0,
+    "explanation": "H, I, O, and X possess both vertical and horizontal symmetry. Therefore, their mirror images and water images are indistinguishable from the original letters."
+  },
+  {
+    "id": 504,
+    "question": "If the word 'FUN' is placed in front of a vertical mirror, what will be the first letter (from left to right) of the resulting image?",
+    "options": [
+      "F",
+      "U",
+      "N (laterally inverted)",
+      "F (laterally inverted)"
+    ],
+    "correctIndex": 2,
+    "explanation": "In a mirror image, the entire word flips laterally. The last letter (N) comes first, and it will undergo lateral inversion (its diagonal line will flip)."
+  },
+  {
+    "id": 505,
+    "question": "Which of these numbers forms an identical water image (ignoring minor font stylings)?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "8"
+    ],
+    "correctIndex": 3,
+    "explanation": "The number 8 is horizontally symmetrical. When flipped top-to-bottom (water image), it remains an 8. The numbers 2, 3, and 4 do not possess horizontal symmetry."
+  }
+]
+```

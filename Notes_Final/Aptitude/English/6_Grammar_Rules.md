@@ -1,0 +1,52 @@
+# Essential Grammar Rules
+
+> [!NOTE]
+> Mastering grammar relies on understanding Subject-Verb Agreement, Tenses, and Prepositions.
+
+## 1. Subject-Verb Agreement
+
+**Rule:** A singular subject takes a singular verb, and a plural subject takes a plural verb.
+* *Incorrect:* The list of items **are** on the desk.
+* *Correct:* The list of items **is** on the desk. *(Subject is 'list', not 'items')*
+
+**Rule:** Words joined by *as well as, along with, together with* take the verb according to the **first** subject.
+* *Correct:* The captain, along with his players, **is** going to the field.
+
+**Rule:** Words joined by *either...or, neither...nor, not only...but also* take the verb according to the **nearest** subject.
+* *Correct:* Neither the teacher nor the students **are** present.
+
+## 2. Noun and Pronoun Rules
+
+**Rule:** Some nouns are always plural and take plural verbs: *Scissors, Trousers, Spectacles, Goods.*
+* *Correct:* My spectacles **are** missing.
+
+**Rule:** Some nouns look plural but are singular: *Mathematics, Physics, News, Innings, Billiards.*
+* *Correct:* No news **is** good news.
+
+## 3. Tenses - Golden Rules
+
+* **Since / For:** Use Present Perfect or Present Perfect Continuous.
+  * *Correct:* I have been living here **since** 2010.
+* **Did:** Always takes the first form (V1) of the verb.
+  * *Correct:* Did you **go** there? (Not 'went')
+
+> [!IMPORTANT]
+> The word "Scarcely" and "Hardly" are followed by "When". "No sooner" is followed by "Than".
+> *Example:* No sooner had I reached the station **than** the train left.
+
+<Quiz>
+  <Question text="Identify the correct sentence:">
+    <Option isCorrect={false}>The boy, along with his friends, are going to the park.</Option>
+    <Option isCorrect={true}>The boy, along with his friends, is going to the park.</Option>
+    <Option isCorrect={false}>The boy, along with his friends, have gone to the park.</Option>
+    <Option isCorrect={false}>The boy, along with his friends, were going to the park.</Option>
+    <Explanation>When using 'along with', the verb agrees with the first subject ('The boy' - singular).</Explanation>
+  </Question>
+  <Question text="Choose the correct conjunction pair: No sooner had the bell rung _____ the children rushed out.">
+    <Option isCorrect={false}>when</Option>
+    <Option isCorrect={false}>then</Option>
+    <Option isCorrect={true}>than</Option>
+    <Option isCorrect={false}>and</Option>
+    <Explanation>'No sooner' is always followed by 'than'.</Explanation>
+  </Question>
+</Quiz>

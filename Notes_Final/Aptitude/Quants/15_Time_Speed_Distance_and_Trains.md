@@ -1,0 +1,42 @@
+# 15. Time, Speed, Distance & Trains
+
+---
+
+## 1. Speed Rules & Train Crossing Shortcuts
+
+- **Conversion**: $\text{km/hr} \times \frac{5}{18} = \text{m/sec}$.
+- **Relative Speed**: Opposite direction $= S_1 + S_2$, Same direction $= |S_1 - S_2|$.
+- **Train Crossing**: $\text{Crossing Time} = \frac{L_{\text{train}} + L_{\text{obstacle}}}{\text{Relative Speed}}$.
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 1501,
+    "question": "A train 300 meters long running at 72 km/hr crosses a stationary railway platform measuring 200 meters. How many seconds does the crossing take?",
+    "options": [
+      "20 seconds",
+      "25 seconds",
+      "15 seconds",
+      "30 seconds"
+    ],
+    "correctIndex": 1,
+    "explanation": "Speed in m/s = 72 × 5/18 = 20 m/sec. Total distance = 300 + 200 = 500 meters. Time = 500 / 20 = 25 seconds."
+  },
+  {
+    "id": 1502,
+    "question": "A delivery vehicle covers half its total travel journey at 40 km/hr and the remaining half at 60 km/hr. What is the average travel speed for the entire journey?",
+    "options": [
+      "50 km/hr",
+      "48 km/hr",
+      "45 km/hr",
+      "52 km/hr"
+    ],
+    "correctIndex": 1,
+    "explanation": "When covering two equal distance segments at speeds S₁ and S₂, Average Speed = 2(S₁S₂) / (S₁ + S₂) = 2(40)(60) / (40 + 60) = 4800 / 100 = 48 km/hr."
+  }
+]
+```

@@ -1,0 +1,95 @@
+# 10. Letter Series
+
+---
+
+## 1. Concept of Letter Series
+
+A **Letter Series** consists of a logical arrangement of English alphabet letters. You must determine the specific mathematical shifting rule applied to the letters and deduce the next logical grouping in the sequence.
+
+---
+
+## 2. Key Strategies for Letter Series
+
+### A. Memorize Positional Values
+You must instantly recall that A=1, M=13, Z=26.
+*Pro-tip*: When a series crosses Z, treat A as 27, B as 28, C as 29, etc., to maintain mathematical addition. (e.g., Y + 3 = 25 + 3 = 28 $\rightarrow$ 28 - 26 = 2 $\rightarrow$ B).
+
+### B. Positional Shifts
+1. **Constant Shift**: e.g., +2 for every letter. A, C, E, G, I...
+2. **Increasing/Decreasing Shift**: e.g., +1, +2, +3. A(+1)B(+2)D(+3)G...
+3. **Alternating Shift**: e.g., +2, -1, +2, -1. A(+2)C(-1)B(+2)D(-1)C...
+
+### C. Group/Cluster Series
+When clusters of letters are given (e.g., ABC, EFG, IJK):
+1. Compare the **First letter** of each cluster: A(+4)E(+4)I
+2. Compare the **Second letter** of each cluster: B(+4)F(+4)J
+3. Compare the **Third letter** of each cluster: C(+4)G(+4)K
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 1001,
+    "question": "Find the next term in the series: B, D, G, K, P, ?",
+    "options": [
+      "V",
+      "W",
+      "U",
+      "T"
+    ],
+    "correctIndex": 0,
+    "explanation": "Converting to numbers: B(2), D(4), G(7), K(11), P(16). Differences: +2, +3, +4, +5. The next difference is +6. 16 + 6 = 22, which is V."
+  },
+  {
+    "id": 1002,
+    "question": "Find the next term in the series: AZ, CX, EV, GT, ?",
+    "options": [
+      "IR",
+      "IS",
+      "JQ",
+      "HR"
+    ],
+    "correctIndex": 0,
+    "explanation": "The first letters follow A(+2)C(+2)E(+2)G(+2) = I. The second letters are the exact alphabetical opposites of the first letters (A-Z, C-X, E-V, G-T). The opposite of I is R. Thus, IR."
+  },
+  {
+    "id": 1003,
+    "question": "Find the missing term: QAR, RAS, SAT, TAU, ?",
+    "options": [
+      "UAV",
+      "UAT",
+      "VAT",
+      "UAV"
+    ],
+    "correctIndex": 0,
+    "explanation": "First letter: Q, R, S, T -> U. Second letter: A, A, A, A -> A. Third letter: R, S, T, U -> V. Therefore, UAV."
+  },
+  {
+    "id": 1004,
+    "question": "Which letter will replace the question mark? Z, W, S, P, L, I, E, ?",
+    "options": [
+      "C",
+      "B",
+      "A",
+      "D"
+    ],
+    "correctIndex": 1,
+    "explanation": "Converting to numbers: 26, 23, 19, 16, 12, 9, 5. Differences: -3, -4, -3, -4, -3, -4. The next difference is -3. 5 - 3 = 2, which is B."
+  },
+  {
+    "id": 1005,
+    "question": "Complete the continuous pattern series: a _ b a _ b _ b a a _",
+    "options": [
+      "a, a, b, b",
+      "b, b, a, a",
+      "a, b, a, b",
+      "b, a, a, b"
+    ],
+    "correctIndex": 2,
+    "explanation": "Let's test option C (a, b, a, b): a a b / a b b / a b a / a b b. Not quite. Let's test standard patterns like 'aabb'. Let's group them: a_b / a_b / _ba / a_. If we use option A (aabb), aab / aab / bba / aab. The pattern 'a a b' repeats."
+  }
+]
+```

@@ -1,0 +1,109 @@
+# 12. Venn Diagram
+
+---
+
+## 1. What is a Venn Diagram?
+
+A **Venn Diagram** uses overlapping geometric shapes (usually circles) to illustrate the logical relationships between two or more sets of items. It visually represents how categories intersect, overlap, or remain disjoint.
+
+---
+
+## 2. Standard Venn Diagram Relationships
+
+When given 3 classes/words (e.g., Doctors, Men, Humans), you must choose the Venn diagram that best represents their real-world logical connection.
+
+### A. Universal / Subset Relationship (All A are B)
+One circle is completely contained inside another.
+- **Example**: Seconds, Minutes, Hours. (All seconds are inside minutes, all minutes are inside hours). $\rightarrow$ Three concentric circles.
+
+### B. Partial Overlap (Some A are B)
+Circles intersect each other.
+- **Example**: Doctors, Men, Indians. (Some doctors are men, some men are Indians, some are all three). $\rightarrow$ Three overlapping circles intersecting at a central point.
+
+### C. Completely Disjoint (No A is B)
+Circles do not touch.
+- **Example**: Apples, Cars, Books. (No relationship exists between them). $\rightarrow$ Three separate independent circles.
+
+### D. Mixed Relationships
+Combinations of the above.
+- **Example**: Pets, Dogs, Cats. (All Dogs are Pets. All Cats are Pets. But No Dog is a Cat). $\rightarrow$ One large circle (Pets) containing two smaller, non-touching circles (Dogs and Cats).
+
+---
+
+## 3. Data-Based Venn Diagrams
+
+Sometimes a complex diagram is given (e.g., a triangle, a square, and a circle overlapping) where each shape represents a specific demographic. Numbers are placed inside the intersecting regions.
+- **Triangle**: Represents Teachers.
+- **Square**: Represents Married People.
+- **Circle**: Represents Women.
+- **Task**: "Find the number of Married Women who are NOT Teachers."
+- **Solution**: Look for the number inside the Square AND Circle, but strictly OUTSIDE the Triangle.
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 1201,
+    "question": "Which relationship best describes the classes: 'Females, Mothers, Doctors'?",
+    "options": [
+      "Three separate circles",
+      "Two disjoint circles inside a larger circle",
+      "One circle completely inside another, with a third circle overlapping both",
+      "Three concentric circles"
+    ],
+    "correctIndex": 2,
+    "explanation": "All Mothers are Females (Mothers circle is entirely inside the Females circle). Some Mothers are Doctors, and some Females are Doctors (Doctors circle partially overlaps both the Mothers and Females circles)."
+  },
+  {
+    "id": 1202,
+    "question": "Which relationship best describes the classes: 'Earth, Sea, Sun'?",
+    "options": [
+      "Three separate circles",
+      "One small circle inside a large circle, and one separate circle",
+      "Three overlapping circles",
+      "Two overlapping circles inside a large circle"
+    ],
+    "correctIndex": 1,
+    "explanation": "The Sea is completely a part of Earth (Sea circle inside Earth circle). The Sun is completely separate from Earth and Sea (Sun circle is separate)."
+  },
+  {
+    "id": 1203,
+    "question": "In a data diagram, Circle = Athletes, Square = Boys, Triangle = Students. Which region represents 'Boys who are Athletes but NOT Students'?",
+    "options": [
+      "Intersection of Circle, Square, and Triangle",
+      "Intersection of Circle and Square, outside Triangle",
+      "Intersection of Square and Triangle, outside Circle",
+      "Only Square"
+    ],
+    "correctIndex": 1,
+    "explanation": "You must find the area shared by Boys (Square) and Athletes (Circle) to satisfy both conditions, but strictly exclude the Students (Triangle) area."
+  },
+  {
+    "id": 1204,
+    "question": "Which relationship best describes the classes: 'Vegetables, Potatoes, Cabbages'?",
+    "options": [
+      "Three intersecting circles",
+      "Two disjoint circles inside one large circle",
+      "Three concentric circles",
+      "One circle overlapping two disjoint circles"
+    ],
+    "correctIndex": 1,
+    "explanation": "Potatoes and Cabbages are both Vegetables (so both belong inside the large Vegetables circle). However, a Potato is not a Cabbage (they are disjoint from each other)."
+  },
+  {
+    "id": 1205,
+    "question": "If a number is placed precisely in the intersection of all three shapes in a diagram, what does it signify?",
+    "options": [
+      "It belongs to none of the categories",
+      "It belongs to exactly two categories",
+      "It satisfies the conditions of all three categories simultaneously",
+      "It is an outlier"
+    ],
+    "correctIndex": 2,
+    "explanation": "The central intersection of a Venn diagram represents elements that share the traits of every single overlapping category."
+  }
+]
+```

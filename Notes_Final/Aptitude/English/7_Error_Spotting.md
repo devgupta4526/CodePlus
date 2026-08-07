@@ -1,0 +1,45 @@
+# Error Spotting
+
+> [!TIP]
+> Error spotting questions require you to read the sentence carefully and check for tense mismatches, subject-verb disagreements, and incorrect prepositions.
+
+## Common Areas for Errors
+
+### 1. Superfluous Expressions
+Using more words than necessary is a common error.
+* *Incorrect:* Please **return back** the book. (Return implies back)
+* *Correct:* Please **return** the book.
+* *Incorrect:* The **final conclusion** was drawn.
+* *Correct:* The **conclusion** was drawn.
+
+### 2. Incorrect Prepositions
+* *Incorrect:* He is senior **than** me.
+* *Correct:* He is senior **to** me. *(Words ending in -ior take 'to' - Junior, Senior, Superior, Inferior)*
+* *Incorrect:* She is good **in** mathematics.
+* *Correct:* She is good **at** mathematics.
+
+### 3. Conditional Sentences
+* **Zero Conditional:** If + Present Simple, ... Present Simple (Universal truths). *If you heat ice, it melts.*
+* **First Conditional:** If + Present Simple, ... Future Simple. *If it rains, I will not go.*
+* **Second Conditional:** If + Past Simple, ... would + V1. *If I had money, I would buy a car.*
+* **Third Conditional:** If + Past Perfect, ... would have + V3. *If he had studied, he would have passed.*
+
+> [!WARNING]
+> Never use "will" or "would" directly in the "If" clause.
+
+<Quiz>
+  <Question text="Spot the error: I prefer coffee than tea.">
+    <Option isCorrect={false}>I</Option>
+    <Option isCorrect={false}>prefer</Option>
+    <Option isCorrect={false}>coffee</Option>
+    <Option isCorrect={true}>than</Option>
+    <Explanation>'Prefer' is always followed by the preposition 'to', not 'than'. It should be 'I prefer coffee to tea.'</Explanation>
+  </Question>
+  <Question text="Spot the error: If I will go to Delhi, I will bring a gift for you.">
+    <Option isCorrect={true}>If I will go</Option>
+    <Option isCorrect={false}>to Delhi</Option>
+    <Option isCorrect={false}>I will bring</Option>
+    <Option isCorrect={false}>a gift for you</Option>
+    <Explanation>In conditional sentences, 'will' is not used in the 'If' clause. It should be 'If I go to Delhi'.</Explanation>
+  </Question>
+</Quiz>
