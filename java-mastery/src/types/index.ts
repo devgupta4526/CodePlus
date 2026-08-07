@@ -7,7 +7,7 @@ export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
 /** Lesson frontmatter metadata */
 export interface LessonMeta {
-  course: 'java' | 'python' | 'springboot' | 'coa';
+  course: 'java' | 'python' | 'springboot' | 'coa' | 'ibps-so-it' | 'quants' | 'reasoning' | 'english';
   title: string;
   slug: string;
   chapter: number;
@@ -51,7 +51,7 @@ export interface Heading {
 
 /** Chapter grouping */
 export interface Chapter {
-  course?: 'java' | 'python' | 'springboot' | 'coa' | string;
+  course?: 'java' | 'python' | 'springboot' | 'coa' | 'ibps-so-it' | 'quants' | 'reasoning' | 'english' | string;
   number: number;
   title: string;
   description: string;
@@ -85,6 +85,17 @@ export interface SearchResult {
 }
 
 /** Callout types supported */
+export type CourseId = 
+  | 'java'
+  | 'python'
+  | 'system-design'
+  | 'web-dev'
+  | 'software'
+  | 'dbms'
+  | 'quants'
+  | 'reasoning'
+  | 'english';
+
 export type CalloutType =
   | 'note'
   | 'tip'

@@ -1,0 +1,1068 @@
+---
+title: ibps-it-web-technology
+---
+
+# 7. Web Technology & Markup Languages
+
+---
+
+### 4.2 What is an XML Element?
+
+An XML element is everything from (including) the element's start tag to (including) the element's end tag.
+An element can contain other elements, simple text or a mixture of both. Elements can also have attributes.
+<bookstore>
+<book category="CHILDREN">
+<title>Harry Potter</title>
+<author>J K. Rowling</author>
+<year>2005</year>
+<price>29.99</price>
+</book>
+<book category="WEB">
+<title>Learning XML</title>
+<author>Erik T. Ray</author>
+<year>2003</year>
+<price>39.95</price>
+</book>
+</bookstore>
+In the example above, <bookstore> and <book> have element contents, because they contain other elements.
+<author> has text content because it contains text.
+In the example above only <book> has an attribute (category="CHILDREN").
+
+### 4.3 XML Attributes
+
+XML attributes are normally used to describe XML elements, or to provide additional information about elements.
+From HTML you can remember this construct: <IMG
+SRC="computer.gif">. In this HTML example SRC is an attribute to the IMG element.
+The SRC attribute provides additional information about the element.
+Attributes are always contained within the start tag of an element. Here are some examples:
+HTML examples:
+<img src="computer.gif">
+<a href="demo.asp">
+XML examples:
+<file type="gif">
+<person id="3344">
+Usually, or most common, attributes are used to provide information that is not a part of the content of the X ML
+document. Did you understand that? Here is another way to express that: Often attribute data is more important to
+the XML parser than to the reader.
+Did you understand it now? Anyway, in the example above, the person id is a counter value that is irrele vant to the
+reader, but important to software that wants to manipulate the person element.
+
+### 4.4 XML Validation
+
+The following is a "Well Formed" XML document:
+<?xml version="1.0"?>
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+"Valid" XML documents
+A "Valid" XML document is a "Well Formed" XML document which conforms to the rules of a Document Type
+Definition (DTD).
+The following is the same document as above but with an added reference to a DTD:
+<?xml version="1.0"?>
+<!DOCTYPE note SYSTEM "InternalNote.dtd">
+<note>
+
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+A "Well Formed" XML document is a document that conforms to the  XML syntax rules that we described in the
+previous chapter.
+The following is a "Well Formed" XML document:
+<?xml version="1.0"?>
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+"Valid" XML documents
+
+A "Valid" XML document is a "Well Formed " XML document which conforms to the rules of a Document Type
+Definition (DTD).
+The following is the same document as above but with an added reference to a DTD:
+<?xml version="1.0"?>
+<!DOCTYPE note SYSTEM "InternalNote.dtd">
+<note>
+<to>Tove</to>
+<from>Jani</from>
+<heading>Reminder</heading>
+<body>Don't forget me this weekend!</body>
+</note>
+
+## 5. Proxy
+
+### 5.1 What is Proxy server?
+Proxy server is the software installed on some network server. Proxy server sen ds all the requests made by the client
+and in turn replies without any modifications. Proxy server acts as a firewall server between the local client and the
+global server by providing network security, network control and caching requests. If your browser  is configured to
+work through the proxy server then all your network traffic will go through that proxy server.
+Schematic representation of a proxy server, where the computer in the middle acts as the proxy server between the
+other two.
+
+### 5.2 The main purposes of proxy servers
+A prox y server acts as a go -between for web browsers and the websites they access. When a web browser is
+configured to use a proxy server, all traffic from the web browser goes to the proxy server, which forwards traffic to
+the final destination. Both users and administrators have many reasons to use a proxy server.
+
+Privacy: An anonymous proxy server hides the originating IP of the web browser from the website. The website will
+see the IP of the proxy server instead of the user.
+
+Caching: Proxy servers can cache data and images locally, thus allowing the web browser to fetch the data and
+images faster from slow websites.
+
+Bypass Content Blocks: A web browser using a proxy server on the Internet can get around websites blocked by the
+local network administrat or. The local network thinks the browsing is going to the proxy server instead of a
+prohibited site.
+
+Web Browsing Access: At some installations, a locally installed proxy server protected by a username and password
+is required for permission to web browse.
+Usage Monitoring: A proxy server can monitor the web browsing activity of its users since all traffic is logged on the
+proxy server.
+
+### 5.3 How to setup your browser for proxy access:
+
+SETTING UP PROXING IN FIREFOX
+1. Click Options from the Tools menu.
+2. Click the Advanced icon and then open the Network tab.
+3. In the Connection area of the tab, click the Settings button to bring up the Connection Settings dialog box.
+4. Click the Automatic proxy configuration URL radio button to make it the selected choice.
+## 5. Enter this URL in the box beneath the radio button:
+6. It's best to copy the URL from these instructions. Make sure not to include any spaces before or after the URL.
+7. Click Reload and then click OK to close each of the dialog boxes you've opened.
+
+- Select Tools => Internet Options.
+
+- Select the Connections tab.
+
+- If you are using LAN, click the LAN Settings button. If you are using Dial-up or Virtual
+
+Private Network connection, select necessary connection and click the Settings button.
+
+- Make sure the "automatically detect proxy settings" and "use a proxy automatic configuration script" options
+are not checked.
+
+- In the "Proxy Server" area, click the check box next to Use a proxy server ....
+
+- If nessesary, enable "bypass proxy server for local addresses".
+
+- Click the "Advanced" button and set Proxy Server address (proxy IP), proxy server port.
+
+- Click OK
+There are 3 levels of HTTP proxies:
+1. Transparent - these proxies are not anonymous. They don't hide IP -address of a client and let a web
+server know that you are surfing through a proxy server. The task of such proxies, as a rule, is
+information caching and/or support of Internet access for several computers via single connection. Such
+proxies are not applicable for security and privacy while surfing on net . You can use them only for
+network speed improvement.
+2. Anonymous - these proxies don't show your real IP but change the request fields so it is very easy to
+detect that you are using proxy.
+3. High Anonymous - these proxy servers do not pass an IP-address of a client and don't send any variables
+indicating that you are using proxy server to host and look like real browser.
+
+### 5.4 What is a proxy chain?
+
+A proxy chain is a connection of 2 or more proxy servers. Proxy way allows to work with any Internet service through
+a chain of SOCKS or HTTP(S) proxies. Using the program you can create proxy services with any number of proxy
+servers in the chain (supports HTTP, HTTPS, SOCKS4 and SOCKS5) to provide IP address security and tunnel
+Internet activity through proxy servers.
+
+### 5.5 What is SOCKS?
+SOCKS is a networking proxy protocol that enables hosts on one side of a SOCKS server to gain full access to hosts on
+the other side of the SOCKS server without requiring direct IP-reachability. SOCKS is often used as a network firewall,
+redirecting connection requests from hosts on opposite sides of a SOCKS server. The SOCKS server authenticates and
+authorizes requests, establishes a proxy connection, and relays data between hosts.
+
+## 6. Common Gateway Interface
+
+### Visual Concept: Web Server to CGI Backend Execution Sequence
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Browser as Client Web Browser
+    participant Server as Web Server (Apache / Nginx)
+    participant CGI as CGI Script / Application Engine
+    participant DB as Backend Relational Database
+    Browser->>Server: HTTP GET / POST Request
+    Server->>CGI: Spawns OS Process & passes Env Variables
+    CGI->>DB: SQL Execution / Business Logic
+    DB-->>CGI: Database Records / JSON Payload
+    CGI-->>Server: Output Formatted HTML / HTTP headers Stream
+    Server-->>Browser: HTTP 200 OK Response with rendered layout
+``` (CGI)
+
+CGI is a standard interface by which the web server passes the client's request to a program and receives the response
+from that program. It is a standard for interfacing executable files with Web servers. It allows for the interactive,
+dynamic, flexible featu res that h ave become standard on many Web sites, such as guestbooks, counters, bulletin
+boards, chats, mailing lists, searches, shopping  carts, surveys, and quizzes. Several newer, faster means for
+accomplishing these same kinds of tasks have been develope d, but CGI is more flexible in a number of ways. CGI is
+commonly used whenever one needs a Web server to run a program in real -time, take some kind of action, and then
+send the results back to a user’s browser. Scripts can be written in any language that a llows a file to be executed, but
+the most common language for CGI scripts is Perl.
+
+### 6.1 How CGI Scripts Work
+
+To understand the concept of CGI, lets see what happens when we click a hyper link available on a web page to
+browse a particular web page or URL . Your browser contacts web server using HTTP protocol and demands for the
+URL, i.e., web page filename. Web Server will check the URL and will look for the filename requested. If web server
+finds that file then it sends the file back to the browser withou t any furt her execution otherwise sends an error
+message indicating that you have requested a wrong file. Web browser takes response from web server and displays
+either the received file content or an error message in case file is not found. However, it is  possible to set up HTTP
+server in such a way so that whenever a file in a certain directory is requested that file is not sent back; instead it is
+executed as a program, and whatever that program outputs as a result, that is sent back for your browser to display.
+This can be done by using a special functionality available in the web server and it is called Common Gateway
+Interface or CGI and such programs which are executed by the server to produce final result, are called CGI scripts.
+These CGI programs can be a PERL Script, Shell Script, C or C++ program, etc.
+
+1. The Web surfer fills out a form and clicks, “Submit.” The information in the form is sent over the Internet to the
+Web server.
+2. The Web server “grabs” the information from the form and passes it to the CGI software.
+3. The CGI software performs whatever validation of this information that is required. For instance, it might check
+to see if an e -mail address is valid. If this is a database program, the CGI software prepares a database statement
+to either add, edit, or delete information from the database.
+4. The CGI software then executes the prepared database statement, which is passed to the database driver.
+5. The database driver acts as a middleman and performs the requested action on the database itself.
+6. The results of the database action are then passed back to the database driver.
+7. The database driver sends the information from the database to the CGI software.
+8. The CGI software takes the information from the database and manipulates it into the format that is desired.
+9. If any static HTML pages need to be created, the CGI program accesses the Web server computer’s file system and
+reads, writes, and/or edits files.
+10. The CGI software then sends the result it wants the Web surfer’s browser to see back to the Web server.
+11. The Web server sends the result it got from the CGI software back to the Web surfer’s browser.
+
+CGI Implementation
+Many applications can be implemented using other means as well (e.g., server -side JavaScript, PHP, ACGI, VRML,
+DHTML), but many of these othe r means developed after CGI. CGI, then, has become a standard, and many
+programmers prefer simply to “tweak” their old CGI scripts for new purposes, instead of starting from scratch with
+the newer languages. Also, CGI is more versatile in many ways. A traditional CGI application using Perl, for instance,
+can be run on a large number of platforms with a wide variety of Web servers. A programmer using server -side
+JavaScript, however, would be limited to Netscape Enterprise Server . CGI has its disadvantages th ough. Many of the
+newer languages developed in response to CGI being slow, so they are significantly faster. An informal study of the
+performance of CGI versus server-side JavaScript. Also, there are significant security issues with CGI. Since a file that
+uses CGI is executable, it is equivalent to letting anyone in the world run a program on your machine. Obviously, this
+is not the safest thing to do. For this reason, many Web hosts do not allow users to run CGI scripts. In th is case,
+though, you can have your CGI applications hosted for you remotely.
+
+First CGI Program
+Here is a simple link which is linked to a CGI script called hello.cgi. This file has been kept in /cgibin/directory and it
+has the following content.
+
+#!/usr/bin/perl
+print "Content-type:text/html\r\n\r\n";
+print '<html>';
+print '<head>';
+print '<title>Hello Word - First CGI Program</title>';
+print '</head>';
+print '<body>';
+print '<h2>Hello Word! This is my first CGI program</h2>';
+print '</body>';
+print '</html>';
+1;
+
+Now if you click hello.cgi link then request goes to web server who search for hello.cgi in /cgi-bin directory, execute it
+and whatever result got generated, web server sends that result back to the web browser, which is as follows −
+Hello Word! This is my first CGI program
+
+This hello.cgi script is a simple Perl script which is writing its output on STDOUT file, i.e., screen. There is one
+important and extra feature available which is first line to be printed Contenttype:text/html\r\n\r\n. This line is sent
+back to the browser and specifies the content type to be displayed on the browser screen.
+The very first line Content -type:text/html\r\n\r\n is a part of HTTP header, which is sent to the browser so that
+browser can understand the incoming content from server side. All the HTTP header will be in the following form –
+HTTP Field Name: Field Content
+For Example −
+Content-type:text/html\r\n\r\n
+
+A client is free to send any headers it likes (including no headers at all), and further revisions of the HTTP protocol
+may add more variables to this list. The server may also set its own variables, especially if additional functionality has
+been enabled.
+
+### 6.2 CGI and Perl
+You will often see the term "Perl" used with the term "CGI". The two are NOT the same. CGI programs, or scripts, can
+be written in a variety of computer languages, including C. CGI is the process by which scripts are run. Perl is the
+most common language used for writing CGI scripts, and for very good reason. (See the Messin' around with Perl
+section below).
+CGI a llows for the interactive, dynamic, flexible features that have become standard on many Web sites, such as
+guestbooks, counter s, bulletin boards, chats, mailing lists, searches, shopping carts, surveys, and quizzes. Several
+newer, faster means for accompli shing these same kinds of tasks have been developed, but CGI is more flexible in a
+number of ways. CGI is commonly used whenev er one needs a Web server to run a program in real -time, take some
+kind of action, and then send the results back to a user’s browser. Scripts can be written in any language that allows a
+file to be executed, but the most common language for CGI scripts is Perl.
+
+Because Perl has its' roots in UNIX, many people think that Perl CGI scripts cannot be used on Windows NT Web
+servers. Not  true! Perl CGI scripts can not only run on UNIX and NT servers, but with a little tweaking for
+"AppleScript", many can run on Macintosh servers as well.
+
+Perl is by far the most widely used language for CGI programming! It contains many powerful featur es, and is very
+easy for the novice programmer to learn. The advantages of Perl include:
+
+- It is highly portable and readily available.
+
+- It contains extremely powerful string manipulation operators, as well as functions to deal with binary data.
+
+- It contains very simple and concise constructs.
+
+- It makes calling shell commands very easy, and provides some useful equivalents of certain UNIX system
+functions.
+
+- There are numerous extensions built on top of Perl for specialized functions.
+
+
+
+
+---
+
+## Interactive Practice Quiz Deck
+
+Test your mastery with our complete interactive multiple-choice assessment deck. Select an answer to evaluate your reasoning and reveal detailed explanatory feedback!
+
+```quiz
+[
+  {
+    "question": "Q1. There are how many Heading Tags?",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "correctIndex": 3,
+    "explanation": "2.  (d) 3.  (b) 4.  (c) 5.  (c) 6.  (d) 7.  (c)"
+  },
+  {
+    "question": "Q2. Which of the following are attributes of Font Tag?",
+    "options": [
+      "Font",
+      "color",
+      "size",
+      "All",
+      ",",
+      "and",
+      "",
+      "None"
+    ],
+    "correctIndex": 4,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q3. HTML is a subset of ______",
+    "options": [
+      "SGMT",
+      "SGML",
+      "SGMD",
+      "STML",
+      "NONE"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q4. HTML tags are surrounded by ______",
+    "options": [
+      "Square Brackets",
+      "Curly Brackets",
+      "Angle Brackets",
+      "None of the above",
+      "None"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q5. Which of the following tag is used to mark a beginning of paragraph?",
+    "options": [
+      "<TD>",
+      "<BR>",
+      "<P>",
+      "<TR>",
+      "<PS>"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q6. Correct HTML tag for the largest heading is",
+    "options": [
+      "<head>",
+      "<h6>",
+      "<heading>",
+      "<h1>",
+      "<h2>"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q7. From which tag descriptive list starts?",
+    "options": [
+      "<LL>",
+      "<DD>",
+      "<DL>",
+      "<DS>",
+      "<TG>"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q8. HTML stands for?",
+    "options": [
+      "Hyper Text Markup Language",
+      "High Text Markup Language",
+      "Hyper Tabular Markup Language",
+      "Hyper Text Mapeup Language",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "9.  (b) 10.  (c) 11.  (a) 12.  (a) 13.  (b) 14.  (a)"
+  },
+  {
+    "question": "Q9. www is based on which model?",
+    "options": [
+      "Local server",
+      "client server",
+      "3-tier",
+      "2-tier system",
+      "none"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q10. Web pages starts with which of the following tag?",
+    "options": [
+      "<Body>",
+      "<Title>",
+      "<HTML>",
+      "<Forum>",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q11. The ______ method requests data from a specified source.",
+    "options": [
+      "GET",
+      "POST",
+      "Both (1) & (2)",
+      "None of the above",
+      "All of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q12. <Base> tag is designed to appear only between",
+    "options": [
+      "<HEAD>",
+      "<TITLE>",
+      "<BODY>",
+      "<FORM>",
+      "<CAPTION>"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q13. How can you open a link in a new browser window?",
+    "options": [
+      "< a href = \"url\" target = \"new\">",
+      "<a href = \"url\" target= \"-blank\">",
+      "<a href = \"url\".new>",
+      "<a href = \"url\" target =\"open\">",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q14. A much better approach to establish the base URL is to use",
+    "options": [
+      "BASE element",
+      "HEAD element",
+      "both",
+      "and",
+      "",
+      "BODY Element",
+      "None of these"
+    ],
+    "correctIndex": 3,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q15. The tag used to create a new list item and also include a hyperlink is",
+    "options": [
+      "<LI>",
+      "<DL>",
+      "<DD>",
+      "<UL>",
+      "<Lh>"
+    ],
+    "correctIndex": 0,
+    "explanation": "16.  (c) 17.  (b) 18.  (e) 19.  (b) 20.  (b) 21.  (b)"
+  },
+  {
+    "question": "Q16. Which of the tag is used to creates a number list?",
+    "options": [
+      "<LI>",
+      "<OL>",
+      "<LI> and <OL>",
+      "<IL>",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q17. <INPUT> is",
+    "options": [
+      "Format tag",
+      "Empty tag",
+      "Input tag",
+      "Both",
+      "and",
+      "",
+      "None of these"
+    ],
+    "correctIndex": 4,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q18. The latest HTML standard is",
+    "options": [
+      "XML",
+      "SGML",
+      "HTML 4.0",
+      "STML",
+      "HTML 5.0"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q19. The tag used to create a hypertext relationship between current document and another URL is",
+    "options": [
+      "<A>",
+      "<Link>",
+      "<Isindex>",
+      "<Tag>",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q20. Markup tags tell the web browser",
+    "options": [
+      "How to organise the page",
+      "How to display the page",
+      "How to display message box on page",
+      "None of these",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 5,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q21. The body tag usually used after",
+    "options": [
+      "Title tag",
+      "HEAD tag",
+      "EM tag",
+      "FORM tag",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q22. Main container for <TR>, <TD> and <TH> is",
+    "options": [
+      "<TABLE>",
+      "<GROUP>",
+      "<DATA>",
+      "<Attribute>",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "23.  (a) 24.  (b) 25.  (b) 26.  (a) 27.  (c) 28.  (a)"
+  },
+  {
+    "question": "Q23. Symbol which is not used at the beginning of the HREF text is",
+    "options": [
+      "All",
+      ",",
+      ", and",
+      "",
+      "$",
+      "&",
+      "^",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q24. How can you make an e-mail link?",
+    "options": [
+      "<mail href +\"xxx@y.com\">",
+      "<a href =\"mail to: xxx@y.com\">",
+      "<a href = \"xxx@y.com\">",
+      "Both",
+      "and",
+      "",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q25. Which tag creates a number/order list?",
+    "options": [
+      "<UL>",
+      "<OL>",
+      "<OT>",
+      "<TO>",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q26. Which of the following is a Valid Name?",
+    "options": [
+      "<_person>",
+      "<123 person>",
+      "Both",
+      "and",
+      "",
+      "<person 123>",
+      "None of the these"
+    ],
+    "correctIndex": 3,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q27. The text inside the <TEXT AREA> tag works like",
+    "options": [
+      "<P> formatted text",
+      "<T> formatted text",
+      "<PRE> formatted text",
+      "<DI>formatted text",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q28. Symbol used at the beginning of the HREF text is",
+    "options": [
+      "#",
+      "$",
+      "&",
+      "^",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q29. The web standard allows programmers on many different computer platforms to dispersed format and display the information server. These programs are called",
+    "options": [
+      "Web Browsers",
+      "HTML",
+      "Internet Explorer",
+      "SDML",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "30.  (c) 31.  (b) 32.  (a) 33.  (e) 34.  (b) 35.  (b)"
+  },
+  {
+    "question": "Q30. URL stands for",
+    "options": [
+      "unique reference label",
+      "uniform reference label",
+      "uniform resource locator",
+      "unique resource locator",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q31. Dynamic web page",
+    "options": [
+      "is same every time whenever it displays",
+      "generates on demand by a pr ogram or a request from browser",
+      "both",
+      "and",
+      "",
+      "generate pre demand by a program or a request from browser",
+      "None of these"
+    ],
+    "correctIndex": 3,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q32. Common gateway interface is used to",
+    "options": [
+      "generate executable files from web content by web server",
+      "generate web pages",
+      "stream videos",
+      "generate images",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q33. Which one of the following is not used  to generate dynamic web pages?",
+    "options": [
+      "PHP",
+      "ASP.NET",
+      "JSP",
+      "java script",
+      "none of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q34. ________ programs are automatically loaded and operates as a part of browser.",
+    "options": [
+      "Utilities",
+      "Plug-ins",
+      "Widget",
+      "Add-ons",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q35. ___________ programs automatically connects to web sites and download documents and save them to local drive.",
+    "options": [
+      "web servers",
+      "web Downloading utilites",
+      "offline browser",
+      "online browser",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q36. Which of the following is a n advantage of putting presentation information in a separate CSS file rather than in HTML itself?",
+    "options": [
+      "The content becomes easy to manage",
+      "Becomes easy to make site for different devices like mobile by making separate CSS files",
+      "CSS Files are general ly cached a nd therefore decrease server load and network traffic.",
+      "All of the above",
+      "None of these"
+    ],
+    "correctIndex": 3,
+    "explanation": "37.  (b) 38.  (b) 39.  (c) 40.  (c) 41.  (b) 42.  (a)"
+  },
+  {
+    "question": "Q37. Consider the three commands : PROMPT, HEAD and RCPT. Which of the following options indicate a correct association of these commands with protocols where these are used?",
+    "options": [
+      "HTTP, SMTP, FTP",
+      "FTP, HTTP, SMTP",
+      "HTTP, FTP, SMTP",
+      "SMTP,HTTP,FTP",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q38. The MIME text file is saved with",
+    "options": [
+      "HMT extension",
+      "HTML extension",
+      "THM extension",
+      "XML extension",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q39. White spaces in XML includes",
+    "options": [
+      "Things like space characters, new lines and tabs",
+      "Only spaces",
+      "Spaces between two double quotes",
+      "no space",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q40. The attribute, which define the relationship between current document and HREF'ed URL is",
+    "options": [
+      "REL",
+      "URL",
+      "REV",
+      "RPV",
+      "All of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q41. The tags elements in XML are",
+    "options": [
+      "case-insensitive",
+      "case-sensitive",
+      "browser dependent",
+      "all the above",
+      "none of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q42. A much better approach to establish the base URL  is to use",
+    "options": [
+      "Base element",
+      "Head element",
+      "Body element",
+      "all the above",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q43. MSXML is",
+    "options": [
+      "a Microsoft language",
+      "XML parser that ships with IE5.0",
+      "used for interacting with XML",
+      "Both",
+      "&",
+      "",
+      "None of the above"
+    ],
+    "correctIndex": 3,
+    "explanation": "44.  (b) 45.  (c) 46.  (b) 47.  (b) 48.  (b) 49.  (b)"
+  },
+  {
+    "question": "Q44. A document have how many DTD's?",
+    "options": [
+      "2",
+      "None",
+      "4",
+      "5",
+      "3"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q45. Attributes in XML are",
+    "options": [
+      "elements in XML",
+      "child nodes",
+      "a way of attaching characteristics or properties to elements of a document",
+      "all the above",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q46. The DOM speci fication describes how strings are to be manipulated by the DOM by defining the datatype _______. It is encoded using _______ encoding scheme.",
+    "options": [
+      "DOMString, UTF-8",
+      "DOMString, Unicode",
+      "UNICODE String, Unicode",
+      "String, Unicode",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q47. Which of the following is an XML -based service IDL that defines the service interface and its implementation characteristics?",
+    "options": [
+      "UDDI",
+      "WSDL",
+      "SOAP",
+      "Path",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q48. Which of the following is (are) a valid XML name(s)?",
+    "options": [
+      "1-2-4_6",
+      ":3:-3:5:-7",
+      ";123456",
+      "3:4;-7",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q49. What is the correct HTML for creating a hyperlink?",
+    "options": [
+      "<a url=\"http://www.w3schools.com\">W3Schools.com </a>",
+      "<a href=\"http://www.w3schools.com\">W3Schools</a >",
+      "<a>http://www.w3schools.com</a>",
+      "<a name=\"http://www.w3schools.com\">W3Schools.co m</a>",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q50. Which of the following are CGI Proxy Server software?",
+    "options": [
+      "JAP",
+      "Cherokee HTTP Server",
+      "Habitat",
+      "Proxy",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "51.  (a) 52.  (b) 53.  (b) 54.  (c) 55.  (a) 56.  (b)"
+  },
+  {
+    "question": "Q51. For the XM L parser to ignore a certain section of your XML document, which syntax is correct?",
+    "options": [
+      "<![CDATA[ Text to be ignored ]]>",
+      "<xml:CDATA[ Text to be ignored ]>",
+      "<PCDATA> Text to be ignored </PCDATA>",
+      "<CDATA> Text to be ignored </CDATA>",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q52. Which of the following are all generic fonts?",
+    "options": [
+      "Fantasy, Cursive, Serif, Monospace, and Times New Roman",
+      "Cursive, Fantasy, Serif, Monospace, and Sans Serif",
+      "Arial, Cursive, Fantasy, Serif, and Monospace",
+      "Cursive, Fantasy, Serif, Mo nospace, and Garamond",
+      "None of the above"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q53. How DOM differs from SAX?",
+    "options": [
+      "DOM is not event driven and builds up the whole memory",
+      "SAX is event driven and requires less space",
+      "DOM and SAX are packages",
+      "All the above",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q54. Which of the following creates push button?",
+    "options": [
+      "Chech box",
+      "Radio",
+      "Reset",
+      "Input",
+      "None"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q55. The map definition file is generally stored in",
+    "options": [
+      "CGI-BIN",
+      "RECYCLE-BIN",
+      "BIN",
+      "RECYCLE",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q56. What does the URL need to access documents? I. Path name   II. Host name III. DNS    IV. Retrieval method V. Server port number",
+    "options": [
+      "I, II, III",
+      "I, III, V",
+      "I, II, IV",
+      "III, IV, V",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q57. Unlike Ipv4, Ipv6 does not include the following field in the base header",
+    "options": [
+      "Next Header field",
+      "Field for Fragmentation information",
+      "Flow Label",
+      "Kind field",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "58.  (c) 59.  (c) 60.  (b)  8 Computer Organization & Microprocessor  1. Number System  Number systems provide the basis for all operations in information proces sing systems. In a number system the information is divided into a group of symbols; for example, 26 English letters, 10 decimal digits etc. In conventional arithmetic, a number system based  upon ten units (0 to 9) is used. However, arithmetic and logic ci rcuits used in computers and other digital systems operate with only 0's and 1's because it is very difficult to design circuits that require ten distinct states. The number system with the basic symbols 0 and 1 is called binary. ie. A binary system uses just two discrete values. The binary digit (either 0 or 1) is called a bit.  A group of bits which is used to represent the discrete elements of information is a symbol. The mapping of symbol s to a binary value is known a binary code. This mapping must be u nique. For example, the decimal digits 0 through 9 are represented in a digital system with a code of four bits. Thus, a digital system is a system that manipulates discrete elements of information that is represented internally in binary form.  Decimal and Binary Number System When we write decimal (base 10) numbers, we use a positional notation system. Each digit is multiplied by an appropriate power of 10 depending on its position in the number: The Decimal Representation of Number 84310 Is: 843  = 8 x 1 02 + 4 x 101 + 3 x 100 = 8 x 100 + 4 x 10 + 3 x 1 = 800 + 40 + 3  For whole numbers, the rightmost digit position is the one’s position (10 0 = 1). The numeral in that position indicates how many ones are present in the number. The next position to the left is ten’s, then hundred’s, thousand’s, and so on. Each digit position has a weight that is ten times the weight of the position to its right. In the decimal number system, there are ten possible values that can appear in each digit position, and so there are ten numerals required to represent the quantity in each digit position. The decimal numerals are the familiar zero through nine (0, 1, 2, 3, 4, 5, 6, 7, 8, 9).  In a positional notation system, the number base is called the radix. Thus, the base ten s ystem that we normally use has a radix of 10. The term radix and base can be used interchangeably. When writing numbers in a radix other than ten, or where the radix isn’t clear from the context, it is customary to specify the radix using a subscript. The binary number system is also a positional notation numbering system, but in this case, the base is not ten, but is instead 2. Each digit position in a binary number represents a power of two. So, when we write a binary number, each binary digit is multiplied by an appropriate power of 2 based on the position in the number. The Decimal Representation of Binary Number 1011012 Is: 101101 = 1 x 25 + 0 x 24 + 1 x 23 + 1 x 22 + 0 x 21 + 1 x 20 = 1 x 32 + 0 x 16 + 1 x 8 + 1 x 4 + 0 x 2 + 1 x 1 = 32 + 8 + 4 + 1  Octal Number System Digital systems operate only on binary numbers. Since binary numbers are often very long, two shorthand notations, octal and hexadecimal, are used for representing large binary numbers. Octal systems use a base or radix of 8. Thus it has digits from 0 to 7 (r -1). As in the decimal and binary systems, the positional valued of each digit in a sequence of numbers is fixed. Each position in an octal number is a power of 8, and each position is 8 times more significant than the previous position.  The Decimal Representation of Binary Number 15.28 Is: 15.28 = 1 x 81 + 5 x 80 + 2 x 8-1  Decimal Binary Octal Hexadecimal 0 0000 0 0 1 0001 1 1 2 0010 2 2 3 0011 3 3 4 0100 4 4 5 0101 5 5 6 0110 6 6 7 0111 7 7 8 1000 10 8 9 1001 11 9 10 1010 12 A 11 1011 13 B 12 1100 14 C 13 1101 15 D 14 1110 16 E 15 1111 17 F  Hexadecimal Number System: The hexadecimal number system contains 16 unique numerals. This system is most often referred  to in spoken word as “hex” for short. Since we only have 10 Arabic numerals in our familiar decimal  system, we need to use other symbols to represent the remaining 6 numerals. We use the alphabetic  characters A–F in order to expand the system to 16 numerals. The 16 numerals in the hexadecimal system are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F. The relative magnitudes of the symbols are 0 < 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < A < B < C < D < E < F. We use the generic term digit  to describe the numerals within a hexadecimal number.  1.1 Base Conversion Converting to Decimal The value of each digit within a number is based on the individual digit value and the digit’s position. Each position in the number contains a different weight based on its relative location to the radix point. The weight of each position is based on the radix of the number system that is being used. In order to find the decimal value of each of the numerals in the number, its individual numeral value is multiplied by its positional weight. In order to find the value of the entire numb er, each value of the individual numeral -weight products is summed.  Binary to Decimal Let’s convert 101.112 to decimal. The same process is followed with the exception that the base in the summation is changed to 2. Converting from binary to decimal can b e accomplished quickly in your head due to the fact that the bit values in the products a re either 1 or 0. That means any bit that is a 0 has no impact on the outcome and any bit that is a 1 simply yields the weight of its position. Example: convert 101.112 to Decimal: Example: convert 101.112 to Decimal: 2 2 1 0 –1 –2 1 0 1 .1 1 Position 2 1 0 –1 –2 Weight (2) (2) (2) (2) (2)      →      →    2 i 1 i –2 Value d 2 = = 2 1 0 –1 –2 10 value 1.2 0.2 1.2 1.2 1.2 11Value 1.(4) 0.(2) 1.(1) 1.( ) 1.( ) 24 Value 4 0 1 0.5 0.25 Value 5.75  = + + + +  = + + + +  = + + + +  =  Octal to Decimal When converting from octal to decimal, the same process is followed with the exception that the bas e in the weight is changed to 8. Below is an example:  Hexadecimal to Decimal Let’s convert 1AB.EF 16 to decimal. The same process is followed with the exception that the base is changed to 16. When performing the conversion, the decimal equivalents of the numerals A–F need to be used.  Converting from Decimal  The process of converting from decimal to  another base consists of two separate algorithms. There  is one algorithm for converting the whole number portion of the number and another algorithm for converting the fractional portion of the number. The process for converting the whole number portion is to divide the decimal number by the base of the system you wish to convert to. The division will result in a quotient and a whole number remainder. The remainder is recorded as the least significant numeral in the converted number. The resulting quotient is then divided again by the base, which results in a new quotient and new remainder. The remainder is recorded as the next higher order numeral in the new number. This process is repeated until a quotient of 0 is achieved. At that point the conversion is complete. The remainders will always be within the numeral set of the base being converted to. The process for converting the fractional portion is to mu ltiply just the fractional component of the  number by the base. This will result in a product  that contains a whole number and a fraction. The whole  number is recorded as the most significant digit of the new converted number. The new fractional portion  is then multiplied again by the base with the whole number portion being recorded as the next l ower order numeral. This process is repeated until the product yields a fractional component equal to zero or the  desired level of accuracy has been achieved. The level of accuracy is specified by the number of numerals in the new converted number. For example, the conversion would be stated as “convert this decimal number to binary with a fractional accuracy of 4 bits. ” This means the algorithm would stop once  4-bits of fraction had been achieved in the conversion.  Decimal to Binary Let’s convert 11.37510 to binary. Example shows the step-by-step process converting a decimal number to binary.  Decimal to Octal Let’s convert 10.410 to octal with an accuracy of four fractional digits. When converting the fractional component of the number, the algorithm is continued until four digits worth of fractional numerals have been achieved. Once the accuracy has been achieved, the conversion is finished even though a product  with a zero fractional value has not been obtained.  Decimal to Hexadecimal Let’s convert 254.655 10 to hexadecimal with an accuracy of three fractional digits. When doing this conversion, all of the divisions and multiplications are done using decimal. If the results end up between 1010 and 1510, then the decimal numbers are substituted with their hex symbol equivalent (i.e., A to F).  Binary to Octal  Binary to Hexadecimal  Octal to Binary An octal symbol will be replaced with 3 binary bits while a hexadecimal symbol will be replaced with 4 binary bits. Any leading or trailing 0s can be removed from the converted number once complete.  Hexadecimal to Binary  Octal to Hexadecimal When converting between 2 n bases (excluding binary) the number is first converted into binary and  then converted from binary into the final 2n base using the algorithms described before.  Hexadecimal to Octal  1.2 Binary Arithmetic Binary addition is a straightforward process that mirrors the approach we have learned  for longhand  decimal addition. The two numbers (or terms) to be added are aligned at the radix point and addition  begins at the least significant bit. If the sum of the least signi ficant pos ition yields a value with two bits  (e.g., 10 2), then the least significant bit is recorded and the most significant bit is carried to the next higher position. The sum of the next higher position is then performed including the potential carry bit from the prior addition. This process continues from the least significant position to the most significant position.  Example: Single Bit Binary Addition There are four Possible results when adding two bits.  When performing binary addition, the width of the inputs and output is fixed (i.e., n-bits). Carries that exist within the n-bits are treated in the normal fashion of including them in the next hig her position sum;  however, if the highest position summation produces a carry, this is a uniquely named event. This event is called a carry out or the sum is said to generate a carry . The reason this type of event is given special terminology is because in  real circuitry, the number of bits of the inputs and output is fixed in hardware and the carry out is typically handled by a separate circuit.  Subtraction (Borrows) Binary subtraction also mirrors longhand decimal subtraction. In subtraction, the formal terms for the  two numbers being operated on are minuend and subtrahend. The subtrahend is subtracted from the  minuend to find the difference. In longhand subtraction, th e minuend is the top number and the  subtrahend is the bottom nu mber. For a given position if the minuend is less than the subtrahend, it  needs to borrow from the next higher order position to produce a difference that is positive. If the next higher position does not have a value that can be borrowed from (i.e., 0), then it in turn needs to borrow from the next higher position, and so forth.  Example: Single Bit Binary Subtraction There are four possible results when subtracting two bits.  As with binar y addition, binary subtraction is accomplished on fixed widths of inputs and output (i.e.,  n-bits). The minuend and subtrahend are aligned at the radix point and subtraction begins at the least  significant bit position. Borrows are used as nec essary as the  subtractions move from the least signi ficant position to the most signi ficant position. If the most signi ficant position requires a borrow, this is a  uniquely named event. This event is called a borrow in or the subtraction is said to require a borrow. Again, the reason this event is uniquely named is because in real circuitry, the number of bits of the input  and output is fixed in hardware and the borrow in is typically handled by a separate circuit.  1.3 Unsigned and Signed Numbers  All of the number systems presented in the prior sections were positive. We need to also have a mechanism to indicate negative numbers. When looking at negative numbers, we only focus on the  mapping between decimal and binary since octal and hexadecimal are used as just another representation of a binary number. In decimal, we are able to use the negative sign in front of a number to indicate that it is negative (e.g., -3410). In binary, this notation works fine for writing numbers on paper (e.g.,  -10102), but we need a mech anism that can be implemented using real circuitry. In a real digital circuit, the circuits can only deal with 0s and 1s. There is no “-” in a digital circuit. Since we only have 0s and 1s in the hardware, we use a bit to represent whe ther a number is posi tive or negative. This is referred to as  the sign bit. If a binary number is not going to have any negative values, then it is called an unsigned number and it can only represent positive numbers. If a binary number is going to allow negative numbers, it is called a signed number. It is important to always keep track of the type of number we  are using as the same bit values can represent very different numbers depending on the coding mechanism that is being used.  Unsigned Numbers  An unsigned number is one that does not allow negative numbers. When talking about this type of  code, the number of bits is fixed and stated up front. We use the variable n to represent the number of bits in the number. For example, if we had an 8 -bit number, we would say, “This is an 8 -bit, unsigned number. ” The number of unique codes in an unsigned number is given by 2n. For example, if we had an 8-bit number, we would have 28 or 256 unique codes (e.g., 0000 00002 to 1111 11112).  The range of an unsigned nu mber refers to the dec imal values that binary code can represent. If we use the notation Nunsigned to represent any possible that n-bit- unsigned number can take on, the range would be defined as 0 < Nunsigned < (2n – 1):  Range of an UNSIGNED Number   Nunsigned  (2n – 1)  Signed Numbers Signed numbers are able to represent both positive and negative numbers. The most significant bit of these numbers is always the sign bit, which represents whether the number is positive or negative. The sign bit is defined to be a 0 if the number is positive and 1 if the number is negative. When using signed numbers, the number of bits is fixed so that the sign bit is always in the same position. There are a  variety of ways to en code negative numbers using a sign b it. The encoding method used exclusively in  modern computers is called two’s complement. There are two other encoding techniques called signed magnitude and one’s complement that are rarely used but are studied to motivate the power of two’s complement. When talking about a signed number, the number of bits and the type of encoding are  always stated.  Signed Magnitude Signed magnitude is the simplest way to encode a negative number. In this approach, the most  significant bit (i.e., leftmost bit) of the binary number is considered the sign bit (0 = positive, 1 = negative). The rest of the bits to the right  of the sign bit represent the magnitude or absolute value of the number. As an example of this approach, let ’s look at the decimal values that a 4-bit, signed magnitude number can take on.  There are drawbacks of signed magnitude encoding that are apparent from this example. First, the  value of 0 10 has two signed magnitude codes (00002 and 10002). This is an inefficient use of the available codes and leads to complexity when building arithmetic circuitry since it must account for two codes representing the same number.  The second drawback is that addition using the negative numbers does not directly map to ho w decimal addition works. For example, in decima l if we added ( -5) + (1), the result would be -4. In signed  magnitude, adding these numbers using a traditional adder would produce (-5) + (1) = (-6). This is because the traditional addition would take place on the magnitude portion of the number. A 510 is represented with 1012. Adding 1 to this number would result in the next higher binary code 1102 or 610.  Since the sign portion is separate, the addition is performed on |5|, thus yielding 6. Once the sign bit is included, the resulting number is -6. It is certainly possible to build an addition circuit that works on  signed magnitude numbers, but it is more complex than a traditional adder because it must perform a different addition operation for the negative numbers versus the positive numbers. It is a dvantageous to have a single adder that works across the entire set of numbers.  Due to the duplicate codes for 0, the range of decimal numbers that signed magnitude can represent is reduced by 1 compared to unsigned encoding. For an n -bit number, there are 2n unique binary codes available but only 2 n–1 can be used to represent unique decimal number. If we use the notation NSM to represent any possible value that that an n-bit, signed magnitude can take on, the range would be defined as Range of a SIGNED MAGNITUDE number  – (2n–1 – 1)  NSM  + (2n–1 – 1)  1.4 One’s Complement  One’s complement is another simple way to encode negative numbers. In this approach, the  negative number is obtained by taking its positive equivalent and flipping all of the 1s to 0s and 0s to  1s. This procedure of flipping the bits is called a complement. In this way, the most signi ficant bit of the number is still the sign bit (0 =positive, 1= negative). The rest of the bits represent the value of the number, but in this encoding scheme the negati ve number values are less intuitive. As an example of this approach, let ’s look at the decimal values that a 4 -bit, one ’s complement number can take on.  Again, we notice that there are two different codes for 0 10 (00002 and 11112). This is a drawback of  one’s complement because it reduces the possible range of numbers that can be represented from 2 n to (2n - 1) and requires arithmetic operations that consider the gap in the number system. There are advantages of one’s complement, however. First, the numbers are ordered such that traditional  addition works on both positive and negative numbers (excluding the double 0 gap). Taking the example of (-5) + (1) again, in one ’s complement the result yields -4, just as in a traditional decimal system.  Notice that in one’s complement, -510 is represented with 10102. Adding 1 to this entire binary code would result in the next higher binary code 10112 or -410 from the above table. This makes addition circuitry less complicated, but still not as simple as if the dou ble 0 gap was eliminated. Another  advantage of one’s complement is that as the numbers are incremented beyond the largest value in the set, they roll over and start counting at the lowest number. For example, if you increment the number 01112 (710), it goes to the next higher binary code 1000 2, which is -710. The ability to have the numbers roll over is a useful feature for computer systems.  The process of finding the decimal value of a one ’s complement number involves first identifying  whether the number is positive or negative by looking at the sign bit. If the number is positive (i.e., the  sign bit is 0 ), then the number is treated as an unsigned code and is converted to decimal using the  standard conversion procedure described in prior sections. If the number is negative (i.e., the sign bit is  1), then the number sign is recorded separately and the code is complemented in order to convert it to its positive magnitude equivalent. This new positive number is then converted to decimal using the standard conversion procedure. As the final step, the sign is applied."
+  },
+  {
+    "question": "Q58. XML DSOs has the property for the number of pages of data the recordset contains",
+    "options": [
+      "Count",
+      "Number",
+      "PageCount",
+      "PageNumber",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q59. Microsoft XML schema data types for hexadecimal digits representing octates",
+    "options": [
+      "UID",
+      "UXID",
+      "UUID",
+      "XXID",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q60. CIDR stands for",
+    "options": [
+      "Classified Internet Domain Routing",
+      "Classless Inter Domain Routing",
+      "Classless Internet Domain Routing",
+      "Classified Inter Domain Routing",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  }
+]
+```
+
+---
+

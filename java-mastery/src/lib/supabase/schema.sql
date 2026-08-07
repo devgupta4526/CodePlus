@@ -12,9 +12,9 @@ create table public.profiles (
   created_at timestamptz default now()
 );
 
--- Course catalog (mirrors the course IDs: java, springboot, coa, python)
+-- Course catalog (mirrors the course IDs: java, springboot, coa, python, ibps-so-it)
 create table public.courses (
-  id text primary key,           -- 'java', 'springboot', 'coa', 'python'
+  id text primary key,           -- 'java', 'springboot', 'coa', 'python', 'ibps-so-it'
   title text not null,
   is_free boolean default true,  -- false = premium
   price_inr integer default 0    -- price in INR paise (0 = free)
@@ -25,7 +25,8 @@ insert into public.courses (id, title, is_free, price_inr) values
   ('java',       'Java Foundations',                         true,  0),
   ('coa',        'Computer Organization & Architecture',     true,  0),
   ('springboot', 'Spring Boot',                              false, 49900),
-  ('python',     'Python & Django',                          false, 49900);
+  ('python',     'Python & Django',                          false, 49900),
+  ('ibps-so-it', 'IBPS SO IT Officer Professional Knowledge',true,  0);
 
 -- Enrollments
 create table public.enrollments (

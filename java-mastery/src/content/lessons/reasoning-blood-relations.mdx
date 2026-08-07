@@ -1,0 +1,120 @@
+---
+title: reasoning-blood-relations
+---
+
+# 15. Blood Relations
+
+---
+
+## 1. What are Blood Relations?
+
+Blood relation problems test your ability to trace familial lineages and map out complex relationships using provided clues. 
+
+---
+
+## 2. Standard Family Tree Symbols
+
+To solve complex questions without confusion, always draw a **Family Tree Diagram** using standard symbolic notations:
+
+### Gender Symbols
+- **Male**: Represented by a Box $\square$ or a Plus sign $(+)$.
+- **Female**: Represented by a Circle $\bigcirc$ or a Minus sign $(-)$.
+
+### Relationship Connecting Lines
+- **Horizontal Line ($-$)**: Connects siblings (Brother/Sister).
+- **Double Horizontal Line ($=$)**: Connects a married couple (Husband/Wife).
+- **Vertical Line ($|$)**: Connects different generations (Parent to Child).
+
+---
+
+## 3. Generational Tiers
+
+- **Generation +2**: Grandfather, Grandmother (Maternal/Paternal)
+- **Generation +1**: Father, Mother, Uncle, Aunt, Father-in-law, Mother-in-law
+- **Generation 0**: You, Brother, Sister, Cousin, Husband, Wife, Brother-in-law, Sister-in-law
+- **Generation -1**: Son, Daughter, Nephew, Niece, Son-in-law, Daughter-in-law
+- **Generation -2**: Grandson, Granddaughter
+
+---
+
+## 4. Key Terminology (The Traps)
+
+1. **Maternal vs Paternal**: 
+   - *Maternal* = Mother's side of the family (Maternal Uncle = Mother's brother).
+   - *Paternal* = Father's side of the family.
+2. **Nephew & Niece**:
+   - *Nephew* = Brother's or Sister's Son (Male).
+   - *Niece* = Brother's or Sister's Daughter (Female).
+3. **Only Son / Only Daughter**:
+   - If A is the *only son* of B, it means B has no other male children. B could still have 5 daughters.
+   - If A is the *only child* of B, then A has absolutely no siblings.
+4. **"He is the son of the only son of my grandfather"**: Break it down backwards. The only son of my grandfather is my Father. Therefore, he is the son of my Father. Hence, he is my Brother (or me, if I am male).
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 1501,
+    "question": "A is the brother of B. C is the sister of D. B is the son of C. How is A related to C?",
+    "options": [
+      "Nephew",
+      "Son",
+      "Brother",
+      "Uncle"
+    ],
+    "correctIndex": 1,
+    "explanation": "B is the son of C. A is the brother of B. Since A and B are brothers/siblings, A must also be the son of C."
+  },
+  {
+    "id": 1502,
+    "question": "Pointing to a photograph, a man said, 'I have no brother or sister but that man's father is my father's son.' Whose photograph was it?",
+    "options": [
+      "His own",
+      "His son's",
+      "His father's",
+      "His nephew's"
+    ],
+    "correctIndex": 1,
+    "explanation": "Break it down: 'My father's son' - since the speaker has no siblings, his father's son is the speaker himself. So, 'That man's father is ME.' This means the man in the photograph is his son."
+  },
+  {
+    "id": 1503,
+    "question": "What is the relationship of your Mother's Brother's Daughter to you?",
+    "options": [
+      "Niece",
+      "Aunt",
+      "Sister",
+      "Cousin"
+    ],
+    "correctIndex": 3,
+    "explanation": "Your Mother's Brother is your Maternal Uncle. The daughter of your uncle is your Cousin."
+  },
+  {
+    "id": 1504,
+    "question": "If P is the husband of Q and R is the mother of S and Q, how is R related to P?",
+    "options": [
+      "Mother",
+      "Aunt",
+      "Mother-in-law",
+      "Sister"
+    ],
+    "correctIndex": 2,
+    "explanation": "R is the mother of Q. Q is the wife of P. Therefore, R is the mother of P's wife, which makes R the Mother-in-law of P."
+  },
+  {
+    "id": 1505,
+    "question": "In a family tree diagram, what does a double horizontal line (=) usually signify?",
+    "options": [
+      "Siblings",
+      "Parent and Child",
+      "A Married Couple",
+      "Cousins"
+    ],
+    "correctIndex": 2,
+    "explanation": "To avoid confusion with siblings (who share a single line), a double horizontal line (=) is the standard notation to connect a husband and wife (married couple)."
+  }
+]
+```

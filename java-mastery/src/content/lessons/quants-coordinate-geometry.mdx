@@ -1,0 +1,62 @@
+---
+title: quants-coordinate-geometry
+---
+
+# 3. Coordinate Geometry
+
+---
+
+## 1. Cartesian Plane & Distance Formula
+
+- **Distance Formula**: The straight-line distance between $P(x_1, y_1)$ and $Q(x_2, y_2)$ is:
+  $$d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
+
+---
+
+## 2. Section, Mid-Point & Centroid Formulas
+
+- **Internal Section Formula** ($m : n$ ratio):
+  $$x = \frac{m x_2 + n x_1}{m + n}, \quad y = \frac{m y_2 + n y_1}{m + n}$$
+- **Centroid of Triangle** ($G$):
+  $$G(x, y) = \left(\frac{x_1 + x_2 + x_3}{3}, \frac{y_1 + y_2 + y_3}{3}\right)$$
+
+---
+
+## 3. Slopes and Equations of Straight Lines
+
+- **Slope ($m$)**: $m = \tan \theta = \frac{y_2 - y_1}{x_2 - x_1}$. For perpendicular lines: $m_1 \times m_2 = -1$.
+- **Perpendicular Distance from Point to Line**: Distance from $(x_1, y_1)$ to $Ax + By + C = 0$ is:
+  $$d = \frac{|A x_1 + B y_1 + C|}{\sqrt{A^2 + B^2}}$$
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 301,
+    "question": "What is the slope of a line that is strictly perpendicular to the linear equation 3x - 4y + 12 = 0?",
+    "options": [
+      "3 / 4",
+      "-3 / 4",
+      "-4 / 3",
+      "4 / 3"
+    ],
+    "correctIndex": 2,
+    "explanation": "Convert to slope-intercept form y = mx + c: y = (3/4)x + 3. Here slope m₁ = 3/4. For perpendicular lines, m₁ × m₂ = -1, hence m₂ = -4/3."
+  },
+  {
+    "id": 302,
+    "question": "What is the perpendicular shortest distance from the origin (0, 0) to the line 6x + 8y - 50 = 0?",
+    "options": [
+      "5 units",
+      "10 units",
+      "25 units",
+      "8 units"
+    ],
+    "correctIndex": 0,
+    "explanation": "Perpendicular distance from origin to Ax + By + C = 0 is d = |C| / √(A² + B²) = |-50| / √(36 + 64) = 50 / 10 = 5 units."
+  }
+]
+```

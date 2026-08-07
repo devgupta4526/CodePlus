@@ -514,13 +514,17 @@ function LessonRow({
 
 // ── Lessons Manager ───────────────────────────────────────────────────────────
 
-type CourseTab = 'all' | 'java' | 'springboot' | 'coa' | 'python';
+type CourseTab = 'all' | 'java' | 'springboot' | 'coa' | 'python' | 'ibps-so-it' | 'quants' | 'reasoning' | 'english';
 const COURSE_TABS: { id: CourseTab; label: string }[] = [
   { id: 'all',        label: 'All' },
   { id: 'java',       label: 'Java' },
   { id: 'springboot', label: 'Spring Boot' },
   { id: 'coa',        label: 'COA' },
   { id: 'python',     label: 'Python' },
+  { id: 'ibps-so-it', label: 'IBPS SO IT Officer' },
+  { id: 'quants',     label: 'Quantitative Aptitude' },
+  { id: 'reasoning',  label: 'Reasoning' },
+  { id: 'english',    label: 'English' },
 ];
 
 function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
@@ -816,7 +820,7 @@ function LessonsSection({ lessons, onSaveLesson, onDeleteLesson, showToast }: {
                     <Input label="Slug *" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v.toLowerCase().replace(/\s+/g, '-') })} placeholder="e.g. oop-fundamentals" />
                   </div>
                   <div className="grid grid-cols-3 gap-4">
-                    <Select label="Course" value={editing.course} onChange={(v) => setEditing({ ...editing, course: v as AdminLesson['course'] })} options={['java', 'coa', 'python', 'springboot']} />
+                    <Select label="Course" value={editing.course} onChange={(v) => setEditing({ ...editing, course: v as AdminLesson['course'] })} options={['java', 'coa', 'python', 'springboot', 'ibps-so-it', 'quants']} />
                     <Select label="Difficulty" value={editing.difficulty} onChange={(v) => setEditing({ ...editing, difficulty: v as AdminLesson['difficulty'] })} options={['beginner', 'intermediate', 'advanced']} />
                     <Input label="Est. Minutes" value={String(editing.estimatedMinutes)} onChange={(v) => setEditing({ ...editing, estimatedMinutes: parseInt(v) || 0 })} type="number" />
                   </div>
@@ -987,7 +991,7 @@ function ChaptersSection({ chapters, onSaveChapters, showToast }: {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <Input label="Chapter #" value={String(editing.number)} onChange={(v) => setEditing({ ...editing, number: parseInt(v) || 1 })} type="number" />
-                <Select label="Course" value={editing.course ?? 'java'} onChange={(v) => setEditing({ ...editing, course: v })} options={['java', 'coa', 'python', 'springboot']} />
+                <Select label="Course" value={editing.course ?? 'java'} onChange={(v) => setEditing({ ...editing, course: v })} options={['java', 'coa', 'python', 'springboot', 'ibps-so-it', 'quants']} />
               </div>
               <Input label="Title *" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="e.g. Java Foundations" />
               <Input label="Description" value={editing.description} onChange={(v) => setEditing({ ...editing, description: v })} placeholder="What this chapter covers..." multiline rows={2} />

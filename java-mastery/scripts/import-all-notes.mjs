@@ -15,7 +15,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const LESSONS_DIR = path.join(__dirname, '../src/content/lessons');
 
 // Resolve the Notes_Final folder relative to the repo root
-const NOTES_ROOT = path.join(__dirname, '../../../CodePlus/Notes_Final');
+const NOTES_ROOT = fs.existsSync(path.join(__dirname, '../../Notes_Final'))
+  ? path.join(__dirname, '../../Notes_Final')
+  : path.join(__dirname, '../../../CodePlus/Notes_Final');
 
 // ─── Java mappings ────────────────────────────────────────────────────────────
 const JAVA_MAPPINGS = {
@@ -127,6 +129,79 @@ const SPRINGBOOT_MAPPINGS = {
   'springboot/Fault-Tolerant-Microservices-Resilience4j-Retry-Study-Guide.md': 'sb-retry',
 };
 
+// ─── IBPS SO IT Officer mappings ──────────────────────────────────────────────
+const IBPS_IT_MAPPINGS = {
+  'IBPS-SO-IT/1_Software_and_Hardware.md':                          'ibps-it-software-hardware',
+  'IBPS-SO-IT/2_DBMS.md':                                           'ibps-it-dbms',
+  'IBPS-SO-IT/3_Data_Warehousing_and_Data_Mining.md':               'ibps-it-data-warehousing-mining',
+  'IBPS-SO-IT/4_Operating_System.md':                               'ibps-it-operating-system',
+  'IBPS-SO-IT/5_Networking.md':                                     'ibps-it-networking',
+  'IBPS-SO-IT/6_Information_Security.md':                           'ibps-it-information-security',
+  'IBPS-SO-IT/7_Web_Technology.md':                                 'ibps-it-web-technology',
+  'IBPS-SO-IT/8_Computer_Organization_and_Microprocessor.md':       'ibps-it-computer-org-microprocessor',
+  'IBPS-SO-IT/9_Data_Structure.md':                                 'ibps-it-data-structure',
+  'IBPS-SO-IT/10_Software_Engineering.md':                          'ibps-it-software-engineering',
+  'IBPS-SO-IT/11_Programming_Languages.md':                         'ibps-it-programming-languages',
+  'IBPS-SO-IT/12_Practice_Sets.md':                                 'ibps-it-practice-sets',
+  'IBPS-SO-IT/13_Advanced_Topics_and_Annexure.md':                  'ibps-it-advanced-topics-annexure',
+};
+
+// ─── Quantitative Aptitude ("Concept King") mappings ────────────────────────
+const QUANTS_MAPPINGS = {
+  'Aptitude/Quants/1_Symbols_and_Math_Foundations.md':             'quants-symbols-math-foundations',
+  'Aptitude/Quants/2_Geometry.md':                                 'quants-geometry',
+  'Aptitude/Quants/3_Coordinate_Geometry.md':                      'quants-coordinate-geometry',
+  'Aptitude/Quants/4_Mensuration_2D.md':                           'quants-mensuration-2d',
+  'Aptitude/Quants/5_Mensuration_3D.md':                           'quants-mensuration-3d',
+  'Aptitude/Quants/6_Number_System_and_Simplification.md':          'quants-number-system-simplification',
+  'Aptitude/Quants/7_Algebra_and_Polynomials.md':                  'quants-algebra-polynomials',
+  'Aptitude/Quants/8_Trigonometry_and_Height_Distance.md':          'quants-trigonometry-height-distance',
+  'Aptitude/Quants/9_Percentage_and_Fractions.md':                 'quants-percentage-fractions',
+  'Aptitude/Quants/10_Ratio_Proportion_and_Partnership.md':        'quants-ratio-proportion-partnership',
+  'Aptitude/Quants/11_Profit_Loss_and_Discount.md':                'quants-profit-loss-discount',
+  'Aptitude/Quants/12_Mixture_and_Alligation.md':                  'quants-mixture-alligation',
+  'Aptitude/Quants/13_Simple_and_Compound_Interest.md':            'quants-simple-compound-interest',
+  'Aptitude/Quants/14_Time_Work_and_Pipes.md':                     'quants-time-work-pipes',
+  'Aptitude/Quants/15_Time_Speed_Distance_and_Trains.md':          'quants-time-speed-distance-trains',
+  'Aptitude/Quants/16_Boats_and_Streams.md':                       'quants-boats-streams',
+  'Aptitude/Quants/17_Permutation_and_Combination.md':             'quants-permutation-combination',
+  'Aptitude/Quants/18_Probability.md':                              'quants-probability',
+  'Aptitude/Quants/19_Statistics.md':                               'quants-statistics',
+  'Aptitude/Quants/20_Data_Interpretation.md':                      'quants-data-interpretation',
+};
+
+// ─── Reasoning mappings ────────────────────────
+const REASONING_MAPPINGS = {
+  'Aptitude/Reasoning/1_Analogy.md': 'reasoning-analogy',
+  'Aptitude/Reasoning/2_Coding_Decoding.md': 'reasoning-coding-decoding',
+  'Aptitude/Reasoning/3_Figure_Series.md': 'reasoning-figure-series',
+  'Aptitude/Reasoning/4_Dice.md': 'reasoning-dice',
+  'Aptitude/Reasoning/5_Mirror_Image.md': 'reasoning-mirror-image',
+  'Aptitude/Reasoning/6_Paper_Cutting.md': 'reasoning-paper-cutting',
+  'Aptitude/Reasoning/7_Embedded_Figure.md': 'reasoning-embedded-figure',
+  'Aptitude/Reasoning/8_Syllogism.md': 'reasoning-syllogism',
+  'Aptitude/Reasoning/9_Number_Series.md': 'reasoning-number-series',
+  'Aptitude/Reasoning/10_Letter_Series.md': 'reasoning-letter-series',
+  'Aptitude/Reasoning/11_Symbol_and_Notations.md': 'reasoning-symbol-notations',
+  'Aptitude/Reasoning/12_Venn_Diagram.md': 'reasoning-venn-diagram',
+  'Aptitude/Reasoning/13_Dictionary.md': 'reasoning-dictionary',
+  'Aptitude/Reasoning/14_Sitting_Arrangement.md': 'reasoning-sitting-arrangement',
+  'Aptitude/Reasoning/15_Blood_Relations.md': 'reasoning-blood-relations',
+};
+
+// ─── English mappings ────────────────────────
+const ENGLISH_MAPPINGS = {
+  'Aptitude/English/1_One_Word_Substitution.md': 'english-one-word-substitution',
+  'Aptitude/English/2_Idioms_and_Phrases.md': 'english-idioms-phrases',
+  'Aptitude/English/3_Synonyms_and_Antonyms.md': 'english-synonyms-antonyms',
+  'Aptitude/English/4_Phrasal_Verbs.md': 'english-phrasal-verbs',
+  'Aptitude/English/5_Spelling_Rules.md': 'english-spelling-rules',
+  'Aptitude/English/6_Grammar_Rules.md': 'english-grammar-rules',
+  'Aptitude/English/7_Error_Spotting.md': 'english-error-spotting',
+  'Aptitude/English/8_Reading_Comprehension.md': 'english-reading-comprehension',
+  'Aptitude/English/9_Cloze_Test.md': 'english-cloze-test',
+};
+
 // ─── Helper ───────────────────────────────────────────────────────────────────
 function importFile(relativeSource, slug) {
   const sourcePath = path.join(NOTES_ROOT, relativeSource);
@@ -160,6 +235,26 @@ for (const [src, slug] of Object.entries(JAVA_MAPPINGS)) {
 
 console.log('\n🍃 Importing Spring Boot notes…');
 for (const [src, slug] of Object.entries(SPRINGBOOT_MAPPINGS)) {
+  importFile(src, slug);
+}
+
+console.log('\n🏛️ Importing IBPS SO IT Officer notes…');
+for (const [src, slug] of Object.entries(IBPS_IT_MAPPINGS)) {
+  importFile(src, slug);
+}
+
+console.log('\n📐 Importing Quantitative Aptitude notes…');
+for (const [src, slug] of Object.entries(QUANTS_MAPPINGS)) {
+  importFile(src, slug);
+}
+
+console.log('\n🧠 Importing Reasoning notes…');
+for (const [src, slug] of Object.entries(REASONING_MAPPINGS)) {
+  importFile(src, slug);
+}
+
+console.log('\n📘 Importing English notes…');
+for (const [src, slug] of Object.entries(ENGLISH_MAPPINGS)) {
   importFile(src, slug);
 }
 

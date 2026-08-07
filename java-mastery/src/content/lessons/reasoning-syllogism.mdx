@@ -1,0 +1,124 @@
+---
+title: reasoning-syllogism
+---
+
+# 8. Syllogism & Deductive Logic
+
+---
+
+## 1. What is Syllogism?
+
+**Syllogism** is a form of logical deduction consisting of a set of premise statements followed by conclusions. Your goal is to determine which conclusions logically and undeniably follow from the given statements, assuming the statements are absolutely true (even if they defy real-world facts, e.g., "All dogs are cats").
+
+---
+
+## 2. Standard Types of Statements
+
+We use **Venn Diagrams** to visualize the relationships. There are four primary categorical propositions:
+
+1. **Universal Affirmative (All A are B)**
+   - **Diagram**: Circle A is completely inside Circle B.
+   - **Meaning**: Every element of A belongs to B. However, 'All B are A' is not necessarily true.
+
+2. **Universal Negative (No A is B)**
+   - **Diagram**: Circle A and Circle B are separate, with a strict crossing line (-) indicating no interaction.
+   - **Meaning**: Zero overlap. 'No B is A' is also absolutely true.
+
+3. **Particular Affirmative (Some A are B)**
+   - **Diagram**: Circle A and Circle B intersect/overlap partially.
+   - **Meaning**: At least one element is common. 'Some B are A' is also true.
+
+4. **Particular Negative (Some A are not B)**
+   - **Diagram**: A specific dotted region in A has a crossing line (-) connecting to B.
+   - **Meaning**: There is at least a portion of A that will never touch B.
+
+---
+
+## 3. The "Possibility" Concept
+
+A conclusion stating something "is a possibility" is true **only if**:
+1. It is logically feasible based on the diagram.
+2. It does not directly contradict any original statement.
+- *Rule of Thumb*: If a relationship is completely unknown (no direct link in the diagram), any possibility regarding them is **True**.
+
+---
+
+## 4. The "Either/Or" Case (Complementary Pairs)
+
+An 'Either/Or' condition occurs when you have two conclusions that contradict each other, but one of them *must* mathematically be true. 
+**Conditions for Either/Or:**
+1. Both conclusions must be individually **False** (Doubtful).
+2. The subject and predicate (the two entities) must be exactly the **same** in both conclusions.
+3. They must form a complementary pair:
+   - "Some A are B" AND "No A is B"
+   - "All A are B" AND "Some A are not B"
+   - "Some A are B" AND "Some A are not B"
+
+---
+
+## Interactive Practice Quiz Deck
+
+```quiz
+[
+  {
+    "id": 801,
+    "question": "Statements: All Cars are Bikes. No Bike is a Bus. Conclusion: No Car is a Bus. Is this conclusion true or false?",
+    "options": [
+      "True",
+      "False",
+      "Either True or False",
+      "Cannot be determined"
+    ],
+    "correctIndex": 0,
+    "explanation": "Since all Cars are trapped inside the Bike circle, and the Bike circle is strictly forbidden from touching the Bus circle, the Car circle can never touch the Bus circle. Thus, 'No Car is a Bus' is absolutely True."
+  },
+  {
+    "id": 802,
+    "question": "Statements: Some Cats are Dogs. Some Dogs are Rats. Conclusion: Some Cats are Rats. Is this conclusion True?",
+    "options": [
+      "Yes, definitely true",
+      "No, it is False (Doubtful)",
+      "It is an Either/Or case",
+      "Both are true"
+    ],
+    "correctIndex": 1,
+    "explanation": "In a Venn Diagram, the Cat circle overlaps with Dog, and Dog overlaps with Rat. However, there is no direct link drawn between Cat and Rat. Since their relationship is unknown, the definite conclusion 'Some Cats are Rats' is False (Doubtful)."
+  },
+  {
+    "id": 803,
+    "question": "Which of the following pairs forms a valid 'Either/Or' complementary pair?",
+    "options": [
+      "All A are B & No A is B",
+      "Some A are B & All A are B",
+      "Some A are B & No A is B",
+      "No A is B & Some A are not B"
+    ],
+    "correctIndex": 2,
+    "explanation": "A valid Either/Or pair must cover all possibilities between two entities without overlap. 'Some' (affirmative) and 'No' (universal negative) are the classic complementary pair. If 'Some A are B' is false, then absolutely 'No A is B' must be true."
+  },
+  {
+    "id": 804,
+    "question": "Statements: All Pens are Pencils. Conclusion: All Pencils are Pens. Is this true?",
+    "options": [
+      "True",
+      "False",
+      "True only if Pen = Pencil",
+      "Both 2 and 3"
+    ],
+    "correctIndex": 1,
+    "explanation": "If 'All A are B', it does not mean 'All B are A'. Pencils could be a much larger category containing Pens and other items. Therefore, the conclusion is False as a definite statement."
+  },
+  {
+    "id": 805,
+    "question": "Statements: Some A are B. No B is C. Conclusion: Some A are not C. Is this true?",
+    "options": [
+      "True",
+      "False",
+      "Either Or",
+      "Possibility only"
+    ],
+    "correctIndex": 0,
+    "explanation": "True. The portion of A that overlaps with B is strictly forbidden from touching C (since No B is C). Therefore, that specific overlapping portion of A can never be C, meaning 'Some A are not C' is absolutely True."
+  }
+]
+```

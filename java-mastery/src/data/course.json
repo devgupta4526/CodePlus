@@ -3,7 +3,7 @@
     {
       "number": 1,
       "title": "Java Foundations",
-      "description": "Start from scratch — understand OOP, how Java works under the hood, and master variables & types.",
+      "description": "Start from scratch \u2014 understand OOP, how Java works under the hood, and master variables & types.",
       "course": "java"
     },
     {
@@ -33,7 +33,7 @@
     {
       "number": 6,
       "title": "Collections Deep Dive",
-      "description": "Master the full Java Collections Framework — Sets, Maps, Deques, sorting, and internals of HashMap, LinkedHashMap, and TreeMap.",
+      "description": "Master the full Java Collections Framework \u2014 Sets, Maps, Deques, sorting, and internals of HashMap, LinkedHashMap, and TreeMap.",
       "course": "java"
     },
     {
@@ -45,7 +45,7 @@
     {
       "number": 8,
       "title": "Java New Features",
-      "description": "Text Blocks, Records, Switch Expressions, Pattern Matching, Sealed Classes, Sequenced Collections and more from Java 14–21.",
+      "description": "Text Blocks, Records, Switch Expressions, Pattern Matching, Sealed Classes, Sequenced Collections and more from Java 14\u201321.",
       "course": "java"
     },
     {
@@ -131,6 +131,228 @@
       "number": 7,
       "title": "Microprocessors & Assembly",
       "description": "8085 and 8086 architecture overview, Basic computer registers, Machine vs Assembly language, One-pass and Two-pass Assemblers."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 1,
+      "title": "Software & Hardware Foundations",
+      "description": "Von Neumann Architecture, CPU Units, Register Set, Memory Hierarchy, Ports, and Computer Typology."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 2,
+      "title": "Database Management System (DBMS)",
+      "description": "Three-Schema Architecture, E-R Modeling, RDBMS Concepts, Normalization (1NF to BCNF), SQL, ACID, and Deadlock Handling."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 3,
+      "title": "Data Warehousing & Data Mining",
+      "description": "OLAP vs OLTP architectures, ETL Data Pipeline, Schema Design, and Predictive Data Mining Algorithms."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 4,
+      "title": "Operating System (OS)",
+      "description": "5-State Process Transition Diagram, CPU Scheduling Algorithms, Memory Management, Virtual Memory & Paging, File Systems, and UNIX."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 5,
+      "title": "Computer Networking & Internet Protocols",
+      "description": "OSI 7-Layer vs TCP/IP Models, Switching techniques, Routing Protocols, IP Addressing, TCP Handshake, and Network Devices."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 6,
+      "title": "Information Security & Cyber Threats",
+      "description": "Malware Taxonomy, Botnets, Authentication, Symmetric vs Asymmetric Cryptography, Firewalls, DMZ Architecture, and IDS."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 7,
+      "title": "Web Technology & Markup Languages",
+      "description": "HTML Standard Syntax, XML Structural Rules, Client-Server Communication, Proxy servers, and Common Gateway Interface (CGI)."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 8,
+      "title": "Computer Organization & Microprocessor",
+      "description": "Number Systems & Conversions, Instruction Pipelining, 8085/8086 Bus Organization, Boolean Algebra, Logic Gates, Flip-Flops, and Counters."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 9,
+      "title": "Data Structures & Algorithms",
+      "description": "Asymptotic Complexity Classes, Array, Stack, Queue, Binary Search Trees, Graph Representations, Sorting algorithms, and Hashing."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 10,
+      "title": "Software Engineering & Project Management",
+      "description": "SDLC Models (Waterfall, Spiral, Agile), Clean Room SE, UML Modeling, Testing Methodologies, COCOMO model, and SEI-CMM Levels."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 11,
+      "title": "Programming Languages & OOP Concepts",
+      "description": "Language Paradigms, C Language syntax & constructs, Four Pillars of OOP, Java Basics, and JVM Runtime Execution Architecture."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 12,
+      "title": "Professional Knowledge Practice Sets",
+      "description": "10 Full-length simulation Practice Sets with comprehensive solutions covering all competitive banking IT Officer exam syllabus topics."
+    },
+    {
+      "course": "ibps-so-it",
+      "number": 13,
+      "title": "Advanced Topics & Technical Annexure",
+      "description": "Phases of a Compiler, Interpreters, Loaders, Linkers, Oracle Grid Architecture, PL/SQL Triggers, and Big Data Five V's Analytics."
+    },
+    {
+      "course": "quants",
+      "number": 1,
+      "title": "Symbols & Math Foundations",
+      "description": "Essential mathematical symbols, algebraic identities, measurement conversions, and digital sum shortcuts."
+    },
+    {
+      "course": "quants",
+      "number": 2,
+      "title": "Geometry & Triangles",
+      "description": "Lines, angles, triangle congruence & similarity, incenter, circumcenter, orthocenter, centroid, circles, and cyclic quadrilaterals."
+    },
+    {
+      "course": "quants",
+      "number": 3,
+      "title": "Coordinate Geometry",
+      "description": "Cartesian plane, distance formula, section formula, line slopes, linear equations, and point reflections."
+    },
+    {
+      "course": "quants",
+      "number": 4,
+      "title": "Mensuration 2D (Perimeter & Area)",
+      "description": "Perimeters and areas of rectangles, squares, rhombuses, trapeziums, circles, sectors, and field pathway tricks."
+    },
+    {
+      "course": "quants",
+      "number": 5,
+      "title": "Mensuration 3D (Surface Area & Volume)",
+      "description": "Surface areas and volumes of cubes, cuboids, cylinders, cones, spheres, hemispheres, and diagonal length rules."
+    },
+    {
+      "course": "quants",
+      "number": 6,
+      "title": "Number System & Simplification",
+      "description": "Classification of numbers, divisibility rules, unit digit cyclicity, remainders theorem, and LCM/HCF relations."
+    },
+    {
+      "course": "quants",
+      "number": 7,
+      "title": "Algebra & Polynomials",
+      "description": "Polynomial degrees, remainder & factor theorems, quadratic roots relationships, discriminant rules, and algebraic shortcuts."
+    },
+    {
+      "course": "quants",
+      "number": 8,
+      "title": "Trigonometry & Heights-Distances",
+      "description": "Trigonometric ratios, standard angle values table, Pythagorean identities, and angle of elevation/depression calculations."
+    },
+    {
+      "course": "quants",
+      "number": 9,
+      "title": "Percentage & Fraction Conversions",
+      "description": "Fraction-to-percentage reference table, successive percentage change formulas, and expenditure vs consumption reduction."
+    },
+    {
+      "course": "quants",
+      "number": 10,
+      "title": "Ratio, Proportion & Partnership",
+      "description": "Ratio rules, mean & third proportionals, and commercial partnership profit division based on capital and time."
+    },
+    {
+      "course": "quants",
+      "number": 11,
+      "title": "Profit, Loss & Discount",
+      "description": "Cost price, selling price, marked price formulas, discount percentages, and direct MP-to-CP ratio shortcut."
+    },
+    {
+      "course": "quants",
+      "number": 12,
+      "title": "Mixture & Alligation",
+      "description": "The Alligation Cross Method, blending cheaper and dearer ingredients, and combining solutions of differing ratios."
+    },
+    {
+      "course": "quants",
+      "number": 13,
+      "title": "Simple & Compound Interest",
+      "description": "Simple interest calculation, compound interest formulas, and direct 2-year difference shortcuts."
+    },
+    {
+      "course": "quants",
+      "number": 14,
+      "title": "Time, Work & Pipes & Cisterns",
+      "description": "LCM total work unit method, combined efficiency calculations, inlet/outlet pipes rules, and MDH man-days formula."
+    },
+    {
+      "course": "quants",
+      "number": 15,
+      "title": "Time, Speed, Distance & Trains",
+      "description": "Speed conversion, average travel speed rules, relative velocity in opposite/same directions, and train obstacle crossing times."
+    },
+    {
+      "course": "quants",
+      "number": 16,
+      "title": "Boats & Streams",
+      "description": "Downstream vs upstream velocity formulas, still water boat speed, and stream current rate calculation."
+    },
+    {
+      "course": "quants",
+      "number": 17,
+      "title": "Permutation & Combination",
+      "description": "Fundamental principle of counting, factorials, permutations for ordered arrangements, and combinations for generic groups."
+    },
+    {
+      "course": "quants",
+      "number": 18,
+      "title": "Probability",
+      "description": "Probability definition, complementary outcomes, coin toss space, two dice combinations, and standard playing card decks."
+    },
+    {
+      "course": "quants",
+      "number": 19,
+      "title": "Statistics (Mean, Median, Mode)",
+      "description": "Arithmetic mean, median observation selection, Karl Pearson empirical mode identity, variance, and standard deviation."
+    },
+    {
+      "course": "quants",
+      "number": 20,
+      "title": "Data Interpretation (DI)",
+      "description": "Analyzing tabular matrices, bar charts, line graphs, and converting circular pie chart degrees into percentage budget figures."
+    },
+    {
+      "course": "reasoning",
+      "number": 1,
+      "title": "Verbal Reasoning",
+      "description": "Master verbal and logical reasoning concepts including analogy, coding, and syllogism."
+    },
+    {
+      "course": "reasoning",
+      "number": 2,
+      "title": "Non-Verbal & Analytical Reasoning",
+      "description": "Master visual problem-solving, spatial awareness, and analytical puzzle structures."
+    },
+    {
+      "course": "english",
+      "number": 1,
+      "title": "Vocabulary Building",
+      "description": "Master essential vocabulary including one-word substitutions, idioms, synonyms, antonyms, and phrasal verbs."
+    },
+    {
+      "course": "english",
+      "number": 2,
+      "title": "Grammar & Comprehension",
+      "description": "Learn essential grammar rules, error spotting techniques, and strategies for reading comprehension and cloze tests."
     }
   ],
   "lessons": [
@@ -431,7 +653,7 @@
     },
     {
       "course": "java",
-      "title": "Interfaces — Fundamentals",
+      "title": "Interfaces \u2014 Fundamentals",
       "slug": "interfaces-fundamentals",
       "chapter": 3,
       "chapterTitle": "Object-Oriented Design",
@@ -456,7 +678,7 @@
     },
     {
       "course": "java",
-      "title": "Interfaces — Java 8/9 Features",
+      "title": "Interfaces \u2014 Java 8/9 Features",
       "slug": "interfaces-java8-java9",
       "chapter": 3,
       "chapterTitle": "Object-Oriented Design",
@@ -928,16 +1150,23 @@
       "chapter": 6,
       "chapterTitle": "Collections Deep Dive",
       "lesson": 23,
-      "description": "HashSet, LinkedHashSet, TreeSet internals — hashing, ordering, and iteration",
+      "description": "HashSet, LinkedHashSet, TreeSet internals \u2014 hashing, ordering, and iteration",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["collection-framework"],
+      "prerequisites": [
+        "collection-framework"
+      ],
       "objectives": [
         "Understand how HashSet achieves O(1) add/contains via HashMap",
         "Compare HashSet vs LinkedHashSet vs TreeSet ordering guarantees",
         "Use Set for deduplication problems in production code"
       ],
-      "tags": ["set", "hashset", "treeset", "collections"]
+      "tags": [
+        "set",
+        "hashset",
+        "treeset",
+        "collections"
+      ]
     },
     {
       "course": "java",
@@ -949,13 +1178,21 @@
       "description": "HashMap internals: hashing, buckets, load factor, resizing, collision handling and treeification",
       "difficulty": "advanced",
       "estimatedMinutes": 45,
-      "prerequisites": ["collection-framework"],
+      "prerequisites": [
+        "collection-framework"
+      ],
       "objectives": [
         "Trace how HashMap stores and retrieves a key-value pair step by step",
         "Understand load factor, capacity, and rehashing thresholds",
-        "Explain treeification (linked list → red-black tree at threshold 8)"
+        "Explain treeification (linked list \u2192 red-black tree at threshold 8)"
       ],
-      "tags": ["map", "hashmap", "hashing", "internals", "collections"]
+      "tags": [
+        "map",
+        "hashmap",
+        "hashing",
+        "internals",
+        "collections"
+      ]
     },
     {
       "course": "java",
@@ -967,13 +1204,20 @@
       "description": "LinkedHashMap insertion/access order, TreeMap sorted navigation, ceiling/floor APIs",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["map-hashmap-internals"],
+      "prerequisites": [
+        "map-hashmap-internals"
+      ],
       "objectives": [
         "Implement a simple LRU Cache using LinkedHashMap",
         "Use TreeMap for range queries with floorKey / ceilingKey",
         "Choose the right Map implementation for a given problem"
       ],
-      "tags": ["linkedhashmap", "treemap", "sorted-map", "collections"]
+      "tags": [
+        "linkedhashmap",
+        "treemap",
+        "sorted-map",
+        "collections"
+      ]
     },
     {
       "course": "java",
@@ -985,13 +1229,21 @@
       "description": "ArrayList vs LinkedList, ArrayDeque, Stack replacement, and performance trade-offs",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["collection-framework"],
+      "prerequisites": [
+        "collection-framework"
+      ],
       "objectives": [
         "Compare ArrayList random access O(1) vs LinkedList node traversal O(n)",
         "Use ArrayDeque as a stack and queue replacement",
         "Identify when to choose each List and Deque implementation"
       ],
-      "tags": ["arraylist", "linkedlist", "deque", "arraydeque", "collections"]
+      "tags": [
+        "arraylist",
+        "linkedlist",
+        "deque",
+        "arraydeque",
+        "collections"
+      ]
     },
     {
       "course": "java",
@@ -1003,13 +1255,22 @@
       "description": "Custom sorting with Comparable and Comparator applied to Sets and Maps",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["set-collections", "map-hashmap-internals"],
+      "prerequisites": [
+        "set-collections",
+        "map-hashmap-internals"
+      ],
       "objectives": [
         "Sort objects stored in TreeSet and TreeMap using Comparable and Comparator",
         "Chain Comparator predicates for multi-field sorting",
         "Understand natural ordering vs imposed ordering"
       ],
-      "tags": ["sorting", "comparable", "comparator", "treeset", "treemap"]
+      "tags": [
+        "sorting",
+        "comparable",
+        "comparator",
+        "treeset",
+        "treemap"
+      ]
     },
     {
       "course": "java",
@@ -1021,18 +1282,27 @@
       "description": "Stream pipeline: source, intermediate operations, terminal operations, lazy evaluation, and parallel streams",
       "difficulty": "advanced",
       "estimatedMinutes": 50,
-      "prerequisites": ["functional-interfaces-lambdas", "collection-framework"],
+      "prerequisites": [
+        "functional-interfaces-lambdas",
+        "collection-framework"
+      ],
       "objectives": [
         "Build complex data pipelines with filter, map, flatMap, reduce, collect",
         "Understand lazy evaluation and short-circuit operations",
         "Use Collectors for groupingBy, partitioning, joining, and custom reductions",
         "Decide when to use parallel streams safely"
       ],
-      "tags": ["streams", "lambda", "pipeline", "collect", "parallel-streams"]
+      "tags": [
+        "streams",
+        "lambda",
+        "pipeline",
+        "collect",
+        "parallel-streams"
+      ]
     },
     {
       "course": "java",
-      "title": "Multithreading Part 1 — Threads & JVM",
+      "title": "Multithreading Part 1 \u2014 Threads & JVM",
       "slug": "multithreading-part1",
       "chapter": 7,
       "chapterTitle": "Multithreading & Concurrency",
@@ -1040,18 +1310,26 @@
       "description": "Processes vs threads, JVM memory architecture, context switching, creating threads",
       "difficulty": "intermediate",
       "estimatedMinutes": 45,
-      "prerequisites": ["memory-management"],
+      "prerequisites": [
+        "memory-management"
+      ],
       "objectives": [
         "Differentiate processes and threads in the JVM",
         "Understand shared vs per-thread memory areas",
         "Create threads via Thread subclass and Runnable interface",
         "Explain context switching and its performance cost"
       ],
-      "tags": ["threads", "multithreading", "runnable", "jvm", "concurrency"]
+      "tags": [
+        "threads",
+        "multithreading",
+        "runnable",
+        "jvm",
+        "concurrency"
+      ]
     },
     {
       "course": "java",
-      "title": "Multithreading Part 2 — Synchronization",
+      "title": "Multithreading Part 2 \u2014 Synchronization",
       "slug": "multithreading-part2",
       "chapter": 7,
       "chapterTitle": "Multithreading & Concurrency",
@@ -1059,17 +1337,24 @@
       "description": "Race conditions, synchronized keyword, wait/notify, thread lifecycle states",
       "difficulty": "advanced",
       "estimatedMinutes": 50,
-      "prerequisites": ["multithreading-part1"],
+      "prerequisites": [
+        "multithreading-part1"
+      ],
       "objectives": [
         "Identify and fix race conditions using synchronized",
         "Use wait(), notify(), and notifyAll() for thread coordination",
         "Map and trace all six thread lifecycle states"
       ],
-      "tags": ["synchronized", "race-condition", "wait-notify", "thread-lifecycle"]
+      "tags": [
+        "synchronized",
+        "race-condition",
+        "wait-notify",
+        "thread-lifecycle"
+      ]
     },
     {
       "course": "java",
-      "title": "Multithreading Part 3 — Advanced Patterns",
+      "title": "Multithreading Part 3 \u2014 Advanced Patterns",
       "slug": "multithreading-part3",
       "chapter": 7,
       "chapterTitle": "Multithreading & Concurrency",
@@ -1077,17 +1362,25 @@
       "description": "Deadlock, livelock, starvation, daemon threads, thread interruption",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["multithreading-part2"],
+      "prerequisites": [
+        "multithreading-part2"
+      ],
       "objectives": [
         "Detect and prevent deadlocks using lock ordering",
         "Distinguish deadlock, livelock, and starvation",
         "Use interrupt() and isInterrupted() for cooperative cancellation"
       ],
-      "tags": ["deadlock", "livelock", "starvation", "daemon-threads", "interrupt"]
+      "tags": [
+        "deadlock",
+        "livelock",
+        "starvation",
+        "daemon-threads",
+        "interrupt"
+      ]
     },
     {
       "course": "java",
-      "title": "Locks — ReentrantLock & ReadWriteLock",
+      "title": "Locks \u2014 ReentrantLock & ReadWriteLock",
       "slug": "multithreading-locks",
       "chapter": 7,
       "chapterTitle": "Multithreading & Concurrency",
@@ -1095,17 +1388,25 @@
       "description": "java.util.concurrent locks: ReentrantLock, ReadWriteLock, Condition API",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["multithreading-part2"],
+      "prerequisites": [
+        "multithreading-part2"
+      ],
       "objectives": [
         "Use ReentrantLock with tryLock() and timed locking",
         "Implement reader-writer concurrency with ReadWriteLock",
         "Replace wait/notify with the Condition API"
       ],
-      "tags": ["reentrantlock", "readwritelock", "condition", "locks", "concurrency"]
+      "tags": [
+        "reentrantlock",
+        "readwritelock",
+        "condition",
+        "locks",
+        "concurrency"
+      ]
     },
     {
       "course": "java",
-      "title": "Advanced Locks — StampedLock & Semaphore",
+      "title": "Advanced Locks \u2014 StampedLock & Semaphore",
       "slug": "multithreading-advanced-locks",
       "chapter": 7,
       "chapterTitle": "Multithreading & Concurrency",
@@ -1113,13 +1414,21 @@
       "description": "StampedLock optimistic reads, Semaphore, CountDownLatch, CyclicBarrier, Phaser",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["multithreading-locks"],
+      "prerequisites": [
+        "multithreading-locks"
+      ],
       "objectives": [
         "Apply StampedLock for high-throughput read-heavy scenarios",
         "Use Semaphore to limit concurrent access to a resource",
         "Coordinate threads with CountDownLatch and CyclicBarrier"
       ],
-      "tags": ["stampedlock", "semaphore", "countdownlatch", "cyclicbarrier", "concurrency"]
+      "tags": [
+        "stampedlock",
+        "semaphore",
+        "countdownlatch",
+        "cyclicbarrier",
+        "concurrency"
+      ]
     },
     {
       "course": "java",
@@ -1131,13 +1440,21 @@
       "description": "volatile, AtomicInteger/Long/Reference, ConcurrentHashMap, CopyOnWriteArrayList, BlockingQueue",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["multithreading-part2"],
+      "prerequisites": [
+        "multithreading-part2"
+      ],
       "objectives": [
         "Understand the Java Memory Model and the volatile guarantee",
         "Use Atomic classes for lock-free thread-safe counters",
         "Choose the right concurrent collection for producer-consumer patterns"
       ],
-      "tags": ["volatile", "atomic", "concurrenthashmap", "copyonwrite", "blockingqueue"]
+      "tags": [
+        "volatile",
+        "atomic",
+        "concurrenthashmap",
+        "copyonwrite",
+        "blockingqueue"
+      ]
     },
     {
       "course": "java",
@@ -1149,13 +1466,20 @@
       "description": "Thread pool concepts, fixed/cached/single/scheduled thread pools, rejection policies",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["multithreading-part1"],
+      "prerequisites": [
+        "multithreading-part1"
+      ],
       "objectives": [
         "Explain why thread pools outperform creating raw threads",
         "Configure ThreadPoolExecutor parameters: corePoolSize, maxPoolSize, queue, policy",
         "Choose between fixed, cached, single, and scheduled executors"
       ],
-      "tags": ["thread-pool", "executor", "executorservice", "threadpoolexecutor"]
+      "tags": [
+        "thread-pool",
+        "executor",
+        "executorservice",
+        "threadpoolexecutor"
+      ]
     },
     {
       "course": "java",
@@ -1167,13 +1491,20 @@
       "description": "shutdown vs shutdownNow vs awaitTermination, ScheduledThreadPoolExecutor patterns",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["thread-pool"],
+      "prerequisites": [
+        "thread-pool"
+      ],
       "objectives": [
         "Correctly shut down an ExecutorService without losing tasks",
         "Schedule periodic and delayed tasks with ScheduledThreadPoolExecutor",
         "Handle RejectedExecutionException gracefully"
       ],
-      "tags": ["executorservice", "shutdown", "scheduled", "threadpool"]
+      "tags": [
+        "executorservice",
+        "shutdown",
+        "scheduled",
+        "threadpool"
+      ]
     },
     {
       "course": "java",
@@ -1185,13 +1516,21 @@
       "description": "ForkJoinPool, RecursiveTask, work-stealing algorithm, parallel array operations",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["thread-pool"],
+      "prerequisites": [
+        "thread-pool"
+      ],
       "objectives": [
         "Implement divide-and-conquer algorithms with RecursiveTask",
         "Understand ForkJoinPool work-stealing for CPU-bound tasks",
         "Compare ForkJoinPool with standard ExecutorService"
       ],
-      "tags": ["forkjoin", "forkjoinpool", "recursivetask", "work-stealing", "parallel"]
+      "tags": [
+        "forkjoin",
+        "forkjoinpool",
+        "recursivetask",
+        "work-stealing",
+        "parallel"
+      ]
     },
     {
       "course": "java",
@@ -1203,13 +1542,21 @@
       "description": "Callable, Future, CompletableFuture async pipelines, thenApply/thenCompose/allOf",
       "difficulty": "advanced",
       "estimatedMinutes": 45,
-      "prerequisites": ["thread-pool"],
+      "prerequisites": [
+        "thread-pool"
+      ],
       "objectives": [
         "Use Callable to return values from async tasks",
         "Build non-blocking pipelines with CompletableFuture",
         "Combine multiple futures with allOf, anyOf, thenCombine"
       ],
-      "tags": ["callable", "future", "completablefuture", "async", "thenApply"]
+      "tags": [
+        "callable",
+        "future",
+        "completablefuture",
+        "async",
+        "thenApply"
+      ]
     },
     {
       "course": "java",
@@ -1221,13 +1568,21 @@
       "description": "ThreadLocal for per-thread state, Project Loom virtual threads (Java 21)",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["multithreading-part1"],
+      "prerequisites": [
+        "multithreading-part1"
+      ],
       "objectives": [
         "Use ThreadLocal to avoid shared state in web request contexts",
         "Create and launch virtual threads with Thread.ofVirtual()",
         "Understand when virtual threads outperform platform threads"
       ],
-      "tags": ["threadlocal", "virtual-threads", "loom", "java21", "concurrency"]
+      "tags": [
+        "threadlocal",
+        "virtual-threads",
+        "loom",
+        "java21",
+        "concurrency"
+      ]
     },
     {
       "course": "java",
@@ -1239,17 +1594,25 @@
       "description": "Reduce boilerplate with @Getter, @Setter, @Builder, @Data, @Slf4j and more",
       "difficulty": "beginner",
       "estimatedMinutes": 25,
-      "prerequisites": ["constructors"],
+      "prerequisites": [
+        "constructors"
+      ],
       "objectives": [
         "Eliminate boilerplate getters, setters, and constructors with Lombok annotations",
         "Build fluent APIs using @Builder and @SuperBuilder",
         "Understand which Lombok annotations are safe in production"
       ],
-      "tags": ["lombok", "boilerplate", "builder", "data", "annotations"]
+      "tags": [
+        "lombok",
+        "boilerplate",
+        "builder",
+        "data",
+        "annotations"
+      ]
     },
     {
       "course": "java",
-      "title": "Text Blocks (Java 13–15)",
+      "title": "Text Blocks (Java 13\u201315)",
       "slug": "text-blocks",
       "chapter": 8,
       "chapterTitle": "Java New Features",
@@ -1257,13 +1620,21 @@
       "description": "Multi-line string literals, incidental whitespace stripping, formatted() method",
       "difficulty": "beginner",
       "estimatedMinutes": 20,
-      "prerequisites": ["variables-primitive-types"],
+      "prerequisites": [
+        "variables-primitive-types"
+      ],
       "objectives": [
         "Write readable multi-line JSON, SQL and HTML with text blocks",
         "Understand incidental vs essential whitespace rules",
         "Apply .formatted() for inline substitution"
       ],
-      "tags": ["text-blocks", "strings", "java13", "java15", "modern-java"]
+      "tags": [
+        "text-blocks",
+        "strings",
+        "java13",
+        "java15",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
@@ -1275,13 +1646,21 @@
       "description": "Arrow-style switch, switch as expression, yield keyword, exhaustiveness",
       "difficulty": "beginner",
       "estimatedMinutes": 20,
-      "prerequisites": ["control-flow-statements"],
+      "prerequisites": [
+        "control-flow-statements"
+      ],
       "objectives": [
         "Write concise switch expressions with arrow syntax",
         "Use switch as an expression (assign to variable, return value)",
         "Apply yield in multi-statement arms"
       ],
-      "tags": ["switch", "switch-expression", "yield", "java14", "modern-java"]
+      "tags": [
+        "switch",
+        "switch-expression",
+        "yield",
+        "java14",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
@@ -1293,17 +1672,25 @@
       "description": "Immutable data carriers: compact canonical constructor, with-ers pattern, record limitations",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["pojo-enum-final"],
+      "prerequisites": [
+        "pojo-enum-final"
+      ],
       "objectives": [
         "Replace verbose POJOs with a single-line record declaration",
         "Customise canonical constructors for validation",
         "Understand the restrictions of records vs regular classes"
       ],
-      "tags": ["records", "immutable", "java16", "pojo", "modern-java"]
+      "tags": [
+        "records",
+        "immutable",
+        "java16",
+        "pojo",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
-      "title": "Pattern Matching — instanceof (Java 16)",
+      "title": "Pattern Matching \u2014 instanceof (Java 16)",
       "slug": "pattern-matching-instanceof",
       "chapter": 8,
       "chapterTitle": "Java New Features",
@@ -1311,13 +1698,20 @@
       "description": "Type test patterns, scoped binding variables, guarded patterns",
       "difficulty": "intermediate",
       "estimatedMinutes": 20,
-      "prerequisites": ["types-of-classes"],
+      "prerequisites": [
+        "types-of-classes"
+      ],
       "objectives": [
         "Eliminate explicit casts with instanceof pattern binding",
         "Combine instanceof patterns with boolean guards",
         "Understand scope rules of pattern variables"
       ],
-      "tags": ["pattern-matching", "instanceof", "java16", "modern-java"]
+      "tags": [
+        "pattern-matching",
+        "instanceof",
+        "java16",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
@@ -1329,17 +1723,26 @@
       "description": "sealed/permits hierarchy, sealed vs final vs non-sealed, algebraic data types in Java",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["interfaces-fundamentals", "types-of-classes"],
+      "prerequisites": [
+        "interfaces-fundamentals",
+        "types-of-classes"
+      ],
       "objectives": [
         "Define a closed hierarchy with sealed and permits",
         "Combine sealed classes with records for algebraic data types",
         "Use sealed classes as the basis for exhaustive switch"
       ],
-      "tags": ["sealed", "permits", "java17", "algebraic-data-types", "modern-java"]
+      "tags": [
+        "sealed",
+        "permits",
+        "java17",
+        "algebraic-data-types",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
-      "title": "Pattern Matching — Switch (Java 21)",
+      "title": "Pattern Matching \u2014 Switch (Java 21)",
       "slug": "java21-pattern-matching-switch",
       "chapter": 8,
       "chapterTitle": "Java New Features",
@@ -1347,13 +1750,22 @@
       "description": "Type patterns in switch, guarded patterns, null handling, exhaustiveness with sealed types",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sealed-classes", "pattern-matching-instanceof"],
+      "prerequisites": [
+        "sealed-classes",
+        "pattern-matching-instanceof"
+      ],
       "objectives": [
         "Write type-safe, exhaustive switch expressions over sealed hierarchies",
         "Add guards to switch arms with when clauses",
         "Safely handle null in switch without NullPointerException"
       ],
-      "tags": ["pattern-matching", "switch", "java21", "sealed", "modern-java"]
+      "tags": [
+        "pattern-matching",
+        "switch",
+        "java21",
+        "sealed",
+        "modern-java"
+      ]
     },
     {
       "course": "java",
@@ -1365,13 +1777,20 @@
       "description": "SequencedCollection, SequencedSet, SequencedMap interfaces and reverse views",
       "difficulty": "intermediate",
       "estimatedMinutes": 20,
-      "prerequisites": ["collection-framework"],
+      "prerequisites": [
+        "collection-framework"
+      ],
       "objectives": [
         "Use getFirst/getLast/addFirst/addLast on any sequenced collection",
         "Obtain a reversed view of a list or map without copying",
         "Identify which existing types implement the new interfaces"
       ],
-      "tags": ["sequenced-collections", "java21", "collections", "modern-java"]
+      "tags": [
+        "sequenced-collections",
+        "java21",
+        "collections",
+        "modern-java"
+      ]
     },
     {
       "course": "springboot",
@@ -1389,7 +1808,12 @@
         "Configure project dependencies in pom.xml",
         "Use plugins to compile, test, and package Spring Boot applications"
       ],
-      "tags": ["maven", "pom", "build-tool", "spring-boot"]
+      "tags": [
+        "maven",
+        "pom",
+        "build-tool",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1401,13 +1825,21 @@
       "description": "Servlet containers, Spring MVC, IoC, Dispatcher Servlet, and Spring Boot's three core advantages",
       "difficulty": "beginner",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-maven"],
+      "prerequisites": [
+        "sb-maven"
+      ],
       "objectives": [
         "Trace the evolution from Servlets to Spring MVC to Spring Boot",
         "Explain embedded server, auto-configuration, and opinionated defaults",
         "Understand the Dispatcher Servlet request flow"
       ],
-      "tags": ["spring-boot", "servlet", "spring-mvc", "ioc", "dispatcher-servlet"]
+      "tags": [
+        "spring-boot",
+        "servlet",
+        "spring-mvc",
+        "ioc",
+        "dispatcher-servlet"
+      ]
     },
     {
       "course": "springboot",
@@ -1419,13 +1851,22 @@
       "description": "Spring Initializr, JAR vs WAR, Controller/Service/Repository layers, DTOs and request flow",
       "difficulty": "beginner",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-introduction"],
+      "prerequisites": [
+        "sb-introduction"
+      ],
       "objectives": [
         "Bootstrap a Spring Boot project from Spring Initializr",
         "Apply the 3-layer architecture pattern",
-        "Trace a complete HTTP request through Controller → Service → Repository"
+        "Trace a complete HTTP request through Controller \u2192 Service \u2192 Repository"
       ],
-      "tags": ["spring-boot", "layered-architecture", "dto", "controller", "service", "repository"]
+      "tags": [
+        "spring-boot",
+        "layered-architecture",
+        "dto",
+        "controller",
+        "service",
+        "repository"
+      ]
     },
     {
       "course": "springboot",
@@ -1437,13 +1878,21 @@
       "description": "IoC container, bean lifecycle, @Component, @Bean, @Configuration, component scanning",
       "difficulty": "beginner",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-setup-layered-architecture"],
+      "prerequisites": [
+        "sb-setup-layered-architecture"
+      ],
       "objectives": [
         "Understand how the IoC container creates and manages beans",
         "Register beans via @Component scanning and @Bean factory methods",
-        "Trace the full bean lifecycle: instantiation → injection → init → destroy"
+        "Trace the full bean lifecycle: instantiation \u2192 injection \u2192 init \u2192 destroy"
       ],
-      "tags": ["beans", "ioc", "component", "configuration", "spring-core"]
+      "tags": [
+        "beans",
+        "ioc",
+        "component",
+        "configuration",
+        "spring-core"
+      ]
     },
     {
       "course": "springboot",
@@ -1455,13 +1904,21 @@
       "description": "Singleton, Prototype, Request, Session, Application scopes and scoped proxies",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Configure bean scopes with @Scope",
         "Inject a prototype-scoped bean into a singleton using scoped proxy",
         "Know which scope is appropriate for stateful vs stateless beans"
       ],
-      "tags": ["bean-scopes", "singleton", "prototype", "request-scope", "spring-core"]
+      "tags": [
+        "bean-scopes",
+        "singleton",
+        "prototype",
+        "request-scope",
+        "spring-core"
+      ]
     },
     {
       "course": "springboot",
@@ -1470,16 +1927,24 @@
       "chapter": 2,
       "chapterTitle": "Spring Core: Beans & DI",
       "lesson": 6,
-      "description": "Constructor, setter, and field injection — best practices, circular dependency, @Qualifier, @Primary",
+      "description": "Constructor, setter, and field injection \u2014 best practices, circular dependency, @Qualifier, @Primary",
       "difficulty": "intermediate",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Apply constructor injection for mandatory dependencies",
         "Resolve ambiguity with @Qualifier and @Primary",
         "Detect and fix circular dependency issues"
       ],
-      "tags": ["dependency-injection", "autowired", "qualifier", "primary", "spring-core"]
+      "tags": [
+        "dependency-injection",
+        "autowired",
+        "qualifier",
+        "primary",
+        "spring-core"
+      ]
     },
     {
       "course": "springboot",
@@ -1491,13 +1956,20 @@
       "description": "Injecting config values with @Value, SpEL, @ConfigurationProperties, dynamic bean registration",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-dependency-injection"],
+      "prerequisites": [
+        "sb-dependency-injection"
+      ],
       "objectives": [
         "Inject application.properties values with @Value",
         "Use SpEL for conditional and computed injections",
         "Bind hierarchical config to a @ConfigurationProperties POJO"
       ],
-      "tags": ["value", "spel", "configurationproperties", "spring-core"]
+      "tags": [
+        "value",
+        "spel",
+        "configurationproperties",
+        "spring-core"
+      ]
     },
     {
       "course": "springboot",
@@ -1509,13 +1981,20 @@
       "description": "Conditional bean creation, @Conditional variants, feature-flag patterns",
       "difficulty": "intermediate",
       "estimatedMinutes": 20,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Toggle beans on/off with @ConditionalOnProperty",
         "Write custom @Conditional conditions",
         "Implement feature flags via conditional beans"
       ],
-      "tags": ["conditional", "feature-flags", "conditional-on-property", "spring-core"]
+      "tags": [
+        "conditional",
+        "feature-flags",
+        "conditional-on-property",
+        "spring-core"
+      ]
     },
     {
       "course": "springboot",
@@ -1527,13 +2006,20 @@
       "description": "Comprehensive reference for all key Spring Boot annotations: web, data, security, testing",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Identify the purpose of every common Spring Boot annotation",
         "Apply @RestController, @RequestMapping, @PathVariable, @RequestBody correctly",
         "Use Spring's stereotype annotations: @Component, @Service, @Repository"
       ],
-      "tags": ["annotations", "restcontroller", "requestmapping", "spring-boot"]
+      "tags": [
+        "annotations",
+        "restcontroller",
+        "requestmapping",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1545,13 +2031,20 @@
       "description": "@Profile annotation, application-{profile}.properties, activating profiles at runtime",
       "difficulty": "beginner",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Create environment-specific configs (dev, staging, prod) with profiles",
         "Activate profiles via command-line, environment variable, or programmatically",
         "Use @Profile to conditionally register beans"
       ],
-      "tags": ["profiles", "environment", "spring-boot", "configuration"]
+      "tags": [
+        "profiles",
+        "environment",
+        "spring-boot",
+        "configuration"
+      ]
     },
     {
       "course": "springboot",
@@ -1563,13 +2056,20 @@
       "description": "Complete reference: 1xx, 2xx, 3xx, 4xx, 5xx status codes and when to use each",
       "difficulty": "beginner",
       "estimatedMinutes": 20,
-      "prerequisites": ["sb-setup-layered-architecture"],
+      "prerequisites": [
+        "sb-setup-layered-architecture"
+      ],
       "objectives": [
         "Choose the correct HTTP status code for every REST scenario",
         "Return proper response codes with ResponseEntity",
         "Understand idempotency and its relation to status codes"
       ],
-      "tags": ["http", "status-codes", "rest", "spring-boot"]
+      "tags": [
+        "http",
+        "status-codes",
+        "rest",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1581,13 +2081,20 @@
       "description": "@ControllerAdvice, @ExceptionHandler, ProblemDetail (RFC 7807), custom error responses",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-http-status-codes"],
+      "prerequisites": [
+        "sb-http-status-codes"
+      ],
       "objectives": [
         "Centralise all exception handling with @ControllerAdvice",
         "Map domain exceptions to structured JSON error responses",
         "Implement RFC 7807 ProblemDetail responses"
       ],
-      "tags": ["exception-handling", "controller-advice", "problem-detail", "rest"]
+      "tags": [
+        "exception-handling",
+        "controller-advice",
+        "problem-detail",
+        "rest"
+      ]
     },
     {
       "course": "springboot",
@@ -1599,13 +2106,21 @@
       "description": "Hypermedia-driven REST, EntityModel, CollectionModel, link relations, RepresentationModel",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-setup-layered-architecture"],
+      "prerequisites": [
+        "sb-setup-layered-architecture"
+      ],
       "objectives": [
         "Add self and action links to REST responses using Spring HATEOAS",
         "Wrap collections with CollectionModel and PagedModel",
         "Understand HAL format and why clients benefit from hypermedia"
       ],
-      "tags": ["hateoas", "hal", "links", "rest", "spring-boot"]
+      "tags": [
+        "hateoas",
+        "hal",
+        "links",
+        "rest",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1614,16 +2129,23 @@
       "chapter": 3,
       "chapterTitle": "REST API Essentials",
       "lesson": 14,
-      "description": "Filter vs HandlerInterceptor — lifecycle differences, use cases, request/response manipulation",
+      "description": "Filter vs HandlerInterceptor \u2014 lifecycle differences, use cases, request/response manipulation",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-introduction"],
+      "prerequisites": [
+        "sb-introduction"
+      ],
       "objectives": [
         "Implement a Servlet Filter for cross-cutting concerns (logging, CORS)",
         "Write a HandlerInterceptor with preHandle/postHandle/afterCompletion",
         "Choose between Filter and Interceptor for a given requirement"
       ],
-      "tags": ["filters", "interceptors", "servlet", "spring-mvc"]
+      "tags": [
+        "filters",
+        "interceptors",
+        "servlet",
+        "spring-mvc"
+      ]
     },
     {
       "course": "springboot",
@@ -1635,13 +2157,19 @@
       "description": "Building and registering custom HandlerInterceptors with WebMvcConfigurer",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-filters-vs-interceptors"],
+      "prerequisites": [
+        "sb-filters-vs-interceptors"
+      ],
       "objectives": [
         "Register multiple interceptors with addPathPatterns and excludePathPatterns",
         "Build an auth token interceptor using preHandle",
         "Attach request metadata for logging with afterCompletion"
       ],
-      "tags": ["interceptors", "webmvcconfigurer", "spring-mvc"]
+      "tags": [
+        "interceptors",
+        "webmvcconfigurer",
+        "spring-mvc"
+      ]
     },
     {
       "course": "springboot",
@@ -1653,13 +2181,21 @@
       "description": "@Async, TaskExecutor configuration, CompletableFuture returns, async error handling",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-beans", "future-callable-completablefuture"],
+      "prerequisites": [
+        "sb-beans",
+        "future-callable-completablefuture"
+      ],
       "objectives": [
         "Offload long-running work to a thread pool with @Async",
         "Configure a custom ThreadPoolTaskExecutor",
         "Handle exceptions thrown by @Async methods"
       ],
-      "tags": ["async", "thread-pool", "completablefuture", "spring-boot"]
+      "tags": [
+        "async",
+        "thread-pool",
+        "completablefuture",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1671,17 +2207,25 @@
       "description": "Aspect-oriented programming: @Aspect, pointcut expressions, @Before/@After/@Around advice",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-beans"],
+      "prerequisites": [
+        "sb-beans"
+      ],
       "objectives": [
         "Define aspects, join points, and pointcut expressions",
         "Implement @Around advice for method-level logging and timing",
         "Apply AOP for cross-cutting concerns: auditing, security, transactions"
       ],
-      "tags": ["aop", "aspect", "pointcut", "advice", "spring-boot"]
+      "tags": [
+        "aop",
+        "aspect",
+        "pointcut",
+        "advice",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
-      "title": "JPA Part 1 — JDBC Foundation",
+      "title": "JPA Part 1 \u2014 JDBC Foundation",
       "slug": "sb-jpa-jdbc",
       "chapter": 4,
       "chapterTitle": "JPA & Database",
@@ -1689,13 +2233,21 @@
       "description": "JDBC fundamentals, Spring JdbcTemplate, connection pooling with HikariCP",
       "difficulty": "beginner",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-setup-layered-architecture"],
+      "prerequisites": [
+        "sb-setup-layered-architecture"
+      ],
       "objectives": [
         "Understand the JDBC driver and connection lifecycle",
         "Use JdbcTemplate to execute queries without boilerplate",
         "Configure HikariCP connection pooling properties"
       ],
-      "tags": ["jpa", "jdbc", "jdbctemplate", "hikaricp", "database"]
+      "tags": [
+        "jpa",
+        "jdbc",
+        "jdbctemplate",
+        "hikaricp",
+        "database"
+      ]
     },
     {
       "course": "springboot",
@@ -1707,17 +2259,25 @@
       "description": "@Entity, @Table, @Column, @Id, @GeneratedValue strategies, entity lifecycle",
       "difficulty": "intermediate",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-jpa-jdbc"],
+      "prerequisites": [
+        "sb-jpa-jdbc"
+      ],
       "objectives": [
         "Map a Java class to a database table with JPA annotations",
         "Choose the right @GeneratedValue strategy for your database",
         "Understand the JPA entity lifecycle states"
       ],
-      "tags": ["jpa", "entity", "column", "generated-value", "orm"]
+      "tags": [
+        "jpa",
+        "entity",
+        "column",
+        "generated-value",
+        "orm"
+      ]
     },
     {
       "course": "springboot",
-      "title": "JPA Part 2 — Repositories",
+      "title": "JPA Part 2 \u2014 Repositories",
       "slug": "sb-jpa-part2",
       "chapter": 4,
       "chapterTitle": "JPA & Database",
@@ -1725,17 +2285,25 @@
       "description": "JpaRepository, CrudRepository, PagingAndSortingRepository, query derivation and Pageable",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-jpa-entity-mapping"],
+      "prerequisites": [
+        "sb-jpa-entity-mapping"
+      ],
       "objectives": [
         "Perform CRUD operations with JpaRepository",
         "Derive queries from method names (findByNameAndEmail)",
         "Paginate and sort results with Pageable and Sort"
       ],
-      "tags": ["jpa", "jparepository", "pagination", "sorting", "spring-data"]
+      "tags": [
+        "jpa",
+        "jparepository",
+        "pagination",
+        "sorting",
+        "spring-data"
+      ]
     },
     {
       "course": "springboot",
-      "title": "JPA Part 3 — Relationships",
+      "title": "JPA Part 3 \u2014 Relationships",
       "slug": "sb-jpa-part3-mappings",
       "chapter": 4,
       "chapterTitle": "JPA & Database",
@@ -1743,13 +2311,22 @@
       "description": "@OneToOne, @OneToMany, @ManyToOne, @ManyToMany, cascade types, fetch strategies",
       "difficulty": "advanced",
       "estimatedMinutes": 50,
-      "prerequisites": ["sb-jpa-part2"],
+      "prerequisites": [
+        "sb-jpa-part2"
+      ],
       "objectives": [
         "Map all four JPA relationship types with correct owning side",
         "Choose between EAGER and LAZY fetching strategies",
         "Configure cascade types to manage child entities automatically"
       ],
-      "tags": ["jpa", "onetomany", "manytoone", "manytomany", "cascade", "fetch"]
+      "tags": [
+        "jpa",
+        "onetomany",
+        "manytoone",
+        "manytomany",
+        "cascade",
+        "fetch"
+      ]
     },
     {
       "course": "springboot",
@@ -1761,13 +2338,21 @@
       "description": "Bidirectional associations, mappedBy, join table configuration, orphan removal",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-jpa-part3-mappings"],
+      "prerequisites": [
+        "sb-jpa-part3-mappings"
+      ],
       "objectives": [
         "Configure bidirectional relationships with mappedBy",
         "Control join table name and columns with @JoinTable",
         "Enable orphan removal for dependent entities"
       ],
-      "tags": ["jpa", "associations", "mappedby", "jointable", "bidirectional"]
+      "tags": [
+        "jpa",
+        "associations",
+        "mappedby",
+        "jointable",
+        "bidirectional"
+      ]
     },
     {
       "course": "springboot",
@@ -1779,17 +2364,25 @@
       "description": "@Query with JPQL and native SQL, named parameters, @Modifying, projections",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-jpa-part2"],
+      "prerequisites": [
+        "sb-jpa-part2"
+      ],
       "objectives": [
         "Write JPQL queries with @Query annotation",
         "Execute UPDATE and DELETE with @Modifying",
         "Use interface-based projections to fetch partial data"
       ],
-      "tags": ["jpql", "query", "modifying", "native-sql", "spring-data"]
+      "tags": [
+        "jpql",
+        "query",
+        "modifying",
+        "native-sql",
+        "spring-data"
+      ]
     },
     {
       "course": "springboot",
-      "title": "JPA Part 4 — Native Queries & Criteria API",
+      "title": "JPA Part 4 \u2014 Native Queries & Criteria API",
       "slug": "sb-jpa-native-queries-criteria",
       "chapter": 4,
       "chapterTitle": "JPA & Database",
@@ -1797,13 +2390,21 @@
       "description": "Native SQL queries, stored procedures, Criteria API, dynamic queries with CriteriaBuilder",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-jpa-custom-queries"],
+      "prerequisites": [
+        "sb-jpa-custom-queries"
+      ],
       "objectives": [
         "Use native queries for database-specific SQL",
         "Build type-safe dynamic queries with the Criteria API",
         "Compare JPQL, native SQL, and Criteria API trade-offs"
       ],
-      "tags": ["criteria-api", "native-query", "jpql", "criteriabuilder", "jpa"]
+      "tags": [
+        "criteria-api",
+        "native-query",
+        "jpql",
+        "criteriabuilder",
+        "jpa"
+      ]
     },
     {
       "course": "springboot",
@@ -1815,13 +2416,20 @@
       "description": "Specification pattern for composable, reusable dynamic queries with JpaSpecificationExecutor",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-jpa-native-queries-criteria"],
+      "prerequisites": [
+        "sb-jpa-native-queries-criteria"
+      ],
       "objectives": [
         "Define reusable query predicates as Specification classes",
         "Combine specifications with and(), or(), not()",
         "Apply specifications with pagination and sorting"
       ],
-      "tags": ["specification", "jpaspecificationexecutor", "dynamic-queries", "jpa"]
+      "tags": [
+        "specification",
+        "jpaspecificationexecutor",
+        "dynamic-queries",
+        "jpa"
+      ]
     },
     {
       "course": "springboot",
@@ -1830,16 +2438,23 @@
       "chapter": 4,
       "chapterTitle": "JPA & Database",
       "lesson": 26,
-      "description": "First-level (persistence context) cache — how Hibernate avoids duplicate DB hits within a session",
+      "description": "First-level (persistence context) cache \u2014 how Hibernate avoids duplicate DB hits within a session",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-jpa-entity-mapping"],
+      "prerequisites": [
+        "sb-jpa-entity-mapping"
+      ],
       "objectives": [
         "Explain how the persistence context acts as an L1 cache",
         "Demonstrate repeated entity.find() returning cached instance",
         "Clear the context with EntityManager.clear() to force a re-read"
       ],
-      "tags": ["jpa", "l1-cache", "persistence-context", "hibernate"]
+      "tags": [
+        "jpa",
+        "l1-cache",
+        "persistence-context",
+        "hibernate"
+      ]
     },
     {
       "course": "springboot",
@@ -1851,13 +2466,21 @@
       "description": "Second-level cache with Ehcache/Caffeine, @Cache, eviction strategies, cache regions",
       "difficulty": "advanced",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-jpa-l1-cache"],
+      "prerequisites": [
+        "sb-jpa-l1-cache"
+      ],
       "objectives": [
         "Enable and configure L2 cache with a provider (Ehcache/Caffeine)",
         "Annotate entities and collections with @Cache",
         "Monitor cache hit/miss ratios and tune eviction policies"
       ],
-      "tags": ["jpa", "l2-cache", "ehcache", "caffeine", "hibernate"]
+      "tags": [
+        "jpa",
+        "l2-cache",
+        "ehcache",
+        "caffeine",
+        "hibernate"
+      ]
     },
     {
       "course": "springboot",
@@ -1869,13 +2492,21 @@
       "description": "@Transactional propagation, rollback rules, readOnly flag, and common pitfalls",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-jpa-part2"],
+      "prerequisites": [
+        "sb-jpa-part2"
+      ],
       "objectives": [
         "Apply @Transactional and understand when a new transaction is created",
         "Configure rollbackFor and noRollbackFor rules",
         "Avoid the self-invocation proxy bypass pitfall"
       ],
-      "tags": ["transactional", "propagation", "rollback", "jpa", "spring-boot"]
+      "tags": [
+        "transactional",
+        "propagation",
+        "rollback",
+        "jpa",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -1887,13 +2518,20 @@
       "description": "Nested transactions, programmatic transaction management, TransactionTemplate",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-transactional"],
+      "prerequisites": [
+        "sb-transactional"
+      ],
       "objectives": [
         "Use REQUIRES_NEW and NESTED propagation levels",
         "Control transactions programmatically with TransactionTemplate",
         "Handle partial rollbacks with savepoints"
       ],
-      "tags": ["transaction", "nested", "transaction-template", "spring-data"]
+      "tags": [
+        "transaction",
+        "nested",
+        "transaction-template",
+        "spring-data"
+      ]
     },
     {
       "course": "springboot",
@@ -1902,16 +2540,24 @@
       "chapter": 4,
       "chapterTitle": "JPA & Database",
       "lesson": 30,
-      "description": "Read uncommitted, Read committed, Repeatable read, Serializable — phenomena and trade-offs",
+      "description": "Read uncommitted, Read committed, Repeatable read, Serializable \u2014 phenomena and trade-offs",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-transactional"],
+      "prerequisites": [
+        "sb-transactional"
+      ],
       "objectives": [
         "Describe dirty read, non-repeatable read, and phantom read anomalies",
         "Map each isolation level to the anomalies it prevents",
         "Choose the right isolation level for a given use case"
       ],
-      "tags": ["isolation-levels", "dirty-read", "phantom-read", "transaction", "database"]
+      "tags": [
+        "isolation-levels",
+        "dirty-read",
+        "phantom-read",
+        "transaction",
+        "database"
+      ]
     },
     {
       "course": "springboot",
@@ -1923,13 +2569,20 @@
       "description": "Spring Security filter chain, AuthenticationManager, AuthenticationProvider, UserDetailsService",
       "difficulty": "intermediate",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-filters-vs-interceptors"],
+      "prerequisites": [
+        "sb-filters-vs-interceptors"
+      ],
       "objectives": [
         "Trace a login request through the entire Spring Security filter chain",
         "Understand the role of AuthenticationManager and ProviderManager",
         "Implement a custom UserDetailsService backed by the database"
       ],
-      "tags": ["spring-security", "filter-chain", "authentication", "userdetailsservice"]
+      "tags": [
+        "spring-security",
+        "filter-chain",
+        "authentication",
+        "userdetailsservice"
+      ]
     },
     {
       "course": "springboot",
@@ -1941,13 +2594,20 @@
       "description": "HTTP Basic Auth, SecurityFilterChain DSL, PasswordEncoder, BCryptPasswordEncoder",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-security-architecture"],
+      "prerequisites": [
+        "sb-security-architecture"
+      ],
       "objectives": [
         "Secure endpoints with HTTP Basic Authentication",
         "Configure a SecurityFilterChain with permitAll and authenticated rules",
         "Hash passwords with BCryptPasswordEncoder"
       ],
-      "tags": ["basic-auth", "security-filter-chain", "bcrypt", "spring-security"]
+      "tags": [
+        "basic-auth",
+        "security-filter-chain",
+        "bcrypt",
+        "spring-security"
+      ]
     },
     {
       "course": "springboot",
@@ -1959,13 +2619,21 @@
       "description": "InMemoryUserDetailsManager, database-backed UserDetails, JDBC authentication",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-security-basic-auth"],
+      "prerequisites": [
+        "sb-security-basic-auth"
+      ],
       "objectives": [
         "Create users programmatically with InMemoryUserDetailsManager",
         "Persist users to a database and load them via JpaUserDetailsService",
         "Map roles to authorities and apply method-level security"
       ],
-      "tags": ["user-creation", "in-memory-auth", "userdetails", "roles", "spring-security"]
+      "tags": [
+        "user-creation",
+        "in-memory-auth",
+        "userdetails",
+        "roles",
+        "spring-security"
+      ]
     },
     {
       "course": "springboot",
@@ -1977,13 +2645,21 @@
       "description": "Form-based login, custom login pages, session management, remember-me, CSRF",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-security-user-creation"],
+      "prerequisites": [
+        "sb-security-user-creation"
+      ],
       "objectives": [
         "Configure form login with custom login and logout URLs",
         "Enable remember-me authentication with a persistent token repository",
         "Understand CSRF protection and when to disable it for APIs"
       ],
-      "tags": ["form-login", "session", "csrf", "remember-me", "spring-security"]
+      "tags": [
+        "form-login",
+        "session",
+        "csrf",
+        "remember-me",
+        "spring-security"
+      ]
     },
     {
       "course": "springboot",
@@ -1995,13 +2671,21 @@
       "description": "@PreAuthorize, @PostAuthorize, @Secured, @RolesAllowed, SpEL-based rules",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-security-user-creation"],
+      "prerequisites": [
+        "sb-security-user-creation"
+      ],
       "objectives": [
         "Protect service methods with @PreAuthorize expressions",
         "Filter return values with @PostFilter",
         "Understand the difference between @Secured and @PreAuthorize"
       ],
-      "tags": ["preauthorize", "secured", "authorization", "rbac", "spring-security"]
+      "tags": [
+        "preauthorize",
+        "secured",
+        "authorization",
+        "rbac",
+        "spring-security"
+      ]
     },
     {
       "course": "springboot",
@@ -2013,13 +2697,21 @@
       "description": "JWT structure, header/payload/signature, signing algorithms, token expiry, claims",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-security-architecture"],
+      "prerequisites": [
+        "sb-security-architecture"
+      ],
       "objectives": [
         "Decode and interpret a JWT token structure",
         "Understand HMAC-SHA256 vs RSA signing trade-offs",
         "Handle token expiry and refresh token patterns"
       ],
-      "tags": ["jwt", "token", "claims", "signing", "security"]
+      "tags": [
+        "jwt",
+        "token",
+        "claims",
+        "signing",
+        "security"
+      ]
     },
     {
       "course": "springboot",
@@ -2031,13 +2723,21 @@
       "description": "Implementing JWT authentication filter, JwtService, issuing and validating tokens end-to-end",
       "difficulty": "advanced",
       "estimatedMinutes": 50,
-      "prerequisites": ["sb-jwt-fundamentals", "sb-security-architecture"],
+      "prerequisites": [
+        "sb-jwt-fundamentals",
+        "sb-security-architecture"
+      ],
       "objectives": [
         "Build a JwtAuthenticationFilter that validates tokens on every request",
         "Issue signed tokens on successful login",
         "Integrate JWT with SecurityContextHolder"
       ],
-      "tags": ["jwt", "authentication-filter", "spring-security", "stateless"]
+      "tags": [
+        "jwt",
+        "authentication-filter",
+        "spring-security",
+        "stateless"
+      ]
     },
     {
       "course": "springboot",
@@ -2049,13 +2749,21 @@
       "description": "OAuth 2.0 roles, flows (Authorization Code, Client Credentials, PKCE), access tokens, refresh tokens",
       "difficulty": "advanced",
       "estimatedMinutes": 45,
-      "prerequisites": ["sb-jwt-fundamentals"],
+      "prerequisites": [
+        "sb-jwt-fundamentals"
+      ],
       "objectives": [
         "Explain the OAuth 2.0 authorization code flow step by step",
         "Choose the correct OAuth 2.0 flow for your application type",
         "Understand access token vs refresh token usage"
       ],
-      "tags": ["oauth2", "authorization-code", "pkce", "access-token", "security"]
+      "tags": [
+        "oauth2",
+        "authorization-code",
+        "pkce",
+        "access-token",
+        "security"
+      ]
     },
     {
       "course": "springboot",
@@ -2067,13 +2775,21 @@
       "description": "Spring Security OAuth2 client, Resource Server configuration, OIDC login, JWT decoder",
       "difficulty": "advanced",
       "estimatedMinutes": 45,
-      "prerequisites": ["sb-oauth2"],
+      "prerequisites": [
+        "sb-oauth2"
+      ],
       "objectives": [
         "Configure Spring Boot as an OAuth2 Resource Server with JWT",
         "Implement OIDC login with Google/GitHub via spring-security-oauth2-client",
         "Map ID token claims to Spring Security authorities"
       ],
-      "tags": ["oauth2", "oidc", "resource-server", "spring-security", "jwt"]
+      "tags": [
+        "oauth2",
+        "oidc",
+        "resource-server",
+        "spring-security",
+        "jwt"
+      ]
     },
     {
       "course": "springboot",
@@ -2082,16 +2798,24 @@
       "chapter": 5,
       "chapterTitle": "Spring Security",
       "lesson": 40,
-      "description": "CSRF, XSS, SQL Injection, CORS, clickjacking — attack mechanics and Spring Boot mitigations",
+      "description": "CSRF, XSS, SQL Injection, CORS, clickjacking \u2014 attack mechanics and Spring Boot mitigations",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-security-basic-auth"],
+      "prerequisites": [
+        "sb-security-basic-auth"
+      ],
       "objectives": [
         "Explain how each attack works with a concrete exploit example",
         "Apply Spring Security headers (CSP, X-Frame-Options, HSTS)",
         "Configure CORS correctly to prevent unauthorised cross-origin requests"
       ],
-      "tags": ["csrf", "xss", "sql-injection", "cors", "security"]
+      "tags": [
+        "csrf",
+        "xss",
+        "sql-injection",
+        "cors",
+        "security"
+      ]
     },
     {
       "course": "springboot",
@@ -2103,13 +2827,21 @@
       "description": "Synchronous vs async communication, RestTemplate, RestClient, inter-service HTTP patterns",
       "difficulty": "intermediate",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-setup-layered-architecture"],
+      "prerequisites": [
+        "sb-setup-layered-architecture"
+      ],
       "objectives": [
         "Compare synchronous and asynchronous inter-service communication",
         "Use RestTemplate and RestClient to call downstream services",
         "Handle errors and timeouts in service-to-service calls"
       ],
-      "tags": ["microservices", "resttemplate", "restclient", "http", "spring-boot"]
+      "tags": [
+        "microservices",
+        "resttemplate",
+        "restclient",
+        "http",
+        "spring-boot"
+      ]
     },
     {
       "course": "springboot",
@@ -2118,16 +2850,23 @@
       "chapter": 6,
       "chapterTitle": "Microservices",
       "lesson": 42,
-      "description": "Spring 6.1 RestClient — fluent API, exchange, retrieve, error handling, interceptors",
+      "description": "Spring 6.1 RestClient \u2014 fluent API, exchange, retrieve, error handling, interceptors",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-microservices-communication"],
+      "prerequisites": [
+        "sb-microservices-communication"
+      ],
       "objectives": [
         "Build HTTP requests with the RestClient fluent builder",
         "Handle 4xx/5xx errors with onStatus handlers",
         "Add request interceptors for auth headers and logging"
       ],
-      "tags": ["restclient", "http-client", "spring6", "microservices"]
+      "tags": [
+        "restclient",
+        "http-client",
+        "spring6",
+        "microservices"
+      ]
     },
     {
       "course": "springboot",
@@ -2139,17 +2878,25 @@
       "description": "Declarative HTTP clients with OpenFeign, @FeignClient, ErrorDecoder, fallbacks",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-microservices-communication"],
+      "prerequisites": [
+        "sb-microservices-communication"
+      ],
       "objectives": [
         "Define a typed HTTP client with @FeignClient and interface methods",
         "Implement a FeignClient ErrorDecoder for domain-specific error handling",
         "Add fallback behavior with FeignClient fallback classes"
       ],
-      "tags": ["feign", "feignclient", "openfeign", "microservices", "declarative-http"]
+      "tags": [
+        "feign",
+        "feignclient",
+        "openfeign",
+        "microservices",
+        "declarative-http"
+      ]
     },
     {
       "course": "springboot",
-      "title": "Service Discovery — Eureka",
+      "title": "Service Discovery \u2014 Eureka",
       "slug": "sb-eureka-service-discovery",
       "chapter": 6,
       "chapterTitle": "Microservices",
@@ -2157,13 +2904,20 @@
       "description": "Eureka Server and Client setup, self-registration, heartbeat, service registry",
       "difficulty": "intermediate",
       "estimatedMinutes": 35,
-      "prerequisites": ["sb-microservices-communication"],
+      "prerequisites": [
+        "sb-microservices-communication"
+      ],
       "objectives": [
         "Stand up a Eureka Server and register multiple service instances",
         "Configure Eureka Client heartbeat and lease expiry",
         "Fetch service instances from the registry for dynamic routing"
       ],
-      "tags": ["eureka", "service-discovery", "cloud", "microservices"]
+      "tags": [
+        "eureka",
+        "service-discovery",
+        "cloud",
+        "microservices"
+      ]
     },
     {
       "course": "springboot",
@@ -2175,13 +2929,20 @@
       "description": "Spring Cloud LoadBalancer, client-side load balancing, round-robin, custom strategy",
       "difficulty": "intermediate",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-eureka-service-discovery"],
+      "prerequisites": [
+        "sb-eureka-service-discovery"
+      ],
       "objectives": [
         "Enable client-side load balancing with @LoadBalanced RestTemplate",
         "Configure Spring Cloud LoadBalancer with a custom strategy",
         "Understand the difference between client-side and server-side load balancing"
       ],
-      "tags": ["load-balancer", "spring-cloud", "client-side-lb", "microservices"]
+      "tags": [
+        "load-balancer",
+        "spring-cloud",
+        "client-side-lb",
+        "microservices"
+      ]
     },
     {
       "course": "springboot",
@@ -2193,13 +2954,20 @@
       "description": "Spring Cloud Gateway setup, routing, predicates, global filters, rate limiting",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-eureka-service-discovery"],
+      "prerequisites": [
+        "sb-eureka-service-discovery"
+      ],
       "objectives": [
         "Configure routes, predicates and filters in application.yml",
         "Apply path rewriting and header manipulation with built-in filters",
         "Implement rate limiting with Redis and the RequestRateLimiter filter"
       ],
-      "tags": ["api-gateway", "spring-cloud-gateway", "routing", "microservices"]
+      "tags": [
+        "api-gateway",
+        "spring-cloud-gateway",
+        "routing",
+        "microservices"
+      ]
     },
     {
       "course": "springboot",
@@ -2211,13 +2979,20 @@
       "description": "Custom GlobalFilter and GatewayFilter, pre/post logic, ordered filter chains",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-api-gateway"],
+      "prerequisites": [
+        "sb-api-gateway"
+      ],
       "objectives": [
         "Write a custom GlobalFilter for cross-cutting auth token validation",
         "Chain filters with Ordered to control execution order",
         "Apply route-scoped GatewayFilter factories"
       ],
-      "tags": ["gateway-filters", "globalfilter", "spring-cloud-gateway", "microservices"]
+      "tags": [
+        "gateway-filters",
+        "globalfilter",
+        "spring-cloud-gateway",
+        "microservices"
+      ]
     },
     {
       "course": "springboot",
@@ -2229,13 +3004,20 @@
       "description": "Spring Cloud Config Server, Git-backed properties, encryption, refresh scope",
       "difficulty": "intermediate",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-eureka-service-discovery"],
+      "prerequisites": [
+        "sb-eureka-service-discovery"
+      ],
       "objectives": [
         "Set up a Spring Cloud Config Server backed by a Git repository",
         "Consume remote config in a client application",
         "Refresh config at runtime with @RefreshScope and /actuator/refresh"
       ],
-      "tags": ["config-server", "spring-cloud", "centralized-config", "refresh-scope"]
+      "tags": [
+        "config-server",
+        "spring-cloud",
+        "centralized-config",
+        "refresh-scope"
+      ]
     },
     {
       "course": "springboot",
@@ -2244,16 +3026,23 @@
       "chapter": 7,
       "chapterTitle": "Fault Tolerance & Resilience",
       "lesson": 49,
-      "description": "Resilience4j CircuitBreaker — states, thresholds, fallback, health indicators",
+      "description": "Resilience4j CircuitBreaker \u2014 states, thresholds, fallback, health indicators",
       "difficulty": "advanced",
       "estimatedMinutes": 40,
-      "prerequisites": ["sb-microservices-communication"],
+      "prerequisites": [
+        "sb-microservices-communication"
+      ],
       "objectives": [
         "Configure Resilience4j CircuitBreaker with failure rate thresholds",
         "Implement a fallback method for graceful degradation",
         "Monitor circuit breaker state transitions with Actuator health"
       ],
-      "tags": ["circuit-breaker", "resilience4j", "fault-tolerance", "fallback"]
+      "tags": [
+        "circuit-breaker",
+        "resilience4j",
+        "fault-tolerance",
+        "fallback"
+      ]
     },
     {
       "course": "springboot",
@@ -2265,13 +3054,20 @@
       "description": "Thread-pool and semaphore bulkheads with Resilience4j, isolating service failures",
       "difficulty": "advanced",
       "estimatedMinutes": 30,
-      "prerequisites": ["sb-circuit-breaker"],
+      "prerequisites": [
+        "sb-circuit-breaker"
+      ],
       "objectives": [
         "Apply a semaphore bulkhead to limit concurrent calls to a service",
         "Configure a thread-pool bulkhead for full isolation",
         "Combine bulkhead with circuit breaker for layered resilience"
       ],
-      "tags": ["bulkhead", "resilience4j", "fault-tolerance", "concurrency"]
+      "tags": [
+        "bulkhead",
+        "resilience4j",
+        "fault-tolerance",
+        "concurrency"
+      ]
     },
     {
       "course": "springboot",
@@ -2280,16 +3076,23 @@
       "chapter": 7,
       "chapterTitle": "Fault Tolerance & Resilience",
       "lesson": 51,
-      "description": "Resilience4j RateLimiter — token bucket, limit-for-period, drain interval configuration",
+      "description": "Resilience4j RateLimiter \u2014 token bucket, limit-for-period, drain interval configuration",
       "difficulty": "advanced",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-circuit-breaker"],
+      "prerequisites": [
+        "sb-circuit-breaker"
+      ],
       "objectives": [
         "Configure RateLimiter with limitForPeriod and limitRefreshPeriod",
         "Handle RequestNotPermitted exceptions with a fallback",
         "Combine rate limiting with circuit breaker and retry"
       ],
-      "tags": ["rate-limiter", "resilience4j", "token-bucket", "fault-tolerance"]
+      "tags": [
+        "rate-limiter",
+        "resilience4j",
+        "token-bucket",
+        "fault-tolerance"
+      ]
     },
     {
       "course": "springboot",
@@ -2298,16 +3101,1317 @@
       "chapter": 7,
       "chapterTitle": "Fault Tolerance & Resilience",
       "lesson": 52,
-      "description": "Resilience4j Retry — max attempts, wait duration, exponential backoff, retry on exceptions",
+      "description": "Resilience4j Retry \u2014 max attempts, wait duration, exponential backoff, retry on exceptions",
       "difficulty": "advanced",
       "estimatedMinutes": 25,
-      "prerequisites": ["sb-circuit-breaker"],
+      "prerequisites": [
+        "sb-circuit-breaker"
+      ],
       "objectives": [
         "Automatically retry failed calls with @Retry and Retry.executeCallable()",
         "Configure exponential backoff with jitter to avoid retry storms",
         "Limit retries to specific exception types"
       ],
-      "tags": ["retry", "resilience4j", "exponential-backoff", "fault-tolerance"]
+      "tags": [
+        "retry",
+        "resilience4j",
+        "exponential-backoff",
+        "fault-tolerance"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Software & Hardware Foundations",
+      "slug": "ibps-it-software-hardware",
+      "chapter": 1,
+      "chapterTitle": "Software & Hardware Foundations",
+      "lesson": 1,
+      "description": "Von Neumann Architecture, CPU Units, Register Set, Memory Hierarchy, Ports, and Computer Typology.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Understand basic computer block diagram and Von Neumann Architecture",
+        "Analyze CPU components: ALU, CU, and registers",
+        "Compare RAM, ROM, Cache, and CPU Register speeds in memory hierarchy"
+      ],
+      "tags": [
+        "ibps",
+        "hardware",
+        "software",
+        "cpu",
+        "memory",
+        "architecture"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Database Management System (DBMS)",
+      "slug": "ibps-it-dbms",
+      "chapter": 2,
+      "chapterTitle": "Database Management System (DBMS)",
+      "lesson": 1,
+      "description": "Three-Schema Architecture, E-R Modeling, RDBMS Concepts, Normalization (1NF to BCNF), SQL, ACID, and Deadlock Handling.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 120,
+      "prerequisites": [],
+      "objectives": [
+        "Master ANSI/SPARC Three-Schema DBMS Architecture",
+        "Design ER models with entity relationships and weak entities",
+        "Apply Normalization rules up to BCNF and write SQL queries",
+        "Understand transaction control, ACID properties, and deadlock resolution"
+      ],
+      "tags": [
+        "dbms",
+        "sql",
+        "normalization",
+        "er-model",
+        "acid",
+        "transactions"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Data Warehousing & Data Mining",
+      "slug": "ibps-it-data-warehousing-mining",
+      "chapter": 3,
+      "chapterTitle": "Data Warehousing & Data Mining",
+      "lesson": 1,
+      "description": "OLAP vs OLTP architectures, ETL Data Pipeline, Schema Design, and Predictive Data Mining Algorithms.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Differentiate between operational OLTP systems and OLAP analytical databases",
+        "Map out the extraction, transformation, and loading (ETL) data pipeline",
+        "Understand clustering, classification, and association rules in data mining"
+      ],
+      "tags": [
+        "data-warehouse",
+        "olap",
+        "oltp",
+        "data-mining",
+        "etl"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Operating System (OS)",
+      "slug": "ibps-it-operating-system",
+      "chapter": 4,
+      "chapterTitle": "Operating System (OS)",
+      "lesson": 1,
+      "description": "5-State Process Transition Diagram, CPU Scheduling Algorithms, Memory Management, Virtual Memory & Paging, File Systems, and UNIX.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 110,
+      "prerequisites": [],
+      "objectives": [
+        "Examine the 5-state process lifecycle and interrupt transitions",
+        "Calculate waiting and turnaround times for FCFS, SJF, and Round Robin scheduling",
+        "Understand paging, segmentation, and virtual memory address translation",
+        "Learn Unix foundational filesystem hierarchies and shell concepts"
+      ],
+      "tags": [
+        "os",
+        "operating-system",
+        "scheduling",
+        "paging",
+        "memory-management",
+        "unix"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Computer Networking & Internet Protocols",
+      "slug": "ibps-it-networking",
+      "chapter": 5,
+      "chapterTitle": "Computer Networking & Internet Protocols",
+      "lesson": 1,
+      "description": "OSI 7-Layer vs TCP/IP Models, Switching techniques, Routing Protocols, IP Addressing, TCP Handshake, and Network Devices.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 100,
+      "prerequisites": [],
+      "objectives": [
+        "Compare the layers and encapsulation of OSI 7-Layer and TCP/IP models",
+        "Analyze TCP 3-way handshake and reliable connection-oriented communication",
+        "Understand network devices: Hubs, Switches, Routers, and Gateways",
+        "Study foundational internet protocols: DNS, HTTP/S, SMTP, and DHCP"
+      ],
+      "tags": [
+        "networking",
+        "osi",
+        "tcp-ip",
+        "protocols",
+        "routing",
+        "switches"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Information Security & Cyber Threats",
+      "slug": "ibps-it-information-security",
+      "chapter": 6,
+      "chapterTitle": "Information Security & Cyber Threats",
+      "lesson": 1,
+      "description": "Malware Taxonomy, Botnets, Authentication, Symmetric vs Asymmetric Cryptography, Firewalls, DMZ Architecture, and IDS.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 90,
+      "prerequisites": [],
+      "objectives": [
+        "Classify cyber malware: Viruses, Worms, Trojans, Ransomware, and Rootkits",
+        "Compare symmetric (AES, DES) and asymmetric (RSA, ECC) cryptography",
+        "Analyze Defense-in-Depth network architectures with dual firewalls and DMZ",
+        "Understand Intrusion Detection Systems (IDS) and proxy operation"
+      ],
+      "tags": [
+        "security",
+        "cryptography",
+        "firewall",
+        "malware",
+        "ids",
+        "encryption"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Web Technology & Markup Languages",
+      "slug": "ibps-it-web-technology",
+      "chapter": 7,
+      "chapterTitle": "Web Technology & Markup Languages",
+      "lesson": 1,
+      "description": "HTML Standard Syntax, XML Structural Rules, Client-Server Communication, Proxy servers, and Common Gateway Interface (CGI).",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 75,
+      "prerequisites": [],
+      "objectives": [
+        "Understand standard HTML document formatting and DOM semantics",
+        "Contrast HTML display logic with XML rigid structured data rules",
+        "Trace Web Server to Application script communication via CGI architecture"
+      ],
+      "tags": [
+        "web-technology",
+        "html",
+        "xml",
+        "cgi",
+        "client-server"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Computer Organization & Microprocessor",
+      "slug": "ibps-it-computer-org-microprocessor",
+      "chapter": 8,
+      "chapterTitle": "Computer Organization & Microprocessor",
+      "lesson": 1,
+      "description": "Number Systems & Conversions, Instruction Pipelining, 8085/8086 Bus Organization, Boolean Algebra, Logic Gates, Flip-Flops, and Counters.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 120,
+      "prerequisites": [],
+      "objectives": [
+        "Convert binary, octal, decimal, and hexadecimal number representations",
+        "Analyze instruction pipelining stages and throughput efficiency",
+        "Map 8085/8086 microprocessor pins, data bus, and address bus architecture",
+        "Solve boolean expressions and construct truth tables for Logic Gates and Flip-Flops"
+      ],
+      "tags": [
+        "coa",
+        "microprocessor",
+        "logic-gates",
+        "pipelining",
+        "8085",
+        "boolean-algebra"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Data Structures & Algorithms",
+      "slug": "ibps-it-data-structure",
+      "chapter": 9,
+      "chapterTitle": "Data Structures & Algorithms",
+      "lesson": 1,
+      "description": "Asymptotic Complexity Classes, Array, Stack, Queue, Binary Search Trees, Graph Representations, Sorting algorithms, and Hashing.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 95,
+      "prerequisites": [],
+      "objectives": [
+        "Evaluate algorithmic time complexity using Big-O asymptotic notation",
+        "Analyze LIFO Stack and FIFO Queue pointer representations and operations",
+        "Perform Inorder, Preorder, and Postorder tree traversals on Binary Search Trees",
+        "Compare sorting efficiencies of Merge Sort, Quick Sort, Bubble Sort, and Hashing"
+      ],
+      "tags": [
+        "data-structures",
+        "algorithms",
+        "bst",
+        "stack",
+        "queue",
+        "sorting",
+        "big-o"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Software Engineering & Project Management",
+      "slug": "ibps-it-software-engineering",
+      "chapter": 10,
+      "chapterTitle": "Software Engineering & Project Management",
+      "lesson": 1,
+      "description": "SDLC Models (Waterfall, Spiral, Agile), Clean Room SE, UML Modeling, Testing Methodologies, COCOMO model, and SEI-CMM Levels.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 80,
+      "prerequisites": [],
+      "objectives": [
+        "Compare sequential Waterfall vs iterative Agile SDLC processes",
+        "Understand Software Capability Maturity Model (SEI-CMM) maturity levels",
+        "Apply verification and validation testing strategies (Black-box vs White-box)",
+        "Estimate software cost and engineering effort using COCOMO models"
+      ],
+      "tags": [
+        "software-engineering",
+        "sdlc",
+        "cmm",
+        "testing",
+        "agile",
+        "cocomo"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Programming Languages & OOP Concepts",
+      "slug": "ibps-it-programming-languages",
+      "chapter": 11,
+      "chapterTitle": "Programming Languages & OOP Concepts",
+      "lesson": 1,
+      "description": "Language Paradigms, C Language syntax & constructs, Four Pillars of OOP, Java Basics, and JVM Runtime Execution Architecture.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 100,
+      "prerequisites": [],
+      "objectives": [
+        "Master C programming syntax, pointer fundamentals, and functional decomposition",
+        "Apply the four OOP pillars: Encapsulation, Abstraction, Inheritance, and Polymorphism",
+        "Examine Java bytecode compilation and JVM Runtime Data Area memory structures"
+      ],
+      "tags": [
+        "programming",
+        "c",
+        "oop",
+        "java",
+        "jvm",
+        "encapsulation"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Professional Knowledge Practice Sets",
+      "slug": "ibps-it-practice-sets",
+      "chapter": 12,
+      "chapterTitle": "Professional Knowledge Practice Sets",
+      "lesson": 1,
+      "description": "10 Full-length simulation Practice Sets with comprehensive solutions covering all competitive banking IT Officer exam syllabus topics.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 180,
+      "prerequisites": [],
+      "objectives": [
+        "Execute full-length practice evaluations under timed examination constraints",
+        "Reinforce conceptual mastery across DBMS, Networking, OS, and Security",
+        "Diagnose performance gaps using detailed accompanying logic and solutions"
+      ],
+      "tags": [
+        "practice-sets",
+        "mock-exam",
+        "questions",
+        "solutions",
+        "ibps-so-it"
+      ]
+    },
+    {
+      "course": "ibps-so-it",
+      "title": "Advanced Topics & Technical Annexure",
+      "slug": "ibps-it-advanced-topics-annexure",
+      "chapter": 13,
+      "chapterTitle": "Advanced Topics & Technical Annexure",
+      "lesson": 1,
+      "description": "Phases of a Compiler, Interpreters, Loaders, Linkers, Oracle Grid Architecture, PL/SQL Triggers, and Big Data Five V's Analytics.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Trace program execution through the 6 core compiler translation phases",
+        "Distinguish role of loaders, linkers, compilers, and dynamic interpreters",
+        "Understand Oracle Grid database concepts and PL/SQL programmatic database triggers",
+        "Explore Big Data analytical dimensions across the foundational Five V's"
+      ],
+      "tags": [
+        "compiler",
+        "loader",
+        "oracle",
+        "plsql",
+        "big-data",
+        "annexure"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Symbols & Math Foundations",
+      "slug": "quants-symbols-math-foundations",
+      "chapter": 1,
+      "chapterTitle": "Symbols & Math Foundations",
+      "lesson": 1,
+      "description": "Essential mathematical symbols, algebraic identities, measurement conversions, and digital sum shortcuts.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Symbols & Math Foundations",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "math",
+        "symbols",
+        "shortcuts"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Geometry & Triangles",
+      "slug": "quants-geometry",
+      "chapter": 2,
+      "chapterTitle": "Geometry & Triangles",
+      "lesson": 1,
+      "description": "Lines, angles, triangle congruence & similarity, incenter, circumcenter, orthocenter, centroid, circles, and cyclic quadrilaterals.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Geometry & Triangles",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "geometry",
+        "triangles",
+        "circles"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Coordinate Geometry",
+      "slug": "quants-coordinate-geometry",
+      "chapter": 3,
+      "chapterTitle": "Coordinate Geometry",
+      "lesson": 1,
+      "description": "Cartesian plane, distance formula, section formula, line slopes, linear equations, and point reflections.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Coordinate Geometry",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "coordinate-geometry",
+        "lines",
+        "slopes"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Mensuration 2D (Perimeter & Area)",
+      "slug": "quants-mensuration-2d",
+      "chapter": 4,
+      "chapterTitle": "Mensuration 2D (Perimeter & Area)",
+      "lesson": 1,
+      "description": "Perimeters and areas of rectangles, squares, rhombuses, trapeziums, circles, sectors, and field pathway tricks.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Mensuration 2D (Perimeter & Area)",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "mensuration",
+        "2d",
+        "area",
+        "perimeter"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Mensuration 3D (Surface Area & Volume)",
+      "slug": "quants-mensuration-3d",
+      "chapter": 5,
+      "chapterTitle": "Mensuration 3D (Surface Area & Volume)",
+      "lesson": 1,
+      "description": "Surface areas and volumes of cubes, cuboids, cylinders, cones, spheres, hemispheres, and diagonal length rules.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Mensuration 3D (Surface Area & Volume)",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "mensuration",
+        "3d",
+        "volume",
+        "surface-area"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Number System & Simplification",
+      "slug": "quants-number-system-simplification",
+      "chapter": 6,
+      "chapterTitle": "Number System & Simplification",
+      "lesson": 1,
+      "description": "Classification of numbers, divisibility rules, unit digit cyclicity, remainders theorem, and LCM/HCF relations.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Number System & Simplification",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "number-system",
+        "divisibility",
+        "lcm",
+        "hcf"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Algebra & Polynomials",
+      "slug": "quants-algebra-polynomials",
+      "chapter": 7,
+      "chapterTitle": "Algebra & Polynomials",
+      "lesson": 1,
+      "description": "Polynomial degrees, remainder & factor theorems, quadratic roots relationships, discriminant rules, and algebraic shortcuts.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Algebra & Polynomials",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "algebra",
+        "polynomials",
+        "quadratics"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Trigonometry & Heights-Distances",
+      "slug": "quants-trigonometry-height-distance",
+      "chapter": 8,
+      "chapterTitle": "Trigonometry & Heights-Distances",
+      "lesson": 1,
+      "description": "Trigonometric ratios, standard angle values table, Pythagorean identities, and angle of elevation/depression calculations.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Trigonometry & Heights-Distances",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "trigonometry",
+        "heights-distances",
+        "angles"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Percentage & Fraction Conversions",
+      "slug": "quants-percentage-fractions",
+      "chapter": 9,
+      "chapterTitle": "Percentage & Fraction Conversions",
+      "lesson": 1,
+      "description": "Fraction-to-percentage reference table, successive percentage change formulas, and expenditure vs consumption reduction.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Percentage & Fraction Conversions",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "percentage",
+        "fractions",
+        "commercial-math"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Ratio, Proportion & Partnership",
+      "slug": "quants-ratio-proportion-partnership",
+      "chapter": 10,
+      "chapterTitle": "Ratio, Proportion & Partnership",
+      "lesson": 1,
+      "description": "Ratio rules, mean & third proportionals, and commercial partnership profit division based on capital and time.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Ratio, Proportion & Partnership",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "ratio",
+        "proportion",
+        "partnership"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Profit, Loss & Discount",
+      "slug": "quants-profit-loss-discount",
+      "chapter": 11,
+      "chapterTitle": "Profit, Loss & Discount",
+      "lesson": 1,
+      "description": "Cost price, selling price, marked price formulas, discount percentages, and direct MP-to-CP ratio shortcut.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Profit, Loss & Discount",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "profit-loss",
+        "discount",
+        "commercial-math"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Mixture & Alligation",
+      "slug": "quants-mixture-alligation",
+      "chapter": 12,
+      "chapterTitle": "Mixture & Alligation",
+      "lesson": 1,
+      "description": "The Alligation Cross Method, blending cheaper and dearer ingredients, and combining solutions of differing ratios.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Mixture & Alligation",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "mixture",
+        "alligation",
+        "ratios"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Simple & Compound Interest",
+      "slug": "quants-simple-compound-interest",
+      "chapter": 13,
+      "chapterTitle": "Simple & Compound Interest",
+      "lesson": 1,
+      "description": "Simple interest calculation, compound interest formulas, and direct 2-year difference shortcuts.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Simple & Compound Interest",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "simple-interest",
+        "compound-interest",
+        "finance"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Time, Work & Pipes & Cisterns",
+      "slug": "quants-time-work-pipes",
+      "chapter": 14,
+      "chapterTitle": "Time, Work & Pipes & Cisterns",
+      "lesson": 1,
+      "description": "LCM total work unit method, combined efficiency calculations, inlet/outlet pipes rules, and MDH man-days formula.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Time, Work & Pipes & Cisterns",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "time-work",
+        "pipes-cisterns",
+        "efficiency"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Time, Speed, Distance & Trains",
+      "slug": "quants-time-speed-distance-trains",
+      "chapter": 15,
+      "chapterTitle": "Time, Speed, Distance & Trains",
+      "lesson": 1,
+      "description": "Speed conversion, average travel speed rules, relative velocity in opposite/same directions, and train obstacle crossing times.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Time, Speed, Distance & Trains",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "time-speed-distance",
+        "trains",
+        "relative-speed"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Boats & Streams",
+      "slug": "quants-boats-streams",
+      "chapter": 16,
+      "chapterTitle": "Boats & Streams",
+      "lesson": 1,
+      "description": "Downstream vs upstream velocity formulas, still water boat speed, and stream current rate calculation.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Boats & Streams",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "boats-streams",
+        "upstream",
+        "downstream"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Permutation & Combination",
+      "slug": "quants-permutation-combination",
+      "chapter": 17,
+      "chapterTitle": "Permutation & Combination",
+      "lesson": 1,
+      "description": "Fundamental principle of counting, factorials, permutations for ordered arrangements, and combinations for generic groups.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Permutation & Combination",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "permutation",
+        "combination",
+        "counting"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Probability",
+      "slug": "quants-probability",
+      "chapter": 18,
+      "chapterTitle": "Probability",
+      "lesson": 1,
+      "description": "Probability definition, complementary outcomes, coin toss space, two dice combinations, and standard playing card decks.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Probability",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "probability",
+        "dice",
+        "cards"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Statistics (Mean, Median, Mode)",
+      "slug": "quants-statistics",
+      "chapter": 19,
+      "chapterTitle": "Statistics (Mean, Median, Mode)",
+      "lesson": 1,
+      "description": "Arithmetic mean, median observation selection, Karl Pearson empirical mode identity, variance, and standard deviation.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Statistics (Mean, Median, Mode)",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "statistics",
+        "mean",
+        "median",
+        "mode"
+      ]
+    },
+    {
+      "course": "quants",
+      "title": "Data Interpretation (DI)",
+      "slug": "quants-data-interpretation",
+      "chapter": 20,
+      "chapterTitle": "Data Interpretation (DI)",
+      "lesson": 1,
+      "description": "Analyzing tabular matrices, bar charts, line graphs, and converting circular pie chart degrees into percentage budget figures.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 60,
+      "prerequisites": [],
+      "objectives": [
+        "Master concepts and exam formulas of Data Interpretation (DI)",
+        "Apply rapid Concept King computation shortcuts and solve practical exam problems"
+      ],
+      "tags": [
+        "quants",
+        "aptitude",
+        "data-interpretation",
+        "pie-charts",
+        "tables"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Analogy",
+      "slug": "reasoning-analogy",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 1,
+      "description": "Learn the logical relationship between pairs of words, numbers, and letters.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "objectives": [
+        "Understand number analogy",
+        "Master letter and word analogy"
+      ],
+      "tags": [
+        "analogy",
+        "verbal-reasoning"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Coding and Decoding",
+      "slug": "reasoning-coding-decoding",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 2,
+      "description": "Decode encrypted words and numbers using alphabet positional values.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": [],
+      "objectives": [
+        "Memorize alphabet ranks",
+        "Solve substitution coding"
+      ],
+      "tags": [
+        "coding-decoding",
+        "encryption"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Syllogism",
+      "slug": "reasoning-syllogism",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 3,
+      "description": "Solve deductive logic problems using Venn diagram representations.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": [],
+      "objectives": [
+        "Draw Venn diagrams",
+        "Identify Either/Or cases"
+      ],
+      "tags": [
+        "syllogism",
+        "logic"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Number Series",
+      "slug": "reasoning-number-series",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 4,
+      "description": "Identify mathematical patterns in sequences to find missing or wrong numbers.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "objectives": [
+        "Identify AP and GP patterns",
+        "Solve double difference series"
+      ],
+      "tags": [
+        "number-series",
+        "math"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Letter Series",
+      "slug": "reasoning-letter-series",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 5,
+      "description": "Recognize positional shifting logic in English alphabet sequences.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "objectives": [
+        "Identify constant shifts",
+        "Solve cluster series"
+      ],
+      "tags": [
+        "letter-series",
+        "alphabet"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Symbol and Notations",
+      "slug": "reasoning-symbol-notations",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 6,
+      "description": "Apply BODMAS rules to solve equations with substituted mathematical symbols.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": [],
+      "objectives": [
+        "Apply BODMAS correctly",
+        "Solve sign interchange questions"
+      ],
+      "tags": [
+        "bodmas",
+        "symbols"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Dictionary Order",
+      "slug": "reasoning-dictionary",
+      "chapter": 1,
+      "chapterTitle": "Verbal Reasoning",
+      "lesson": 7,
+      "description": "Arrange sets of words accurately according to strict lexicographical rules.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 20,
+      "prerequisites": [],
+      "objectives": [
+        "Sort words alphabetically",
+        "Apply reverse dictionary order"
+      ],
+      "tags": [
+        "dictionary",
+        "sorting"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Figure Series",
+      "slug": "reasoning-figure-series",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 1,
+      "description": "Identify logical transformations and rotations in sequences of abstract images.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "objectives": [
+        "Track elements and rotations",
+        "Predict next figure"
+      ],
+      "tags": [
+        "figure-series",
+        "non-verbal"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Dice",
+      "slug": "reasoning-dice",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 2,
+      "description": "Apply standard rules to identify opposite faces in closed and open 3D dice.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": [],
+      "objectives": [
+        "Differentiate standard and ordinary dice",
+        "Apply clockwise and alternate rules"
+      ],
+      "tags": [
+        "dice",
+        "spatial"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Mirror and Water Images",
+      "slug": "reasoning-mirror-image",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 3,
+      "description": "Apply lateral and vertical inversion rules to find reflections of objects.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "objectives": [
+        "Identify symmetric letters",
+        "Solve mirror and water reflections"
+      ],
+      "tags": [
+        "mirror-image",
+        "water-image"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Paper Cutting and Folding",
+      "slug": "reasoning-paper-cutting",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 4,
+      "description": "Use visualization to predict the outcome of unfolding pierced and creased paper.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 40,
+      "prerequisites": [
+        "reasoning-mirror-image"
+      ],
+      "objectives": [
+        "Apply reverse unfolding logic",
+        "Use symmetry to eliminate options"
+      ],
+      "tags": [
+        "paper-cutting",
+        "visualization"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Embedded Figure",
+      "slug": "reasoning-embedded-figure",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 5,
+      "description": "Identify hidden target shapes within complex geometric structures.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "objectives": [
+        "Use anchor point tracking",
+        "Maintain strict orientation rules"
+      ],
+      "tags": [
+        "embedded-figure",
+        "non-verbal"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Venn Diagram",
+      "slug": "reasoning-venn-diagram",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 6,
+      "description": "Represent logical relationships between sets and interpret demographic data shapes.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 30,
+      "prerequisites": [],
+      "objectives": [
+        "Identify class relationships",
+        "Extract data from intersecting geometric shapes"
+      ],
+      "tags": [
+        "venn-diagram",
+        "sets"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Sitting Arrangement",
+      "slug": "reasoning-sitting-arrangement",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 7,
+      "description": "Deduce exact seating orders in linear and circular formats based on given clues.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 45,
+      "prerequisites": [],
+      "objectives": [
+        "Differentiate left/right orientations",
+        "Decode complex connector language"
+      ],
+      "tags": [
+        "sitting-arrangement",
+        "puzzles"
+      ]
+    },
+    {
+      "course": "reasoning",
+      "title": "Blood Relations",
+      "slug": "reasoning-blood-relations",
+      "chapter": 2,
+      "chapterTitle": "Non-Verbal & Analytical Reasoning",
+      "lesson": 8,
+      "description": "Trace complex family lineages and solve relationships using tree diagrams.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 35,
+      "prerequisites": [],
+      "objectives": [
+        "Draw standard family tree notations",
+        "Resolve generational relationship traps"
+      ],
+      "tags": [
+        "blood-relations",
+        "family-tree"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "One Word Substitution",
+      "slug": "english-one-word-substitution",
+      "chapter": 1,
+      "chapterTitle": "Vocabulary Building",
+      "lesson": 1,
+      "description": "Top repeated one-word substitutions from past exams.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 15,
+      "prerequisites": [],
+      "objectives": [
+        "Master high-frequency one-word substitutions",
+        "Understand roots like -cide and omni-"
+      ],
+      "tags": [
+        "vocabulary",
+        "substitution",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Idioms and Phrases",
+      "slug": "english-idioms-phrases",
+      "chapter": 1,
+      "chapterTitle": "Vocabulary Building",
+      "lesson": 2,
+      "description": "Top 10 high-frequency idioms and phrases.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 15,
+      "prerequisites": [],
+      "objectives": [
+        "Understand the figurative meaning of idioms",
+        "Learn to visualize idioms for memory"
+      ],
+      "tags": [
+        "vocabulary",
+        "idioms",
+        "phrases",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Synonyms and Antonyms",
+      "slug": "english-synonyms-antonyms",
+      "chapter": 1,
+      "chapterTitle": "Vocabulary Building",
+      "lesson": 3,
+      "description": "High-frequency synonym and antonym pairs.",
+      "difficulty": "beginner",
+      "estimatedMinutes": 15,
+      "prerequisites": [],
+      "objectives": [
+        "Expand vocabulary with similar and opposite words",
+        "Understand contextual meaning"
+      ],
+      "tags": [
+        "vocabulary",
+        "synonyms",
+        "antonyms",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Phrasal Verbs",
+      "slug": "english-phrasal-verbs",
+      "chapter": 1,
+      "chapterTitle": "Vocabulary Building",
+      "lesson": 4,
+      "description": "Must-know phrasal verbs constructed with break, bring, call, give, and look.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 20,
+      "prerequisites": [],
+      "objectives": [
+        "Understand the difference between literal and figurative phrasal verbs"
+      ],
+      "tags": [
+        "vocabulary",
+        "phrasal-verbs",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Spelling Rules & Common Errors",
+      "slug": "english-spelling-rules",
+      "chapter": 1,
+      "chapterTitle": "Vocabulary Building",
+      "lesson": 5,
+      "description": "Important spelling rules like 'I before E' and top commonly misspelled words.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 15,
+      "prerequisites": [],
+      "objectives": [
+        "Memorize standard spelling rules",
+        "Avoid common spelling mistakes"
+      ],
+      "tags": [
+        "vocabulary",
+        "spelling",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Essential Grammar Rules",
+      "slug": "english-grammar-rules",
+      "chapter": 2,
+      "chapterTitle": "Grammar & Comprehension",
+      "lesson": 1,
+      "description": "Core rules for subject-verb agreement, noun/pronoun usage, and tenses.",
+      "difficulty": "intermediate",
+      "estimatedMinutes": 25,
+      "prerequisites": [],
+      "objectives": [
+        "Master subject-verb agreement",
+        "Understand plural/singular trick nouns",
+        "Apply tense rules correctly"
+      ],
+      "tags": [
+        "grammar",
+        "rules",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Sentence Improvement & Error Spotting",
+      "slug": "english-error-spotting",
+      "chapter": 2,
+      "chapterTitle": "Grammar & Comprehension",
+      "lesson": 2,
+      "description": "Techniques for spotting errors including superfluous expressions, incorrect prepositions, and conditional sentences.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 25,
+      "prerequisites": [
+        "english-grammar-rules"
+      ],
+      "objectives": [
+        "Identify superfluous words",
+        "Master conditional sentence structures",
+        "Fix incorrect prepositions"
+      ],
+      "tags": [
+        "grammar",
+        "error-spotting",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Reading Comprehension Strategies",
+      "slug": "english-reading-comprehension",
+      "chapter": 2,
+      "chapterTitle": "Grammar & Comprehension",
+      "lesson": 3,
+      "description": "5 steps to master reading comprehension passages.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 20,
+      "prerequisites": [],
+      "objectives": [
+        "Learn to skim effectively",
+        "Identify the tone of the author",
+        "Avoid extreme option traps"
+      ],
+      "tags": [
+        "comprehension",
+        "reading",
+        "english"
+      ]
+    },
+    {
+      "course": "english",
+      "title": "Cloze Test Mastery",
+      "slug": "english-cloze-test",
+      "chapter": 2,
+      "chapterTitle": "Grammar & Comprehension",
+      "lesson": 4,
+      "description": "Effective strategies for solving Cloze Tests.",
+      "difficulty": "advanced",
+      "estimatedMinutes": 20,
+      "prerequisites": [
+        "english-grammar-rules"
+      ],
+      "objectives": [
+        "Use grammar rules to eliminate options",
+        "Use context clues to pick the right word"
+      ],
+      "tags": [
+        "comprehension",
+        "cloze-test",
+        "english"
+      ]
     }
   ]
 }

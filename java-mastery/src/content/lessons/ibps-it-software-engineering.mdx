@@ -1,0 +1,1876 @@
+---
+title: ibps-it-software-engineering
+---
+
+# 10. Software Engineering & Project Management
+
+---
+
+}
+
+return 0;
+}
+
+## 4. Queue
+A queue is a data structure where we add eleme nts at the back and remove elements from the front. In that way a
+queue is like “waiting in line”: the first one to be added to the queue will be the first one to be removed from the
+queue. This is also called a FIFO (First In First Out) data structure.
+
+Queues are common in many applications. For example, when we read a book from a file as in Assignment 2, it would
+be natural to store the the words in a queue so that when we are finished reading the file the words are in the order
+they appear in the book.
+
+A queue is implemented as a struct with a front and back field. The front field points to the front of  the queue, the
+back field points to the back of the queue. In arrays, we often work with the length which is one greater than the index
+of the last element in the array. In queues, we use a similar
+strategy, making sure the back pointer points to one elem ent past the end of the queue. Unlike arrays, there must be
+something in memory for the pointer to refer to, so there is always one extra element at the end of the queue which
+does not have valid data or next pointer. We have indicated
+this in the diagram by writing X.
+
+The above picture yields the following definition.
+struct queue {
+list front;
+list back;
+};
+
+- **enqueue() ** — add (store) an item to the queue.
+
+- **dequeue() ** — remove (access) an item from the queue.
+
+- **peek() ** — Gets the element at the front of the queue without removing it.
+
+- **isfull() ** — Checks if the queue is full.
+
+- **isempty() ** — Checks if the queue is empty.
+
+In queue, we always dequeue (or access) data, pointed by front pointer and while enqueing (or storing) data in the
+queue we take help of rear pointer.
+
+Enqueue Operation
+The following steps should be taken to enqueue (insert) data into a queue −
+Step 1 − Check if the queue is full.
+Step 2 − If the queue is full, produce overflow error and exit.
+Step 3 − If the queue is not full, increment rear pointer to point the next empty space.
+Step 4 − Add data element to the queue location, where the rear is pointing.
+Step 5 − return success.
+
+Algorithm for enqueue operation
+1. procedure enqueue(data)
+2. if queue is full
+3. return overflow
+4. endif
+5. rear ← rear + 1
+
+6. queue[rear] ← data
+7. return true
+8. end procedure
+
+Dequeue Operation
+Step 1 − Check if the queue is empty.
+Step 2 − If the queue is empty, produce underflow error and exit.
+Step 3 − If the queue is not empty, access the data where front is pointing.
+Step 4 − Increment front pointer to point to the next available data element.
+Step 5 − Return success.
+
+Algorithm for dequeue operation
+1. procedure dequeue
+2. if queue is empty
+3. return underflow
+4. end if
+5. data = queue[front]
+6. front ← front + 1
+7. return true
+8. end procedure
+
+Queues can be implemented as linked lists. Linked list implementations of queues often require two pointers or
+references to links at the beginning and end of the list. Using a pair of pointers or references opens the code up to a
+variety of bugs especially when the last item on the queue is dequeued or when the first item is enqueued.
+
+Under the list representation, a queue q consists of a list and two pointers, q. front and q.rear. The operations are
+insertion and deletion. Special attention is  required when the last element is removed from a queue. In that case ,
+q.rear must also be set to null, Since in an empty queue both r.front and q.rear must be null.
+
+The pseudo code for deletion is below:
+
+1.   if (empty(q))
+{
+printf("Queue is Underflow");
+exit(1);
+}
+f = q.front;
+t = info(f);
+q.front = next(f);
+if (q.front == null)
+q.rear = null;
+freenode(f);
+return(t);
+The operation insert algorithm is implemented
+f = getnode();
+info(f) = x;
+next(f) = null;
+if (q.rear == null)
+q.front =f;
+else
+next(q.rear) = f;
+q.rear = f;
+
+We can use a list to represent a priority queue in ordered list or un ordered list. For an ascending Priority queue,
+insertion is implemented by the place operation, which keeps the list ordered, and deletion of the minimum element
+is implemented by the delete operation, which removes the first element from the list. A Desce nding priority queue
+can be implemented by keeping the list in d ecending order rather than ascending, or by using remove to delete the
+minimum element. In an ordered list, if you want to insert an element to the priority queue, it will require examining
+an average of approximately n/2 nodes but only one search for deletion.
+
+An unordered list may also be used as a priority queue. If you want to insert an element to the list always requires
+examining only one node but always requires examining n elements for removal of an element.
+
+The advantage of a list over an array f or implementing a priority queue is that an element can be inserted into a list
+without moving any other elements, where as this is impossible for an array unless extra space is left empty.
+
+Priority Queue is more specialized data structure than Queue. Like ordinary queue, priority queue has same method
+but with a major difference. In Priority queue items are ordered by key value so that item with the lowest value of key
+is at front and item with the highest value of key is at rear or vice versa. So we're assigned priority to item based on its
+key value. Lower the value, higher the priority.
+
+A typical priority queue supports following operations.
+
+- insert(item, priority): Inserts an item with given priority.
+
+- getHighestPriority(): Returns the highest priority item.
+
+- deleteHighestPriority(): Removes the highest priority item.
+
+A circular queue is an abstract data type that contains a collection of data which allows addition of data at the end of
+the queue and removal of data at the beginning of the queue. Circul ar queues have a fixed size. Circular queue
+follows FIFO principle. Queue items are added at the rear end and the items are deleted at front end of the circular
+queue.
+
+Circular Queue operations:
+
+- Two pointers called FRONT and REAR are used to keep track of the first and last elements in the queue.
+
+- When initializing the queue, we set the value of FRONT and REAR to -1.
+
+- On enqueing an element, we circularly increase the value of REAR index an d place the new element in the
+position pointed to by REAR.
+
+- On dequeueing an element, we return the value pointed to by FRONT and circularly increase the FRONT
+index.
+
+- Before enqueing, we check if queue is already full.
+
+- Before dequeuing, we check if queue is already empty.
+
+- When enqueing the first element, we set the value of FRONT to 0.
+
+- When dequeing the last element, we reset the values of FRONT and REAR to -1.
+
+However, the check for full queue has a new additional case:
+
+Case 1: FRONT = 0 && REAR == SIZE - 1
+Case 2: FRONT = REAR + 1
+
+The second case happens when RE AR starts from 0 due to circular increment and when its value is just 1 less than
+FRONT, the queue is full.
+
+Algorithm for Insertion in a circular queue
+Insert CircularQueue ( )
+
+## 1. If (FRONT == 1 and REAR == N) or (FRONT == REAR + 1) Then
+## 2. Print: Overflow
+## 3. Else
+
+## 4. If (REAR == 0) Then [Check if QUEUE is empty]
+5. (a) Set FRONT = 1
+6. (b) Set REAR = 1
+## 7. Else If (REAR == N) Then [If REAR reaches end if QUEUE]
+## 8. Set REAR = 1
+## 9. Else
+## 10. Set REAR = REAR + 1 [Increment REAR by 1]
+11. [End of Step 4 If]
+## 12. Set QUEUE[REAR] = ITEM
+## 13. Print: ITEM inserted
+14. [End of Step 1 If]
+## 15. Exit
+
+Algorithm for Deletion in a circular queue
+Delete CircularQueue ( )
+
+## 1. If (FRONT == 0) Then [Check for Underflow]
+## 2. Print: Underflow
+## 3. Else
+## 4. ITEM = QUEUE[FRONT]
+## 5. If (FRONT == REAR) Then [If only element is left]
+6. (a) Set FRONT = 0
+7. (b) Set REAR = 0
+## 8. Else If (FRONT == N) Then [If FRONT reaches end if QUEUE]
+## 9. Set FRONT = 1
+## 10. Else
+## 11. Set FRONT = FRONT + 1 [Increment FRONT by 1]
+12. [End of Step 5 If]
+## 13. Print: ITEM deleted
+14. [End of Step 1 If]
+## 15. Exit
+
+## 5. Binary Trees
+
+A tree is a finite set of nodes having a distinct node called root.
+Binary Tree is a tree which is either empty or has at most two subtrees, each of the subtrees also being a binary tree. It
+means each node in a binary tree can have 0, 1 or 2 subtrees. A left or right subtree can be empty.
+
+A binary tree is made of nodes, where each node contains a "left" pointer, a "right" pointer, and a data element. The
+"root" pointer points to the topmost node in the tree. The left and right poi nters point to smaller "subtrees" on either
+side. A null pointer represents a binary tree with no elements -- the empty tree. The formal recursive definition is: a
+binary tree is either empty (represented by a null pointer), or is made of a single node, wh ere the left and right
+pointers (recursive definition ahead) each point to a binary tree.
+
+It has a distinct node called root. And every node has either 0,1 or 2 children. So in a binary tree every node has a
+maximum of 2 children.
+
+If A is the root of a binary tree & B the root of its left or right subtree, then A is the parent or father of B and B is the
+left or right child of A. Those nodes having no children are leaf nodes. Any node say A is the ancestor of node B and
+B is the des cendant of A if A is either the father of B or the father of some ancestor of B. Two nodes having same
+father are called brothers or siblings.
+
+Going from leaves to root is called climbing the tree & going from root to leaves is called descending the tree.
+
+A binary tree in which every non leaf node has non empty left & right subtrees is called a strictly binary tree.
+
+- The number of subtrees of a node is called the degree of the node. In a binary tree, all nodes have degree 0, 1, or
+2.
+
+- A node of degree zero is called a terminal node or leaf node.
+
+- **A non** — leaf node is often called a branch node.
+
+- The degree of a tree is the maximum degree of a node in the tree. A binary tree is degree 2.
+
+- A directed path from node n1 to nk is defined as a sequence of nodes n1, n2, ..., nk such that ni is the parent of ni+1
+for 1 <= i < k. An undirected path is a similar sequence of undirected edges. The length of this path is the
+number of edges on the path, namely k – 1 (i.e., the number o f nodes – 1). There is a path of length zero from
+every node to itself. Notice that in a binary tree there is exactly one path from the root to each node.
+
+- The level or depth of a node with respect to a tree is defined recursively: the level of the root is zero; and the
+level of any other node is one higher than tha t of its parent. Or to put it another way, the level or depth of a
+node ni is the length of the unique path from the root to ni.
+
+- The height of ni is the length of the longest path from ni to a leaf. Thus, all leaves in the tree are at height 0.
+
+- The height of a tree is equal to the height of the root. The depth of a tree is equal to the level or depth of the
+deepest leaf; this is always equal to the height of the tree.
+
+- If there is a directed path from n1 to n2, then n1 is an ancestor of n2 and n2 is a descendant of n1.
+
+The structure defining a node of binary tree in C is as follows.
+Struct node
+{
+struct node *lc ; /* points to the left child */
+int data; /* data field */
+struct node *rc; /* points to the right child */
+}
+
+### 5.1 Linked Representation of Binary Tree:
+
+Binary trees can be represented by links where each node contains the address of the left child and the right child. If
+any node has its left or right child empty then it will have in its respective link field, a null value. A leaf node has null
+value in both of its links.
+The structure defining a node of binary tree in C is as follows.
+
+Struct node
+{
+struct node *lc ; /* points to the left child */
+int data; /* data field */
+struct node *rc; /* points to the right child */
+}
+
+### 5.2 Types of Binary Tree
+
+Complete Binary Tree: A binary tree of depth d is an almost complete binary tree if:
+
+- Each leaf in the tree is either at level d or at level d – 1.
+
+- For any node nd in the tree with a right descendant at level d, all the left descendants of n d that are leaves are
+also at level d.
+
+Almost complete binary tree: An almost complete strictly binary tree with N leaves has 2N – 1 nodes (as does any
+other strictly binary tree). An almost complete binary tree with N leaves that is not strictly binary has 2N nodes. There
+are two distinct almost complete binary trees with N leaves, one of which is strictly binary and one of which is not.
+
+There is only a single almost complete binary tree with N nodes. This tree is strictly binary if and only if N is odd.
+
+Degenerate (or pathological) tree: A Tree where every internal node has one child. Such trees are performance -wise
+same as linked list.
+
+### 5.3 Binary Search Tree
+
+A binary search tree is a data structure that allows for key lookup, insertion, and deletion. It i s a binary tree, meaning
+every node of the tree has at most two child nodes, a left child and a right  child. Each node of the tree holds the
+following information:
+
+- x.key - Value stored in node x
+
+- x.left- Pointer to the left child of node x. NIL if x has no left child
+
+- x.right - Pointer to the right child of node x. NIL if x has no right child
+
+- x.parent - Pointer to the parent node of node x. NIL if x has no parent, i.e. x is the root of
+the tree
+
+Each node has the following attributes:
+
+- p, left, and right, whic h are pointers to the parent, the left child, and the right child,  respectively, and key,
+which is key stored at the node.
+
+- Here k is the key that is searched for and x is the start node.
+
+BST-Search(x, k)
+1. y ← x
+2. while y ≠ nil do
+3. if key[y] = k then return y
+4. else if key[y] < k then y ← right[y]
+5. else y ← left[y]
+6. return (“NOT FOUND”)
+
+The Maximum and the Minimum
+To find the minimum identify the leftmost node, i.e. the farthest node you can reach by following only left branches.
+To find the max imum identify the rightmost node, i.e. the farthest node you c an reach by following only right
+branches.
+
+BST-Minimum(x)
+1. if x = nil then return (“Empty Tree”)
+2. y ← x
+3. while left[y] ≠ nil do y ← left[y]
+4. return (key[y])
+
+BST-Maximum(x)
+1. if x = nil then return (“Empty Tree”)
+2. y ← x
+3. while right[y] ≠ nil do y ← right[y]
+4. return (key[y])
+
+Insertion in BST
+Suppose that we need to insert a node z such that k = key[z]. Using binary search we find a nil such that replacing it
+by z does not break the BST-property.
+
+BST-Insert(x, z, k)
+1. if x = nil then return “Error”
+2. y ← x
+3. while true do {
+4. if key[y] < k
+5. then z ← left[y]
+6. else z ← right[y]
+7. if z = nil break
+8. }
+9. if key[y] > k then left[y] ← z
+10. else right[p[y]] ← z
+
+Predecessor and Successor in BST
+The idea for finding the successor of a given node x.
+
+- If x has the right child, then the successor is the minimum in the right subtree of x.
+
+- Otherwise, the successor is the parent of the farthest node that can be reached from x by followi ng only right
+branches backward.
+
+BST-Successor(x)
+1. if right[x] ≠ nil then
+2. { y ← right[x]
+3. while left[y] ≠ nil do y ← left[y]
+4. return (y) }
+5. else
+6. { y ← x
+7. while right[p[x]] = x do y ← p[x]
+8. if p[x] ≠ nil then return (p[x])
+9. else return (“No Successor.”) }
+
+The predecessor can be found similarly with the roles of left and right exchanged and with the roles of maximum and
+minimum exchanged.
+
+Deletion in BST
+The following algorithm deletes z from BST T.
+
+BST-Delete(T, z)
+1. if left[z] = nil or right[z] = nil
+2. then y ← z
+3. else y ← BST-Successor(z)
+4. y is the node that’s actually removed.
+5. Here y does not have two children.
+6. if left[y] ≠ nil
+7. then x ← left[y]
+8. else x ← right[y]
+9. x is the node that’s moving to y’s position.
+10. if x ≠ nil then p[x] ← p[y]
+11. p[x] is reset If x isn’t NIL.
+12. Resetting is unnecessary if x is NIL.
+
+### 5.4 Traversal
+
+A traversal is a process that visits all the nodes in the tree. Since a tree is a nonlinear data structure, there is no unique
+traversal.  Traversing a tree means visiting each node in a s pecified order. This process is not as commonly used as
+
+finding, inserting, and deleting nodes. One reason for this is that traversal is not particularly fast. Following are two
+kinds of traversal:
+
+- **Depth-first traversal** — Breadth-first traversal
+
+There are three different types of depth-first traversals:
+
+- **PreOrder traversal ** — visit the parent first and then left and right children;
+
+- **InOrder traversal ** — visit the left child, then the parent and the right child;
+
+- **PostOrder traversal ** — visit left child, then the right child and then the parent;
+
+There is only one kind of breadth -first traversal--the level order traversal. This traversal visits nodes by leve ls from
+top to bottom and from left to right.
+
+Pre-order traversal: To traverse a binary tree in Pre-order, following operations are carried-out
+(i) Visit the root,
+(ii) Traverse the left subtree, and
+(iii) Traverse the right subtree.
+Therefore, the Preorder traversal of the above tree will output:
+7, 1, 0, 3, 2, 5, 4, 6, 9, 8, 10
+
+In-order traversal: To traverse a binary tree in In-order, following operations are carried-out
+(i) Traverse the left most subtree starting at the left external node,
+(ii) Visit the root, and
+(iii) Traverse the right subtree starting at the left external node.
+Therefore, the In-order traversal of the above tree will output:
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+Post-order traversal: To traverse a binary tree in Post-order, following operations are carried-out
+(i) Traverse all the left external nodes starting with the left most subtree which is then followed by bubble -up all the
+internal nodes,
+(ii) Traverse the right subtree starting at the left external node which is then followed by bubble -up all the internal
+nodes, and
+(iii) Visit the root.
+Therefore, the Post-order traversal of the above tree will output:
+0, 2, 4, 6, 5, 3, 1, 8, 10, 9, 7
+
+Breadth-First Traversal
+
+This is also known as Level Order Tree Traversal.
+
+Level order traversal of the above tree is 1 2 3 4 5
+
+Algorithm:
+printLevelorder(tree)
+
+1) Create an empty queue q
+2) temp_node = root /*start from root*/
+3) Loop while temp_node is not NULL
+a) print temp_node->data.
+b) Enqueue temp_node’s children (first left then right children) to q
+c) Dequeue a node from q and assign it’s value to temp_node
+
+For BFS algorithm, visit a node’s siblings before its children,  while in DFS algorithm, visit a node’s children before
+its siblings
+
+BFS is useful in finding shortest path. BFS can be used to find the shortest distance between some starting node and
+the remaining nodes of the graph. DFS in not so useful in finding shortest path. It is used to perform a traversal of a
+general graph and the idea of DFS is to make a path as long as possible, and then go back (backtrack) to add
+branches also as long as possible.
+
+BFS starts traversal from the root node and then explore the  search in the level by level manner i.e. as close as
+possible from the root node. DFS starts the traversal from the root node and explore the search as far as possible
+from the root node i.e. depth wise.
+
+Example:
+
+Before countering goal node F:
+BFS algorithm encounters nodes: ABCDE
+DFS algorithm encounters nodes: ABDHLIEJMC
+
+Example:
+
+Before countering goal node G:
+BFS algorithm encounters nodes: ABCDEF
+DFS algorithm encounters nodes: ABD
+
+### 5.5 Heap and Heap Sort
+
+The (Binary) heap data structure is an array object that can be viewed as a nearly complete binary tree. A binary tree
+with n nodes and depth k is complete iff its nodes correspond to the nodes numbered from 1 to n in the full binary
+tree of depth k
+
+Attributes of a Heap
+An array A that presents a heap with two attributes:
+
+- length[A]: the number of elements in the array.
+
+- heap‐size[A]: the number of elements in the heap stored with array A.
+
+- length[A]≥ heap‐size[A]
+
+If a complete binary tree with n nodes is represented sequentially, then for any node with index i, 1 ≤ i ≤ n, we have
+
+- A[1] is the root of the tree
+
+- the parent PARENT(i) is at ⌊i/2⌋ if i ≠ 1
+
+- **the left child LEFT(i) is at 2i** — the right child RIGHT(i) is at 2i+1
+
+There are two kinds of binary heaps: max‐heaps and min‐heaps.
+
+- In a max ‐heap, the max ‐heap property is that for every node i other than the root, the largest element in a
+max‐heap is stored at the root and the subtree rooted at a node contains values no larger than that contained
+at the node itself
+A[Parent(i)] ≥ A[i]
+
+- In a min ‐heap, the min ‐heap property is that for every node i other than the root, the smalles t element in a
+min‐heap is at the root and the subtree rooted at a node contains values no smaller than that contained at the
+node itself.
+A[Parent(i)] ≤ A[i]
+
+Algorithm
+
+MAX‐HEAPIFY(A, i)
+1. l ← LEFT(i)
+2. r ← RIGHT(i)
+3. if l ≤ heap‐size[A] and A[l] > A[i]
+4. then largest ← l
+5. else largest ← i
+6. if r ≤ heap‐size[A] and a[r] > A[largest]
+7. then largest ← r
+8. if largest ≠ i
+9. then exchange A[i] A[largest]
+## 10. MAX‐HEAPIFY (A, largest)
+
+We can use the MAX ‐HEAPIFY procedure to convert an array A=[1..n]  into a max‐heap in a bottom‐up manner. The
+
+elements in the subarray A[( ⌊n/2⌋+1)…n ] are all leaves of the tree, and so each is a 1 ‐element heap. The procedure
+BUILD‐MAX‐HEAP goes through the remaining nodes of the tree and runs MAX‐HEAPIFY on each one.
+BUILD‐MAX‐HEAP(A)
+1. heap‐size[A] ← length[A]
+2. for i ← ⌊length[A]/2⌋ downto 1
+3. do MAX‐HEAPIFY(A,i)
+
+Since the maximum element of the array is stored at the root, A[1] we can exchange it with A[n].
+If we now “discard” A[n], we observe that A[1...(n−1)] can easily be made into a max‐heap.
+The children of the root A[1] remain max‐heaps, but the new root A[1] element may violate the max‐heap property, so
+we need to readjust the max‐heap. That is to call MAX‐HEAPIFY(A, 1).
+
+HEAPSORT(A)
+## 1. BUILD‐MAX‐HEAP(A)
+2. for i ← length[A] downto 2
+3. do exchange A[1] A[i]
+4. heap‐size[A]← heap‐size[A]−1
+## 5. MAX‐HEAPIFY(A, 1)
+
+The height of a heap
+The height of a node in a heap is the number of edges on the longest simple downward path from the node to a leaf,
+and the height of the heap to be the height of the root.
+For example: The height of node 2 is 2 and the height of the heap is 3
+
+Time complexity
+
+- The HEAPSORT procedure takes O(nlgn) time
+
+- The call to BUILD‐MAX‐HEAP takes O(n) time
+
+- **Each of the n** — 1 calls to MAX‐HEAPIFY takes O(lgn) time
+
+## 6. Graph
+
+Graphs are one of the most interesting data structures in computer science. Graphs and the trees are somewhat similar
+by their structure. In fact, tree is derived from the graph data structure. However there are two important diff erences
+between trees and graphs.
+
+- Unlike trees, in graphs, a node can have many parents.
+
+- The link between the nodes may have values or weights.
+
+Graph consists of a non-empty set of points called vertices and a set of edges that link vertices.
+Formal Definition : A graph G= (V, E) consists of
+
+- a set V={v1 , v2 .....,vn } of n >1 vertices and
+
+- a set of E={e1 ,e2 ,.....,em } of m>0 edges
+such that each edge ek is corresponds to an un ordered pair of vertices (vi ,vj) where 0 < i,j <= n and 0 < k <= m.
+
+A roa d network is a simple exam ple of a graph, in which vertices repre sents cities and road connecting them are
+correspond to edges.
+V= { Delhi, Chennai, Kolkata, Mumbai, Nagpur }
+
+E= { (Delhi, Kolkata), (Delhi, Mumbai}, (Delhi, Nagpur), (Chennai, Kolkata), (Ch ennai, Mumbai), (Chennai, Nagpur),
+(Kolkata, Nagpur), (Mumbai, Nagpur) }
+
+Loop is an edge that connects a vertex to itself. Edge e6 in the figure below is a loop.
+Edges with same end vertices are called parallel edges. Edges e4 and e5 are parallel edges in the below figure.
+
+- A Graph without loops and parallel edges is called a simple graph.
+
+- A graph with isolated vertices (no edges) is called null graph.
+
+- Set of edges E can be empty for a graph but not set of vertices V.
+
+Incidence: if a vertex vi is an end vertex of an edge ek, we say vertex vi is incident on ek and ek is incident on vi.
+
+- e1 is incident on v1 and v3 in the below figure.
+
+- v4 is incident on e3, e4, and e5 in the figure below.
+
+Degree: Degree of a vertex is number of edges incident on it, with loops counted twice.
+
+- d(v1 ) = 2, d(v2 ) = 4, d(v3 ) = 3, and d(v4 ) = 3 in the figure below.
+
+Adjacent Edges: Two non-parallel edges are adjacent if they have a vertex in common. e1 and e2, e2 and e6, e2 and e3,
+e1 and e4 are adjacent edges.
+
+Adjacent vertices: Two vertices are adjacent if they are connected by an edge. v1 and v3, v1 and v2, v2 and v4 are
+adjacent vertices.
+Any graph problems can be solved by visiting each and every vertex in a systematic manner. There are two main
+method to traversal graphs, Depth First Search (DFS) and Breadth First Search (BFS).
+
+Depth First Search (DFS): Initially all vertices of the graph are unvisited. Start visiting the graph from any vertex, say
+v. For each unvisited adjacent vertex of v, search recursively. This process stops when all vertices reachable from v are
+visited. If there are any more unvisited vertices are present, select any unvisited vertex and repeat the same search
+process. This method is called depth first search since searching is done fo rward (deeper) fr om current node. The
+distance from start vertex is called depth.
+
+Algorithm DFS ( G )
+1. for i = 1 to n do // Initialize all vertices are unvisited
+2. status[i] = unvisited
+3. parent[i] = NULL
+
+4. for i = 1 to n do
+5. if (status[i] == unvisited) // If there exits an unvisited vertex, start traversal
+## 6. DF-Travel(i)
+Algorithm DF-Travel ( v )
+1. status[v] = visited
+2. for each vertex u adjacent to v do
+3. if status[u] == unvisited then
+4. parent[u] = v
+## 5. DF-Travel ( u )
+
+Breadth First Search (BSF):  Initially all vertices o f the graph a re unvisited. Start visiting the graph from any vertex,
+say v. Visit each unvisited adjacent vertex of v. Repeat the process for each vertex visited. This process stops when all
+vertices reachable from v are visited. If there is any more unvisited vertices are present select any unvisited vertex and
+repeat the same search process. This method is called breadth first search, since it works outward from a center point,
+much like the ripples created when throwing a stone into a pond. It moves outw ard in all di rections, one level at a
+time.
+
+Step 1: Push the root node in the Queue.
+Step 2: Loop until the queue is empty.
+Step 3: Remove the node from the Queue.
+Step 4: If the removed node has unvisited child nodes, mark them as visited and insert the unvisited children in the
+queue.
+
+## 7. Sorting
+
+Sorting refers to the operation or technique of arranging and rearranging sets of data in some specific order. A
+collection of records called a list where every record is having one or more fields. The fields which contains unique
+value for each record, is termed as the key field. For example, a phone number directory can be thought of as a list
+where each record has three fields – ‘name’ of the person, ‘address’ of those person, and their ‘phone numbers’. Being
+unique phone number can work as a key to locate any record in the list.
+
+Sorting is the operation performed to arrange the records of a table or list in some order according to some specific
+ordering criterion. Sorting is performed according to some key value of each record.
+
+The records are either sorted either numerically or alphanumerically. The records are then arranged in ascending or
+descending order depending on the numerical value of the key.
+
+Complexity of Sorting Algorithms
+The complexity of sorting algorithm calculates the running time of a function in which ‘n’ number of items are to be
+sorted. The choice for which sorting method is suitable for a problem depends on several dependency configurations
+for different problems. The most noteworthy of these considerations are:
+
+The length of time spent by the programmer in programming a specific sorting program
+
+- Amount of machine time necessary for running the program
+
+- The amount of memory necessary for running the program
+
+Efficiency of Sorting Techniques
+To get the amount of time required to sort an array of ‘n’ elements by a particular method, the normal approach is to
+analyze the method to find the number of comparisons (or exchanges) required by it. Most of the sorting t echniques
+are data sensitive and so the metrics for them depends on the order in which they appear in an input array.
+
+Various sorting techniques are analyzed in various cases and named these cases as follows:
+
+- **Best case** — Worst case
+
+- Average case
+
+Hence, the result of these cases is of ten a formula giving the average time required for a particular sort of size ‘n’.
+Most of the sort methods have time requirements that range from O(nlog n) to O(n2).
+
+Types of Sorting
+
+Internal Sorts:- This method uses only the primary memory during sorti ng process. All data  items are held in main
+memory and no secondary memory is required this sorting process. If all  the data that is to be sorted can be
+accommodated at a time in memory is called intern al sorting. There is a limitation for internal sorts; they can only
+process relatively small lists due to memory constraints. There are 3 types of internal sorts.
+
+- Selection Sort: - Ex: - Selection sort algorithm, Heap Sort algorithm
+
+- Insertion Sort: - Ex: - Insertion sort algorithm, Shell Sort algorithm
+
+- Exchange Sort: - Ex: - Bubble Sort Algorithm, Quick sort algorithm
+
+External Sorts: - Sorting large amount of data requires external or secondary memory. This  process uses external
+memory such as HDD, to store  the data which is not fit into the main  memory. So, p rimary memory holds the
+currently being sorted data only. All external sorts are based on process of merging. Different parts of data are sorted
+separately and merged together.
+
+- Ex: - Merge Sort
+
+### 7.1 Insertion Sort
+
+One of the simplest methods to sort an ar ray is an insertion sort. An example of an insertion sort  occurs in everyday
+life while playing cards. To sort the cards in your hand you extract a card,  shift the remaining cards, and then insert
+the extracted card in the correct place. This process is  repeated until all the cards are in the correct sequence. Both
+average and worst-case time is O(n2).
+
+Assuming there are n elements in the array, we must index through n – 1 entries. For each entry, we may need to
+examine and shift up to n – 1 other entries, resulting in a O(n2) algorithm.
+The insertion sort is an in -place sort. That is, we sort the array in -place. No extra memory is  required. The insertion
+sort is also a stable sort. Stable sorts ret ain the original ordering of keys  when identical keys are p resent in the input
+data.
+
+Algorithm
+Step 1 − If it is the first element, it is already sorted. return 1;
+Step 2 − Pick next element
+Step 3 − Compare with all elements in the sorted sub-list
+Step 4 − Shift all the elements in the sorted sub-list that is greater than the value to be sorted
+Step 5 − Insert the value
+Step 6 − Repeat until list is sorted
+
+INSERTION_SORT (A)
+## 1. FOR j ← 2 TO length[A]
+## 2. DO key ← A[j]
+3. {Put A[j] into the sorted sequence A[1 . . j − 1]}
+4. i ← j − 1
+## 5. WHILE i > 0 and A[i] > key
+## 6. DO A[i +1] ← A[i]
+7. i ← i − 1
+## 8. A[i + 1] ← key
+
+Time Complexity: O(n*n)
+Auxiliary Space: O(1)
+Boundary Cases:  Insertion sort takes maximum time to sort if elements are sorted in r everse order. And it takes
+minimum time (Order of n) when elements are already sorted.
+Algorithmic Paradigm: Incremental Approach
+
+### 7.2 Bubble Sort
+
+Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in
+wrong order.
+
+Bubble sort algorithms cycle through a list , analyzing pairs of elements from left to right, or  beginning to end. If the
+leftmost element in the pair is less than the rightmost element, the pair  will remain in that ord er. If the rightmost
+element is less than the leftmost element, then the two elements will be switched. This cycle repeats from beginning to
+end until a pass in which no switch occurs.
+
+Example:
+First Pass:
+( 5 1 4 2 8 ) –> ( 1 5 4 2 8 ), Here, algorithm compares the first two elements, and swaps since 5 > 1.
+( 1 5 4 2 8 ) –>  ( 1 4 5 2 8 ), Swap since 5 > 4
+( 1 4 5 2 8 ) –>  ( 1 4 2 5 8 ), Swap since 5 > 2
+( 1 4 2 5 8 ) –> ( 1 4 2 5 8 ), Now, since these elements are already in order (8 > 5), algorithm does not swap them.
+
+Second Pass:
+( 1 4 2 5 8 ) –> ( 1 4 2 5 8 )
+( 1 4 2 5 8 ) –> ( 1 2 4 5 8 ), Swap since 4 > 2
+( 1 2 4 5 8 ) –> ( 1 2 4 5 8 )
+( 1 2 4 5 8 ) –>  ( 1 2 4 5 8 )
+Now, the array is already sorted, but our algorithm does not know if it is complet ed. The algorithm needs one whole
+pass without any swap to know it is sorted.
+
+Third Pass:
+( 1 2 4 5 8 ) –> ( 1 2 4 5 8 )
+( 1 2 4 5 8 ) –> ( 1 2 4 5 8 )
+( 1 2 4 5 8 ) –> ( 1 2 4 5 8 )
+( 1 2 4 5 8 ) –> ( 1 2 4 5 8 )
+
+Worst and Average Case Time Complexity: O(n*n). Worst case occurs when array is reverse sorted.
+Best Case Time Complexity: O(n). Best case occurs when array is already sorted.
+Auxiliary Space: O(1)
+Boundary Cases: Bubble sort takes minimum time (Order of n) when elements are already sorted.
+
+### 7.3 Shell Sort
+
+Shell sort, developed by Donald L. Shell, is a non-stable in-place sort. Shell sort improves on the efficiency of insertion
+sort by quickly shifting values to their destination. Average sort time is O(n1.25), while worst-case time is O(n1.5).
+
+We begin by doing an insertion sort using a spacing of two. In the first frame w e examine numbers 3-1. Extracting 1,
+we shift 3 down one slot for a shift count of 1. Next, we examine numbers 5 -2. We extract 2, shift 5 down, and  then
+insert 2. After sorting with a spacing of two, a final pass is made with a spacing of one. This is simp ly the traditional
+insertion sort. The total shift count using shell sort is 1+1+1 = 3. By using an initial spacing larger than one, we were
+able to quickly shift values to their proper destination.
+
+### 7.4 Merge Sort
+
+Merge sort is a divide -and-conquer algorithm based on the idea of breaking down a list into several sub -lists until
+each sub-list consists of a single element and merging those sub-lists in a manner that results into a sorted list.
+
+- **Divide the unsorted list into N sub** — lists, each containing 1 element.
+
+- Take adjacent pairs of two singleton lists and merge them to form a list of 2 elements. N will now convert into
+N/2
+
+- N/2 lists of size 2.
+
+- Repeat the process till a single sorted list of obtained.
+
+MERGE-SORT(A,p,q,r)
+1. if p <r
+2. then q ← (r + p)/2
+## 3. MERGE-SORT(A, p, q )
+## 4. MERGE-SORT(A,q+1,r)
+## 5. MERGE(A, p, q, r)
+6. n1←q-p+1
+7. n2←r-q
+8. create arrays L[1...N1+1] and R[1...N2+1]
+9. for i←1 to N1
+10. do L[i] ← A[p+i-1]
+11. for j ← 1 to n2
+12. do R[j] ← A[q+j]
+## 13. L[N1+1] ← ∞
+## 14. R[N2+1] ← ∞
+15. i ← 1
+16. j ← 1
+
+17. for k ← p to r
+18. do if L[i] ≤ R[j]
+19. then A[k] ← L[i]
+20. i ← i+1
+21. else A[k] ← R[j]
+22. j ← j+1
+
+Following is an example of merge sort:
+
+Analysis of Merge sort
+Analyze the asymptotic complexity of merge sort:
+
+void mergesort (int[] A, int lower, int upper)
+//@requires 0 <= lower && lower <= upper && upper <= \length(A);
+// modifies A;
+//@ensures is_sorted(A, lower, upper);
+{
+if (upper-lower <= 1) return;
+else {
+int mid = lower + (upper-lower)/2;
+mergesort(A, lower, mid); //@assert is_sorted(A, lower, mid);
+mergesort(A, mid, upper); //@assert is_sorted(A, mid, upper);
+merge(A, lower, mid, upper);
+}
+}
+
+If we call mergesort with an range (upper − lower ) of size n, it makes recursive calls of size n/2, possibly r ounding
+one or the other down. To avoid special cases and rounding, we just assume that the original range n is a power of 2.
+
+When each pair of recursive calls returns, we have to perform a merge operation which takes O(m), where m is the
+size of resulting sorted range. For example, at the root node we need O(n) operations to perform the merge. At the
+next level of recursion, both left and right subrange are of size n/2, each requiring O(n/2) operations to merge, which
+means that the second level in the tree is also O(n). At the next level subranges have size
+O(n/4), but there are 4 of them, so again processing this layer requires O (n) operations. Overall, there will be log(n)
+layers, each layer requiring a total amount of work of O(n), leading to an overall complexity of O(n ∗ log(n)).
+
+Time Complexity: Sorting arrays on different machines. Merge Sort is a recursive algorithm and ti me complexity can
+be expressed as following recurrence relation.
+T(n) = 2T(n/2) + Θ(n)
+
+Time complexity of Merge Sort is Θ (nLogn) in all 3 cases (worst, average and best) as merge sort always divides the
+array in two halves and take linear time to merge two halves.
+Auxiliary Space: O(n)
+Algorithmic Paradigm: Divide and Conquer
+
+### 7.5 Quick Sort
+
+Quick sort is based on the divide-and-conquer approach based on the idea of choosing one element as a pivot element
+and partitioning the array around it such that: Left side of p ivot contains all the elements that are less than the pivot
+element Right side contains all elements greater than the pivot.
+
+It reduces the space complexity and removes the use of the auxiliary array that is used in merge sort. Selecting a
+random pivot in an array results in an improved time complexity in most of the cases.
+1. Pick an arbitrary element of the array (the pivot).
+2. Divide the array into two subarrays, those that are smaller and those that are greater (the partition phase).
+3. Recursively sort the subarrays.
+4. Put the pivot in the middle, between the two sorted subarrays to obtain the final sorted array.
+
+The pivot value divides the list into two parts. And recursively, we find the pivot for each sub -lists until all lists
+contains only one element.
+
+Quick Sort Pivot Algorithm
+Step 1 − Choose the highest index value has pivot
+Step 2 − Take two variables to point left and right of the list excluding pivot
+Step 3 − left points to the low index
+Step 4 − right points to the high
+Step 5 − while value at left is less than pivot move right
+Step 6 − while value at right is greater than pivot move left
+Step 7 − if both step 5 and step 6 does not match swap left and right
+Step 8 − if left ≥ right, the point where they met is new pivot
+
+function partitionFunc(left, right, pivot)
+leftPointer = left
+rightPointer = right - 1
+
+while True do
+while A[++leftPointer] < pivot do
+//do-nothing
+end while
+
+while rightPointer > 0 && A[--rightPointer] > pivot do
+//do-nothing
+end while
+
+if leftPointer >= rightPointer
+
+break
+else
+swap leftPointer,rightPointer
+end if
+
+end while
+
+swap leftPointer,right
+return leftPointer
+
+end function
+
+Quick Sort Algorithm
+Step 1 − Make the right-most index value pivot
+Step 2 − partition the array using pivot value
+Step 3 − quicksort left partition recursively
+Step 4 − quicksort right partition recursively
+
+procedure quickSort(left, right)
+
+if right-left <= 0
+return
+else
+pivot = A[right]
+partition = partitionFunc(left, right, pivot)
+quickSort(left,partition-1)
+quickSort(partition+1,right)
+end if
+
+end procedure
+
+Complexity The worst case time complexity of this algorithm is O(N2) , but as this is randomized algorithm, its time
+complexity fluctuates between O(N2) and O(NlogN) and mostly it comes out to be O(NlogN).
+
+### 7.6 Selection Sort
+
+The selection sort algorithm sorts a list of values by successively putting values in their final, sorted positions.
+
+Consider a list of numeric values that should be in ascending (increasing) order:
+1. Scan the entire list and find the smallest value.
+2. Exchange that value with the value in the first position of the list.
+3. Scan the list, omitting the first value, and find the smallest value.
+4. Exchange that value with the value in the second position of the list.
+5. Scan the list, omitting the first two values, and find the smallest value.
+6. Exchange that value with the value in the third position of the list.
+7. Continue this process for all but the last position in the list, which will contain the largest value.
+
+Procedure selection sort
+list : array of items;   n : size of list
+
+for i = 1 to n - 1
+/* set current element as minimum*/
+min = i
+
+/* check the element to be minimum */
+
+for j = i+1 to n
+
+if list[j] < list[min] then
+min = j;
+end if
+end for
+
+/* swap the minimum element with the current element*/
+if indexMin != i  then
+swap list[min] and list[i]
+end if
+
+end for
+
+end procedure
+
+Time Complexity: O(n2) as there are two nested loops.
+
+### 7.7 Radix Sort
+
+Radix sort is an integer sorting algorithm that sorts data with integer keys  by grouping the keys by individual digits
+that share the same significant position and value (place value). Radix sort uses counting sort as a subroutine to sort
+an array of numbers. Because integers can be used to represent strings (by hashing the string s to integers), radix sort
+works on data types other than just integers.
+
+Example:
+327 470 418 146
+476 382 327 173
+285 173 146 259
+418 285 259 285
+568 476 568 327
+382 146 470 382
+146 327 173 418
+259 418 476 470
+173 568 382 476
+470 259 285 568
+
+Input Sorted by LS digit Sorted by Middle digit Sorted by Most sig
+digit
+
+Algorithm radix-sort (a)
+
+Step 1: for i = 0 to 9 do
+Step 2:  empty-bin(i);
+Step 3:  for position = least significant digit to most significant digit
+Step 4:   for i = 1 to n do
+Step 5:    x = digit in the position of a[i];
+Step 6:     put a[i] in BIN x;
+Step 7:      i =1;
+Step 8:       for j = 0 to 9 do
+Step 9:  while (BIN(j) <> empty) do
+Step 10:  a[i] = get-element(BIN(j));
+Step 11:    i = i + 1;
+
+Time Complexity comparison of Sorting Algorithms
+Algorithm Time Complexity
+Best Average Worst
+Quick Sort O(n log(n)) O(n log(n)) O(n2)
+Merge Sort O(n log(n)) O(n log(n)) O(n log(n))
+Heap Sort O(n log(n)) O(n log(n)) O(n log(n))
+
+Bubble Sort O(n) O(n2) O(n2)
+Insertion Sort O(n) O(n2) O(n2)
+Select Sort O(n2) O(n2) O(n2)
+Bucket Sort O(n+k) O(n+k) O(n2)
+Radix Sort O(nk) O(nk) O(nk)
+
+## 8. Hashing
+
+Now-a-days it is impossible to find anything in the internet, unless we develop new  data structures and algorithms
+for storing and accessing data. So, what is wrong with traditional data structures like Arrays and Linked Lists?
+Suppose we have a very large data set stored in an array. The amount of time required to look up an element in the
+array is either O(log n) or O( n) based on whether the array is sorted or not. If the array is sorted then a technique such
+as binary search can be used to search the array. Otherwise, the array must be searched linearly. Either case may not
+be desirable if we need to process a very large data set. Therefore we have a new technique called hashing that allows
+us to update and retrieve any entry in constant time O(1). The constant time or O(1) performance means, the amount
+of time to perform the operation does not depend on data size n.
+
+Hashing using Arrays
+When implementing a hash table using arrays, the nodes are not stored consecutively, instead the location of storage
+is computed using the key and a hash function. The computation of the array index can be visualized as shown below:
+
+The value computed by applying the hash function to the key is often referred to as the hashed key. The entries into
+the array, are scattered (not necessarily sequential) as can be seen in figure below.
+
+Hashing is implemented in two steps:
+
+- An element is converted into an int eger by using a hash function. This element can be used as an index to
+store the original element, which falls into the hash table.
+
+- The element is stored in the hash table where it can be quickly retrieved using hashed key.
+hash = hashfunc(key)
+index = hash % array_size
+
+In this method, the hash is independent of the array size and it is then reduced to an index (a number between 0 and
+array_size − 1) by using the modulo operator (%).
+
+A hash function is any function that can be used to map a data set of an  arbitrary size to a data set of a fixed size,
+which falls into the hash table. The values returned by a hash function are called hash values, hash codes, hash sums,
+or simply hashes. To achieve a good hashing mechanism, It is important to have a good hash  function with t he
+following basic requirements:
+
+- Easy to compute: It should be easy to compute and must not become an algorithm in itself.
+
+- Uniform distribution: It should provide a uniform distribution across the hash table and should not result in
+clustering.
+
+- Less collisions: Collisions occur when pairs of elements are mapped to the same hash value. These should be
+avoided.
+
+Note: Irrespective of how good a hash function is, collisions are bound to occur. Therefore, to maintain the
+performance of a hash table, it is important to manage collisions through various collision resolution techniques.
+
+Our goal is to create a hash function that minimizes the number of collisions, is easy to compute, and evenly
+distributes the items in the hash table. There are a n umber of common ways to extend the simple remainder method.
+We will consider a few of them here.
+
+Folding method:
+The folding method for constructing hash functions begins by dividing the item into equal -size pieces (the last piece
+may not be of equal size ). These pieces are then added together to give the resulting hash value. For example, if our
+item was a sequence of numbers 436 -555-4601, we would take the digits and divide them into groups of 2
+(43,65,55,46,01).
+
+After the addition, 43+65+55+46+0143+65+55+46+01, we get 210.
+If we assume our hash table has 11 slots, then we need to perform the extra step of dividing by 11 and keeping the
+remainder. In this case 210 % 11210 % 11 is 1, so the number sequence 436 -555-4601 hashes to slot 1. Some folding
+methods go one step further and reverse every other piece before the addition. For the above example, we get
+43+56+55+64+01=21943+56+55+64+01=219 which gives 219 % 11=10219 % 11=10.
+
+Mid-Square method:
+Another numerical technique for constructing a  hash function is called the  mid-square method. We first square the
+item, and then extract some portion of the resulting digits. For example, if the item were 44, we would first compute
+442=1,936442=1,936. By extracting the middle two digits, 93, and performing the remainder step, we get 5 (93 % 1193
+% 11).
+
+Collision Removal
+When two items hash to the same slot, we must have a systematic method for placing the second item in the hash
+table. This process is called collision resolution. One method for resolving collisions looks into the hash table and tries
+to find another open slot to hold the item that caused the collision. A simple way to do this is to start at the original
+hash value position and then move in a sequential manner through the slots unt il we encounter the first slot th at is
+empty. We may need to go back to the first slot (circularly) to cover the entire hash table. This collision resolution
+process is referred to as open addressing in that it tries to find the next open slot or address i n the hash table. By
+systematically visiting each slot one at a time, we are performing an open addressing technique called linear probing.
+
+A disadvantage to linear probing is the tendency for clustering; items become clustered in the table. This means that if
+many collisions occur at t he same hash value, a number of surrounding slots will be filled by the linear probing
+resolution. This will have an impact on other items that are being inserted. One way to deal with clustering is to
+extend the linear pro bing technique so that instead of  looking sequentially for the next open slot, we skip slots,
+thereby more evenly distributing the items that have caused collisions. This will potentially reduce the clustering that
+occurs.
+
+
+
+
+---
+
+## Interactive Practice Quiz Deck
+
+Test your mastery with our complete interactive multiple-choice assessment deck. Select an answer to evaluate your reasoning and reveal detailed explanatory feedback!
+
+```quiz
+[
+  {
+    "question": "Q1. A binary search tree whose left sub tree and  right sub tree differ in height by at most 1 unit is called ……",
+    "options": [
+      "AVL tree",
+      "Red-black tree",
+      "Lemma tree",
+      "None of the above",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 5,
+    "explanation": "2.  (c)"
+  },
+  {
+    "question": "Q2. ……………….. level is where the model becomes compatible executable code",
+    "options": [
+      "Abstract level",
+      "Application level",
+      "Implementation level",
+      "All of the above",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q3. Stack is also called as",
+    "options": [
+      "Last in first out",
+      "First in last out",
+      "Last in last out",
+      "First in first out",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "4.  (c)"
+  },
+  {
+    "question": "Q4. Which of the following is true abou t the characteristics of abstract data types? (i) It exports a type. (ii) It exports a set of operations",
+    "options": [
+      "True, False",
+      "False, True",
+      "True, True",
+      "False, False",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q5. …………… is not the component of data structure.",
+    "options": [
+      "Operations",
+      "Storage Structures",
+      "Algorithms",
+      "None of above",
+      "Programming"
+    ],
+    "correctIndex": 3,
+    "explanation": "6.  (a) push, pop"
+  },
+  {
+    "question": "Q6. Inserting an item into the stack when stack is not full is called …………. Operation and deletion of item form the stack, when stack is not empty is called ………..operation.",
+    "options": [
+      "Push, pop",
+      "Pop, push",
+      "Insert, delete",
+      "Delete, insert",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q7. ……………. Is a pile in which items are added at one end and removed from the other.",
+    "options": [
+      "Stack",
+      "Queue",
+      "List",
+      "None of the above",
+      "Zoom"
+    ],
+    "correctIndex": 1,
+    "explanation": "Queue"
+  },
+  {
+    "question": "Q8. ………… is very useful i n situation when data have to stored and then retrieved in reverse order.",
+    "options": [
+      "Stack",
+      "Queue",
+      "List",
+      "Link list",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "9.  (b) Queues"
+  },
+  {
+    "question": "Q9. Which data structure allows deleting data elements from and inserting at rear?",
+    "options": [
+      "Stacks",
+      "Queues",
+      "Dequeues",
+      "Binary search tree",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q10. Which of the following data structure can’t store the non-homogeneous data elements?",
+    "options": [
+      "Arrays",
+      "Records",
+      "Pointers",
+      "Stacks",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "11.  (d)"
+  },
+  {
+    "question": "Q11. Which of the following is non-liner data structure?",
+    "options": [
+      "Stacks",
+      "List",
+      "Strings",
+      "Trees",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q12. To represent hierarchical relationship between elements, Which data structure is suitable?",
+    "options": [
+      "Dequeue",
+      "Priority",
+      "Tree",
+      "Graph",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "13.  (b)"
+  },
+  {
+    "question": "Q13. Which data st ructure is used in breadth first search of a graph to hold nodes?",
+    "options": [
+      "Stack",
+      "Queue",
+      "Tree",
+      "Array",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q14. In a stack, if a user tries to remove an element from empty stack it is called _________",
+    "options": [
+      "Underflow",
+      "Empty collection",
+      "Overflow",
+      "Garbage Collection",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "15.  (a) It is possible to get into infinite loop."
+  },
+  {
+    "question": "Q15. The disadvantage in using a circular linked list is …………………….",
+    "options": [
+      "It is possible to get into infinite loop.",
+      "Last node points to first node.",
+      "Time consuming",
+      "Requires more memory space",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q16. Deletion operation is done by using ……… in a queue.",
+    "options": [
+      "Front",
+      "Rear",
+      "Top",
+      "List",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "17.  (a); The property of heap that the value of root must be either greater or less than both of its children makes it work like a priority queue."
+  },
+  {
+    "question": "Q17. Heap can be used as…",
+    "options": [
+      "Priority queue",
+      "Stack",
+      "A decreasing order array",
+      "None of these",
+      "A increasing order array"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q18. Which of the following is true?",
+    "options": [
+      "A graph may contain no edges and many vertices",
+      "A graph may contain many edges and no vertices",
+      "A graph may contain no edges and no vertices",
+      "None of these",
+      "All of the above"
+    ],
+    "correctIndex": 1,
+    "explanation": "19.  (b)"
+  },
+  {
+    "question": "Q19. Quick Sort can be categorized into which of the following?",
+    "options": [
+      "Brute Force technique",
+      "Divide and conquer",
+      "Greedy algorithm",
+      "Dynamic programming",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q20. What is the worst case complexity of Quick Sort?",
+    "options": [
+      "O(nlogn)",
+      "O(logn)",
+      "O(n)",
+      "O(n2)",
+      "None of these"
+    ],
+    "correctIndex": 3,
+    "explanation": "21.  (b)"
+  },
+  {
+    "question": "Q21. The number of comparisons done by sequential search is ………………",
+    "options": [
+      "(N/2)+1",
+      "(N+1)/2",
+      "(N-1)/2",
+      "(N+2)/2",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q22. In ……………, search start at the beginning of the list and check every element in the list.",
+    "options": [
+      "Linear search",
+      "Binary search",
+      "Hash Search",
+      "Binary Tree search",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "23.  (d)"
+  },
+  {
+    "question": "Q23. State True or False. (i) Binary search is used for searching in a sorted array. (ii) The time complexity of binary search is O(log n).",
+    "options": [
+      "True, False",
+      "False, True",
+      "False, False",
+      "True, True",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q24. Which of the following is not the internal sort?",
+    "options": [
+      "Insertion Sort",
+      "Bubble Sort",
+      "Merge Sort",
+      "Heap Sort",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "25.  (a)"
+  },
+  {
+    "question": "Q25. State True or False. (i) An undirec ted graph which contains no cycles is called forest. (ii) A graph is said to be complete if there is an edge between every pair of vertices.",
+    "options": [
+      "True, True",
+      "False, True",
+      "False, False",
+      "True, False",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q26. What is the time complexity of inserting at the end in dynamic arrays?",
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "Either O(1) or O(n)",
+      "None of these"
+    ],
+    "correctIndex": 3,
+    "explanation": "27.  (d)"
+  },
+  {
+    "question": "Q27. Linked lists are not suitable to for the implementation of?",
+    "options": [
+      "Insertion sort",
+      "Radix sort",
+      "Polynomial manipulation",
+      "Binary search",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q28. Linked list data structure offers considerable saving in",
+    "options": [
+      "Computational Time",
+      "Space Utilization",
+      "Space Utilization and Computational Time",
+      "None of these",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 6,
+    "explanation": "29.  (d)"
+  },
+  {
+    "question": "Q29. Which of the following  sorting a lgorithms can be used to sort a random linked list with minimum time complexity?",
+    "options": [
+      "Insertion Sort",
+      "Quick Sort",
+      "Heap Sort",
+      "Merge Sort",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q30. The time complexity of quick sort is …………..",
+    "options": [
+      "O(n)",
+      "O(n2)",
+      "O(n log n)",
+      "O(log n)",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "31.  (d)"
+  },
+  {
+    "question": "Q31. In a priority queue, insertion and deletion takes place at ………………",
+    "options": [
+      "Front, rear end",
+      "Only at rear end",
+      "Only at front end",
+      "Any position",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q32. While deleting nodes from a binary heap,  ………. node is replaced by the last leaf in the tree.",
+    "options": [
+      "Left leaf",
+      "Right leaf",
+      "Root",
+      "Cycle",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "33.  (a)"
+  },
+  {
+    "question": "Q33. The worst case complexity of deleting any arbitrary node value element from heap is",
+    "options": [
+      "O(log n)",
+      "O(n)",
+      "O(n log n)",
+      "O(n2)",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q34. Which algorithmic technique does Fibonacci search use?",
+    "options": [
+      "Brute force",
+      "Divide and Conquer",
+      "Greedy Technique",
+      "Backtracking",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "35.  (a); In Depth First Search, we explore all the nodes aggressively to one path and then backtrack to the node. Hence, it is  equivalent to the pre -order traversal of a Binary Tree."
+  },
+  {
+    "question": "Q35. Depth First Search is equivalent to which of the traversal in the Binary Trees?",
+    "options": [
+      "Pre-order Traversal",
+      "Post-order Traversal",
+      "Level-order Traversal",
+      "In-order Traversal",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q36. Time Complexity of DFS is? (V – number of vertices, E – number of edges)",
+    "options": [
+      "O(V + E)",
+      "O(V)",
+      "O",
+      "",
+      "None of these",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 0,
+    "explanation": "The Depth First Search explores every node once and every edge once (in worst case), so it’s time complexity is O(V + E)."
+  },
+  {
+    "question": "Q37. The Data structure used in standard implementation of depth first search is?",
+    "options": [
+      "Stack",
+      "Queue",
+      "Linked List",
+      "None of these",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 5,
+    "explanation": "The Depth First Search is implemented u sing recursion. So, stack can be used as data structure to implement depth first search."
+  },
+  {
+    "question": "Q38. The complexity of sorting algorithm measures the ..……  as a fu nction of the number n of items to be sorter.",
+    "options": [
+      "Average time",
+      "Running time",
+      "Average-case complexity",
+      "Case-complexity",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "39.  (c)"
+  },
+  {
+    "question": "Q39. If the number of records to be sorted is small, then …… sorting can be efficient.",
+    "options": [
+      "Merge",
+      "Heap",
+      "Selection",
+      "Bubble",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q40. Partition and exchange sort is ……..",
+    "options": [
+      "Quick sort",
+      "Tree sort",
+      "Heap sort",
+      "Bubble sort",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "41.  (b)"
+  },
+  {
+    "question": "Q41. In ………… ; for any node n, every descendant node’s value in the left sub tree of n is less than the value of n and every descendant node’s value in the right sub tree is greater than the value n.",
+    "options": [
+      "Binary tree",
+      "Binary search tree",
+      "AVL tree",
+      "Binary heap tree",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q42. In the best case of BST, the time is on  the order of …………, but in the worst case it requires linear time.",
+    "options": [
+      "log₂n",
+      "n",
+      "log₂(n+1)",
+      "n+1",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "43.  (a); Preorder traversal"
+  },
+  {
+    "question": "Q43. ………………….  of binary search tree starts by visiting the current node, then its left child and then its right child.",
+    "options": [
+      "Preorder traversal",
+      "In-order traversal",
+      "Linear traversal",
+      "Post-order traversal",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q44. State True or False for internal sorting algorithms.  (i) Internal sorting are applied when the entire collection if data to be sorted is small eno ugh that the sorting can take place within main memory. (ii) The time requ ired to read or write is considered to be significant in evaluating the performance of internal sorting.",
+    "options": [
+      "i-True, ii-True",
+      "i-True, ii-False",
+      "i-False, ii-True",
+      "i-False, ii-False",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "45.  (a); Number of nodes is maximum for a perfect binary tree. A perfect binary tree of height h has 2h+1 - 1 nodes Number of nodes is minimum for a skewed binary tree. A perfect binary tree of height h has h+ 1 node."
+  },
+  {
+    "question": "Q45. The height of a tree is the length of the longest root-to-leaf path in it. The maximum and minimum number of nodes in a binary tree of height 5 is.",
+    "options": [
+      "63 and 6, respectively",
+      "64 and 5, respectively",
+      "32 and 6, respectively",
+      "31 and 5, respectively",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q46. In a binary tree, t he number of internal nodes of degree 1 is 5, and the number of internal nodes of degree 2 is 10. The number of leaf nodes in the binary tree is",
+    "options": [
+      "10",
+      "11",
+      "12",
+      "15",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "In a binary tree, the number of leaf nodes is always 1 more than number of internal nodes with 2 children So, Number of Lea f Nodes = Number of Internal nodes with 2 children + 1 Number of Leaf Nodes = 10 + 1 Number of Leaf Nodes = 11"
+  },
+  {
+    "question": "Q47. Breadth First Search (BFS) is started on a binary tre e beginning from the root vertex. There is a vertex t at a distance four from the root. If t is the n -th vertex in this BFS traversal, then the maximum possible value of n is ________",
+    "options": [
+      "15",
+      "16",
+      "31",
+      "32",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "t is the nth vertex in this BFS traversal at distance four from the root. So height of tree is 4. Max number of nodes = 2h+1 − 1 = 31 At distance four, last node is 31."
+  },
+  {
+    "question": "Q48. The maximum nu mber of binary trees that can be formed with three unlabeled nodes is:",
+    "options": [
+      "1",
+      "5",
+      "4",
+      "3",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "49.  (d)"
+  },
+  {
+    "question": "Q49. When does top value of the stack changes?",
+    "options": [
+      "Before deletion",
+      "While checking underflow",
+      "At the time of deletion",
+      "After deletion",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q50. ……………… is known as a greedy algorithm, because it chooses at each step the cheapest edge to add to sub graph S.",
+    "options": [
+      "Kruskal’s algorithm",
+      "Prim’s algorithm",
+      "Dijkstra algorithm",
+      "Bellman ford algorithm",
+      "None of these"
+    ],
+    "correctIndex": 1,
+    "explanation": "51.  (a)"
+  },
+  {
+    "question": "Q51. The result of prim’s algo rithm is a total time bound of ………………",
+    "options": [
+      "O(log n)",
+      "O(m + n log n)",
+      "O(mn)",
+      "O(m log n)",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q52. Which function plays an important role in returning the address of memory block allocated to locat e / store  a node especially while  declaring ' top ' in the linked representation of the Stack? - Published on 28 Aug 15",
+    "options": [
+      "galloc ()",
+      "falloc ()",
+      "malloc ()",
+      "calloc ()",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "53.  (c)"
+  },
+  {
+    "question": "Q53. Which of the following statements is/are TRUE for an undirected graph? (i) Number of odd degree vertices is even (ii) Sum of degrees of all vertices is even",
+    "options": [
+      "Only I",
+      "Only ii",
+      "Both i and ii",
+      "Neither i nor ii",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q54. The Average case occurs in linear search algorithm  ……….",
+    "options": [
+      "When item is somewhere in the m iddle of the array",
+      "When item is not the array at all",
+      "When item is the last element in the array",
+      "Item is the last element in the array or item is not there at all",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "55.  (c)"
+  },
+  {
+    "question": "Q55. Which of the followi ng is not the required condition for binary search algorithm?",
+    "options": [
+      "The list must be sorted",
+      "There should be the direct access to the middle element in any sub list",
+      "There must be mechanism to delete and/or insert elements in list.",
+      "Both",
+      "and",
+      "",
+      "None of these"
+    ],
+    "correctIndex": 5,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q56. For a linear search in an array of n elements the time complexity for best, worst and average case are ....... ,   ........ and ........ respectively.",
+    "options": [
+      "O(n), O(1), and O(n/2)",
+      "O(1), O(n) and O(n/2)",
+      "O(1),O(n) and O(n)",
+      "O(1), O(n) and (n-1/2)",
+      "None of these"
+    ],
+    "correctIndex": 2,
+    "explanation": "57.  (b); Because in selection sort algorithm we randomly access data rather than a list in which we can easily swap data which we want to swap and it takes less time. So, answer is option 'b'"
+  },
+  {
+    "question": "Q57. Which of the following sorting methods will be the best if number of swapping done, is the only measure of efficiently?",
+    "options": [
+      "Bubble sort",
+      "Selection sort",
+      "Insertion sort",
+      "Quick sort",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  },
+  {
+    "question": "Q58. The maximum number of comparisons needed to sort 7 items using radix sort is (assume each item is 4 digit decimal number)",
+    "options": [
+      "280",
+      "40",
+      "47",
+      "38",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "The maximum number of comparison is number of items ´ radix ´ number of digits i.e., 7 x 10 x 4 = 280."
+  },
+  {
+    "question": "Q59. Which of the following statements are correct? I.  If each tree nod e contains a father field, then it's not necessary to use either stack or threads II.  Traversal using father pointers is more time efficient than traversal of a threaded tree III. A in -threaded binary tree is defined as binary tree that is both left-in threaded and right-in threaded.",
+    "options": [
+      "II and III",
+      "I and III",
+      "I and II",
+      "None of these",
+      "Both",
+      "and",
+      ""
+    ],
+    "correctIndex": 6,
+    "explanation": "60.  (c)  10 Software Engineering  1. Introduction  Software engine ering is a systematic and disciplined approach to developing software. It applies both computer science and engineering principles and practices to the creation, operation, and maintenance of software systems.  Significance of Software Engineering • software systems are the most complex artefacts ever constructed by humans • software is developed for clients who do not understand how software works • software developers often do not understand the application domain of the software • many software projects are never completed, and many software systems are never used after being delivered • software increasingly pervades our daily lives • bad software endangers lives and property  What is Software Development Life Cycle? Software development life cycle is a step-by-step process involved in the development of a software product. It is also denoted as software development process in certain parts of the world. The whole process is generally classified into a set of steps and a specific operation will be carried out in each of the steps.  Classification The basic classification of the whole process is as follows • Planning • Analysis • Design • Development • Implementation • Testing • Deployment • Maintenance  Each of the steps of the process has its own importance and plays a significant p art in the product development. The description of each of the steps can give a better understanding.  Planning This is the first and foremost stage in the develo pment and one of the most important stages. The basic motive is to plan the total project and to estimate the merits and demerits of the project. The planning phase includes the definition of the intended system, development of the project plan, and parall el management of the plan throughout the proceedings. A good and matured plan can create a ver y good initiative and can positively affect the complete project.  The main aim of the analysis phase is to perform statistics and requirements gathering. Based o n the analysis of the project and due to the influence of the results of the planning phase, t he requirements for the project are decided and gathered. Once the requirements for the project are gathered, they are prioritized and made ready for further use. The decisions taken in the analysis phase are out -and-out due to the requirements analysis. P roceedings after the current phase are defined.  Design Once the analysis is over, the design phase begins. The aim is to create the architecture of the total sys tem. This is one of the important stages of the process and serves to be a benchmark stage sin ce the errors performed until this stage and during this stage can be cleared here. Most of the developers have the habit of developing a prototype of the entire software and represent the software as a miniature model. The flaws, both technical and design , can be found and removed and the entire process can be redesigned.  Development and Implementation The development and implementation phase is the most important phase since it is the phase where the main part of the project is done. The basic works in clude the design of the basic technical architecture and the maintenance of the database records and programs related to the development process. One of the main scenarios is the implementation of the prototype model into a full -fledged working environment , which is the final product or software.  Testing The testing phase is one of the final stages of the development process and this is the phase where the final adjustments are made before presenting the completely developed software to the end-user. In general, the testers encounter the problem of removing the logical errors and bugs. The test conditions which are decided in the analysis phase are applied to the s ystem and if the output obtained is equal to the intended output, it means that the software is ready to be provided to the user.  Maintenance The toughest job is encountered in the maintenance phase which normally accounts for the highest amount of money. The maintenance team is decided such that they monitor on the change in organization of the s oftware and report to the developers, in case a need arises.  2. Software Process Models A software life cycle model defines entry and exit criteria for every phase. A phase can start only if its phase -entry criteria have been satisfied. So, without software life cycle model the entry and exit criteria for a phase cannot be recognized.  Different software life cycle models Many life cycle models have been proposed so far. Each of them has some advantages as well as some disadvantages. A few important and commonly used life cycle models are as follows: • Waterfall Model • Prototyping Model • Evolutionary Model • Spiral Model  2.1 The Waterfall Model  As the original  software process model, it can be viewed as a “first approximation” of the activities needed in the software development process.  Some versions provide feedback loops from each stage to the previous ones, but it is most used as a simple linear model as s hown in Figure. In reality , it is only suitable for projects in which all the customer requirements are k nown at the outset of the project, a rare condition, even for small scale projects.  Also note that a working version of the system is only available late in the project, a problem addressed by the incremental process models. Below is the Figure of Waterfall Model:  2.2 Evolutionary Process Models These models are designed to grow the final software system by iterative cumulative development.  For example, Rapid Prototyping is sometimes used at the beginning of projects to obtain improved understanding o f the customer requirements.  The prototype ca n either be a throw-away or can be extended to the development of the entire system.  Prototype is a working model of software with some limited functionality. The prototype does not always hold the exact logic used in the actual software application and is an extra effort to be considered under effort estimation.  Prototyping is used to allow the users evaluate developer proposals and try them out before implementation. It also helps understand the requireme nts which are user specific and may not have b een considered by the developer during product design.  Advantages of prototyping models • Important functionalities can be considered separately. • Requirements can be “discovered” at the prompting of • an iteration. • Customers & managers feel a sense of progress. • Prototypes are often used to win customer contracts (especially in bidding).  Challenges of Prototyping • Identifying the subset of requirements for the next iteration can be difficult. • Establishing consistency is a repetitive work, particularly when a new subset of requirements bears • no relationships with the existing ones • Moreover, it is a tedious and time-consuming work • The project deadline is difficult to predict. • No visible end to the set of iterations • Poses “maintenance” problems  The Spiral  Model combines elements of the waterfall model and rapid prototyping to implement evolutionary development as shown in Figure 2 below.  Each traversal around the spiral, beginning with Objectives, represents a new more complete version of the system with a risk assessment each time around.  Each version can be viewed as a system prototype during any phase of the evolutionary development. For example, one of the spiral traversals might represent the system design and another might focus on integration testing.  In the Concurrent Development Model, all activities in the process model exist concurrently in various states such as “awaiting changes”, “none” and “under development”.  This model describes the software process  to be implemented as a network of act ivities rather than a simple linear process.  Component-Based Development uses off-the-shelf software packages as the defining characteristic of the process.  This is a software reuse approach and often leads to large reductions in cost and development tim e but depends on the nature and quality of the components library available.  3. Clean Room Software Engineering  Clean room software engineering (CSE) is a process model that removes defects before they can precipitate serious hazards. It is a team -oriented, theory based software, which is developed using the formal methods, correctness verification and Statistical Quality Assurance (SQA). Clean room management is based on the incremental model of software development, w hich accumulates into the final produc t. The approach combines mathematical -based methods of software specification, design and correctness verification with statistical, usage -based testing to certify software fitness for use. The main goal of clean room engineering is to produce zero error-based software by allowing correct designs, which avoid rework.  Clean Room Management process: 1. Project Planning: The main objective of this process is to ensure the software engineering processes are tailored for the project and they are well documented. This also ensures that project plan is well documented and defined. Another important objective is to ensure that the customer, the project team and the peer grou ps agree to the review.  2. Project Management Process: Th e main objective of the project management process is to manage the project which is implemented using cleanroom to deliver the software on schedule and within the budget. To establish and train Cleanroom teams, initiate tracking, control planned Cleanroom  processes, eliminate or  reduce risks, revise plans as necessary to accommodate changes and actual results, and continually improve Cleanroom team performance.  3. Performance Improvement Process: The main objectives of the performance improvement process is to continually evaluate and improve team performance by causal analysis of deviations from plans and faults found through the Correctness Verification and the Statistical Testing and Certification processes and evaluation and introduction of appropriate new technologies and processes.  Aspect-Oriented Software Development (AOSD)  AOSD is a new concept intended to model localized features, functions and information content that have impact across the software system.  It is sometimes called crosscutting co ncerns that go beyond me chanisms such as subroutines.  Aspect-Oriented Programming was built as a response to limitations of Object -Oriented Programming (OOP). Aspect-Oriented Programming (AOP) helps to provide a solution to the previous problem. Instead of objects, AOP deals with aspects. An aspect is a behavior that cuts through multiple objects.  One of the drawbacks to OOP is that certain things will crosscut objects and methods. That is, a single behavior will apply to multiple classes. An example is logging or monitoring; you would want to monitor/log updates to several classes in a financial program. In OOP, you have to add the logging to each class or method. AOP avoids this by treating this crosscutting behavior as an aspect, as opposed to an object.  Agile Development A somewhat controversial approach to the software process is to compress and overlap the traditional life cycle phases as much as possible with close customer partnership. The overriding objective is rapid time to delivery. “Extreme Programming” is also a t erm that is associated with this strategy.  Some have said that agile development models are appropriate for web applications developers, a group that has tended to resist the discipline of software processes.  4. Requirement Analysis and Modelling  Functional requirements: The functional requirements part discusses the functionalities required from the system. The system is considered to perform a set of high level functions {fi}. Each function fi of the system can be considered as a transformation of a set of input data (ii) to the corresponding set of output data (oi). The user can get some meaningful piece of work done using a high-level function.  Non-functional requirements: Non-functional requirements deal with the characteristics of the system which cannot be expressed as functions - such as the maintainability of the system, portability of the system, usability of the system, etc.  Non-functional requirements may include: • reliability issues, • accuracy of results, • human - computer interface issues, • constraints on the system implementation, etc.  Software Process Activities  Requirements Engineering Requirements engineering is about communicating with the customer.  The objective is to arrive at a written agreement describing the functionality of the software to be developed.  The final product of this activity is usually called a specification and forms the basis for all the development activities that follow.  It turns out that the activities of this stage of the development life cycle are among the most difficult, but perhaps the most important. The problem of developing a clear understanding of what the customer needs has become a classic challenge. Newcomers to the field are sometimes surprised to learn that the customer representatives themselves find it difficult to communicate their needs clearly. Given this state of affairs, projects frequently find themselves changing requirements throughout the development period.  The later in the development process that a requirement  is changed, the more difficult and more expensive that change becomes.  Therefore, what may seem to be excessive time spent on this first phase is in fact an excellent investment in risk reduction for the entire project.  Many tools are used at this stage  to increase confidence in understanding what the system should be like, including rapid prototyping, user scenarios and functions/feature lists.  Bringing modelling and design tools into this phase is not unusual.  Not surprisingly, this phase is characte rized by lengthy meetings between the developer and customer. The focus of this activity is on defining the operational characteristics of the software and has three primary goals of providing the following: • behavioral description of customer requirements with the emphasis on the what rather than the how • foundation for the software design • operational system definition that can be used for system validation after the software development is complete.  The following sub activities are identified with requirements analysis and modelling: Domain analysis Reusability is an important goal in software development since it reduces development costs, increases reliability and reduces development time.  Domain analysis is the process of identifying patterns tha t can be reused.  These patterns can be any common functions or features that have the potential for broad use across an application domain."
+  },
+  {
+    "question": "Q60. If each node in a tree has value greater the every value in its left sub tree and has value less than every value in its right sub tree, the tree is called",
+    "options": [
+      "Complete tree",
+      "Full binary tree",
+      "Binary search tree",
+      "AVL tree",
+      "None of these"
+    ],
+    "correctIndex": 0,
+    "explanation": "Correct answer based on professional knowledge concepts."
+  }
+]
+```
+
+---
+

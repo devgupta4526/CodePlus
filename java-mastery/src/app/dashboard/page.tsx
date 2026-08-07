@@ -38,7 +38,7 @@ const difficultyColors: Record<Difficulty, string> = {
 
 // ── Course catalog ────────────────────────────────────────────────────────────
 
-type CourseId = 'java' | 'coa' | 'python' | 'springboot';
+type CourseId = 'java' | 'coa' | 'python' | 'springboot' | 'ibps-so-it' | 'quants' | 'reasoning' | 'english';
 
 interface CourseEntry {
   id: CourseId;
@@ -80,6 +80,38 @@ const COURSES: CourseEntry[] = [
     label: 'Python & Django',
     sublabel: '60-day full-stack path',
     accentColor: '#2a78d6',
+    available: true,
+  },
+  {
+    id: 'ibps-so-it',
+    emoji: '🏛️',
+    label: 'IBPS SO IT Officer',
+    sublabel: 'Professional Knowledge · DBMS · OS · Networking · Security',
+    accentColor: '#3b82f6',
+    available: true,
+  },
+  {
+    id: 'quants',
+    emoji: '📐',
+    label: 'Quantitative Aptitude',
+    sublabel: 'Arithmetic · Geometry · Algebra · Statistics · Data Interpretation',
+    accentColor: '#f59e0b',
+    available: true,
+  },
+  {
+    id: 'reasoning',
+    emoji: '🧠',
+    label: 'Reasoning',
+    sublabel: 'Verbal · Non-Verbal · Analytical · Logical',
+    accentColor: '#ec4899',
+    available: true,
+  },
+  {
+    id: 'english',
+    emoji: '📘',
+    label: 'English Vocabulary',
+    sublabel: 'One Word Substitution · Idioms · Grammar · RC',
+    accentColor: '#0ea5e9',
     available: true,
   },
 ];

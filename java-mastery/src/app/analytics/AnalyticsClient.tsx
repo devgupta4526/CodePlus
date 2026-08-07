@@ -152,6 +152,10 @@ const COURSES_META = [
   { id: 'coa',        label: 'Computer Org & Arch', color: '#8b5cf6',              emoji: '💻' },
   { id: 'springboot', label: 'Spring Boot',       color: '#1baf7a',                emoji: '🍃' },
   { id: 'python',     label: 'Python & Django',   color: '#2a78d6',                emoji: '🐍' },
+  { id: 'ibps-so-it', label: 'IBPS SO IT Officer', color: '#3b82f6',              emoji: '🏛️' },
+  { id: 'quants',     label: 'Quantitative Aptitude', color: '#f59e0b',             emoji: '📐' },
+  { id: 'reasoning',  label: 'Reasoning',             color: '#ec4899',             emoji: '🧠' },
+  { id: 'english',    label: 'English Vocabulary',    color: '#0ea5e9',             emoji: '📘' },
 ] as const;
 
 
