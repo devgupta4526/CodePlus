@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Editor from '@monaco-editor/react';
+import { executeCode, executionText, type CodeExecutionResult } from '@/lib/codeRunner';
 import {
   Play, CheckCircle2, XCircle, Lightbulb, ChevronDown, ChevronUp,
   AlertCircle, Code2, Terminal, Eye, EyeOff,
@@ -24,15 +25,6 @@ interface Challenge {
   hints: string[];
 }
 
-interface RunResult {
-  stdout?: string | null;
-  stderr?: string | null;
-  compile_output?: string | null;
-  status?: { id: number; description: string };
-  message?: string;
-  mockMode?: boolean;
-}
-
 const diffColors = {
   beginner:     { bg: 'rgba(34,197,94,0.1)',  text: '#22C55E', border: 'rgba(34,197,94,0.2)' },
   intermediate: { bg: 'rgba(245,158,11,0.1)', text: '#F59E0B', border: 'rgba(245,158,11,0.2)' },
@@ -52,7 +44,8 @@ export function ChallengeCard({
 }) {
   const [code, setCode] = useState(challenge.starterCode);
   const [running, setRunning] = useState(false);
-  const [result, setResult] = useState<RunResult | null>(null);
+  const [result, setResult] = useState<CodeExecutionResult | null>(null);
+  const [runError, setRunError] = useState('');
   const [showHints, setShowHints] = useState(false);
   const [revealedHints, setRevealedHints] = useState(0);
   const [showSolution, setShowSolution] = useState(false);
@@ -63,17 +56,13 @@ export function ChallengeCard({
   async function runCode() {
     setRunning(true);
     setResult(null);
+    setRunError('');
     setTestsPassed(null);
     try {
-      const res = await fetch('/api/run-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
-      });
-      const data: RunResult = await res.json();
+      const data = await executeCode(code, 'java', challenge.testCases[0]?.input ?? '');
       setResult(data);
 
-      if (!data.mockMode && data.status?.id === 3 && data.stdout) {
+      if (data.status.id === 3 && data.stdout) {
         // Status 3 = Accepted
         const actual = data.stdout.trim();
         const passed = challenge.testCases.every(
@@ -82,19 +71,14 @@ export function ChallengeCard({
         setTestsPassed(passed);
         if (passed) onSolved(challenge.id);
       }
-    } catch {
-      setResult({ message: 'Network error — could not reach the code runner.' });
+    } catch (error) {
+      setRunError(error instanceof Error ? error.message : 'Could not reach the code runner.');
     } finally {
       setRunning(false);
     }
   }
 
-  const output =
-    result?.stdout ||
-    result?.compile_output ||
-    result?.stderr ||
-    result?.message ||
-    null;
+  const output = result ? executionText(result) : runError || null;
 
   return (
     <motion.div
@@ -260,7 +244,7 @@ export function ChallengeCard({
 
               {/* Output */}
               <AnimatePresence>
-                {result && (
+                {(result || runError) && (
                   <motion.div
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -297,9 +281,7 @@ export function ChallengeCard({
                           ? '✓ All tests passed!'
                           : testsPassed === false
                           ? '✗ Output mismatch — check your logic'
-                          : result.mockMode
-                          ? 'Mock mode — set RAPIDAPI_KEY to run real code'
-                          : result.status?.description || 'Output'}
+                          : result?.status.description || 'Execution error'}
                       </span>
                     </div>
                     <pre className="px-4 py-3 text-xs font-mono text-[var(--text-secondary)] bg-[var(--code-bg)] leading-relaxed whitespace-pre-wrap max-h-40 overflow-y-auto">

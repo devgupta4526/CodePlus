@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { CodeBlock } from '@/components/mdx/CodeBlock';
+import { executeCode, executionText, type CodeLanguage } from '@/lib/codeRunner';
 import {
   Trophy,
   Clock,
@@ -53,7 +54,6 @@ interface Contest {
   description: string;
   locked: boolean;
 }
-
 interface ContestProblem {
   id: string;
   title: string;
@@ -242,6 +242,7 @@ export function ContestsClient() {
   const [isConsoleOpen, setIsConsoleOpen] = useState<boolean>(false);
   const [execOutput, setExecOutput] = useState<string>('Click Run to execute.');
   const [execError, setExecError] = useState<string>('');
+  const [isRunning, setIsRunning] = useState(false);
 
   // Resizable split state
   const [descWidthPct, setDescWidthPct] = useState(42);
@@ -312,26 +313,34 @@ export function ContestsClient() {
     setExecError('');
   };
 
-  const handleRunCode = () => {
+  const handleRunCode = async () => {
     const currentProblem = activeProblems[activeProblemIdx];
     const code = editorCodes[currentProblem.id]?.[activeLang] || '';
-    if (activeLang === 'javascript') {
-      const result = runJavaScript(code);
-      setExecOutput(result.output || 'No output.');
-      setExecError(result.error);
-    } else {
-      setExecOutput(`Execution for ${activeLang.toUpperCase()} is not supported in this browser environment.`);
-      setExecError('');
-    }
+    setIsRunning(true);
     setIsConsoleOpen(true);
+    setExecOutput('Submitting to Judge0…');
+    setExecError('');
+    try {
+      const result = await executeCode(code, activeLang as CodeLanguage);
+      setExecOutput(executionText(result));
+      setExecError(result.status.id === 3 ? '' : result.status.description);
+      return result.status.id === 3;
+    } catch (error) {
+      setExecOutput('Execution failed');
+      setExecError(error instanceof Error ? error.message : 'The code runner is unavailable.');
+      return false;
+    } finally {
+      setIsRunning(false);
+    }
   };
 
-  const handleSubmitCode = () => {
+  const handleSubmitCode = async () => {
     const currentProblem = activeProblems[activeProblemIdx];
-    setSubmittedProblems((prev) => ({ ...prev, [currentProblem.id]: true }));
-    setExecOutput("All tests passed! (15/15 test cases succeeded)");
-    setExecError("");
-    setIsConsoleOpen(true);
+    const accepted = await handleRunCode();
+    if (accepted) {
+      setSubmittedProblems((prev) => ({ ...prev, [currentProblem.id]: true }));
+      setExecOutput((output) => `${output}\n\nSubmission executed successfully. Hidden test-case judging is not available yet.`);
+    }
   };
 
   const handleFinishContest = () => {
@@ -603,14 +612,17 @@ export function ContestsClient() {
 
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={handleRunCode}
-                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-[var(--border-color)] text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-elevated)] cursor-pointer transition-colors"
+                    onClick={() => void handleRunCode()}
+                    disabled={isRunning}
+                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-[var(--border-color)] text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-elevated)] cursor-pointer transition-colors disabled:cursor-wait disabled:opacity-60"
                   >
-                    <Play className="w-3 h-3" /> Run Code
+                    {isRunning ? <span className="h-3 w-3 animate-spin rounded-full border-2 border-current/30 border-t-current" /> : <Play className="w-3 h-3" />}
+                    {isRunning ? 'Running…' : 'Run Code'}
                   </button>
                   <button
-                    onClick={handleSubmitCode}
-                    className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10"
+                    onClick={() => void handleSubmitCode()}
+                    disabled={isRunning}
+                    className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10 disabled:cursor-wait disabled:opacity-60"
                   >
                     Submit
                   </button>
@@ -953,21 +965,4 @@ export function ContestsClient() {
       </div>
     </div>
   );
-}
-
-// Helper to execute Javascript natively
-function runJavaScript(code: string) {
-  const logs: string[] = [];
-  const logger = (...args: unknown[]) =>
-    logs.push(args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' '));
-  try {
-    const executor = new Function('console', `'use strict';\n${code}`);
-    executor({ log: logger, error: logger, warn: logger, info: logger });
-    return {
-      output: logs.length > 0 ? logs.join('\n') : 'Code executed — no console output.',
-      error: '',
-    };
-  } catch (err) {
-    return { output: logs.join('\n'), error: err instanceof Error ? err.message : 'Execution failed.' };
-  }
 }

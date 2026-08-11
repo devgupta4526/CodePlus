@@ -1,77 +1,138 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { CodeLanguage } from '@/lib/codeRunner';
 
-// Judge0 CE language IDs
-// 62 = Java (OpenJDK 13.0.1)
-const JAVA_LANGUAGE_ID = 62;
+export const runtime = 'nodejs';
+
 const JUDGE0_URL = process.env.JUDGE0_URL || 'https://judge0-ce.p.rapidapi.com';
-const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
+const RAPIDAPI_HOST = new URL(JUDGE0_URL).host;
+const MAX_CODE_LENGTH = 64_000;
+const MAX_STDIN_LENGTH = 16_000;
+
+// Judge0 CE language IDs exposed by the official RapidAPI instance.
+const LANGUAGE_IDS: Record<CodeLanguage, number> = {
+  cpp: 54,
+  java: 62,
+  javascript: 63,
+  typescript: 74,
+  python: 71,
+};
+
+interface JudgeResult {
+  status?: { id: number; description: string };
+  stdout?: string | null;
+  stderr?: string | null;
+  compile_output?: string | null;
+  message?: string | null;
+  time?: string | null;
+  memory?: number | null;
+}
+
+function decode(value?: string | null) {
+  if (!value) return '';
+  try {
+    return Buffer.from(value, 'base64').toString('utf8');
+  } catch {
+    return value;
+  }
+}
+
+function headers(apiKey: string) {
+  return {
+    'Content-Type': 'application/json',
+    'X-RapidAPI-Key': apiKey,
+    'X-RapidAPI-Host': RAPIDAPI_HOST,
+  };
+}
+
+export async function GET() {
+  return NextResponse.json({
+    configured: Boolean(process.env.RAPIDAPI_KEY),
+    provider: 'Judge0 CE via RapidAPI',
+    languages: Object.keys(LANGUAGE_IDS),
+  });
+}
 
 export async function POST(request: NextRequest) {
-  const { code, stdin = '' } = await request.json();
-
-  if (!code) {
-    return NextResponse.json({ error: 'No code provided' }, { status: 400 });
+  const apiKey = process.env.RAPIDAPI_KEY;
+  if (!apiKey) {
+    return NextResponse.json(
+      { error: 'Code execution is not configured. Add RAPIDAPI_KEY to the server environment.' },
+      { status: 503 },
+    );
   }
 
-  // If no Judge0 key configured, return a helpful mock response
-  if (!RAPIDAPI_KEY) {
-    return NextResponse.json({
-      status: { id: 0, description: 'Not Configured' },
-      stdout: null,
-      stderr: null,
-      compile_output: null,
-      message: 'RAPIDAPI_KEY is not set in .env.local — code execution is disabled. See SETUP.md for instructions.',
-      mockMode: true,
-    });
+  let body: { code?: unknown; language?: unknown; stdin?: unknown };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Request body must be valid JSON.' }, { status: 400 });
   }
+
+  const code = typeof body.code === 'string' ? body.code : '';
+  const stdin = typeof body.stdin === 'string' ? body.stdin : '';
+  const language = body.language as CodeLanguage;
+
+  if (!code.trim()) return NextResponse.json({ error: 'Enter some code before running it.' }, { status: 400 });
+  if (!(language in LANGUAGE_IDS)) return NextResponse.json({ error: 'Unsupported programming language.' }, { status: 400 });
+  if (code.length > MAX_CODE_LENGTH) return NextResponse.json({ error: 'Code is too large (64 KB maximum).' }, { status: 413 });
+  if (stdin.length > MAX_STDIN_LENGTH) return NextResponse.json({ error: 'Standard input is too large (16 KB maximum).' }, { status: 413 });
 
   try {
-    // Submit to Judge0
-    const submitRes = await fetch(`${JUDGE0_URL}/submissions?base64_encoded=false&wait=false`, {
+    const submitResponse = await fetch(`${JUDGE0_URL}/submissions?base64_encoded=true&wait=false`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-RapidAPI-Key': RAPIDAPI_KEY,
-        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
-      },
+      headers: headers(apiKey),
       body: JSON.stringify({
-        source_code: code,
-        language_id: JAVA_LANGUAGE_ID,
-        stdin,
+        source_code: Buffer.from(code).toString('base64'),
+        stdin: Buffer.from(stdin).toString('base64'),
+        language_id: LANGUAGE_IDS[language],
         cpu_time_limit: 5,
         memory_limit: 128000,
       }),
+      signal: AbortSignal.timeout(10_000),
+      cache: 'no-store',
     });
 
-    if (!submitRes.ok) {
-      const body = await submitRes.text();
-      return NextResponse.json({ error: `Judge0 submission failed: ${body}` }, { status: 502 });
+    if (!submitResponse.ok) {
+      console.error('Judge0 submission failed', submitResponse.status);
+      const status = submitResponse.status === 401 || submitResponse.status === 403 ? 503 : 502;
+      return NextResponse.json(
+        { error: status === 503 ? 'The RapidAPI key is invalid or is not subscribed to Judge0 CE.' : 'The code execution provider rejected the submission.' },
+        { status },
+      );
     }
 
-    const { token } = await submitRes.json();
+    const submission = (await submitResponse.json()) as { token?: string };
+    if (!submission.token) throw new Error('Judge0 did not return a submission token');
 
-    // Poll for result (max 10 attempts, 1s apart)
-    for (let i = 0; i < 10; i++) {
-      await new Promise((r) => setTimeout(r, 1000));
-      const resultRes = await fetch(
-        `${JUDGE0_URL}/submissions/${token}?base64_encoded=false&fields=status,stdout,stderr,compile_output,time,memory`,
-        {
-          headers: {
-            'X-RapidAPI-Key': RAPIDAPI_KEY,
-            'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
-          },
-        }
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const resultResponse = await fetch(
+        `${JUDGE0_URL}/submissions/${submission.token}?base64_encoded=true&fields=status,stdout,stderr,compile_output,message,time,memory`,
+        { headers: headers(apiKey), signal: AbortSignal.timeout(10_000), cache: 'no-store' },
       );
-      const result = await resultRes.json();
-      // Status 1 = In Queue, 2 = Processing
-      if (result.status?.id > 2) {
-        return NextResponse.json(result);
+
+      if (!resultResponse.ok) {
+        console.error('Judge0 result lookup failed', resultResponse.status);
+        return NextResponse.json({ error: 'Could not retrieve the execution result.' }, { status: 502 });
+      }
+
+      const result = (await resultResponse.json()) as JudgeResult;
+      if ((result.status?.id ?? 0) > 2) {
+        return NextResponse.json({
+          status: result.status,
+          stdout: decode(result.stdout),
+          stderr: decode(result.stderr),
+          compileOutput: decode(result.compile_output),
+          message: decode(result.message),
+          time: result.time ?? null,
+          memory: result.memory ?? null,
+        });
       }
     }
 
-    return NextResponse.json({ error: 'Execution timed out' }, { status: 504 });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: 'Execution did not finish within 10 seconds.' }, { status: 504 });
+  } catch (error) {
+    console.error('Code execution failed', error instanceof Error ? error.message : error);
+    return NextResponse.json({ error: 'The code runner could not be reached.' }, { status: 502 });
   }
 }

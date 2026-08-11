@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
 import { CodeBlock } from '@/components/mdx/CodeBlock';
+import { executeCode, executionText } from '@/lib/codeRunner';
 import {
   Terminal,
   Code2,
@@ -105,22 +106,6 @@ const difficultyDot: Record<Difficulty, string> = {
   Hard:   'bg-[#FF5F57]',
 };
 
-function runJavaScript(code: string) {
-  const logs: string[] = [];
-  const logger = (...args: unknown[]) =>
-    logs.push(args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' '));
-  try {
-    const executor = new Function('console', `'use strict';\n${code}`);
-    executor({ log: logger, error: logger, warn: logger, info: logger });
-    return {
-      output: logs.length > 0 ? logs.join('\n') : 'Code executed — no console output.',
-      error: '',
-    };
-  } catch (err) {
-    return { output: logs.join('\n'), error: err instanceof Error ? err.message : 'Execution failed.' };
-  }
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function PracticePage() {
@@ -134,6 +119,7 @@ export default function PracticePage() {
   const [problemFilter, setProblemFilter] = useState<'all' | Difficulty>('all');
   const [problemOutput, setProblemOutput] = useState('Click Run to execute.');
   const [problemError, setProblemError] = useState('');
+  const [problemRunning, setProblemRunning] = useState(false);
 
   // Playground state
   const [selectedChallengeId, setSelectedChallengeId] = useState(playgroundChallenges[0].id);
@@ -144,6 +130,7 @@ export default function PracticePage() {
   const [editorCode, setEditorCode] = useState(playgroundChallenges[0].starterCode);
   const [execOutput, setExecOutput] = useState('Click Run to execute JavaScript.');
   const [execError, setExecError] = useState('');
+  const [playgroundRunning, setPlaygroundRunning] = useState(false);
 
   // MCQ state
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
@@ -172,14 +159,19 @@ export default function PracticePage() {
     setProblemError('');
   }
 
-  function handleRunProblem() {
-    if (activeLang === 'javascript') {
-      const result = runJavaScript(editorCode);
-      setProblemOutput(result.output || 'No output.');
-      setProblemError(result.error);
-    } else {
-      setProblemOutput(`Execution for ${LANGUAGES.find(l => l.id === activeLang)?.label} is not supported in this browser environment.`);
-      setProblemError('');
+  async function handleRunProblem() {
+    setProblemRunning(true);
+    setProblemOutput('Submitting to Judge0…');
+    setProblemError('');
+    try {
+      const result = await executeCode(editorCode, activeLang);
+      setProblemOutput(executionText(result));
+      setProblemError(result.status.id === 3 ? '' : result.status.description);
+    } catch (error) {
+      setProblemOutput('Execution failed');
+      setProblemError(error instanceof Error ? error.message : 'The code runner is unavailable.');
+    } finally {
+      setProblemRunning(false);
     }
   }
 
@@ -192,10 +184,20 @@ export default function PracticePage() {
     setExecError('');
   }
 
-  function handleRun() {
-    const result = runJavaScript(editorCode);
-    setExecOutput(result.output || 'No output.');
-    setExecError(result.error);
+  async function handleRun() {
+    setPlaygroundRunning(true);
+    setExecOutput('Submitting to Judge0…');
+    setExecError('');
+    try {
+      const result = await executeCode(editorCode, 'javascript');
+      setExecOutput(executionText(result));
+      setExecError(result.status.id === 3 ? '' : result.status.description);
+    } catch (error) {
+      setExecOutput('Execution failed');
+      setExecError(error instanceof Error ? error.message : 'The code runner is unavailable.');
+    } finally {
+      setPlaygroundRunning(false);
+    }
   }
 
   const MODES = [
@@ -257,6 +259,7 @@ export default function PracticePage() {
                 onEditorChange={(v) => setEditorCode(v ?? '')}
                 execOutput={problemOutput}
                 execError={problemError}
+                isRunning={problemRunning}
                 onRun={handleRunProblem}
               />
             </motion.div>
@@ -271,6 +274,7 @@ export default function PracticePage() {
                 editorCode={editorCode}
                 execOutput={execOutput}
                 execError={execError}
+                isRunning={playgroundRunning}
                 onChallengeChange={handleChallengeChange}
                 onEditorChange={(v) => setEditorCode(v ?? '')}
                 onRun={handleRun}
@@ -304,7 +308,7 @@ function ProblemsPanel({
   problems, filteredProblems, problemFilter, setProblemFilter,
   selectedProblem, completed, onSelectProblem, onToggleCompleted,
   activeLang, onLangChange, showSolution, onToggleSolution,
-  editorCode, onEditorChange, execOutput, execError, onRun,
+  editorCode, onEditorChange, execOutput, execError, isRunning, onRun,
 }: {
   problems: Problem[];
   filteredProblems: Problem[];
@@ -322,7 +326,8 @@ function ProblemsPanel({
   onEditorChange: (v: string | undefined) => void;
   execOutput: string;
   execError: string;
-  onRun: () => void;
+  isRunning: boolean;
+  onRun: () => Promise<void>;
 }) {
   const [descWidthPct, setDescWidthPct] = useState(42);
   const [isDragging, setIsDragging] = useState(false);
@@ -624,9 +629,12 @@ function ProblemsPanel({
                 >
                   {/* Console Header */}
                   <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--border-color)] bg-[var(--surface-elevated)] shrink-0">
-                    <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
-                      <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
+                        <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
+                      </span>
+                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 · RapidAPI</span>
+                    </div>
                     <button
                       onClick={() => setIsConsoleOpen(false)}
                       className="p-1 rounded hover:bg-[var(--surface)] text-[var(--text-disabled)] hover:text-[var(--text-primary)] cursor-pointer"
@@ -658,12 +666,14 @@ function ProblemsPanel({
             </button>
             <button
               onClick={() => {
-                onRun();
+                void onRun();
                 setIsConsoleOpen(true);
               }}
-              className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10"
+              disabled={isRunning}
+              className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10 disabled:cursor-wait disabled:opacity-60"
             >
-              <Play className="w-3.5 h-3.5" /> Run Code
+              {isRunning ? <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" /> : <Play className="w-3.5 h-3.5" />}
+              {isRunning ? 'Running…' : 'Run Code'}
             </button>
           </div>
         </div>
@@ -676,7 +686,7 @@ function ProblemsPanel({
 
 function PlaygroundPanel({
   challenges, selectedChallengeId, selectedChallenge,
-  editorCode, execOutput, execError,
+  editorCode, execOutput, execError, isRunning,
   onChallengeChange, onEditorChange, onRun, onReset
 }: {
   challenges: PlaygroundChallenge[];
@@ -685,9 +695,10 @@ function PlaygroundPanel({
   editorCode: string;
   execOutput: string;
   execError: string;
+  isRunning: boolean;
   onChallengeChange: (id: string) => void;
   onEditorChange: (v: string | undefined) => void;
-  onRun: () => void;
+  onRun: () => Promise<void>;
   onReset: () => void;
 }) {
   const [descWidthPct, setDescWidthPct] = useState(42);
@@ -800,7 +811,7 @@ function PlaygroundPanel({
 
           <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)] text-xs text-[var(--text-muted)] leading-relaxed">
             <span className="font-semibold text-[var(--text-primary)]">Tip: </span>
-            Use `console.log()` to output your results. When you're ready, click "Run Code" in the bottom bar to see the results.
+            Use <code>console.log()</code> to output your results. When you&apos;re ready, click &quot;Run Code&quot; in the bottom bar to see the results.
           </div>
         </div>
 
@@ -856,9 +867,12 @@ function PlaygroundPanel({
                 >
                   {/* Console Header */}
                   <div className="flex items-center justify-between px-4 py-2 border-b border-[var(--border-color)] bg-[var(--surface-elevated)] shrink-0">
-                    <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
-                      <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
+                        <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
+                      </span>
+                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 · RapidAPI</span>
+                    </div>
                     <button
                       onClick={() => setIsConsoleOpen(false)}
                       className="p-1 rounded hover:bg-[var(--surface)] text-[var(--text-disabled)] hover:text-[var(--text-primary)] cursor-pointer"
@@ -897,12 +911,14 @@ function PlaygroundPanel({
               </button>
               <button
                 onClick={() => {
-                  onRun();
+                  void onRun();
                   setIsConsoleOpen(true);
                 }}
-                className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10"
+                disabled={isRunning}
+                className="flex items-center gap-1.5 px-5 py-1.5 rounded-lg bg-[var(--accent)] text-white text-xs font-semibold hover:bg-[var(--accent-hover)] cursor-pointer transition-all shadow-md shadow-[var(--accent)]/10 disabled:cursor-wait disabled:opacity-60"
               >
-                <Play className="w-3.5 h-3.5" /> Run Code
+                {isRunning ? <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" /> : <Play className="w-3.5 h-3.5" />}
+                {isRunning ? 'Running…' : 'Run Code'}
               </button>
             </div>
           </div>
