@@ -633,7 +633,7 @@ function ProblemsPanel({
                       <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
                         <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
                       </span>
-                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 · RapidAPI</span>
+                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 CE</span>
                     </div>
                     <button
                       onClick={() => setIsConsoleOpen(false)}
@@ -871,7 +871,7 @@ function PlaygroundPanel({
                       <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
                         <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" /> Output Console
                       </span>
-                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 · RapidAPI</span>
+                      <span className="rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--accent)]">Judge0 CE</span>
                     </div>
                     <button
                       onClick={() => setIsConsoleOpen(false)}

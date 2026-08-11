@@ -3,8 +3,8 @@ import type { CodeLanguage } from '@/lib/codeRunner';
 
 export const runtime = 'nodejs';
 
-const JUDGE0_URL = process.env.JUDGE0_URL || 'https://judge0-ce.p.rapidapi.com';
-const RAPIDAPI_HOST = new URL(JUDGE0_URL).host;
+const JUDGE0_URL = process.env.JUDGE0_URL || 'https://ce.judge0.com';
+const JUDGE0_HOST = new URL(JUDGE0_URL).host;
 const MAX_CODE_LENGTH = 64_000;
 const MAX_STDIN_LENGTH = 16_000;
 
@@ -36,31 +36,28 @@ function decode(value?: string | null) {
   }
 }
 
-function headers(apiKey: string) {
-  return {
+function headers() {
+  const requestHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
-    'X-RapidAPI-Key': apiKey,
-    'X-RapidAPI-Host': RAPIDAPI_HOST,
   };
+
+  if (JUDGE0_HOST.endsWith('rapidapi.com') && process.env.RAPIDAPI_KEY) {
+    requestHeaders['X-RapidAPI-Key'] = process.env.RAPIDAPI_KEY;
+    requestHeaders['X-RapidAPI-Host'] = JUDGE0_HOST;
+  }
+
+  return requestHeaders;
 }
 
 export async function GET() {
   return NextResponse.json({
-    configured: Boolean(process.env.RAPIDAPI_KEY),
-    provider: 'Judge0 CE via RapidAPI',
+    configured: true,
+    provider: JUDGE0_HOST === 'ce.judge0.com' ? 'Judge0 CE public service' : JUDGE0_HOST,
     languages: Object.keys(LANGUAGE_IDS),
   });
 }
 
 export async function POST(request: NextRequest) {
-  const apiKey = process.env.RAPIDAPI_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: 'Code execution is not configured. Add RAPIDAPI_KEY to the server environment.' },
-      { status: 503 },
-    );
-  }
-
   let body: { code?: unknown; language?: unknown; stdin?: unknown };
   try {
     body = await request.json();
@@ -80,7 +77,7 @@ export async function POST(request: NextRequest) {
   try {
     const submitResponse = await fetch(`${JUDGE0_URL}/submissions?base64_encoded=true&wait=false`, {
       method: 'POST',
-      headers: headers(apiKey),
+      headers: headers(),
       body: JSON.stringify({
         source_code: Buffer.from(code).toString('base64'),
         stdin: Buffer.from(stdin).toString('base64'),
@@ -96,7 +93,7 @@ export async function POST(request: NextRequest) {
       console.error('Judge0 submission failed', submitResponse.status);
       const status = submitResponse.status === 401 || submitResponse.status === 403 ? 503 : 502;
       return NextResponse.json(
-        { error: status === 503 ? 'The RapidAPI key is invalid or is not subscribed to Judge0 CE.' : 'The code execution provider rejected the submission.' },
+        { error: status === 503 ? 'The configured Judge0 service requires authentication.' : 'The code execution provider rejected the submission.' },
         { status },
       );
     }
@@ -108,7 +105,7 @@ export async function POST(request: NextRequest) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       const resultResponse = await fetch(
         `${JUDGE0_URL}/submissions/${submission.token}?base64_encoded=true&fields=status,stdout,stderr,compile_output,message,time,memory`,
-        { headers: headers(apiKey), signal: AbortSignal.timeout(10_000), cache: 'no-store' },
+        { headers: headers(), signal: AbortSignal.timeout(10_000), cache: 'no-store' },
       );
 
       if (!resultResponse.ok) {
