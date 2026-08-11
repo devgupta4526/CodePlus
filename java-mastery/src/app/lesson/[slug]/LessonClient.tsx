@@ -31,6 +31,7 @@ import { ReadingModeToggle, type ReadingMode } from '@/components/reader/Reading
 import { SlideReader } from '@/components/reader/SlideReader';
 import { ImageNotesSlider } from '@/components/notes/ImageNotesSlider';
 import { FullSizeSlideshowModal } from '@/components/notes/FullSizeSlideshowModal';
+import { PracticeSection } from '@/components/practice/PracticeSection';
 
 // ── Freemium config ────────────────────────────────────────────────────────────
 // Courses that are premium: first FREE_PREVIEW_COUNT lessons are always accessible.
@@ -417,6 +418,11 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                 </div>
               )}
 
+              {/* ── Practice & Implement Section ─────────────────────── */}
+              {!locked && (
+                <PracticeSection lessonSlug={meta.slug} lessonTitle={meta.title} />
+              )}
+
               {/* Completion CTA — only when unlocked */}
               {!locked && <div className="mt-12 p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] text-center">
                 <p className="text-sm text-[var(--text-muted)] mb-3">
@@ -683,7 +689,7 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                   <MDXRenderer content={content} />
                 </div>
 
-                {/* Completion CTA */}
+                {/* Completion CTA — only when unlocked */}
                 <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--surface)] text-center text-xs">
                   <p className="text-[var(--text-muted)] mb-2">
                     Finished this lesson?

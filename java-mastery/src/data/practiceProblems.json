@@ -1,0 +1,485 @@
+{
+  "how-java-works": [
+    {
+      "id": "hjw-1",
+      "title": "Hello World with JVM Info",
+      "description": "Write a Java program that prints 'Hello, Java!' and also prints the Java version using `System.getProperty(\"java.version\")`.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    public static void main(String[] args) {\n        // TODO: Print 'Hello, Java!'\n        // TODO: Print 'Java version: ' + System.getProperty(\"java.version\")\n    }\n}",
+      "solution": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java!\");\n        System.out.println(\"Java version: \" + System.getProperty(\"java.version\"));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Hello, Java!" }],
+      "hints": [
+        "Use System.out.println() for printing.",
+        "System.getProperty(\"java.version\") returns the current JRE version string."
+      ]
+    },
+    {
+      "id": "hjw-2",
+      "title": "Class vs Object Demo",
+      "description": "Create a `Car` class with fields `brand` and `year`. Instantiate two different Car objects and print both their details. This demonstrates how one class blueprint creates multiple objects.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class Car {\n        String brand;\n        int year;\n        Car(String brand, int year) {\n            // TODO: assign fields\n        }\n        void describe() {\n            // TODO: Print brand + \" (\" + year + \")\"\n        }\n    }\n    public static void main(String[] args) {\n        // TODO: Create two Car objects and call describe()\n    }\n}",
+      "solution": "public class Main {\n    static class Car {\n        String brand; int year;\n        Car(String brand, int year) { this.brand = brand; this.year = year; }\n        void describe() { System.out.println(brand + \" (\" + year + \")\"); }\n    }\n    public static void main(String[] args) {\n        new Car(\"Toyota\", 2020).describe();\n        new Car(\"Tesla\", 2023).describe();\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Toyota (2020)\nTesla (2023)" }],
+      "hints": [
+        "Use `this.brand = brand` inside the constructor.",
+        "Create objects with `new Car(\"Toyota\", 2020)`."
+      ]
+    }
+  ],
+  "variables-primitive-types": [
+    {
+      "id": "vpt-1",
+      "title": "Type Casting and Overflow",
+      "description": "Declare an `int` with value 2147483647 (Integer.MAX_VALUE). Add 1 to it and print the result — observe integer overflow. Then use a `long` to hold the correct value and print it.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    public static void main(String[] args) {\n        int maxInt = Integer.MAX_VALUE;\n        // TODO: Print maxInt + 1 (observe overflow)\n        // TODO: Declare long and print maxInt + 1L\n    }\n}",
+      "solution": "public class Main {\n    public static void main(String[] args) {\n        int maxInt = Integer.MAX_VALUE;\n        System.out.println(maxInt + 1);\n        long bigNum = (long) maxInt + 1;\n        System.out.println(bigNum);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "-2147483648\n2147483648" }],
+      "hints": [
+        "int + 1 wraps around to Integer.MIN_VALUE due to overflow.",
+        "Cast to long first: `(long) maxInt + 1` or use `1L`."
+      ]
+    },
+    {
+      "id": "vpt-2",
+      "title": "String vs char Manipulation",
+      "description": "Given a `String name = \"CodePulse\"`, print: (1) its length, (2) the first character, (3) the last character, (4) a substring of the first 4 characters.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    public static void main(String[] args) {\n        String name = \"CodePulse\";\n        // TODO: Print length\n        // TODO: Print first character using charAt(0)\n        // TODO: Print last character\n        // TODO: Print first 4 characters using substring\n    }\n}",
+      "solution": "public class Main {\n    public static void main(String[] args) {\n        String name = \"CodePulse\";\n        System.out.println(name.length());\n        System.out.println(name.charAt(0));\n        System.out.println(name.charAt(name.length() - 1));\n        System.out.println(name.substring(0, 4));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "9\nC\ne\nCode" }],
+      "hints": [
+        "Use `.length()` not `.length` for String.",
+        "Last char: `charAt(name.length() - 1)`.",
+        "substring(start, end) — end is exclusive."
+      ]
+    }
+  ],
+  "oop-fundamentals": [
+    {
+      "id": "oop-1",
+      "title": "Create an Animal Hierarchy",
+      "description": "Define an abstract class `Animal` with fields `name` and `sound`. Create concrete subclasses `Dog` and `Cat` that override `makeSound()`. Instantiate both and call `makeSound()` for each.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    abstract static class Animal {\n        String name;\n        // TODO: abstract method makeSound()\n    }\n\n    // TODO: Dog extends Animal\n    // TODO: Cat extends Animal\n\n    public static void main(String[] args) {\n        Animal dog = new Dog(\"Rex\");\n        Animal cat = new Cat(\"Whiskers\");\n        dog.makeSound();\n        cat.makeSound();\n    }\n}",
+      "solution": "public class Main {\n    abstract static class Animal {\n        String name;\n        Animal(String name) { this.name = name; }\n        abstract void makeSound();\n    }\n    static class Dog extends Animal {\n        Dog(String name) { super(name); }\n        void makeSound() { System.out.println(name + \" says: Woof!\"); }\n    }\n    static class Cat extends Animal {\n        Cat(String name) { super(name); }\n        void makeSound() { System.out.println(name + \" says: Meow!\"); }\n    }\n    public static void main(String[] args) {\n        Animal dog = new Dog(\"Rex\");\n        Animal cat = new Cat(\"Whiskers\");\n        dog.makeSound();\n        cat.makeSound();\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Rex says: Woof!\nWhiskers says: Meow!" }],
+      "hints": [
+        "Use the `abstract` keyword for the class and `makeSound()` method.",
+        "Each subclass must implement `makeSound()`.",
+        "Use `super(name)` in the subclass constructor to call the parent."
+      ]
+    },
+    {
+      "id": "oop-2",
+      "title": "Encapsulation with BankAccount",
+      "description": "Create a `BankAccount` class with a private `balance`. Add `deposit(double)`, `withdraw(double)` (no negative balances), and `getBalance()`. Test with deposit 1000, withdraw 250, then attempt to over-withdraw.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class BankAccount {\n        // TODO: private balance field\n        // TODO: deposit(double amount)\n        // TODO: withdraw(double amount) - print 'Insufficient funds' if fails\n        // TODO: getBalance() getter\n    }\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount();\n        acc.deposit(1000);\n        acc.withdraw(250);\n        System.out.println(\"Balance: \" + acc.getBalance());\n        acc.withdraw(1000);\n        System.out.println(\"Balance: \" + acc.getBalance());\n    }\n}",
+      "solution": "public class Main {\n    static class BankAccount {\n        private double balance = 0;\n        void deposit(double amount) { if (amount > 0) balance += amount; }\n        void withdraw(double amount) {\n            if (amount > balance) { System.out.println(\"Insufficient funds\"); return; }\n            balance -= amount;\n        }\n        double getBalance() { return balance; }\n    }\n    public static void main(String[] args) {\n        BankAccount acc = new BankAccount();\n        acc.deposit(1000); acc.withdraw(250);\n        System.out.println(\"Balance: \" + acc.getBalance());\n        acc.withdraw(1000);\n        System.out.println(\"Balance: \" + acc.getBalance());\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Balance: 750.0\nInsufficient funds\nBalance: 750.0" }],
+      "hints": [
+        "Use `private` for the balance field.",
+        "In `withdraw`, check if `amount > balance` before subtracting.",
+        "Return `balance` in the getter."
+      ]
+    },
+    {
+      "id": "oop-3",
+      "title": "Polymorphism with Shapes",
+      "description": "Create an abstract `Shape` class with abstract `area()`. Implement `Circle` (radius) and `Rectangle` (width, height). Use a `Shape[]` to print areas formatted to 2 decimal places.",
+      "difficulty": "intermediate",
+      "starterCode": "public class Main {\n    abstract static class Shape { abstract double area(); }\n    // TODO: Circle extends Shape\n    // TODO: Rectangle extends Shape\n    public static void main(String[] args) {\n        Shape[] shapes = { new Circle(5), new Rectangle(4, 6) };\n        for (Shape s : shapes) System.out.printf(\"%.2f%n\", s.area());\n    }\n}",
+      "solution": "public class Main {\n    abstract static class Shape { abstract double area(); }\n    static class Circle extends Shape {\n        double r; Circle(double r) { this.r = r; }\n        double area() { return Math.PI * r * r; }\n    }\n    static class Rectangle extends Shape {\n        double w, h; Rectangle(double w, double h) { this.w = w; this.h = h; }\n        double area() { return w * h; }\n    }\n    public static void main(String[] args) {\n        Shape[] shapes = { new Circle(5), new Rectangle(4, 6) };\n        for (Shape s : shapes) System.out.printf(\"%.2f%n\", s.area());\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "78.54\n24.00" }],
+      "hints": [
+        "Circle area = Math.PI * r * r.",
+        "Use `%.2f%n` in printf for 2 decimal places.",
+        "Store shapes as Shape[] and iterate polymorphically."
+      ]
+    }
+  ],
+  "constructors": [
+    {
+      "id": "cons-1",
+      "title": "Constructor Overloading",
+      "description": "Create a `Person` class with three constructors: no-arg (name='Unknown', age=0), name-only, and name+age. Print each variant.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class Person {\n        String name; int age;\n        // TODO: No-arg constructor (Unknown, 0)\n        // TODO: Constructor with name only\n        // TODO: Constructor with name and age\n        void print() { System.out.println(name + \" (\" + age + \")\"); }\n    }\n    public static void main(String[] args) {\n        new Person().print();\n        new Person(\"Alice\").print();\n        new Person(\"Bob\", 25).print();\n    }\n}",
+      "solution": "public class Main {\n    static class Person {\n        String name; int age;\n        Person() { this.name = \"Unknown\"; this.age = 0; }\n        Person(String name) { this.name = name; this.age = 0; }\n        Person(String name, int age) { this.name = name; this.age = age; }\n        void print() { System.out.println(name + \" (\" + age + \")\"); }\n    }\n    public static void main(String[] args) {\n        new Person().print();\n        new Person(\"Alice\").print();\n        new Person(\"Bob\", 25).print();\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Unknown (0)\nAlice (0)\nBob (25)" }],
+      "hints": [
+        "Define three separate constructors with different parameter lists.",
+        "You can chain with `this(...)` to avoid duplication."
+      ]
+    },
+    {
+      "id": "cons-2",
+      "title": "Builder Pattern Simulation",
+      "description": "Create a `Pizza` class using the Builder pattern. It should have fields `size`, `crust`, and `topping`. The builder should allow chaining like: `new Pizza.Builder(\"Large\").crust(\"Thin\").topping(\"Cheese\").build()`.",
+      "difficulty": "intermediate",
+      "starterCode": "public class Main {\n    static class Pizza {\n        String size, crust, topping;\n        private Pizza(Builder b) {\n            // TODO: assign from builder\n        }\n        public String toString() {\n            return size + \" pizza, \" + crust + \" crust, \" + topping;\n        }\n        static class Builder {\n            String size, crust = \"Regular\", topping = \"Plain\";\n            Builder(String size) { this.size = size; }\n            // TODO: crust() method returning Builder\n            // TODO: topping() method returning Builder\n            // TODO: build() returning Pizza\n        }\n    }\n    public static void main(String[] args) {\n        Pizza p = new Pizza.Builder(\"Large\").crust(\"Thin\").topping(\"Cheese\").build();\n        System.out.println(p);\n    }\n}",
+      "solution": "public class Main {\n    static class Pizza {\n        String size, crust, topping;\n        private Pizza(Builder b) { size = b.size; crust = b.crust; topping = b.topping; }\n        public String toString() { return size + \" pizza, \" + crust + \" crust, \" + topping; }\n        static class Builder {\n            String size, crust = \"Regular\", topping = \"Plain\";\n            Builder(String size) { this.size = size; }\n            Builder crust(String c) { this.crust = c; return this; }\n            Builder topping(String t) { this.topping = t; return this; }\n            Pizza build() { return new Pizza(this); }\n        }\n    }\n    public static void main(String[] args) {\n        Pizza p = new Pizza.Builder(\"Large\").crust(\"Thin\").topping(\"Cheese\").build();\n        System.out.println(p);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Large pizza, Thin crust, Cheese" }],
+      "hints": [
+        "Each Builder method should set the field and `return this;` for chaining.",
+        "The `Pizza` constructor is private — only the Builder can create it.",
+        "The inner Builder has access to Pizza's private constructor."
+      ]
+    }
+  ],
+  "interfaces-fundamentals": [
+    {
+      "id": "iface-1",
+      "title": "Implement Comparable for Sorting",
+      "description": "Create a `Student` class that implements `Comparable<Student>` by GPA (descending). Sort 3 students and print in order.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.Arrays;\npublic class Main {\n    static class Student implements Comparable<Student> {\n        String name; double gpa;\n        Student(String name, double gpa) { this.name = name; this.gpa = gpa; }\n        // TODO: compareTo for descending GPA\n    }\n    public static void main(String[] args) {\n        Student[] s = { new Student(\"Alice\",3.5), new Student(\"Bob\",3.9), new Student(\"Charlie\",3.2) };\n        Arrays.sort(s);\n        for (Student st : s) System.out.println(st.name + \": \" + st.gpa);\n    }\n}",
+      "solution": "import java.util.Arrays;\npublic class Main {\n    static class Student implements Comparable<Student> {\n        String name; double gpa;\n        Student(String n, double g) { name = n; gpa = g; }\n        public int compareTo(Student o) { return Double.compare(o.gpa, gpa); }\n    }\n    public static void main(String[] args) {\n        Student[] s = { new Student(\"Alice\",3.5), new Student(\"Bob\",3.9), new Student(\"Charlie\",3.2) };\n        Arrays.sort(s);\n        for (Student st : s) System.out.println(st.name + \": \" + st.gpa);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Bob: 3.9\nAlice: 3.5\nCharlie: 3.2" }],
+      "hints": [
+        "Descending: compare `other.gpa` to `this.gpa` (reversed).",
+        "Use `Double.compare(other.gpa, this.gpa)` for floating-point safety."
+      ]
+    },
+    {
+      "id": "iface-2",
+      "title": "Functional Interface with Lambda",
+      "description": "Define a functional interface `MathOperation` with a method `int operate(int a, int b)`. Implement addition, subtraction, and multiplication using lambdas. Call each and print results.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    @FunctionalInterface\n    interface MathOperation {\n        int operate(int a, int b);\n    }\n    public static void main(String[] args) {\n        // TODO: Define lambdas for add, subtract, multiply\n        // TODO: Print results of 10 add 5, 10 subtract 5, 10 multiply 5\n    }\n}",
+      "solution": "public class Main {\n    @FunctionalInterface\n    interface MathOperation { int operate(int a, int b); }\n    public static void main(String[] args) {\n        MathOperation add = (a, b) -> a + b;\n        MathOperation sub = (a, b) -> a - b;\n        MathOperation mul = (a, b) -> a * b;\n        System.out.println(add.operate(10, 5));\n        System.out.println(sub.operate(10, 5));\n        System.out.println(mul.operate(10, 5));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "15\n5\n50" }],
+      "hints": [
+        "A functional interface has exactly one abstract method.",
+        "Lambda syntax: `(a, b) -> a + b`.",
+        "Call it like a method: `add.operate(10, 5)`."
+      ]
+    }
+  ],
+  "exception-handling": [
+    {
+      "id": "exc-1",
+      "title": "Custom Exception Hierarchy",
+      "description": "Create `PaymentException` and `InsufficientFundsException extends PaymentException`. Write `processPayment(amount, balance)` — throws appropriate exception. Catch specifically and print messages.",
+      "difficulty": "intermediate",
+      "starterCode": "public class Main {\n    // TODO: PaymentException extends RuntimeException\n    // TODO: InsufficientFundsException extends PaymentException\n\n    static void processPayment(double amount, double balance) throws PaymentException {\n        // TODO: throw PaymentException if amount <= 0\n        // TODO: throw InsufficientFundsException if amount > balance\n        System.out.println(\"Payment of \" + amount + \" processed\");\n    }\n    public static void main(String[] args) {\n        try { processPayment(500, 200); }\n        catch (InsufficientFundsException e) { System.out.println(\"Funds error: \" + e.getMessage()); }\n        catch (PaymentException e) { System.out.println(\"Payment error: \" + e.getMessage()); }\n\n        try { processPayment(-10, 200); }\n        catch (InsufficientFundsException e) { System.out.println(\"Funds error: \" + e.getMessage()); }\n        catch (PaymentException e) { System.out.println(\"Payment error: \" + e.getMessage()); }\n    }\n}",
+      "solution": "public class Main {\n    static class PaymentException extends RuntimeException { PaymentException(String m) { super(m); } }\n    static class InsufficientFundsException extends PaymentException { InsufficientFundsException(double a, double b) { super(\"Need \" + a + \" but only have \" + b); } }\n    static void processPayment(double amount, double balance) throws PaymentException {\n        if (amount <= 0) throw new PaymentException(\"Amount must be positive\");\n        if (amount > balance) throw new InsufficientFundsException(amount, balance);\n        System.out.println(\"Payment of \" + amount + \" processed\");\n    }\n    public static void main(String[] args) {\n        try { processPayment(500, 200); }\n        catch (InsufficientFundsException e) { System.out.println(\"Funds error: \" + e.getMessage()); }\n        catch (PaymentException e) { System.out.println(\"Payment error: \" + e.getMessage()); }\n        try { processPayment(-10, 200); }\n        catch (InsufficientFundsException e) { System.out.println(\"Funds error: \" + e.getMessage()); }\n        catch (PaymentException e) { System.out.println(\"Payment error: \" + e.getMessage()); }\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Funds error: Need 500.0 but only have 200.0\nPayment error: Amount must be positive" }],
+      "hints": [
+        "Catch the more specific exception first.",
+        "Pass a descriptive message to `super(message)`.",
+        "Throw the most specific exception that fits."
+      ]
+    },
+    {
+      "id": "exc-2",
+      "title": "Try-With-Resources",
+      "description": "Create a `Resource` class that implements `AutoCloseable`. In its `use()` method print 'Using resource'. In `close()` print 'Resource closed'. Use it in a try-with-resources block.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class Resource implements AutoCloseable {\n        // TODO: use() method\n        // TODO: close() method\n    }\n    public static void main(String[] args) {\n        // TODO: try-with-resources block using Resource\n        System.out.println(\"After try block\");\n    }\n}",
+      "solution": "public class Main {\n    static class Resource implements AutoCloseable {\n        void use() { System.out.println(\"Using resource\"); }\n        public void close() { System.out.println(\"Resource closed\"); }\n    }\n    public static void main(String[] args) {\n        try (Resource r = new Resource()) {\n            r.use();\n        }\n        System.out.println(\"After try block\");\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Using resource\nResource closed\nAfter try block" }],
+      "hints": [
+        "Implement `AutoCloseable` and override `close()`.",
+        "Syntax: `try (Resource r = new Resource()) { ... }` — close() is called automatically.",
+        "`close()` is called even if an exception is thrown."
+      ]
+    }
+  ],
+  "collection-framework": [
+    {
+      "id": "col-1",
+      "title": "Frequency Counter with HashMap",
+      "description": "Count frequency of each character in \"programming\" using a HashMap. Print as 'char: count' sorted alphabetically.",
+      "difficulty": "beginner",
+      "starterCode": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        String input = \"programming\";\n        // TODO: Count frequency and print sorted alphabetically\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        String input = \"programming\";\n        Map<Character, Integer> freq = new TreeMap<>();\n        for (char c : input.toCharArray()) freq.merge(c, 1, Integer::sum);\n        freq.forEach((k, v) -> System.out.println(k + \": \" + v));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "a: 1\ng: 2\ni: 1\nm: 2\nn: 1\no: 1\np: 1\nr: 2" }],
+      "hints": [
+        "Use TreeMap to auto-sort by key.",
+        "`map.merge(key, 1, Integer::sum)` increments count cleanly.",
+        "Use `toCharArray()` to iterate characters."
+      ]
+    },
+    {
+      "id": "col-2",
+      "title": "ArrayList vs LinkedList",
+      "description": "Create an `ArrayList<String>` and add 'Java', 'Spring', 'Docker'. Remove the middle element. Then print all remaining. Then do the same with `LinkedList<String>` and print its first and last elements.",
+      "difficulty": "beginner",
+      "starterCode": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        // ArrayList\n        List<String> arrayList = new ArrayList<>(Arrays.asList(\"Java\", \"Spring\", \"Docker\"));\n        // TODO: Remove \"Spring\" and print remaining\n\n        // LinkedList\n        LinkedList<String> linked = new LinkedList<>(Arrays.asList(\"Java\", \"Spring\", \"Docker\"));\n        // TODO: Print first and last using getFirst()/getLast()\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<String> arrayList = new ArrayList<>(Arrays.asList(\"Java\", \"Spring\", \"Docker\"));\n        arrayList.remove(\"Spring\");\n        arrayList.forEach(System.out::println);\n        LinkedList<String> linked = new LinkedList<>(Arrays.asList(\"Java\", \"Spring\", \"Docker\"));\n        System.out.println(linked.getFirst());\n        System.out.println(linked.getLast());\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Java\nDocker\nJava\nDocker" }],
+      "hints": [
+        "Use `remove(Object)` to remove by value (not by index).",
+        "LinkedList has `getFirst()` and `getLast()` methods.",
+        "`forEach(System.out::println)` prints each element on a new line."
+      ]
+    }
+  ],
+  "functional-interfaces-lambdas": [
+    {
+      "id": "func-1",
+      "title": "Filter and Transform with Streams",
+      "description": "Given a list of integers 1-10, filter odd numbers, square them, sort, and print each.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);\n        // TODO: filter odds, square, sort, print\n    }\n}",
+      "solution": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7,8,9,10);\n        numbers.stream()\n            .filter(n -> n % 2 != 0)\n            .map(n -> n * n)\n            .sorted()\n            .forEach(System.out::println);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "1\n9\n25\n49\n81" }],
+      "hints": [
+        "`filter(n -> n % 2 != 0)` keeps odd numbers.",
+        "`map(n -> n * n)` squares each.",
+        "Chain `.sorted()` before `.forEach()`."
+      ]
+    },
+    {
+      "id": "func-2",
+      "title": "Group by Length with Collectors",
+      "description": "Given a list of words `[\"apple\", \"bat\", \"cat\", \"door\", \"ant\"]`, group them by their length using `Collectors.groupingBy`. Print each group sorted by key.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<String> words = Arrays.asList(\"apple\", \"bat\", \"cat\", \"door\", \"ant\");\n        // TODO: Group by length and print each key: [words] using TreeMap\n    }\n}",
+      "solution": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<String> words = Arrays.asList(\"apple\", \"bat\", \"cat\", \"door\", \"ant\");\n        Map<Integer, List<String>> grouped = words.stream()\n            .collect(Collectors.groupingBy(String::length, TreeMap::new, Collectors.toList()));\n        grouped.forEach((k, v) -> System.out.println(k + \": \" + v));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "3: [bat, cat, ant]\n4: [door]\n5: [apple]" }],
+      "hints": [
+        "Use `Collectors.groupingBy(String::length)` to group.",
+        "Pass `TreeMap::new` as the map factory to get sorted keys.",
+        "The result is `Map<Integer, List<String>>`."
+      ]
+    }
+  ],
+  "generics": [
+    {
+      "id": "gen-1",
+      "title": "Generic Stack Implementation",
+      "description": "Implement a generic `Stack<T>` with `push`, `pop` (throws if empty), `peek`, and `isEmpty`. Test with Integer and String.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\npublic class Main {\n    static class Stack<T> {\n        // TODO: Use ArrayList internally\n        // TODO: push, pop, peek, isEmpty\n    }\n    public static void main(String[] args) {\n        Stack<Integer> s = new Stack<>();\n        s.push(10); s.push(20); s.push(30);\n        System.out.println(s.pop());    // 30\n        System.out.println(s.peek());   // 20\n        System.out.println(s.isEmpty()); // false\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    static class Stack<T> {\n        private List<T> list = new ArrayList<>();\n        void push(T item) { list.add(item); }\n        T pop() { if (isEmpty()) throw new RuntimeException(\"Empty\"); return list.remove(list.size()-1); }\n        T peek() { if (isEmpty()) throw new RuntimeException(\"Empty\"); return list.get(list.size()-1); }\n        boolean isEmpty() { return list.isEmpty(); }\n    }\n    public static void main(String[] args) {\n        Stack<Integer> s = new Stack<>();\n        s.push(10); s.push(20); s.push(30);\n        System.out.println(s.pop());\n        System.out.println(s.peek());\n        System.out.println(s.isEmpty());\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "30\n20\nfalse" }],
+      "hints": [
+        "Use `ArrayList<T>` internally for storage.",
+        "Stack is LIFO: pop() removes the last element.",
+        "Type parameter T makes it reusable for any type."
+      ]
+    },
+    {
+      "id": "gen-2",
+      "title": "Bounded Type Parameter (Upper Bound)",
+      "description": "Write a generic method `sum(List<? extends Number> list)` that returns the sum of all numbers as a double. Test with a list of integers and a list of doubles.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\npublic class Main {\n    // TODO: generic method sum(List<? extends Number>) returning double\n    public static void main(String[] args) {\n        System.out.println(sum(Arrays.asList(1, 2, 3, 4, 5)));       // 15.0\n        System.out.println(sum(Arrays.asList(1.5, 2.5, 3.0)));       // 7.0\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    static double sum(List<? extends Number> list) {\n        double total = 0;\n        for (Number n : list) total += n.doubleValue();\n        return total;\n    }\n    public static void main(String[] args) {\n        System.out.println(sum(Arrays.asList(1, 2, 3, 4, 5)));\n        System.out.println(sum(Arrays.asList(1.5, 2.5, 3.0)));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "15.0\n7.0" }],
+      "hints": [
+        "`? extends Number` accepts List<Integer>, List<Double>, etc.",
+        "Call `.doubleValue()` on each Number to get a double.",
+        "This method works without code duplication for any numeric list."
+      ]
+    }
+  ],
+  "multithreading-part1": [
+    {
+      "id": "mt-1",
+      "title": "Create Threads Two Ways",
+      "description": "Create a thread by (1) extending `Thread` class — print 'Thread1 running'. Create another by (2) implementing `Runnable` — print 'Thread2 running'. Start both.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    // TODO: MyThread extends Thread\n    // TODO: MyRunnable implements Runnable\n    public static void main(String[] args) throws InterruptedException {\n        // TODO: Start both threads and join them\n    }\n}",
+      "solution": "public class Main {\n    static class MyThread extends Thread {\n        public void run() { System.out.println(\"Thread1 running\"); }\n    }\n    static class MyRunnable implements Runnable {\n        public void run() { System.out.println(\"Thread2 running\"); }\n    }\n    public static void main(String[] args) throws InterruptedException {\n        Thread t1 = new MyThread();\n        Thread t2 = new Thread(new MyRunnable());\n        t1.start(); t2.start();\n        t1.join(); t2.join();\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Thread1 running\nThread2 running" }],
+      "hints": [
+        "Extending Thread: override `run()` and call `start()`.",
+        "Implementing Runnable: pass it to `new Thread(runnable)` then call `start()`.",
+        "Use `.join()` to wait for threads to finish before main exits."
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "stream-1",
+      "title": "Word Count with Streams",
+      "description": "Given a list of sentences, split each into words, flatten to a single stream, count total words, and also find the longest word.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<String> sentences = Arrays.asList(\n            \"Java streams are powerful\",\n            \"functional programming is elegant\"\n        );\n        // TODO: Print total word count\n        // TODO: Print longest word\n    }\n}",
+      "solution": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        List<String> sentences = Arrays.asList(\n            \"Java streams are powerful\",\n            \"functional programming is elegant\"\n        );\n        List<String> words = sentences.stream()\n            .flatMap(s -> Arrays.stream(s.split(\" \")))\n            .collect(Collectors.toList());\n        System.out.println(words.size());\n        words.stream().max(Comparator.comparingInt(String::length))\n            .ifPresent(System.out::println);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "8\nfunctional" }],
+      "hints": [
+        "Use `flatMap(s -> Arrays.stream(s.split(\" \")))` to split and flatten.",
+        "`.size()` gives total count.",
+        "Use `max(Comparator.comparingInt(String::length))` for longest word."
+      ]
+    },
+    {
+      "id": "stream-2",
+      "title": "Optional Chain",
+      "description": "Write a method `getCity(String json)` that returns an Optional<String>. If the json contains 'city:', extract and return the city name, otherwise return empty. Use Optional chaining to print or a default.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.Optional;\npublic class Main {\n    static Optional<String> getCity(String json) {\n        // TODO: If json contains \"city:\", return Optional of the word after it\n        // Otherwise return Optional.empty()\n        // Hint: simple split by space, find token after \"city:\"\n        return Optional.empty();\n    }\n    public static void main(String[] args) {\n        System.out.println(getCity(\"name: Alice city: Mumbai\").orElse(\"Unknown\"));\n        System.out.println(getCity(\"name: Bob\").orElse(\"Unknown\"));\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    static Optional<String> getCity(String json) {\n        String[] parts = json.split(\" \");\n        for (int i = 0; i < parts.length - 1; i++)\n            if (parts[i].equals(\"city:\")) return Optional.of(parts[i+1]);\n        return Optional.empty();\n    }\n    public static void main(String[] args) {\n        System.out.println(getCity(\"name: Alice city: Mumbai\").orElse(\"Unknown\"));\n        System.out.println(getCity(\"name: Bob\").orElse(\"Unknown\"));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Mumbai\nUnknown" }],
+      "hints": [
+        "Split json by space and look for the token 'city:'.",
+        "The city name is the next token after 'city:'.",
+        "`Optional.of(value)` vs `Optional.empty()` — use `orElse` to unwrap safely."
+      ]
+    }
+  ],
+  "memory-management": [
+    {
+      "id": "mem-1",
+      "title": "Stack vs Heap Demo",
+      "description": "Create a method `createObjects()` that creates local primitives and objects. Demonstrate that changes to a local int don't affect the caller, but changes through an object reference do.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class Counter {\n        int value;\n        Counter(int v) { value = v; }\n    }\n    static void modify(int num, Counter counter) {\n        num = 999;       // local copy\n        counter.value = 999; // modifies heap object\n    }\n    public static void main(String[] args) {\n        int x = 10;\n        Counter c = new Counter(10);\n        modify(x, c);\n        System.out.println(x);       // TODO: predict output\n        System.out.println(c.value); // TODO: predict output\n    }\n}",
+      "solution": "public class Main {\n    static class Counter {\n        int value;\n        Counter(int v) { value = v; }\n    }\n    static void modify(int num, Counter counter) {\n        num = 999;\n        counter.value = 999;\n    }\n    public static void main(String[] args) {\n        int x = 10;\n        Counter c = new Counter(10);\n        modify(x, c);\n        System.out.println(x);\n        System.out.println(c.value);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "10\n999" }],
+      "hints": [
+        "Primitives are passed by value — `x` is not changed.",
+        "Objects are passed by reference — `counter.value` changes.",
+        "Stack holds local variables; Heap holds objects."
+      ]
+    }
+  ],
+  "map-hashmap-internals": [
+    {
+      "id": "map-1",
+      "title": "Word Frequency + Top-N",
+      "description": "Count word frequency in a sentence and print the top 2 most frequent words sorted by count descending, then alphabetically for ties.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        String sentence = \"the quick brown fox jumps over the lazy fox\";\n        // TODO: count frequency, print top 2 as 'word: count'\n    }\n}",
+      "solution": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    public static void main(String[] args) {\n        String sentence = \"the quick brown fox jumps over the lazy fox\";\n        Map<String, Long> freq = Arrays.stream(sentence.split(\" \"))\n            .collect(Collectors.groupingBy(w -> w, Collectors.counting()));\n        freq.entrySet().stream()\n            .sorted(Map.Entry.<String, Long>comparingByValue(Comparator.reverseOrder())\n                .thenComparing(Map.Entry.comparingByKey()))\n            .limit(2)\n            .forEach(e -> System.out.println(e.getKey() + \": \" + e.getValue()));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "fox: 2\nthe: 2" }],
+      "hints": [
+        "Use `Collectors.groupingBy` with `Collectors.counting()` for frequency.",
+        "Sort entries by value descending, then by key ascending.",
+        "Use `.limit(2)` to get top 2."
+      ]
+    }
+  ],
+  "sb-introduction": [
+    {
+      "id": "sb-intro-1",
+      "title": "Simulate @SpringBootApplication Scan",
+      "description": "Spring Boot scans all classes in the package. Simulate this by creating a `ComponentScanner` that uses reflection to find all classes implementing a `Component` interface and prints their names.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\npublic class Main {\n    interface Component { String getName(); }\n    // TODO: UserService implements Component -> \"UserService\"\n    // TODO: EmailService implements Component -> \"EmailService\"\n\n    static class ComponentScanner {\n        static List<Component> scan(Component... components) {\n            // TODO: return list of components\n            return new ArrayList<>();\n        }\n    }\n    public static void main(String[] args) {\n        List<Component> beans = ComponentScanner.scan(new UserService(), new EmailService());\n        beans.forEach(b -> System.out.println(\"Found: \" + b.getName()));\n    }\n}",
+      "solution": "import java.util.*;\npublic class Main {\n    interface Component { String getName(); }\n    static class UserService implements Component { public String getName() { return \"UserService\"; } }\n    static class EmailService implements Component { public String getName() { return \"EmailService\"; } }\n    static class ComponentScanner {\n        static List<Component> scan(Component... components) { return Arrays.asList(components); }\n    }\n    public static void main(String[] args) {\n        List<Component> beans = ComponentScanner.scan(new UserService(), new EmailService());\n        beans.forEach(b -> System.out.println(\"Found: \" + b.getName()));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Found: UserService\nFound: EmailService" }],
+      "hints": [
+        "Implement the Component interface in each service class.",
+        "Arrays.asList(components) creates the list from varargs.",
+        "In real Spring, @ComponentScan does this automatically via classpath scanning."
+      ]
+    }
+  ],
+  "sb-beans": [
+    {
+      "id": "sb-beans-1",
+      "title": "Bean Lifecycle Simulation",
+      "description": "Simulate Spring's bean lifecycle. Create interface `InitializingBean` with `afterPropertiesSet()`. Create `DatabaseService` that implements it. Print messages at initialization and usage.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    interface InitializingBean { void afterPropertiesSet(); }\n    static class DatabaseService implements InitializingBean {\n        String url;\n        // TODO: afterPropertiesSet prints 'DB Connected: ' + url\n    }\n    public static void main(String[] args) {\n        DatabaseService service = new DatabaseService();\n        service.url = \"jdbc:postgresql://localhost:5432/mydb\";\n        service.afterPropertiesSet();\n        System.out.println(\"Application started\");\n    }\n}",
+      "solution": "public class Main {\n    interface InitializingBean { void afterPropertiesSet(); }\n    static class DatabaseService implements InitializingBean {\n        String url;\n        public void afterPropertiesSet() { System.out.println(\"DB Connected: \" + url); }\n    }\n    public static void main(String[] args) {\n        DatabaseService service = new DatabaseService();\n        service.url = \"jdbc:postgresql://localhost:5432/mydb\";\n        service.afterPropertiesSet();\n        System.out.println(\"Application started\");\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "DB Connected: jdbc:postgresql://localhost:5432/mydb\nApplication started" }],
+      "hints": [
+        "Implement `afterPropertiesSet()` — Spring calls it after injection.",
+        "In real Spring, use @PostConstruct instead.",
+        "The lifecycle order: instantiate → inject → afterPropertiesSet → ready."
+      ]
+    },
+    {
+      "id": "sb-beans-2",
+      "title": "Singleton vs Prototype Scope",
+      "description": "Simulate Spring bean scopes. Create a `BeanFactory` that returns the same instance for 'singleton' scope but a new instance for 'prototype' scope. Verify using `==` comparison.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.*;\npublic class Main {\n    static class MyBean { int id; static int counter = 0; MyBean() { id = ++counter; } }\n    static class BeanFactory {\n        private static MyBean singleton;\n        static MyBean getBean(String scope) {\n            // TODO: return same instance for \"singleton\", new for \"prototype\"\n            return null;\n        }\n    }\n    public static void main(String[] args) {\n        MyBean s1 = BeanFactory.getBean(\"singleton\");\n        MyBean s2 = BeanFactory.getBean(\"singleton\");\n        MyBean p1 = BeanFactory.getBean(\"prototype\");\n        MyBean p2 = BeanFactory.getBean(\"prototype\");\n        System.out.println(s1 == s2);   // true\n        System.out.println(p1 == p2);   // false\n        System.out.println(p1.id == p2.id); // false\n    }\n}",
+      "solution": "public class Main {\n    static class MyBean { int id; static int counter = 0; MyBean() { id = ++counter; } }\n    static class BeanFactory {\n        private static MyBean singleton;\n        static MyBean getBean(String scope) {\n            if (scope.equals(\"singleton\")) {\n                if (singleton == null) singleton = new MyBean();\n                return singleton;\n            }\n            return new MyBean();\n        }\n    }\n    public static void main(String[] args) {\n        MyBean s1 = BeanFactory.getBean(\"singleton\");\n        MyBean s2 = BeanFactory.getBean(\"singleton\");\n        MyBean p1 = BeanFactory.getBean(\"prototype\");\n        MyBean p2 = BeanFactory.getBean(\"prototype\");\n        System.out.println(s1 == s2);\n        System.out.println(p1 == p2);\n        System.out.println(p1.id == p2.id);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "true\nfalse\nfalse" }],
+      "hints": [
+        "Singleton: use lazy initialization with a static field.",
+        "Prototype: always return `new MyBean()`.",
+        "`==` compares references, not values."
+      ]
+    }
+  ],
+  "sb-dependency-injection": [
+    {
+      "id": "sb-di-1",
+      "title": "Constructor Injection Pattern",
+      "description": "Implement constructor-based DI. Create `EmailService` and `Logger` interfaces with implementations. Create `UserService` that depends on both via constructor. Test it.",
+      "difficulty": "intermediate",
+      "starterCode": "public class Main {\n    interface EmailService { void sendEmail(String to, String subject); }\n    interface Logger { void log(String message); }\n    // TODO: SmtpEmailService implements EmailService\n    // TODO: ConsoleLogger implements Logger\n    static class UserService {\n        // TODO: Constructor injection of EmailService and Logger\n        void registerUser(String email) {\n            // TODO: log \"Registering: \" + email then sendEmail, then print 'User registered: ' + email\n        }\n    }\n    public static void main(String[] args) {\n        UserService service = new UserService(new SmtpEmailService(), new ConsoleLogger());\n        service.registerUser(\"alice@example.com\");\n    }\n}",
+      "solution": "public class Main {\n    interface EmailService { void sendEmail(String to, String subject); }\n    interface Logger { void log(String message); }\n    static class SmtpEmailService implements EmailService {\n        public void sendEmail(String to, String subject) { System.out.println(\"Email sent to \" + to + \": \" + subject); }\n    }\n    static class ConsoleLogger implements Logger {\n        public void log(String message) { System.out.println(\"[LOG] \" + message); }\n    }\n    static class UserService {\n        private final EmailService emailService;\n        private final Logger logger;\n        UserService(EmailService e, Logger l) { emailService = e; logger = l; }\n        void registerUser(String email) {\n            logger.log(\"Registering: \" + email);\n            emailService.sendEmail(email, \"Welcome!\");\n            System.out.println(\"User registered: \" + email);\n        }\n    }\n    public static void main(String[] args) {\n        UserService service = new UserService(new SmtpEmailService(), new ConsoleLogger());\n        service.registerUser(\"alice@example.com\");\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "[LOG] Registering: alice@example.com\nEmail sent to alice@example.com: Welcome!\nUser registered: alice@example.com" }],
+      "hints": [
+        "Constructor injection: accept deps as constructor parameters, assign to final fields.",
+        "Program to interfaces, not implementations.",
+        "In Spring, @Autowired or @RequiredArgsConstructor does this automatically."
+      ]
+    }
+  ],
+  "sb-annotations": [
+    {
+      "id": "sb-ann-1",
+      "title": "Create a Custom Annotation",
+      "description": "Create a custom annotation `@Validate` with a `minLength` attribute. Write a method that checks if a String field annotated with @Validate meets the minimum length requirement using reflection.",
+      "difficulty": "advanced",
+      "starterCode": "import java.lang.annotation.*;\nimport java.lang.reflect.*;\npublic class Main {\n    @Retention(RetentionPolicy.RUNTIME)\n    @Target(ElementType.FIELD)\n    @interface Validate {\n        int minLength() default 1;\n    }\n    static class User {\n        @Validate(minLength = 3)\n        String username;\n        @Validate(minLength = 6)\n        String password;\n        User(String u, String p) { username = u; password = p; }\n    }\n    static boolean validate(Object obj) throws IllegalAccessException {\n        // TODO: Use reflection to check all @Validate fields meet minLength\n        // Return false and print 'Invalid: fieldName' if any fail\n        return true;\n    }\n    public static void main(String[] args) throws Exception {\n        System.out.println(validate(new User(\"Al\", \"secret123\")));\n        System.out.println(validate(new User(\"Alice\", \"secret123\")));\n    }\n}",
+      "solution": "import java.lang.annotation.*;\nimport java.lang.reflect.*;\npublic class Main {\n    @Retention(RetentionPolicy.RUNTIME)\n    @Target(ElementType.FIELD)\n    @interface Validate { int minLength() default 1; }\n    static class User {\n        @Validate(minLength = 3) String username;\n        @Validate(minLength = 6) String password;\n        User(String u, String p) { username = u; password = p; }\n    }\n    static boolean validate(Object obj) throws IllegalAccessException {\n        for (Field f : obj.getClass().getDeclaredFields()) {\n            f.setAccessible(true);\n            Validate v = f.getAnnotation(Validate.class);\n            if (v != null) {\n                String val = (String) f.get(obj);\n                if (val == null || val.length() < v.minLength()) {\n                    System.out.println(\"Invalid: \" + f.getName());\n                    return false;\n                }\n            }\n        }\n        return true;\n    }\n    public static void main(String[] args) throws Exception {\n        System.out.println(validate(new User(\"Al\", \"secret123\")));\n        System.out.println(validate(new User(\"Alice\", \"secret123\")));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Invalid: username\nfalse\ntrue" }],
+      "hints": [
+        "Use `@Retention(RetentionPolicy.RUNTIME)` to make annotation available at runtime.",
+        "Use `obj.getClass().getDeclaredFields()` to get all fields.",
+        "`f.setAccessible(true)` to access private fields; `f.getAnnotation(Validate.class)` to read the annotation."
+      ]
+    }
+  ],
+  "sb-jpa-entity-mapping": [
+    {
+      "id": "sb-jpa-1",
+      "title": "Model a JPA Entity Manually",
+      "description": "Without using Spring, model a `Product` POJO that represents a JPA entity: fields `id`, `name`, `price`, `category`. Implement `toString()`. Create 3 products, store in a list, filter by category 'Electronics', and print.",
+      "difficulty": "beginner",
+      "starterCode": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    // TODO: Product class with id, name, price, category\n    // toString: \"Product{id=X, name='Y', price=Z, category='W'}\"\n    public static void main(String[] args) {\n        List<Product> products = Arrays.asList(\n            new Product(1, \"Laptop\", 75000.0, \"Electronics\"),\n            new Product(2, \"Shirt\", 500.0, \"Clothing\"),\n            new Product(3, \"Phone\", 40000.0, \"Electronics\")\n        );\n        products.stream()\n            .filter(p -> p.category.equals(\"Electronics\"))\n            .forEach(System.out::println);\n    }\n}",
+      "solution": "import java.util.*;\nimport java.util.stream.*;\npublic class Main {\n    static class Product {\n        int id; String name; double price; String category;\n        Product(int id, String name, double price, String category) {\n            this.id=id; this.name=name; this.price=price; this.category=category;\n        }\n        public String toString() {\n            return \"Product{id=\" + id + \", name='\" + name + \"', price=\" + price + \", category='\" + category + \"'}\";\n        }\n    }\n    public static void main(String[] args) {\n        List<Product> products = Arrays.asList(\n            new Product(1,\"Laptop\",75000.0,\"Electronics\"),\n            new Product(2,\"Shirt\",500.0,\"Clothing\"),\n            new Product(3,\"Phone\",40000.0,\"Electronics\")\n        );\n        products.stream()\n            .filter(p -> p.category.equals(\"Electronics\"))\n            .forEach(System.out::println);\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Product{id=1, name='Laptop', price=75000.0, category='Electronics'}\nProduct{id=3, name='Phone', price=40000.0, category='Electronics'}" }],
+      "hints": [
+        "Model the entity as a plain class — in Spring you'd add @Entity @Id annotations.",
+        "Use stream().filter() to select by category.",
+        "The toString format must match exactly."
+      ]
+    }
+  ],
+  "sb-jwt-fundamentals": [
+    {
+      "id": "sb-jwt-1",
+      "title": "Base64 Encode/Decode JWT Parts",
+      "description": "A JWT has 3 parts separated by dots: header.payload.signature (all Base64-encoded). Simulate encoding and decoding the header and payload using Java's `java.util.Base64`.",
+      "difficulty": "intermediate",
+      "starterCode": "import java.util.Base64;\npublic class Main {\n    public static void main(String[] args) {\n        String header = \"{\\\"alg\\\":\\\"HS256\\\",\\\"typ\\\":\\\"JWT\\\"}\";\n        String payload = \"{\\\"sub\\\":\\\"user123\\\",\\\"role\\\":\\\"ADMIN\\\"}\";\n        // TODO: Base64 encode header and payload\n        String token = /* encodedHeader */ \".\" + /* encodedPayload */ \".\" + \"signature\";\n        System.out.println(\"Token: \" + token);\n        // TODO: Decode the parts back and print\n    }\n}",
+      "solution": "import java.util.Base64;\npublic class Main {\n    public static void main(String[] args) {\n        String header = \"{\\\"alg\\\":\\\"HS256\\\",\\\"typ\\\":\\\"JWT\\\"}\";\n        String payload = \"{\\\"sub\\\":\\\"user123\\\",\\\"role\\\":\\\"ADMIN\\\"}\";\n        String encHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(header.getBytes());\n        String encPayload = Base64.getUrlEncoder().withoutPadding().encodeToString(payload.getBytes());\n        String token = encHeader + \".\" + encPayload + \".\" + \"signature\";\n        System.out.println(\"Token: \" + token);\n        String[] parts = token.split(\"\\\\.\");\n        System.out.println(new String(Base64.getUrlDecoder().decode(parts[0])));\n        System.out.println(new String(Base64.getUrlDecoder().decode(parts[1])));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwicm9sZSI6IkFETUlOIn0.signature\n{\"alg\":\"HS256\",\"typ\":\"JWT\"}\n{\"sub\":\"user123\",\"role\":\"ADMIN\"}" }],
+      "hints": [
+        "Use `Base64.getUrlEncoder().withoutPadding()` for JWT-safe encoding.",
+        "Split by `.` to get the three parts: `token.split(\"\\\\.\")` .",
+        "Decode with `Base64.getUrlDecoder().decode(part)` then `new String(bytes)`."
+      ]
+    }
+  ],
+  "sb-rest-client": [
+    {
+      "id": "sb-rest-1",
+      "title": "Build a Request-Response Model",
+      "description": "Create a `ApiRequest` class with `method`, `url`, `body` fields and an `ApiResponse` class with `statusCode` and `body`. Write a `processRequest(ApiRequest)` method that simulates routing: GET → 200 'OK', POST → 201 'Created', anything else → 405 'Method Not Allowed'.",
+      "difficulty": "beginner",
+      "starterCode": "public class Main {\n    static class ApiRequest {\n        String method, url, body;\n        ApiRequest(String method, String url, String body) {\n            this.method = method; this.url = url; this.body = body;\n        }\n    }\n    static class ApiResponse {\n        int statusCode; String body;\n        ApiResponse(int code, String body) { statusCode = code; this.body = body; }\n        public String toString() { return statusCode + \" \" + body; }\n    }\n    static ApiResponse processRequest(ApiRequest req) {\n        // TODO: Route based on req.method\n        return null;\n    }\n    public static void main(String[] args) {\n        System.out.println(processRequest(new ApiRequest(\"GET\", \"/users\", null)));\n        System.out.println(processRequest(new ApiRequest(\"POST\", \"/users\", \"{}\")) );\n        System.out.println(processRequest(new ApiRequest(\"DELETE\", \"/users/1\", null)));\n    }\n}",
+      "solution": "public class Main {\n    static class ApiRequest { String method, url, body; ApiRequest(String m, String u, String b) { method=m; url=u; body=b; } }\n    static class ApiResponse { int statusCode; String body; ApiResponse(int c, String b) { statusCode=c; body=b; } public String toString() { return statusCode + \" \" + body; } }\n    static ApiResponse processRequest(ApiRequest req) {\n        return switch (req.method) {\n            case \"GET\" -> new ApiResponse(200, \"OK\");\n            case \"POST\" -> new ApiResponse(201, \"Created\");\n            default -> new ApiResponse(405, \"Method Not Allowed\");\n        };\n    }\n    public static void main(String[] args) {\n        System.out.println(processRequest(new ApiRequest(\"GET\",\"/users\",null)));\n        System.out.println(processRequest(new ApiRequest(\"POST\",\"/users\",\"{}\")));\n        System.out.println(processRequest(new ApiRequest(\"DELETE\",\"/users/1\",null)));\n    }\n}",
+      "testCases": [{ "input": "", "expectedOutput": "200 OK\n201 Created\n405 Method Not Allowed" }],
+      "hints": [
+        "Use a switch expression (Java 14+) on `req.method`.",
+        "GET → 200 OK, POST → 201 Created, others → 405.",
+        "In real Spring, @GetMapping/@PostMapping handles this routing automatically."
+      ]
+    }
+  ]
+}
