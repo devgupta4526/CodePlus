@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   BookOpen, ChevronRight, CheckCircle2, Circle, BarChart3, Bookmark,
   Filter, ChevronDown, ChevronUp, LogIn, GraduationCap, Sparkles,
@@ -397,12 +398,20 @@ function LessonTreeView({
 // ── Main Page ────────────────────────────────────────────────────────────────
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [activeView, setActiveView] = useState<'browse' | 'my-courses'>('browse');
   const [activeCourse, setActiveCourse] = useState<CourseId>('java');
   const [showLessons, setShowLessons] = useState(false);
+  const [enrollmentMessage, setEnrollmentMessage] = useState<string | null>(null);
 
   const { isCompleted, isBookmarked, toggleComplete, toggleBookmark, completionCount } = useProgress();
-  const { user, isEnrolled, enroll, loading: enrollLoading } = useEnrollment();
+  const {
+    user,
+    isEnrolled,
+    enroll,
+    loading: enrollLoading,
+    error: enrollmentError,
+  } = useEnrollment();
 
   const activeCourseData = COURSES.find((c) => c.id === activeCourse)!;
   const enrolledCourses = COURSES.filter((c) => isEnrolled(c.id));
@@ -427,11 +436,24 @@ export default function DashboardPage() {
   }, [chapters, isCompleted]);
 
   async function handleEnroll(courseId: string) {
+    setEnrollmentMessage(null);
     if (!user) {
-      window.location.href = '/login';
+      router.push(`/login?next=${encodeURIComponent('/dashboard')}`);
       return;
     }
-    await enroll(courseId);
+
+    const course = COURSES.find((item) => item.id === courseId);
+    if (course?.isPremium) {
+      setEnrollmentMessage('Paid enrollment is not available yet. No charge was made.');
+      return;
+    }
+
+    try {
+      await enroll(courseId);
+      setEnrollmentMessage(`You are now enrolled in ${course?.label ?? 'the course'}.`);
+    } catch (error) {
+      setEnrollmentMessage(error instanceof Error ? error.message : 'Enrollment failed.');
+    }
   }
 
   return (
@@ -486,6 +508,19 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+
+        {(enrollmentMessage || enrollmentError) && (
+          <div
+            role="status"
+            className={`mb-5 rounded-xl border px-4 py-3 text-sm ${
+              enrollmentMessage?.startsWith('You are now enrolled')
+                ? 'border-[var(--success)]/25 bg-[var(--success)]/10 text-[var(--success)]'
+                : 'border-[#EF4444]/25 bg-[#EF4444]/10 text-[#EF4444]'
+            }`}
+          >
+            {enrollmentMessage ?? enrollmentError}
+          </div>
+        )}
 
         {/* ── Stats bar (always visible when user has progress) ── */}
         {completionCount > 0 && (

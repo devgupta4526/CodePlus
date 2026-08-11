@@ -47,24 +47,13 @@ function isLessonLocked(meta: LessonMeta, isEnrolled: boolean): boolean {
 
 // ── Paywall overlay ────────────────────────────────────────────────────────────
 
-function PaywallOverlay({ course, user, onEnroll }: {
+function PaywallOverlay({ course, user }: {
   course: string;
   user: { id: string } | null;
-  onEnroll: () => Promise<void>;
 }) {
-  const [enrolling, setEnrolling] = useState(false);
-  const [enrolled, setEnrolled] = useState(false);
+  const [enrollmentError, setEnrollmentError] = useState<string | null>(null);
 
   const courseLabel = course === 'springboot' ? 'Spring Boot' : 'Python & Django';
-
-  async function handleEnroll() {
-    setEnrolling(true);
-    await onEnroll();
-    setEnrolled(true);
-    setEnrolling(false);
-  }
-
-  if (enrolled) return null;
 
   return (
     <div className="relative my-8">
@@ -90,13 +79,15 @@ function PaywallOverlay({ course, user, onEnroll }: {
           <p className="text-sm text-[var(--text-muted)] mb-5">
             Enroll in <span className="font-semibold text-[var(--text-secondary)]">{courseLabel}</span> to unlock all lessons.
           </p>
+          {enrollmentError && (
+            <p role="alert" className="mb-3 text-xs text-[#EF4444]">{enrollmentError}</p>
+          )}
           {user ? (
             <button
-              onClick={handleEnroll}
-              disabled={enrolling}
+              onClick={() => setEnrollmentError('Paid enrollment is not available yet. No charge was made.')}
               className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white text-sm font-semibold shadow-lg shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/30 transition-all disabled:opacity-60 cursor-pointer"
             >
-              {enrolling ? 'Enrolling…' : 'Enroll Free'}
+              Get Access
             </button>
           ) : (
             <Link
@@ -142,7 +133,7 @@ function getEmbedUrl(url?: string): string | null {
 export function LessonClient({ meta, content, headings, imageNotes = [], prev, next }: LessonClientProps) {
   const readingProgress = useReadingProgress();
   const { isCompleted, isBookmarked, toggleComplete, toggleBookmark } = useProgress();
-  const { user, isEnrolled, enroll } = useEnrollment();
+  const { user, isEnrolled } = useEnrollment();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [tocExpanded, setTocExpanded] = useState(false);
   const [readingMode, setReadingMode] = useState<ReadingMode>('continuous');
@@ -407,11 +398,10 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
 
               {/* Content — hidden behind paywall if lesson is locked */}
               {locked ? (
-                <PaywallOverlay
-                  course={meta.course}
-                  user={user}
-                  onEnroll={async () => { await enroll(meta.course); }}
-                />
+          <PaywallOverlay
+            course={meta.course}
+            user={user}
+          />
               ) : (
                 <div className="min-w-0">
                   <MDXRenderer content={content} />

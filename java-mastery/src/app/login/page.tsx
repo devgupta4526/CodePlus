@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Code2, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
@@ -9,11 +9,19 @@ import { motion } from 'framer-motion';
 const SUPABASE_CONFIGURED =
   typeof process !== 'undefined' &&
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
-  process.env.NEXT_PUBLIC_SUPABASE_URL !== 'your_supabase_project_url';
+  process.env.NEXT_PUBLIC_SUPABASE_URL !== 'your_supabase_project_url' &&
+  Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const requestedNext = searchParams.get('next');
+  const nextPath = requestedNext?.startsWith('/') && !requestedNext.startsWith('//')
+    ? requestedNext
+    : '/dashboard';
 
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
@@ -21,15 +29,12 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(() =>
+    searchParams.get('error') === 'auth_callback_failed'
+      ? 'Authentication failed. Please try again.'
+      : null,
+  );
   const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    const err = searchParams.get('error');
-    if (err === 'auth_callback_failed') {
-      setError('Authentication failed. Please try again.');
-    }
-  }, [searchParams]);
 
   async function handleGoogleSignIn() {
     if (!SUPABASE_CONFIGURED) {
@@ -42,7 +47,7 @@ function LoginForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -75,7 +80,7 @@ function LoginForm() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`,
           },
         });
         if (signUpError) throw signUpError;
@@ -86,7 +91,7 @@ function LoginForm() {
           password,
         });
         if (signInError) throw signInError;
-        router.push('/dashboard');
+        router.push(nextPath);
         router.refresh();
       }
     } catch (err: unknown) {
