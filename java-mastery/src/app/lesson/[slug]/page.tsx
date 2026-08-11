@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { type Metadata } from 'next';
-import { getLessonContent, getAllLessonSlugs } from '@/lib/lessons';
+import { getLessonContent } from '@/lib/lessons';
 import { getLessonBySlug, getAdjacentLessons } from '@/data/course';
 import { LessonClient } from './LessonClient';
 
@@ -8,8 +8,13 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return getAllLessonSlugs().map((slug) => ({ slug }));
+// The course contains many large lesson documents. Generate each lesson on its
+// first request and cache it with ISR instead of rendering every lesson during
+// each deployment build.
+export const revalidate = 86400;
+
+export function generateStaticParams() {
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
