@@ -32,6 +32,7 @@ import { SlideReader } from '@/components/reader/SlideReader';
 import { ImageNotesSlider } from '@/components/notes/ImageNotesSlider';
 import { FullSizeSlideshowModal } from '@/components/notes/FullSizeSlideshowModal';
 import { PracticeSection } from '@/components/practice/PracticeSection';
+import { useLearningState } from '@/hooks/useLearningState';
 
 // ── Freemium config ────────────────────────────────────────────────────────────
 // Courses that are premium: first FREE_PREVIEW_COUNT lessons are always accessible.
@@ -100,6 +101,44 @@ function PaywallOverlay({ course, user }: {
         </div>
       </div>
     </div>
+  );
+}
+
+function MasteryCheck({ slug }: { slug: string }) {
+  const { state, setLessonMastery } = useLearningState();
+  const current = state.mastery[slug];
+
+  const options = [
+    { status: 'learning' as const, confidence: 1 as const, label: 'Still learning', note: 'Bring it back tomorrow' },
+    { status: 'review' as const, confidence: 2 as const, label: 'Review soon', note: 'Revisit in a few days' },
+    { status: 'mastered' as const, confidence: 3 as const, label: 'I can explain it', note: 'Check again in three weeks' },
+  ];
+
+  return (
+    <section className="mt-12 border-t border-[var(--text-primary)] py-6" aria-labelledby="mastery-check-title">
+      <div className="grid lg:grid-cols-[240px_1fr] gap-5">
+        <div>
+          <p className="section-kicker">Mastery check</p>
+          <h2 id="mastery-check-title" className="mt-3 text-lg font-heading font-semibold">How well can you recall this?</h2>
+        </div>
+        <div className="grid sm:grid-cols-3 border-t border-l border-[var(--border-color)]">
+          {options.map((option) => {
+            const selected = current?.status === option.status;
+            return (
+              <button
+                key={option.status}
+                onClick={() => setLessonMastery(slug, option.status, option.confidence)}
+                className={`min-h-24 border-r border-b border-[var(--border-color)] p-4 text-left transition-colors ${selected ? 'bg-[var(--accent)] text-white' : 'bg-[var(--surface)] hover:bg-[var(--surface-elevated)]'}`}
+                aria-pressed={selected}
+              >
+                <span className="block text-sm font-semibold">{option.label}</span>
+                <span className={`mt-2 block text-xs ${selected ? 'text-white/75' : 'text-[var(--text-muted)]'}`}>{option.note}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -413,6 +452,8 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                 <PracticeSection lessonSlug={meta.slug} lessonTitle={meta.title} />
               )}
 
+              {!locked && <MasteryCheck slug={meta.slug} />}
+
               {/* Completion CTA — only when unlocked */}
               {!locked && <div className="mt-12 p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] text-center">
                 <p className="text-sm text-[var(--text-muted)] mb-3">
@@ -678,6 +719,8 @@ export function LessonClient({ meta, content, headings, imageNotes = [], prev, n
                 <div className="min-w-0 text-sm leading-relaxed prose prose-sm max-w-none">
                   <MDXRenderer content={content} />
                 </div>
+
+                {!locked && <MasteryCheck slug={meta.slug} />}
 
                 {/* Completion CTA — only when unlocked */}
                 <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--surface)] text-center text-xs">

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Code2, BookOpen, Menu, X, Search, LogOut, User, LayoutDashboard } from 'lucide-react';
+import { Braces, Menu, X, Search, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { ThemeToggle } from '@/components/shared/ThemeToggle';
 import { SearchDialog } from '@/components/shared/SearchDialog';
@@ -74,17 +74,16 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
-    { href: '/dashboard', label: 'Dashboard' },
-    { href: '/roadmap', label: 'Roadmap' },
+    { href: '/today', label: 'Today' },
+    { href: '/dashboard', label: 'Courses' },
+    { href: '/projects', label: 'Projects' },
     { href: '/practice', label: 'Practice' },
-    { href: '/contests', label: 'Contests' },
-    { href: '/analytics', label: 'Analytics' },
-    { href: '/jobs', label: 'Jobs' },
+    { href: '/roadmap', label: 'Roadmaps' },
   ];
 
   return (
     <>
-      <nav className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-[var(--bg)]/80 backdrop-blur-xl">
+      <nav className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-[var(--bg)]/92 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -92,11 +91,11 @@ export function Navbar() {
               href="/"
               className="flex items-center gap-2.5 group"
             >
-              <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] flex items-center justify-center shadow-lg shadow-[var(--accent)]/20 group-hover:shadow-[var(--accent)]/40 transition-shadow duration-300">
-                <Code2 className="w-4.5 h-4.5 text-white" />
+              <div className="w-8 h-8 border border-[var(--border-color)] bg-[var(--surface)] flex items-center justify-center transition-colors group-hover:border-[var(--accent)]">
+                <Braces className="w-4 h-4 text-[var(--accent)]" />
               </div>
-              <span className="font-heading text-lg font-bold text-[var(--text-primary)] tracking-tight">
-                Code<span className="text-[var(--accent)]">Pulse</span>
+              <span className="font-heading text-base font-bold text-[var(--text-primary)] tracking-[-0.025em]">
+                CodePulse
               </span>
             </Link>
 
@@ -108,8 +107,8 @@ export function Navbar() {
                   href={link.href}
                   className={`px-3.5 py-2 rounded-[10px] text-sm font-medium transition-all duration-200 ${
                     pathname === link.href
-                      ? 'bg-[var(--surface-elevated)] text-[var(--text-primary)]'
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-secondary)] hover:bg-[var(--surface)]'
+                      ? 'text-[var(--text-primary)] after:block after:h-px after:bg-[var(--accent)] after:mt-1'
+                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   {link.label}
@@ -133,11 +132,7 @@ export function Navbar() {
                 </kbd>
               </button>
 
-              {/* Lesson count badge */}
-              <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--surface)] border border-[var(--border-color)] text-xs text-[var(--text-muted)]">
-                <BookOpen className="w-3 h-3" />
-                <span>{courseStats.totalLessons} lessons</span>
-              </div>
+              <span className="hidden lg:inline font-mono text-[10px] uppercase tracking-wider text-[var(--text-disabled)]">{courseStats.totalLessons} lessons</span>
 
               <ThemeToggle />
 
@@ -185,7 +180,7 @@ export function Navbar() {
               ) : (
                 <Link
                   href="/login"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] text-sm font-semibold text-white bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] shadow-md shadow-[var(--accent)]/20 hover:shadow-[var(--accent)]/30 transition-shadow"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-semibold text-white bg-[var(--accent)] hover:bg-[var(--accent-hover)] transition-colors"
                 >
                   Sign In
                 </Link>

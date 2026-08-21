@@ -3,502 +3,314 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
-  Code2,
-  BookOpen,
-  Brain,
-  Terminal,
   ArrowRight,
-  Clock,
-  BarChart3,
-  Sparkles,
-  Zap,
-  BookMarked,
-  Search,
-  Moon,
-  FlaskConical,
+  Braces,
+  Check,
+  ChevronRight,
+  Clock3,
+  Code2,
+  Cpu,
+  Database,
+  GitBranch,
+  Layers3,
   Play,
-  Briefcase,
-  Trophy,
-  GraduationCap,
-  Layers,
-  Globe,
-  CheckCircle2,
+  Search,
+  ServerCog,
+  TerminalSquare,
 } from 'lucide-react';
 import { Navbar } from '@/components/layout/Navbar';
-import settingsData from '@/data/settings.json';
+import settings from '@/data/settings.json';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
+const courses = [
+  {
+    index: '01',
+    title: 'Java engineering',
+    description: 'From the language fundamentals to concurrency, collections, JVM internals, and Java 21.',
+    meta: '47 lessons · 38 hours',
+    level: 'Foundation to advanced',
+    href: '/dashboard',
+    icon: Braces,
+  },
+  {
+    index: '02',
+    title: 'Spring Boot systems',
+    description: 'Build production APIs with JPA, security, JWT, resilience patterns, and microservices.',
+    meta: '52 lessons · 30 hours',
+    level: 'Intermediate',
+    href: '/dashboard',
+    icon: ServerCog,
+  },
+  {
+    index: '03',
+    title: 'Data structures & algorithms',
+    description: 'Learn reusable problem-solving patterns across arrays, trees, graphs, and dynamic programming.',
+    meta: '40 lessons · 30 hours',
+    level: 'Interview track',
+    href: '/roadmap',
+    icon: GitBranch,
+  },
+  {
+    index: '04',
+    title: 'Computer architecture',
+    description: 'Understand the CPU, memory hierarchy, pipelining, I/O, and the machinery beneath your code.',
+    meta: '7 lessons · 5 hours',
+    level: 'Core computer science',
+    href: '/dashboard',
+    icon: Cpu,
+  },
+];
+
+const capabilities = [
+  {
+    label: 'Read',
+    title: 'Lessons that explain the why',
+    description: 'Concepts, diagrams, code, and interview context are kept together so you do not have to reconstruct the subject from scattered notes.',
+    icon: Layers3,
+  },
+  {
+    label: 'Run',
+    title: 'A real code workspace',
+    description: 'Move from explanation to execution without leaving the lesson. Test ideas, inspect output, and learn by changing working examples.',
+    icon: TerminalSquare,
+  },
+  {
+    label: 'Recall',
+    title: 'Practice with a purpose',
+    description: 'Use focused problems, knowledge checks, bookmarks, and progress history to turn reading into durable understanding.',
+    icon: Check,
+  },
+];
+
+const reveal = {
+  hidden: { opacity: 0, y: 18 },
+  visible: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: 'easeOut' as const },
+    transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
   }),
 };
 
-// ── Courses catalog (shown on home) ──────────────────────────────────────────
-
-const COURSES = [
-  {
-    emoji: '☕',
-    color: '#F97316',
-    bg: 'rgba(249,115,22,0.08)',
-    border: 'rgba(249,115,22,0.2)',
-    title: 'Java Mastery',
-    subtitle: 'Core language · OOP · Collections · Concurrency · Java 21',
-    lessons: 47,
-    hours: '~38',
-    level: 'Beginner → Advanced',
-    href: '/dashboard',
-    available: true,
-  },
-  {
-    emoji: '🍃',
-    color: '#22C55E',
-    bg: 'rgba(34,197,94,0.08)',
-    border: 'rgba(34,197,94,0.2)',
-    title: 'Spring Boot',
-    subtitle: 'REST APIs · JPA · Security · JWT · Microservices',
-    lessons: 52,
-    hours: '~30',
-    level: 'Intermediate → Advanced',
-    href: '/dashboard',
-    available: true,
-  },
-  {
-    emoji: '💻',
-    color: '#8B5CF6',
-    bg: 'rgba(139,92,246,0.08)',
-    border: 'rgba(139,92,246,0.2)',
-    title: 'Computer Organization & Architecture',
-    subtitle: 'CPU · Memory · Pipelining · DMA · Assembly',
-    lessons: 7,
-    hours: '~5',
-    level: 'Core Computer Science',
-    href: '/dashboard',
-    available: true,
-  },
-  {
-    emoji: '🐍',
-    color: '#38BDF8',
-    bg: 'rgba(56,189,248,0.08)',
-    border: 'rgba(56,189,248,0.2)',
-    title: 'Python & Django',
-    subtitle: '60-day full-stack path · Django · DRF',
-    lessons: 24,
-    hours: '~20',
-    level: 'Beginner → Full Stack',
-    href: '/dashboard',
-    available: true,
-  },
-  {
-    emoji: '🧠',
-    color: '#A78BFA',
-    bg: 'rgba(167,139,250,0.08)',
-    border: 'rgba(167,139,250,0.2)',
-    title: 'DSA Masterclass',
-    subtitle: 'Arrays · Trees · Graphs · DP · Patterns',
-    lessons: 40,
-    hours: '~30',
-    level: 'All levels',
-    href: '/roadmap',
-    available: true,
-  },
-  {
-    emoji: '⚡',
-    color: '#FACC15',
-    bg: 'rgba(250,204,21,0.08)',
-    border: 'rgba(250,204,21,0.2)',
-    title: 'System Design',
-    subtitle: 'HLD · LLD · CAP · Databases · Caching',
-    lessons: 0,
-    hours: '—',
-    level: 'Advanced',
-    href: '#',
-    available: false,
-  },
-  {
-    emoji: '🔒',
-    color: '#F43F5E',
-    bg: 'rgba(244,63,94,0.08)',
-    border: 'rgba(244,63,94,0.2)',
-    title: 'Aptitude & OA Prep',
-    subtitle: 'Quant · Reasoning · Online Assessments',
-    lessons: 0,
-    hours: '—',
-    level: 'All levels',
-    href: '#',
-    available: false,
-  },
-];
-
-const PLATFORM_FEATURES = [
-  {
-    icon: Terminal,
-    title: 'Interactive Code Blocks',
-    desc: 'Syntax-highlighted examples with copy, collapse, line numbers and output panels.',
-  },
-  {
-    icon: Brain,
-    title: 'Visual Diagrams',
-    desc: 'Mermaid-powered flowcharts, class diagrams, mind maps and sequence diagrams.',
-  },
-  {
-    icon: FlaskConical,
-    title: 'Knowledge Checks',
-    desc: 'MCQ drills and flashcards with instant feedback at the end of every section.',
-  },
-  {
-    icon: Play,
-    title: 'Multi-language Playground',
-    desc: 'Write Java, Python, JS and more in the browser with a Monaco-powered editor.',
-  },
-  {
-    icon: Trophy,
-    title: 'LeetCode-style Practice',
-    desc: 'Coding problems with difficulty tags, starter code, solutions and test cases.',
-  },
-  {
-    icon: Search,
-    title: 'Instant Search',
-    desc: 'Find any topic across all courses with ⌘K universal search.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Progress Tracking',
-    desc: 'Per-course completion tracking, bookmarks and resume where you left off.',
-  },
-  {
-    icon: Zap,
-    title: 'Interview Prep',
-    desc: 'Curated interview questions and explanations embedded in every lesson.',
-  },
-  {
-    icon: BookMarked,
-    title: 'Bookmarks',
-    desc: 'Save lessons for revision and build a personalised study queue.',
-  },
-  {
-    icon: Moon,
-    title: 'Dark & Light Mode',
-    desc: 'Polished dark mode by default with full light mode support.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Java Job Board',
-    desc: 'Filtered job listings by role, experience level and work mode.',
-  },
-  {
-    icon: Globe,
-    title: 'Always Free',
-    desc: 'No login, no paywall, no ads. The full platform is free for everyone.',
-  },
-];
-
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[var(--bg)]">
       <Navbar />
 
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--accent)]/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-[var(--accent)]/5 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="relative max-w-5xl mx-auto px-4 pt-20 pb-24 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--accent)]/20 bg-[var(--accent)]/5 text-sm text-[var(--accent)] mb-8"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{settingsData.heroTagline}</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-[1.1] mb-6"
-          >
-            {settingsData.heroTitle.split('\\n').map((line, idx) => (
-              <span key={idx}>
-                {idx > 0 && <br />}
-                {idx === 1 ? (
-                  <span className="bg-gradient-to-r from-[var(--accent)] via-[var(--accent-secondary)] to-[var(--highlight)] bg-clip-text text-transparent">
-                    {line}
-                  </span>
-                ) : (
-                  line
-                )}
-              </span>
-            ))}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-2xl mx-auto text-lg text-[var(--text-muted)] leading-relaxed mb-10"
-          >
-            {settingsData.heroSubtitle}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link
-              href="/dashboard"
-              className="group flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white font-semibold text-base shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 transition-all duration-300 hover:scale-[1.02]"
-            >
-              Browse Courses
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="/practice"
-              className="flex items-center gap-2 px-8 py-3.5 rounded-2xl border border-[var(--border-color)] text-[var(--text-secondary)] font-medium text-base hover:bg-[var(--surface)] hover:border-[var(--accent)]/30 transition-all duration-300"
-            >
-              <Play className="w-4 h-4" />
-              Open Practice Arena
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Platform stats ───────────────────────────────────────────────── */}
-      <section className="border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
-        <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-          {[
-            { icon: BookOpen,      label: 'Lessons',      value: settingsData.statsLessons },
-            { icon: Layers,        label: 'Courses',       value: settingsData.statsCourses },
-            { icon: Clock,         label: 'Content Hours', value: settingsData.statsHours },
-            { icon: GraduationCap, label: 'Topics Covered',value: settingsData.statsTopics },
-          ].map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              custom={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="text-center"
-            >
-              <stat.icon className="w-5 h-5 text-[var(--accent)] mx-auto mb-2" />
-              <p className="text-3xl font-heading font-bold text-[var(--text-primary)]">
-                {stat.value}
-              </p>
-              <p className="text-sm text-[var(--text-muted)]">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Course catalog ───────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-4 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-3xl font-heading font-bold mb-2">Learning Paths</h2>
-              <p className="text-[var(--text-muted)]">
-                Structured courses from beginner to production-ready.
-              </p>
-            </div>
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 text-sm text-[var(--accent)] hover:underline"
-            >
-              View all <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {COURSES.map((course, i) => (
-            <motion.div
-              key={course.title}
-              custom={i}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-            >
-              <Link
-                href={course.href}
-                className={`group block p-5 rounded-2xl border transition-all duration-200 h-full ${
-                  course.available
-                    ? 'hover:scale-[1.01] hover:shadow-lg cursor-pointer'
-                    : 'opacity-55 cursor-default pointer-events-none'
-                }`}
-                style={{
-                  borderColor: course.available ? course.border : 'var(--border-color)',
-                  background: course.available ? course.bg : 'var(--surface)',
-                }}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-3xl">{course.emoji}</span>
-                  {!course.available && (
-                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full border border-[var(--border-color)] text-[var(--text-disabled)]">
-                      Coming soon
-                    </span>
-                  )}
-                  {course.available && (
-                    <CheckCircle2 className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: course.color }} />
-                  )}
-                </div>
-                <h3 className="text-base font-heading font-bold text-[var(--text-primary)] mb-1">
-                  {course.title}
-                </h3>
-                <p className="text-xs text-[var(--text-muted)] mb-4 leading-relaxed">{course.subtitle}</p>
-                <div className="flex items-center gap-3 text-xs text-[var(--text-disabled)]">
-                  {course.available ? (
-                    <>
-                      <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{course.lessons} lessons</span>
-                      <span>·</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{course.hours}h</span>
-                      <span>·</span>
-                      <span>{course.level}</span>
-                    </>
-                  ) : (
-                    <span>In development</span>
-                  )}
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Platform features ────────────────────────────────────────────── */}
-      <section className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
-        <div className="max-w-5xl mx-auto px-4 py-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-3xl font-heading font-bold mb-3">
-              Everything in one place
-            </h2>
-            <p className="text-[var(--text-muted)]">
-              Not just notes — a complete developer education platform.
-            </p>
-          </motion.div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PLATFORM_FEATURES.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                custom={i}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeUp}
-                className="group p-5 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] hover:bg-[var(--surface-elevated)] hover:border-[var(--accent)]/20 transition-all duration-300"
-              >
-                <div className="w-9 h-9 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center mb-3 group-hover:bg-[var(--accent)]/15 transition-colors">
-                  <feature.icon className="w-4.5 h-4.5 text-[var(--accent)]" />
-                </div>
-                <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-1 font-heading">
-                  {feature.title}
-                </h3>
-                <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                  {feature.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Jobs teaser ──────────────────────────────────────────────────── */}
-      <section className="border-t border-[var(--border-color)]">
-        <div className="max-w-5xl mx-auto px-4 py-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex flex-col sm:flex-row items-center justify-between gap-6 p-6 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent)]/5"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center shrink-0">
-                <Briefcase className="w-5 h-5 text-[var(--accent)]" />
-              </div>
+      <main>
+        <section className="relative border-b border-[var(--border-color)] overflow-hidden">
+          <div className="home-grid absolute inset-0 pointer-events-none" />
+          <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-16 sm:pt-24 pb-14 sm:pb-20">
+            <div className="grid lg:grid-cols-[1fr_360px] gap-14 lg:gap-24 items-end">
               <div>
-                <p className="text-sm font-semibold text-[var(--text-primary)]">Java Job Board</p>
-                <p className="text-sm text-[var(--text-muted)]">
-                  12 positions · filter by role, experience & work mode
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="h-px w-8 bg-[var(--accent)]" />
+                  <span className="text-xs font-mono uppercase tracking-[0.18em] text-[var(--text-muted)]">
+                    A working curriculum for developers
+                  </span>
+                </div>
+
+                <h1 className="max-w-4xl text-[clamp(3.25rem,8vw,7.5rem)] leading-[0.9] tracking-[-0.065em] font-heading font-bold text-[var(--text-primary)]">
+                  Learn the system,
+                  <span className="block text-[var(--text-muted)]">not just the syntax.</span>
+                </h1>
+
+                <p className="mt-8 max-w-2xl text-base sm:text-lg leading-8 text-[var(--text-secondary)]">
+                  {settings.heroSubtitle} Built as one connected path from first principles to production work and technical interviews.
                 </p>
+
+                <div className="mt-9 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <Link
+                    href="/dashboard"
+                    className="group inline-flex min-h-12 items-center justify-center gap-3 bg-[var(--text-primary)] px-5 text-sm font-semibold text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white"
+                  >
+                    Explore the curriculum
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <Link
+                    href="/practice"
+                    className="inline-flex min-h-12 items-center justify-center gap-3 border border-[var(--border-color)] px-5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                  >
+                    <Play className="h-4 w-4" />
+                    Open practice workspace
+                  </Link>
+                </div>
+              </div>
+
+              <aside className="border-t-2 border-[var(--text-primary)] pt-5" aria-label="Platform summary">
+                <div className="flex items-center justify-between pb-4 border-b border-[var(--border-color)]">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Curriculum status</span>
+                  <span className="flex items-center gap-2 text-xs text-[var(--success)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-current" /> Live
+                  </span>
+                </div>
+                <dl className="divide-y divide-[var(--border-color)]">
+                  {[
+                    ['Lessons', settings.statsLessons],
+                    ['Guided paths', settings.statsCourses],
+                    ['Coursework', `${settings.statsHours} hours`],
+                    ['Access', 'Open'],
+                  ].map(([label, value]) => (
+                    <div key={label} className="flex items-baseline justify-between py-4">
+                      <dt className="text-sm text-[var(--text-muted)]">{label}</dt>
+                      <dd className="font-mono text-sm text-[var(--text-primary)]">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
+          <div className="grid lg:grid-cols-[280px_1fr] gap-10 lg:gap-20">
+            <div>
+              <p className="section-kicker">Curriculum / 01</p>
+              <h2 className="mt-4 text-3xl sm:text-4xl font-heading font-bold tracking-tight">Choose a path. Go deep.</h2>
+              <p className="mt-4 text-sm leading-6 text-[var(--text-muted)]">
+                Each path is structured as a sequence, with enough context to understand how the pieces fit together.
+              </p>
+              <Link href="/dashboard" className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)] hover:underline underline-offset-4">
+                See every course <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="border-t border-[var(--text-primary)]">
+              {courses.map((course, index) => (
+                <motion.div
+                  key={course.index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                  custom={index * 0.04}
+                  variants={reveal}
+                >
+                  <Link
+                    href={course.href}
+                    className="course-row group grid sm:grid-cols-[52px_1fr_auto] gap-4 sm:gap-6 py-7 border-b border-[var(--border-color)]"
+                  >
+                    <div className="flex sm:block items-center gap-3">
+                      <span className="font-mono text-xs text-[var(--text-disabled)]">{course.index}</span>
+                      <course.icon className="mt-0 sm:mt-5 h-5 w-5 text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent)]" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-heading font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">{course.title}</h3>
+                      <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--text-muted)]">{course.description}</p>
+                      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-wider text-[var(--text-disabled)]">
+                        <span>{course.meta}</span>
+                        <span>{course.level}</span>
+                      </div>
+                    </div>
+                    <ChevronRight className="hidden sm:block h-5 w-5 self-center text-[var(--text-disabled)] transition-transform group-hover:translate-x-1 group-hover:text-[var(--text-primary)]" />
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
+            <div className="max-w-2xl mb-12 sm:mb-16">
+              <p className="section-kicker">Method / 02</p>
+              <h2 className="mt-4 text-3xl sm:text-4xl font-heading font-bold tracking-tight">A tighter learning loop.</h2>
+              <p className="mt-4 text-base leading-7 text-[var(--text-muted)]">
+                Reading alone creates familiarity. The platform is designed to move you repeatedly through understanding, execution, and recall.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 border-t border-l border-[var(--border-color)]">
+              {capabilities.map((item, index) => (
+                <motion.article
+                  key={item.label}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={index * 0.08}
+                  variants={reveal}
+                  className="min-h-[280px] border-r border-b border-[var(--border-color)] p-7 sm:p-8 flex flex-col"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs text-[var(--accent)]">0{index + 1} / {item.label}</span>
+                    <item.icon className="h-5 w-5 text-[var(--text-disabled)]" />
+                  </div>
+                  <div className="mt-auto pt-16">
+                    <h3 className="text-xl font-heading font-semibold">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">{item.description}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <div className="relative overflow-hidden border border-[var(--border-color)] bg-[#101113] p-4 sm:p-6 shadow-2xl shadow-black/20">
+              <div className="flex items-center gap-2 border-b border-white/10 pb-4 font-mono text-[11px] text-white/40">
+                <Code2 className="h-4 w-4 text-[#f97316]" />
+                Main.java
+                <span className="ml-auto">Java 21</span>
+              </div>
+              <pre className="overflow-x-auto py-7 text-[12px] sm:text-sm leading-7 text-[#c9d1d9]"><code><span className="text-[#ff7b72]">sealed interface</span> Result {'{'}{`\n`}  record Success(String value) implements Result {'{}'}{`\n`}  record Failure(Exception cause) implements Result {'{}'}{`\n`}{'}'}{`\n\n`}<span className="text-[#ff7b72]">static</span> String describe(Result result) {'{'}{`\n`}  return switch (result) {'{'}{`\n`}    case Success(var value) -&gt; value;{`\n`}    case Failure(var cause) -&gt; cause.getMessage();{`\n`}  {'}'};{`\n`}{'}'}</code></pre>
+              <div className="absolute right-0 top-20 h-28 w-px bg-[var(--accent)]" />
+            </div>
+
+            <div>
+              <p className="section-kicker">Workspace / 03</p>
+              <h2 className="mt-4 text-3xl sm:text-5xl font-heading font-bold tracking-tight">Keep context while you code.</h2>
+              <p className="mt-5 text-base leading-7 text-[var(--text-muted)]">
+                Examples are part of the explanation, not screenshots pasted beneath it. Inspect modern language features, run code, compare output, and return to the concept without changing tools.
+              </p>
+              <ul className="mt-7 space-y-3 text-sm text-[var(--text-secondary)]">
+                {['Syntax-aware examples with output', 'Java, Python, JavaScript, TypeScript, and C++', 'Focused practice problems with solutions'].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <span className="h-px w-4 bg-[var(--accent)]" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+                <Link href="/practice" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent)] transition-colors">
+                  Open the practice workspace <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/projects" className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+                  Build a guided project <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             </div>
-            <Link
-              href="/jobs"
-              className="shrink-0 flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[var(--accent)] text-white text-sm font-semibold hover:bg-[var(--accent-hover)] transition-colors"
-            >
-              Browse Jobs
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── CTA ──────────────────────────────────────────────────────────── */}
-      <section className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
-        <div className="max-w-3xl mx-auto px-4 py-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-heading font-bold mb-4">
-              Start learning today.
-            </h2>
-            <p className="text-[var(--text-muted)] mb-8">
-              Pick a course, open a lesson, and start building. Completely free, always.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/dashboard"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--accent)] to-[var(--accent-hover)] text-white font-semibold shadow-lg shadow-[var(--accent)]/25 hover:shadow-[var(--accent)]/40 transition-all duration-300 hover:scale-[1.02]"
-              >
-                Go to Dashboard
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/roadmap"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl border border-[var(--border-color)] text-[var(--text-secondary)] font-medium hover:bg-[var(--surface)] transition-all duration-300"
-              >
-                <BookOpen className="w-4 h-4" />
-                Explore Roadmaps
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
-        <div className="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[var(--accent)] to-[var(--accent-secondary)] flex items-center justify-center">
-              <Code2 className="w-3.5 h-3.5 text-white" />
-            </div>
-            <span className="text-sm font-heading font-semibold text-[var(--text-secondary)]">
-              {settingsData.platformName}
-            </span>
           </div>
-          <p className="text-xs text-[var(--text-disabled)]">
-            {settingsData.footerText}
-          </p>
+        </section>
+
+        <section className="border-t border-[var(--border-color)]">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-16 sm:py-20">
+            <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-end">
+              <div>
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--accent)]">Start anywhere</p>
+                <h2 className="mt-4 max-w-3xl text-4xl sm:text-6xl font-heading font-bold tracking-[-0.04em]">Find the gap in your knowledge. Close it.</h2>
+              </div>
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
+                <Link href="/dashboard" className="group inline-flex min-h-12 items-center justify-between gap-8 bg-[var(--accent)] px-5 text-sm font-semibold text-white hover:bg-[var(--accent-hover)] transition-colors">
+                  Browse lessons <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <button type="button" className="inline-flex min-h-12 items-center justify-center gap-3 border border-[var(--border-color)] px-5 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-muted)] transition-colors" onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}>
+                  <Search className="h-4 w-4" /> Search the library
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-[var(--border-color)] bg-[var(--bg-secondary)]">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-8 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-xs text-[var(--text-muted)]">
+          <div className="flex items-center gap-2 text-[var(--text-secondary)]">
+            <Database className="h-4 w-4 text-[var(--accent)]" />
+            <span className="font-heading font-semibold">CodePulse</span>
+          </div>
+          <p>{settings.footerText}</p>
+          <div className="flex items-center gap-5">
+            <Link href="/roadmap" className="hover:text-[var(--text-primary)]">Roadmaps</Link>
+            <Link href="/jobs" className="hover:text-[var(--text-primary)]">Jobs</Link>
+            <span className="inline-flex items-center gap-1.5"><Clock3 className="h-3.5 w-3.5" /> Updated regularly</span>
+          </div>
         </div>
       </footer>
     </div>

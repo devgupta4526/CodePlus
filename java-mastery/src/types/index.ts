@@ -75,6 +75,29 @@ export interface CourseProgress {
   startedAt?: string;
 }
 
+export type MasteryStatus = 'learning' | 'review' | 'mastered';
+
+export interface LessonMastery {
+  slug: string;
+  status: MasteryStatus;
+  confidence: 1 | 2 | 3;
+  lastReviewedAt: string;
+  nextReviewAt: string;
+}
+
+export interface GuidedProjectProgress {
+  projectId: string;
+  completedMilestones: string[];
+  startedAt?: string;
+  updatedAt: string;
+}
+
+export interface LearningState {
+  version: 1;
+  mastery: Record<string, LessonMastery>;
+  projects: Record<string, GuidedProjectProgress>;
+}
+
 /** Search result */
 export interface SearchResult {
   slug: string;
