@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Play, Clock } from 'lucide-react';
+import { ArrowRight, Clock3 } from 'lucide-react';
 
 interface ContinueLearningProps {
   slug: string;
@@ -20,70 +19,30 @@ export function ContinueLearning({
   slug,
   title,
   courseLabel,
-  courseEmoji,
-  accentColor,
-  accentBg,
   estimatedMinutes,
   completedCount,
   totalLessons,
 }: ContinueLearningProps) {
-  const pct = Math.round((completedCount / Math.max(totalLessons, 1)) * 100);
+  const progress = Math.round((completedCount / Math.max(totalLessons, 1)) * 100);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      className="relative overflow-hidden rounded-2xl border border-[var(--border-color)] mb-6"
-      style={{
-        background: `linear-gradient(135deg, ${accentBg} 0%, var(--surface) 60%)`,
-      }}
-    >
-      {/* Decorative blob */}
-      <div
-        className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10 blur-2xl pointer-events-none"
-        style={{ background: accentColor }}
-      />
-
-      <div className="relative z-10 p-5 flex items-center gap-4">
-        {/* Icon */}
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0 border"
-          style={{ background: accentColor + '22', borderColor: accentColor + '44' }}
-        >
-          {courseEmoji}
+    <section className="grid border-y border-[var(--text-primary)] bg-[var(--bg-secondary)] sm:grid-cols-[1fr_auto]" aria-labelledby="continue-title">
+      <div className="p-6 sm:p-8">
+        <p className="section-kicker">Current session</p>
+        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--text-muted)]">{courseLabel}</p>
+        <h2 id="continue-title" className="mt-2 text-2xl font-heading font-semibold tracking-[-0.035em] sm:text-3xl">{title}</h2>
+        <div className="mt-5 flex flex-wrap items-center gap-5 text-xs text-[var(--text-muted)]">
+          <span className="inline-flex items-center gap-2"><Clock3 className="h-3.5 w-3.5" /> {estimatedMinutes} minute lesson</span>
+          <span>{progress}% of course complete</span>
         </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-0.5">
-            <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: accentColor }}>
-              Continue Learning · {courseLabel}
-            </span>
-          </div>
-          <h3 className="text-sm font-bold text-[var(--text-primary)] truncate mb-1">{title}</h3>
-          <div className="flex items-center gap-3 text-[10px] text-[var(--text-muted)]">
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              ~{estimatedMinutes}m
-            </span>
-            <div className="flex items-center gap-1.5">
-              <div className="w-16 h-1 rounded-full bg-[var(--surface-elevated)] overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: `${pct}%`, background: accentColor }} />
-              </div>
-              <span>{pct}% done</span>
-            </div>
-          </div>
-        </div>
-
-        <Link
-          href={`/lesson/${slug}`}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-white shrink-0 transition-all hover:opacity-90 active:scale-95"
-          style={{ background: accentColor }}
-        >
-          <Play className="w-3.5 h-3.5 fill-white" />
-          Resume
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
       </div>
-    </motion.div>
+      <Link
+        href={`/lesson/${slug}`}
+        className="group flex min-h-20 items-center justify-between gap-8 border-t border-[var(--border-color)] px-6 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--text-primary)] hover:text-[var(--bg)] sm:min-w-56 sm:border-l sm:border-t-0 sm:px-8"
+      >
+        Resume lesson
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+      </Link>
+    </section>
   );
 }

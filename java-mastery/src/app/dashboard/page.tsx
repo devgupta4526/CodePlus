@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   BookOpen, ChevronRight, CheckCircle2, Circle, BarChart3, Bookmark,
-  Filter, ChevronDown, ChevronUp, LogIn, GraduationCap, Sparkles,
-  ArrowRight, LayoutGrid, List as ListIcon,
+  Filter, ChevronDown, ChevronUp, LogIn, ArrowRight, ArrowLeft,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/layout/Navbar';
@@ -218,7 +217,11 @@ function LessonTreeView({
   function toggleChapter(num: number) {
     setCollapsedChapters((prev) => {
       const next = new Set(prev);
-      next.has(num) ? next.delete(num) : next.add(num);
+      if (next.has(num)) {
+        next.delete(num);
+      } else {
+        next.add(num);
+      }
       return next;
     });
   }
@@ -226,7 +229,7 @@ function LessonTreeView({
   return (
     <div>
       {/* Progress + filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-5 p-4 rounded-2xl border border-[var(--border-color)] bg-[var(--surface)]">
+      <div className="mb-8 grid gap-5 border-y border-[var(--border-color)] py-5 sm:grid-cols-[1fr_auto] sm:items-center">
         <div className="flex items-center gap-3 flex-1">
           <BarChart3 className="w-4 h-4 text-[var(--accent)]" />
           <div className="flex-1">
@@ -236,12 +239,12 @@ function LessonTreeView({
                 {completedCount}/{courseStats.totalLessons}
               </span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[var(--surface-elevated)] overflow-hidden">
+            <div className="h-px w-full overflow-hidden bg-[var(--border-color)]">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct}%` }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="h-full rounded-full"
+                className="h-full"
                 style={{ background: accentColor }}
               />
             </div>
@@ -258,10 +261,10 @@ function LessonTreeView({
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
+              className={`flex min-h-9 items-center gap-1.5 border-b px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors cursor-pointer ${
                 filter === f.key
-                  ? 'bg-[var(--accent)]/10 text-[var(--accent)] border-[var(--accent)]/20'
-                  : 'bg-[var(--surface)] text-[var(--text-muted)] border-[var(--border-color)] hover:border-[var(--accent)]/30'
+                  ? 'text-[var(--text-primary)] border-[var(--accent)]'
+                  : 'text-[var(--text-muted)] border-transparent hover:text-[var(--text-primary)]'
               }`}
             >
               <f.icon className="w-3 h-3" />
@@ -272,7 +275,7 @@ function LessonTreeView({
       </div>
 
       {/* Chapter tree */}
-      <div className="space-y-3">
+      <div>
         {chapters.map((chapter, ci) => {
           const filteredLessons = chapter.lessons.filter((lesson) => {
             if (filter === 'bookmarked') return isBookmarked(lesson.slug);
@@ -291,15 +294,15 @@ function LessonTreeView({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: ci * 0.04 }}
-              className="rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] overflow-hidden"
+              className="border-t border-[var(--border-color)] last:border-b"
             >
               <button
                 onClick={() => toggleChapter(chapter.number)}
-                className="w-full flex items-center gap-3 px-5 py-4 hover:bg-[var(--surface-elevated)] transition-colors cursor-pointer text-left"
+                className="w-full flex items-center gap-4 px-1 py-5 hover:bg-[var(--surface)] transition-colors cursor-pointer text-left sm:px-4"
               >
                 <span
-                  className="shrink-0 text-xs font-bold px-2 py-1 rounded-lg"
-                  style={{ background: accentColor + '22', color: accentColor }}
+                  className="shrink-0 font-mono text-[10px] font-bold uppercase tracking-[0.12em]"
+                  style={{ color: accentColor }}
                 >
                   CH {chapter.number}
                 </span>
@@ -320,14 +323,14 @@ function LessonTreeView({
               </button>
 
               {!collapsed && (
-                <div className="border-t border-[var(--border-color)] divide-y divide-[var(--border-color)]">
+                <div className="border-t border-[var(--border-color)] divide-y divide-[var(--border-color)] bg-[var(--bg-secondary)]">
                   {filteredLessons.map((lesson) => {
                     const completed = isCompleted(lesson.slug);
                     const bookmarked = isBookmarked(lesson.slug);
                     return (
                       <div
                         key={lesson.slug}
-                        className="group flex items-center gap-3 px-5 py-3.5 hover:bg-[var(--surface-elevated)] transition-colors"
+                        className="group flex items-center gap-3 px-3 py-4 hover:bg-[var(--surface)] transition-colors sm:px-8"
                       >
                         <button
                           onClick={() => toggleComplete(lesson.slug)}
@@ -380,10 +383,8 @@ function LessonTreeView({
         })}
 
         {chapters.length === 0 && (
-          <div className="text-center py-20 border border-dashed border-[var(--border-color)] rounded-2xl bg-[var(--surface)]">
-            <div className="w-16 h-16 rounded-full bg-[var(--surface-elevated)] flex items-center justify-center mx-auto mb-4 text-2xl">
-              🚧
-            </div>
+          <div className="border-y border-[var(--border-color)] py-20 text-center">
+            <p className="section-kicker mb-5">Curriculum notice</p>
             <h3 className="text-lg font-heading font-semibold text-[var(--text-primary)] mb-2">Course in Development</h3>
             <p className="text-[var(--text-muted)] max-w-sm mx-auto">
               We&apos;re building the lessons for this course. Check back soon!
@@ -460,78 +461,79 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-[var(--bg)]">
       <Navbar />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-
-        {/* ── Header ── */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div>
-            <h1 className="text-2xl font-heading font-bold text-[var(--text-primary)] flex items-center gap-2">
-              <GraduationCap className="w-6 h-6 text-[var(--accent)]" />
-              Learning Dashboard
-            </h1>
-            <p className="text-sm text-[var(--text-muted)] mt-0.5">
-              {user ? `Signed in as ${user.email}` : 'Sign in to sync your progress across devices'}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {!user && (
-              <Link
-                href="/login"
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-[var(--accent)] text-white hover:bg-[var(--accent-hover)] transition-colors"
-              >
-                <LogIn className="w-4 h-4" />
-                Sign In
-              </Link>
-            )}
-            {/* View toggle: Browse / My Courses */}
-            <div className="flex bg-[var(--surface)] border border-[var(--border-color)] rounded-xl p-1">
-              <button
-                onClick={() => { setActiveView('browse'); setShowLessons(false); }}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${activeView === 'browse' ? 'bg-[var(--accent)] text-white' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                Browse
-              </button>
-              <button
-                onClick={() => { setActiveView('my-courses'); setShowLessons(false); }}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${activeView === 'my-courses' ? 'bg-[var(--accent)] text-white' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
-              >
-                <ListIcon className="w-3.5 h-3.5" />
-                My Courses
-                {enrolledCourses.length > 0 && (
-                  <span className="w-4 h-4 rounded-full bg-white/20 text-[10px] font-bold flex items-center justify-center">
-                    {enrolledCourses.length}
-                  </span>
-                )}
-              </button>
+      <header className="relative overflow-hidden border-b border-[var(--border-color)]">
+        <div className="home-grid absolute inset-0 pointer-events-none" />
+        <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-14 sm:px-8 sm:pb-16 sm:pt-20 lg:px-12">
+          <div className="grid items-end gap-12 lg:grid-cols-[1fr_360px] lg:gap-24">
+            <div>
+              <div className="mb-7 flex items-center gap-3">
+                <span className="h-px w-8 bg-[var(--accent)]" />
+                <span className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--text-muted)]">Learning workspace</span>
+              </div>
+              <h1 className="max-w-4xl text-[clamp(3rem,7vw,6.5rem)] font-heading font-bold leading-[0.91] tracking-[-0.06em] text-[var(--text-primary)]">
+                Build depth.
+                <span className="block text-[var(--text-muted)]">Keep momentum.</span>
+              </h1>
+              <p className="mt-7 max-w-2xl text-base leading-7 text-[var(--text-secondary)] sm:text-lg">
+                A deliberate path through the curriculum—where your next lesson, course progress, and saved work stay in one place.
+              </p>
             </div>
+
+            <aside className="border-t-2 border-[var(--text-primary)] pt-5">
+              <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-muted)]">Workspace status</span>
+                <span className="text-xs text-[var(--success)]">Ready</span>
+              </div>
+              <div className="py-5">
+                <p className="text-sm leading-6 text-[var(--text-secondary)]">
+                  {user ? `Progress is syncing for ${user.email}.` : 'Your local progress is ready. Sign in when you want it synced across devices.'}
+                </p>
+                {!user ? (
+                  <Link href="/login" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:text-[var(--accent)]">
+                    <LogIn className="h-4 w-4" /> Sign in to sync <ArrowRight className="h-4 w-4" />
+                  </Link>
+                ) : null}
+              </div>
+            </aside>
           </div>
         </div>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14 lg:px-12">
 
         {(enrollmentMessage || enrollmentError) && (
           <div
             role="status"
-            className={`mb-5 rounded-xl border px-4 py-3 text-sm ${
+            className={`mb-8 border-l-2 px-4 py-3 text-sm ${
               enrollmentMessage?.startsWith('You are now enrolled')
-                ? 'border-[var(--success)]/25 bg-[var(--success)]/10 text-[var(--success)]'
-                : 'border-[#EF4444]/25 bg-[#EF4444]/10 text-[#EF4444]'
+                ? 'border-[var(--success)] bg-[var(--success)]/5 text-[var(--success)]'
+                : 'border-[#EF4444] bg-[#EF4444]/5 text-[#EF4444]'
             }`}
           >
             {enrollmentMessage ?? enrollmentError}
           </div>
         )}
 
-        {/* ── Stats bar (always visible when user has progress) ── */}
         {completionCount > 0 && (
-          <StatsBar
-            streak={streak}
-            totalCompleted={completionCount}
-            totalLessons={totalLessonsAllCourses}
-            xpPoints={xpPoints}
-            userName={user?.user_metadata?.full_name ?? user?.email}
-          />
+          <div className="mb-12">
+            <StatsBar streak={streak} totalCompleted={completionCount} totalLessons={totalLessonsAllCourses} xpPoints={xpPoints} userName={user?.user_metadata?.full_name ?? user?.email} />
+          </div>
         )}
+
+        <div className="mb-10 flex items-center gap-7 border-b border-[var(--border-color)]">
+          <button
+            onClick={() => { setActiveView('browse'); setShowLessons(false); }}
+            className={`border-b-2 pb-3 text-sm font-semibold transition-colors ${activeView === 'browse' ? 'border-[var(--accent)] text-[var(--text-primary)]' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+          >
+            Curriculum
+          </button>
+          <button
+            onClick={() => { setActiveView('my-courses'); setShowLessons(false); }}
+            className={`border-b-2 pb-3 text-sm font-semibold transition-colors ${activeView === 'my-courses' ? 'border-[var(--accent)] text-[var(--text-primary)]' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+          >
+            My courses {enrolledCourses.length > 0 ? `(${enrolledCourses.length})` : ''}
+          </button>
+        </div>
 
         <AnimatePresence mode="wait">
 
@@ -543,15 +545,16 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
             >
-              {/* Section heading */}
-              <div className="flex items-center gap-2 mb-4">
-                <Sparkles className="w-4 h-4 text-[var(--accent)]" />
-                <h2 className="text-sm font-bold text-[var(--text-primary)]">All Courses</h2>
-                <span className="text-xs text-[var(--text-muted)]">· {COURSES.length} available</span>
+              <div className="mb-8 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                <div>
+                  <p className="section-kicker">Curriculum / {String(COURSES.length).padStart(2, '0')} paths</p>
+                  <h2 className="mt-4 text-3xl font-heading font-semibold tracking-[-0.035em] sm:text-4xl">Choose the work that matters next.</h2>
+                </div>
+                <p className="max-w-sm text-sm leading-6 text-[var(--text-muted)]">Structured courses for foundational knowledge, production systems, and focused exam preparation.</p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {browseCourses.map((course) => {
+              <div>
+                {browseCourses.map((course, index) => {
                   const chapters = getChaptersWithLessons(course.id);
                   const completed = chapters.reduce(
                     (t, ch) => t + ch.lessons.filter((l) => isCompleted(l.slug)).length, 0
@@ -560,6 +563,7 @@ export default function DashboardPage() {
                     <CourseCard
                       key={course.id}
                       course={course}
+                      index={index}
                       isEnrolled={isEnrolled(course.id)}
                       isActive={activeCourse === course.id}
                       completedCount={completed}
@@ -584,18 +588,15 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
             >
-              {/* Back + course header */}
-              <div className="flex items-center gap-3 mb-5">
+              <div className="mb-8 flex items-center gap-3 border-b border-[var(--border-color)] pb-5">
                 <button
                   onClick={() => setShowLessons(false)}
-                  className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                  className="flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                 >
-                  ← Back to Courses
+                  <ArrowLeft className="h-3.5 w-3.5" /> Curriculum
                 </button>
                 <ChevronRight className="w-3.5 h-3.5 text-[var(--text-disabled)]" />
-                <span className="text-xs text-[var(--text-primary)] font-semibold">
-                  {activeCourseData.emoji} {activeCourseData.label}
-                </span>
+                <span className="text-xs text-[var(--text-primary)] font-semibold">{activeCourseData.label}</span>
               </div>
 
               {/* Continue learning banner */}
@@ -618,22 +619,16 @@ export default function DashboardPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-5 p-4 rounded-2xl border flex items-center gap-4"
-                  style={{ borderColor: activeCourseData.accentBorder, background: activeCourseData.accentBg }}
+                  className="mb-8 grid gap-5 border-y border-[var(--border-color)] bg-[var(--bg-secondary)] p-6 sm:grid-cols-[1fr_auto] sm:items-center"
                 >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: activeCourseData.accentColor + '22' }}
-                  >
-                    {activeCourseData.emoji}
-                  </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-[var(--text-primary)]">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-[var(--accent)]">Course access</p>
+                    <p className="mt-2 text-lg font-heading font-semibold text-[var(--text-primary)]">
                       {activeCourseData.isPremium
                         ? `Enroll to unlock all ${activeCourseData.label} lessons`
                         : `Enroll in ${activeCourseData.label} for free`}
                     </p>
-                    <p className="text-xs text-[var(--text-muted)]">
+                    <p className="mt-1 text-sm leading-6 text-[var(--text-muted)]">
                       {activeCourseData.isPremium
                         ? `First 3 lessons free. Get full access for ₹${(activeCourseData.priceInr / 100).toLocaleString('en-IN')}.`
                         : 'Track your progress, bookmarks, and streaks across devices.'}
@@ -641,8 +636,7 @@ export default function DashboardPage() {
                   </div>
                   <button
                     onClick={() => handleEnroll(activeCourse)}
-                    className="shrink-0 px-4 py-2 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
-                    style={{ background: activeCourseData.accentColor }}
+                    className="shrink-0 bg-[var(--text-primary)] px-5 py-3 text-sm font-semibold text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white"
                   >
                     {!user ? 'Sign In' : activeCourseData.isPremium ? 'Get Access' : 'Enroll Free'}
                   </button>
@@ -670,11 +664,9 @@ export default function DashboardPage() {
             >
               {enrolledCourses.length === 0 ? (
                 /* Empty state */
-                <div className="flex flex-col items-center justify-center py-24 text-center">
-                  <div className="w-20 h-20 rounded-2xl bg-[var(--surface)] border border-[var(--border-color)] flex items-center justify-center text-4xl mb-5">
-                    📚
-                  </div>
-                  <h3 className="text-xl font-heading font-bold text-[var(--text-primary)] mb-2">
+                <div className="border-y border-[var(--border-color)] py-20 text-center">
+                  <p className="section-kicker mb-5">Your curriculum</p>
+                  <h3 className="text-2xl font-heading font-semibold tracking-tight text-[var(--text-primary)] mb-2">
                     No courses yet
                   </h3>
                   <p className="text-sm text-[var(--text-muted)] max-w-xs mb-6">
@@ -682,7 +674,7 @@ export default function DashboardPage() {
                   </p>
                   <button
                     onClick={() => setActiveView('browse')}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--accent)] text-white text-sm font-bold hover:bg-[var(--accent-hover)] transition-colors"
+                    className="mx-auto flex items-center gap-2 bg-[var(--text-primary)] px-5 py-3 text-sm font-semibold text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-white"
                   >
                     Browse Courses
                     <ArrowRight className="w-4 h-4" />
@@ -691,23 +683,17 @@ export default function DashboardPage() {
               ) : (
                 <>
                   {/* Enrolled course selector */}
-                  <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-1">
+                  <div className="mb-8 flex items-center gap-6 overflow-x-auto border-b border-[var(--border-color)]">
                     {enrolledCourses.map((c) => (
                       <button
                         key={c.id}
                         onClick={() => setActiveCourse(c.id as CourseId)}
-                        className={`shrink-0 flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                        className={`shrink-0 border-b-2 pb-3 text-xs font-semibold transition-colors cursor-pointer ${
                           activeCourse === c.id
-                            ? 'text-white'
-                            : 'border-[var(--border-color)] bg-[var(--surface)] text-[var(--text-muted)] hover:border-[var(--accent)]/30'
+                            ? 'border-[var(--accent)] text-[var(--text-primary)]'
+                            : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
                         }`}
-                        style={
-                          activeCourse === c.id
-                            ? { background: c.accentColor, borderColor: c.accentColor }
-                            : {}
-                        }
                       >
-                        <span>{c.emoji}</span>
                         <span>{c.label}</span>
                       </button>
                     ))}
@@ -743,7 +729,7 @@ export default function DashboardPage() {
           )}
 
         </AnimatePresence>
-      </div>
+      </main>
     </div>
   );
 }
